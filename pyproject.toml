@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ahead-rev-sim"
-version = "0.4.0"
+version = "0.5.0"
 description = "Reversible compute playground for an Ahead Computing style RISC V extension."
 authors = [{ name = "Ahead Computing (concept)", email = "dev@example.com" }]
 readme = "README.md"

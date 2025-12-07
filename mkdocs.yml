@@ -1,0 +1,14 @@
+site_name: ahead-rev-sim
+site_description: Reversible compute simulator for RISC V style cores.
+repo_url: https://github.com/BigBirdReturns/ahead-rev-sim
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Concepts: concepts.md
+  - Usage:
+    - Quick Start: quickstart.md
+    - CLI: cli.md
+  - Design:
+    - ISA and Machine: design_isa_machine.md
+    - Reversibility Metrics: design_metrics.md

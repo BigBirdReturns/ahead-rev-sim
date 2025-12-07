@@ -73,3 +73,14 @@ Irreversible instructions still work but cost more energy and cannot be undone.
 
 This structure is the bridge between current RISC V pipelines and future reversible or
 adiabatic execution units.
+
+
+## Documentation
+
+MkDocs configuration is provided in `mkdocs.yml` with content under `docs/`.
+You can build the site locally with:
+
+```bash
+pip install mkdocs mkdocs-material
+mkdocs serve
+```
