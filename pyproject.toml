@@ -4,21 +4,70 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ahead-rev-sim"
-version = "0.5.0"
-description = "Reversible compute playground for an Ahead Computing style RISC V extension."
-authors = [{ name = "Ahead Computing (concept)", email = "dev@example.com" }]
+version = "0.6.0"
+description = "Reversible execution for RISC-V. History is recoverable, not recorded."
+authors = [{ name = "Jonathan Sandhu", email = "jonathan@nodalflow.ai" }]
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
+license = {text = "MIT"}
+keywords = [
+    "risc-v",
+    "reversible-computing",
+    "time-travel-debugging",
+    "adiabatic-logic",
+    "auditable-compute",
+    "derivation-over-storage"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Debuggers",
+    "Topic :: System :: Hardware",
+    "Topic :: Scientific/Engineering",
+]
 
 [project.optional-dependencies]
-dev = ["pytest"]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "mypy>=1.0",
+    "ruff>=0.1.0",
+]
 
 [project.scripts]
 ahead-rev-sim = "ahead_rev_sim.cli:main"
+ahead-rev-debug-demo = "ahead_rev_sim.examples.debug_demo:main"
+
+[project.urls]
+Homepage = "https://github.com/BigBirdReturns/ahead-rev-sim"
+Documentation = "https://github.com/BigBirdReturns/ahead-rev-sim#readme"
+Repository = "https://github.com/BigBirdReturns/ahead-rev-sim"
+Issues = "https://github.com/BigBirdReturns/ahead-rev-sim/issues"
+"Sibling Project: Axiom" = "https://github.com/bigbirdreturns/axiom-kg"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

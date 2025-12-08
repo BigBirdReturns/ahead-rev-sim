@@ -84,3 +84,15 @@ You can build the site locally with:
 pip install mkdocs mkdocs-material
 mkdocs serve
 ```
+
+## Time travel debugging demo
+
+Once installed you can run the reversible debugging example:
+
+```bash
+ahead-rev-debug-demo
+```
+
+This runs a small reversible kernel, shows a corrupted register at the end,
+then walks backward through the history buffer to identify the instruction
+that introduced the error and restores the expected value.
