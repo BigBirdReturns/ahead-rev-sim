@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ahead-rev-sim"
-version = "0.6.0"
+version = "0.7.0"
 description = "Reversible execution for RISC-V. History is recoverable, not recorded."
 authors = [{ name = "Jonathan Sandhu", email = "jonathan@nodalflow.ai" }]
 readme = "README.md"
@@ -43,7 +43,9 @@ dev = [
 
 [project.scripts]
 ahead-rev-sim = "ahead_rev_sim.cli:main"
-ahead-rev-debug-demo = "ahead_rev_sim.examples.debug_demo:main"
+ahead-rev-debug = "ahead_rev_sim.debugger:main"
+ahead-rev-history = "ahead_rev_sim.examples.analyze_history:main"
+ahead-rev-memory = "ahead_rev_sim.reversible_memory:demo_reversible_memory"
 
 [project.urls]
 Homepage = "https://github.com/BigBirdReturns/ahead-rev-sim"

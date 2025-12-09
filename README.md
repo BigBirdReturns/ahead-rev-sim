@@ -1,98 +1,231 @@
-# ahead-rev-sim
+# ahead-rev-sim v0.7.0
 
-Reversible compute playground for an Ahead Computing style RISC V extension.
+Reversible execution simulator for RISC-V.  
+**History is recoverable, not recorded.**
 
-This project models a very small RISC V like core with:
+## What This Is
 
-- A split between reversible and irreversible instructions
-- A simple execution engine that can step forward and backward
-- A basic energy model that charges more for irreversible work
-- A tiny assembly parser so you can write `.asm` kernels
-- A small metrics module to track reversible versus irreversible work
-- A command line entry point so you can run kernels from the shell
+A software simulator for a RISC-V style core with reversible execution lanes.
 
-The long term goal is to bridge:
+```
+Standard execution:  Run forward. State is overwritten. History lost.
+Reversible execution: Run forward. Run backward. State derived from operations.
+```
 
-- Legacy mode: run normal RISC V style code
-- Hybrid mode: mix reversible and irreversible instructions
-- Reversible mode: run fully reversible kernels and measure energy gains
+This is not theory. This is working code that demonstrates:
+- Time-travel debugging (find bugs by running backward)
+- History buffer sizing (answer silicon questions)
+- Hot/cold pipeline modeling (preview of v0.8)
 
-This simulator is a software counterpart to a future open RISC V core that includes
-reversible execution lanes. It is designed to let hardware and software teams explore:
+## Why It Matters
 
-- Which instruction patterns reverse cleanly
-- How to structure compilers around reversible basic blocks
-- How to size history buffers for reversible control flow
-- How to surface energy and reversibility metrics to developers
+**The power wall is real.** Moore's Law ended. Dennard scaling ended. Data centers are building nuclear plants.
 
-## Features
+**The physics says:** Irreversible computation must dissipate kT ln(2) per bit erased (Landauer). Reversible computation approaches zero in the limit.
 
-- Register file with 32 integer registers
-- Clear separation between reversible and irreversible opcodes
-- Forward and reverse execution for reversible instructions using algebraic inversion
-- Minimal history log for control flow (branches)
-- Simple energy accounting per instruction
-- Assembly parser for a small reversible ISA
-- Metrics for reversible versus irreversible instruction counts
-- CLI entry point for running examples and `.asm` kernels
+**The gap:** Nobody has a usable reversible execution environment. The theory exists (Bennett, Fredkin, Toffoli). The silicon doesn't. The toolchain doesn't.
 
-This is not a full RISC V implementation. It is a focused environment to design and test
-reversible instruction set ideas before silicon is frozen.
+**This project:** Working code that proves reversible execution is tractable. MIT licensed. Fork it.
 
-## Quick start
+## Quick Start
 
 ```bash
-git clone <your-repo-url> ahead-rev-sim
+git clone https://github.com/BigBirdReturns/ahead-rev-sim
 cd ahead-rev-sim
-
-python -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
-
 pip install -e .
 
-# Run Python examples
-python -m ahead_rev_sim.examples.run_example
-python -m ahead_rev_sim.examples.run_loop
+# Time-travel debugger (the demo that makes it click)
+ahead-rev-debug
 
-# Or use the CLI
-ahead-rev-sim example
-ahead-rev-sim loop
-ahead-rev-sim run path/to/program.asm
+# History buffer analysis (answers silicon sizing questions)
+ahead-rev-history
+
+# Reversible memory preview (bridge to v0.8)
+ahead-rev-memory
+
+# Run your own programs
+ahead-rev-sim run program.asm
 ```
 
-## Concept
+## What's New in v0.7
 
-Core ideas:
+### Time-Travel Debugger
 
-- Mark some instructions as logically reversible and give them algebraic inverses.
-- Track an execution log only where history is required, mostly for branches.
-- Allow the machine to walk that log backward to undo reversible work.
-- Count reversible versus irreversible instructions to show where energy is spent.
+Run a buggy program. Walk backward to find the bug. No trace buffers.
 
-Irreversible instructions still work but cost more energy and cannot be undone.
+```
+$ ahead-rev-debug
 
-This structure is the bridge between current RISC V pipelines and future reversible or
-adiabatic execution units.
+Program: Compute r1 = 10 + 5 + 3 = 18
+Bug: One instruction is RXOR instead of RADD
 
+Forward execution: 7 steps
+Expected r1 = 18
+Actual r1   = 15
 
-## Documentation
+✗ Mismatch detected!
 
-MkDocs configuration is provided in `mkdocs.yml` with content under `docs/`.
-You can build the site locally with:
+Beginning reverse execution to locate bug...
 
-```bash
-pip install mkdocs mkdocs-material
-mkdocs serve
+  Step back 1: Undid RADD at PC 5
+    r1: 15 → 12
+  Step back 2: Undid RXOR at PC 4
+    r1: 12 → 15
+    ⚠ This is a reversible XOR - suspicious!
+
+Bug located at PC 4: RXOR r1 r3
+
+The RXOR instruction corrupted the accumulator.
+It should have been RADD to continue the sum.
 ```
 
-## Time travel debugging demo
+### History Buffer Analysis
 
-Once installed you can run the reversible debugging example:
+Answer the question silicon engineers ask: "How big does my buffer need to be?"
 
-```bash
-ahead-rev-debug-demo
+```
+$ ahead-rev-history
+
+HISTORY BUFFER COMPARISON ACROSS PROGRAMS
+
+Program                      MaxDepth    MaxBits     Rev%   Bits/Instr
+-----------------------------------------------------------------------
+Linear reversible                  40        320     93%          7.4
+Linear mixed                       10         80     43%          3.5
+Tight loop                       7998     163934     80%         16.4
+Nested loops                       89       1812     90%         18.3
+Branch-heavy                     9997     329901    100%         33.0
+
+Silicon Implications:
+  SRAM for history buffer: ~0.22 KB
+  Entries at 64-deep FIFO: OVERFLOW
+  Entries at 256-deep FIFO: OK
 ```
 
-This runs a small reversible kernel, shows a corrupted register at the end,
-then walks backward through the history buffer to identify the instruction
-that introduced the error and restores the expected value.
+### Reversible Memory Preview
+
+Exchange-based memory operations that don't destroy information.
+
+```
+$ ahead-rev-memory
+
+Initial:
+  Register = 42
+  Memory[0x1000] = 100
+
+After RLOAD (exchange):
+  Register = 100
+  Memory[0x1000] = 42
+
+After second RLOAD (reverse):
+  Register = 42
+  Memory[0x1000] = 100
+
+Key insight: Exchange is self-inverse. No history needed.
+```
+
+## The ISA
+
+### Reversible Instructions
+
+These can be algebraically inverted:
+
+```asm
+RXOR  rd, rs1      ; rd = rd XOR rs1 (self-inverse)
+RADD  rd, rs1      ; rd = rd + rs1 (inverse: subtract)
+RSWAP rd, rs1      ; swap rd <-> rs1 (self-inverse)
+```
+
+### Control Flow
+
+Branches store minimal history (1 bit + source PC):
+
+```asm
+BEQ   rs1, rs2, label    ; branch if equal
+```
+
+### Irreversible Instructions
+
+Standard operations that overwrite state:
+
+```asm
+ADD   rd, rs1, rs2    ; rd = rs1 + rs2
+SUB   rd, rs1, rs2    ; rd = rs1 - rs2
+LOAD  rd, rs1, imm    ; rd = mem[rs1 + imm]
+STORE rs1, rs2, imm   ; mem[rs1 + imm] = rs2
+HALT
+```
+
+## The Vision: HOT/COLD Dual Pipeline
+
+```
+┌──────────────────────────────────┐
+│  HOT PIPELINE  (standard CMOS)   │  ➤  current workloads
+│  • irreversible ALU ops          │
+│  • high frequency / high drive   │
+└──────────────────────────────────┘
+
+┌──────────────────────────────────┐
+│  COLD PIPELINE (reversible)      │  ➤  future low-power workloads
+│  • reversible ALU primitives     │
+│  • adiabatic switching window    │
+└──────────────────────────────────┘
+
+Shared: registers, memory, ISA decode, page tables, OS ABI
+```
+
+Legacy code still runs. Reversible code runs too. Same silicon.
+
+## Roadmap
+
+```
+v0.6.0 ✅ First full release (forward/backward, clean repo)
+v0.7.0 ✅ Time-travel debugger, history buffer analysis, memory preview
+v0.8.0    Reversible memory region + RLOAD/RSTORE in ISA
+v0.9.0    Compiler intrinsics + LLVM pass
+v1.0.0    FPGA/RTL reference implementation
+```
+
+## For Silicon Engineers
+
+This simulator answers your questions:
+
+1. **Buffer sizing:** History analysis shows max depth and bits for different program patterns
+2. **Instruction mix:** Metrics track reversible vs irreversible ratio
+3. **Memory interface:** Hot/cold controller models bandwidth and latency tradeoffs
+4. **Area estimation:** Bits per instruction tells you buffer cost per compute
+
+## For Compiler Engineers
+
+The reversible ISA is designed for:
+
+1. **Basic block reversal:** Mark regions as reversible, compiler ensures algebraic invertibility
+2. **Register allocation:** Reversible ops update in place, need careful liveness analysis
+3. **Spill strategy:** RLOAD/RSTORE for reversible spills (v0.8)
+
+## For Debug Engineers
+
+Time-travel debugging changes everything:
+
+1. **No trace buffers:** State derived from operations, not recorded
+2. **No Heisenbugs:** Deterministic reversal finds exact instruction
+3. **Post-silicon:** Works on real hardware with reversible ISA support
+
+## Related Work
+
+- Bennett, C.H. (1973). "Logical Reversibility of Computation"
+- Landauer, R. (1961). "Irreversibility and Heat Generation in the Computing Process"
+- Frank, M.P. (2017). "Throwing Computing into Reverse"
+- [Ahead Computing](https://aheadcomputing.com) - The hardware this simulates
+
+## License
+
+MIT
+
+## Author
+
+Jonathan Sandhu ([@BigBirdReturns](https://github.com/BigBirdReturns))
+
+---
+
+*The audit trail is not a log. It's a physical property of the execution.*
