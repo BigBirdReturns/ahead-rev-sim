@@ -8,6 +8,8 @@ class OpCode(Enum):
     RXOR = auto()      # rd = rd XOR rs1
     RADD = auto()      # rd = rd + rs1   (algebraically inverted with subtraction)
     RSWAP = auto()     # swap rd, rs1
+    RLOAD = auto()     # rd <-> mem[rs1 + imm] (exchange)
+    RSTORE = auto()    # rd <-> mem[rs1 + imm] (exchange alias)
 
     # Control flow (treated as reversible at the PC level)
     BEQ = auto()       # if rs1 == rs2: PC = label
@@ -37,6 +39,8 @@ class Instruction:
             OpCode.RXOR,
             OpCode.RADD,
             OpCode.RSWAP,
+            OpCode.RLOAD,
+            OpCode.RSTORE,
             OpCode.BEQ,
         }
 

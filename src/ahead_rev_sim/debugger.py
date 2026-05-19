@@ -45,7 +45,7 @@ class CorruptionReport:
     steps_back: int
 
 
-class TimeTraveDebugger:
+class TimeTravelDebugger:
     """
     Interactive time-travel debugger for reversible programs.
     
@@ -303,33 +303,9 @@ def make_buggy_program() -> Tuple[List[Instruction], int]:
         # r1 = r1 + r3 = ? (reversible, but input is already wrong)
         Instruction(op=OpCode.RADD, rd=1, rs1=3),
         Instruction(op=OpCode.HALT),
-    ], 18  # Expected: 10 + 5 + 3 + 3 = 21? No wait, expected is 10+5+3=18 but code does extra
+    ], 18
 
 
-def make_loop_overflow_program() -> Tuple[List[Instruction], int, Dict[str, int]]:
-    """
-    A program with a loop that overflows a counter.
-    Returns (program, expected_final_r1, labels).
-    """
-    # r1 = counter (should stay <= 10)
-    # r2 = increment (1)
-    # r3 = limit check
-    labels = {"loop": 2, "done": 6}
-    program = [
-        # r1 = 0
-        Instruction(op=OpCode.ADD, rd=1, rs1=0, imm=0),
-        # r2 = 1
-        Instruction(op=OpCode.ADD, rd=2, rs1=0, imm=1),
-        # loop: r1 = r1 + r2 (reversible)
-        Instruction(op=OpCode.RADD, rd=1, rs1=2),
-        # r3 = r1 (for comparison, but we'll use a different method)
-        # BUG: loop condition is wrong, should exit at 10 but doesn't
-        Instruction(op=OpCode.RADD, rd=1, rs1=2),  # Extra increment (BUG)
-        # Check if r1 >= 20 (wrong limit)
-        Instruction(op=OpCode.BEQ, rs1=1, rs2=1, label="loop"),  # Always loops! BUG
-        Instruction(op=OpCode.HALT),
-    ]
-    return program, 10, labels
 
 
 # =============================================================================
@@ -362,7 +338,7 @@ def main() -> None:
     m.load_program(program)
     
     # Create debugger
-    dbg = TimeTraveDebugger(m)
+    dbg = TimeTravelDebugger(m)
     
     # Add watchpoint: r1 should equal expected at halt
     # But we'll check throughout for demonstration

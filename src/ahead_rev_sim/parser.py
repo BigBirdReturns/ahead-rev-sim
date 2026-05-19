@@ -11,6 +11,7 @@ class AssemblyParser:
         self.labels: Dict[str, int] = {}
 
     def parse(self, source_text: str) -> List[Instruction]:
+        self.labels = {}
         lines = source_text.strip().split("\n")
         instructions: List[Instruction] = []
 
@@ -62,9 +63,9 @@ class AssemblyParser:
                 instr.rs2 = self._parse_reg(args[1])
                 if len(args) > 2:
                     instr.imm = int(args[2])
-            elif op in {OpCode.LOAD}:
+            elif op in {OpCode.LOAD, OpCode.RLOAD, OpCode.RSTORE}:
                 if len(args) < 2:
-                    raise ValueError(f"LOAD requires at least 2 operands in line: {line!r}")
+                    raise ValueError(f"{op.name} requires at least 2 operands in line: {line!r}")
                 instr.rd = self._parse_reg(args[0])
                 instr.rs1 = self._parse_reg(args[1])
                 if len(args) > 2:
@@ -94,4 +95,10 @@ class AssemblyParser:
         token = token.strip().lower()
         if token.startswith("x") or token.startswith("r"):
             token = token[1:]
-        return int(token)
+        try:
+            reg = int(token)
+        except ValueError as exc:
+            raise ValueError(f"Invalid register token: {token!r}") from exc
+        if reg < 0:
+            raise ValueError(f"Register index must be >= 0, got {reg}")
+        return reg
