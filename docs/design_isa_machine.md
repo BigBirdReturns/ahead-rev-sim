@@ -25,3 +25,10 @@ A reverse step walks that log backward and applies the inverse operation.
 - `HALT`
 
 These update the machine state but cannot be undone. They cost more in the energy model.
+
+
+## Extensibility notes
+
+- `Machine.load_program(..., reset_state=True)` now supports deterministic clean runs by default while still allowing stateful experiments when set to `False`.
+- Parser labels are reset every parse call, so a single parser instance can be safely reused across multiple source files in CLI or notebooks.
+- Register access now validates machine bounds (`num_regs`) before execution to make architecture variants safer to prototype.

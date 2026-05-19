@@ -176,6 +176,23 @@ Shared: registers, memory, ISA decode, page tables, OS ABI
 
 Legacy code still runs. Reversible code runs too. Same silicon.
 
+
+## Market Fit and What This Enables
+
+This simulator should enable two near-term tracks:
+
+1. **Ahead-facing architecture exploration**
+   - Estimate history-buffer pressure under mixed reversible and irreversible kernels
+   - Evaluate which instruction patterns deserve reversible hardware acceleration first
+   - De-risk ISA additions before RTL investment
+
+2. **Vaire-facing software and workflow exploration**
+   - Prototype compiler region-marking for reversible basic blocks
+   - Build reverse-debug workflows that can transfer to tooling and platform integrations
+   - Establish measurable KPIs: reversibility ratio, history bits per instruction, and reverse-debug recovery distance
+
+If this project executes well, it becomes a shared contract between hardware and software teams, where instruction semantics, debug behavior, and energy assumptions can be validated early with the same executable model.
+
 ## Roadmap
 
 ```
