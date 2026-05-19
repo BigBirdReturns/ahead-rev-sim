@@ -11,7 +11,7 @@ from .metrics import ReversibilityMetrics
 @dataclass
 class Machine:
     num_regs: int = 32
-    registers: List[int] = field(default_factory=lambda: [0] * 32)
+    registers: List[int] = field(init=False)
     pc: int = 0
     program: List[Instruction] = field(default_factory=list)
     memory: Memory = field(default_factory=Memory)
@@ -22,12 +22,25 @@ class Machine:
     exec_log: List[Tuple[int, Instruction, Any]] = field(default_factory=list)
     halted: bool = False
 
-    def load_program(self, program: List[Instruction], labels: Dict[str, int] | None = None) -> None:
+    def __post_init__(self) -> None:
+        self.registers = [0] * self.num_regs
+
+    def load_program(
+        self,
+        program: List[Instruction],
+        labels: Dict[str, int] | None = None,
+        *,
+        reset_state: bool = True,
+    ) -> None:
         self.program = program
         self.pc = 0
         self.exec_log.clear()
         self.halted = False
         self.metrics = ReversibilityMetrics()
+        if reset_state:
+            self.registers = [0] * self.num_regs
+            self.memory = Memory()
+            self.energy = EnergyModel()
         if labels is not None:
             self.labels = dict(labels)
 
@@ -45,8 +58,12 @@ class Machine:
             raise ValueError("Branch instruction missing label")
         try:
             return self.labels[label]
-        except KeyError:
-            raise ValueError(f"Unknown label: {label!r}")
+        except KeyError as exc:
+            raise ValueError(f"Unknown label: {label!r}") from exc
+
+    def _validate_reg_index(self, reg: int) -> None:
+        if not 0 <= reg < self.num_regs:
+            raise ValueError(f"Register index out of range: r{reg} (num_regs={self.num_regs})")
 
     def step(self) -> None:
         if self.halted:
@@ -81,20 +98,19 @@ class Machine:
         pc, instr, snapshot = self.exec_log.pop()
 
         if instr.op == OpCode.BEQ:
-            from_pc = snapshot["from_pc"]
-            self.pc = from_pc
+            self.pc = snapshot["from_pc"]
             return
 
         self._undo_reversible(instr, snapshot)
         self.pc = pc
 
     def _exec_beq(self, instr: Instruction) -> None:
-        assert instr.rs1 is not None
-        assert instr.rs2 is not None
+        if instr.rs1 is None or instr.rs2 is None:
+            raise ValueError(f"BEQ missing operands: {instr!r}")
 
-        val1 = self.registers[instr.rs1]
-        val2 = self.registers[instr.rs2]
-        taken = (val1 == val2)
+        self._validate_reg_index(instr.rs1)
+        self._validate_reg_index(instr.rs2)
+        taken = self.registers[instr.rs1] == self.registers[instr.rs2]
 
         snapshot = {"taken": taken, "from_pc": self.pc}
         self.exec_log.append((self.pc, instr, snapshot))
@@ -102,34 +118,38 @@ class Machine:
         self.metrics.record(instr.op, True)
 
         if taken:
-            target_pc = self._resolve_label(instr.label)
-            self.pc = target_pc
+            self.pc = self._resolve_label(instr.label)
         else:
             self.pc += 1
 
     def _exec_reversible(self, instr: Instruction):
         rd = instr.rd
         rs1 = instr.rs1
-        assert rd is not None
+        if rd is None:
+            raise ValueError(f"Reversible op missing destination register: {instr!r}")
 
         if instr.op == OpCode.RXOR:
-            assert rs1 is not None
+            if rs1 is None:
+                raise ValueError(f"RXOR missing source register: {instr!r}")
+            self._validate_reg_index(rd)
+            self._validate_reg_index(rs1)
             self.registers[rd] = self.registers[rd] ^ self.registers[rs1]
             return None
 
         if instr.op == OpCode.RADD:
-            assert rs1 is not None
-            self.registers[rd] = (
-                self.registers[rd] + self.registers[rs1]
-            ) & 0xFFFFFFFF
+            if rs1 is None:
+                raise ValueError(f"RADD missing source register: {instr!r}")
+            self._validate_reg_index(rd)
+            self._validate_reg_index(rs1)
+            self.registers[rd] = (self.registers[rd] + self.registers[rs1]) & 0xFFFFFFFF
             return None
 
         if instr.op == OpCode.RSWAP:
-            assert rs1 is not None
-            self.registers[rd], self.registers[rs1] = (
-                self.registers[rs1],
-                self.registers[rd],
-            )
+            if rs1 is None:
+                raise ValueError(f"RSWAP missing source register: {instr!r}")
+            self._validate_reg_index(rd)
+            self._validate_reg_index(rs1)
+            self.registers[rd], self.registers[rs1] = self.registers[rs1], self.registers[rd]
             return None
 
         raise NotImplementedError(f"Reversible op not implemented: {instr.op}")
@@ -137,69 +157,78 @@ class Machine:
     def _undo_reversible(self, instr: Instruction, snapshot: Any) -> None:
         rd = instr.rd
         rs1 = instr.rs1
-        assert rd is not None
+        if rd is None:
+            raise ValueError(f"Undo missing destination register: {instr!r}")
 
         if instr.op == OpCode.RXOR:
-            assert rs1 is not None
+            if rs1 is None:
+                raise ValueError(f"Undo RXOR missing source register: {instr!r}")
+            self._validate_reg_index(rd)
+            self._validate_reg_index(rs1)
             self.registers[rd] = self.registers[rd] ^ self.registers[rs1]
             return
 
         if instr.op == OpCode.RADD:
-            assert rs1 is not None
-            self.registers[rd] = (
-                self.registers[rd] - self.registers[rs1]
-            ) & 0xFFFFFFFF
+            if rs1 is None:
+                raise ValueError(f"Undo RADD missing source register: {instr!r}")
+            self._validate_reg_index(rd)
+            self._validate_reg_index(rs1)
+            self.registers[rd] = (self.registers[rd] - self.registers[rs1]) & 0xFFFFFFFF
             return
 
         if instr.op == OpCode.RSWAP:
-            assert rs1 is not None
-            self.registers[rd], self.registers[rs1] = (
-                self.registers[rs1],
-                self.registers[rd],
-            )
+            if rs1 is None:
+                raise ValueError(f"Undo RSWAP missing source register: {instr!r}")
+            self._validate_reg_index(rd)
+            self._validate_reg_index(rs1)
+            self.registers[rd], self.registers[rs1] = self.registers[rs1], self.registers[rd]
             return
 
         raise NotImplementedError(f"Undo for reversible op not implemented: {instr.op}")
 
     def _exec_irreversible(self, instr: Instruction) -> None:
         if instr.op == OpCode.ADD:
-            assert instr.rd is not None
-            assert instr.rs1 is not None
+            if instr.rd is None or instr.rs1 is None:
+                raise ValueError(f"ADD missing operands: {instr!r}")
+            self._validate_reg_index(instr.rd)
+            self._validate_reg_index(instr.rs1)
             if instr.imm is not None:
-                self.registers[instr.rd] = (
-                    self.registers[instr.rs1] + instr.imm
-                ) & 0xFFFFFFFF
+                self.registers[instr.rd] = (self.registers[instr.rs1] + instr.imm) & 0xFFFFFFFF
             else:
-                assert instr.rs2 is not None
-                self.registers[instr.rd] = (
-                    self.registers[instr.rs1] + self.registers[instr.rs2]
-                ) & 0xFFFFFFFF
+                if instr.rs2 is None:
+                    raise ValueError(f"ADD missing rs2: {instr!r}")
+                self._validate_reg_index(instr.rs2)
+                self.registers[instr.rd] = (self.registers[instr.rs1] + self.registers[instr.rs2]) & 0xFFFFFFFF
             return
 
         if instr.op == OpCode.SUB:
-            assert instr.rd is not None
-            assert instr.rs1 is not None
+            if instr.rd is None or instr.rs1 is None:
+                raise ValueError(f"SUB missing operands: {instr!r}")
+            self._validate_reg_index(instr.rd)
+            self._validate_reg_index(instr.rs1)
             if instr.imm is not None:
-                self.registers[instr.rd] = (
-                    self.registers[instr.rs1] - instr.imm
-                ) & 0xFFFFFFFF
+                self.registers[instr.rd] = (self.registers[instr.rs1] - instr.imm) & 0xFFFFFFFF
             else:
-                assert instr.rs2 is not None
-                self.registers[instr.rd] = (
-                    self.registers[instr.rs1] - self.registers[instr.rs2]
-                ) & 0xFFFFFFFF
+                if instr.rs2 is None:
+                    raise ValueError(f"SUB missing rs2: {instr!r}")
+                self._validate_reg_index(instr.rs2)
+                self.registers[instr.rd] = (self.registers[instr.rs1] - self.registers[instr.rs2]) & 0xFFFFFFFF
             return
 
         if instr.op == OpCode.LOAD:
-            assert instr.rd is not None
-            assert instr.rs1 is not None
+            if instr.rd is None or instr.rs1 is None:
+                raise ValueError(f"LOAD missing operands: {instr!r}")
+            self._validate_reg_index(instr.rd)
+            self._validate_reg_index(instr.rs1)
             addr = self.registers[instr.rs1] + (instr.imm or 0)
             self.registers[instr.rd] = self.memory.load_word(addr)
             return
 
         if instr.op == OpCode.STORE:
-            assert instr.rs1 is not None
-            assert instr.rs2 is not None
+            if instr.rs1 is None or instr.rs2 is None:
+                raise ValueError(f"STORE missing operands: {instr!r}")
+            self._validate_reg_index(instr.rs1)
+            self._validate_reg_index(instr.rs2)
             addr = self.registers[instr.rs1] + (instr.imm or 0)
             value = self.registers[instr.rs2]
             self.memory.store_word(addr, value)

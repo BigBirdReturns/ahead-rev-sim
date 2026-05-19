@@ -11,6 +11,7 @@ class AssemblyParser:
         self.labels: Dict[str, int] = {}
 
     def parse(self, source_text: str) -> List[Instruction]:
+        self.labels = {}
         lines = source_text.strip().split("\n")
         instructions: List[Instruction] = []
 
@@ -94,4 +95,10 @@ class AssemblyParser:
         token = token.strip().lower()
         if token.startswith("x") or token.startswith("r"):
             token = token[1:]
-        return int(token)
+        try:
+            reg = int(token)
+        except ValueError as exc:
+            raise ValueError(f"Invalid register token: {token!r}") from exc
+        if reg < 0:
+            raise ValueError(f"Register index must be >= 0, got {reg}")
+        return reg

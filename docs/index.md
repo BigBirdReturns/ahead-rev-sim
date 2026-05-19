@@ -12,3 +12,8 @@ It lets you:
 
 This is a bridge between classical compute and future adiabatic or reversible hardware. 
 It aims to let hardware and compiler teams experiment before silicon is ready.
+
+
+## Current branch and project hygiene
+
+This repository currently works as a single-branch simulator workflow and is intentionally lightweight. For extension work, prefer adding feature docs under `docs/` first, then code and tests in lockstep.
