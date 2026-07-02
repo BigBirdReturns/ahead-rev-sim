@@ -1,7 +1,15 @@
 from __future__ import annotations
+import warnings
 from typing import List, Dict
 
 from .isa import Instruction, OpCode
+
+# Legacy mnemonics accepted for one release cycle. RADD was renamed to
+# RMODADD because the op is modular addition — the old name hid the
+# mod-2^32 wraparound (issue #1).
+LEGACY_MNEMONICS: Dict[str, str] = {
+    "RADD": "RMODADD",
+}
 
 
 class AssemblyParser:
@@ -42,6 +50,15 @@ class AssemblyParser:
 
             op_str = parts[0].upper()
 
+            if op_str in LEGACY_MNEMONICS:
+                replacement = LEGACY_MNEMONICS[op_str]
+                warnings.warn(
+                    f"Mnemonic {op_str} is deprecated; use {replacement}",
+                    DeprecationWarning,
+                    stacklevel=2,
+                )
+                op_str = replacement
+
             try:
                 op = OpCode[op_str]
             except KeyError:
@@ -63,9 +80,9 @@ class AssemblyParser:
                 instr.rs2 = self._parse_reg(args[1])
                 if len(args) > 2:
                     instr.imm = int(args[2])
-            elif op in {OpCode.LOAD}:
+            elif op in {OpCode.LOAD, OpCode.REXCH}:
                 if len(args) < 2:
-                    raise ValueError(f"LOAD requires at least 2 operands in line: {line!r}")
+                    raise ValueError(f"{op.name} requires at least 2 operands in line: {line!r}")
                 instr.rd = self._parse_reg(args[0])
                 instr.rs1 = self._parse_reg(args[1])
                 if len(args) > 2:

@@ -6,7 +6,7 @@ down a corrupted register without restarting or replaying a program.
 The example program:
 
 - Initializes r1 and r2 in irreversible mode.
-- Uses reversible RADD to update r2.
+- Uses reversible RMODADD to update r2.
 - Applies a reversible RXOR that corrupts r2.
 - Halts with a wrong final value in r2.
 

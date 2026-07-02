@@ -6,8 +6,9 @@ from enum import Enum, auto
 class OpCode(Enum):
     # Reversible data
     RXOR = auto()      # rd = rd XOR rs1
-    RADD = auto()      # rd = rd + rs1   (algebraically inverted with subtraction)
+    RMODADD = auto()   # rd = (rd + rs1) mod 2^32  (algebraically inverted with modular subtraction)
     RSWAP = auto()     # swap rd, rs1
+    REXCH = auto()     # exchange rd <-> mem[rs1 + imm]  (self-inverse; rd must differ from rs1)
 
     # Control flow (treated as reversible at the PC level)
     BEQ = auto()       # if rs1 == rs2: PC = label
@@ -35,8 +36,9 @@ class Instruction:
     def reversible(self) -> bool:
         return self.op in {
             OpCode.RXOR,
-            OpCode.RADD,
+            OpCode.RMODADD,
             OpCode.RSWAP,
+            OpCode.REXCH,
             OpCode.BEQ,
         }
 

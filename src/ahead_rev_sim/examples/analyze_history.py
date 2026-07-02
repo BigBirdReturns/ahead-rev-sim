@@ -73,7 +73,7 @@ def make_linear_reversible() -> tuple[list[Instruction], dict, str]:
     prog.append(Instruction(op=OpCode.ADD, rd=2, rs1=0, imm=2))  # r2 = 2
     
     for _ in range(20):
-        prog.append(Instruction(op=OpCode.RADD, rd=3, rs1=1))
+        prog.append(Instruction(op=OpCode.RMODADD, rd=3, rs1=1))
         prog.append(Instruction(op=OpCode.RXOR, rd=3, rs1=2))
     
     prog.append(Instruction(op=OpCode.HALT))
@@ -88,7 +88,7 @@ def make_linear_mixed() -> tuple[list[Instruction], dict, str]:
     
     for _ in range(10):
         # Reversible
-        prog.append(Instruction(op=OpCode.RADD, rd=3, rs1=1))
+        prog.append(Instruction(op=OpCode.RMODADD, rd=3, rs1=1))
         # Irreversible
         prog.append(Instruction(op=OpCode.ADD, rd=4, rs1=3, rs2=2))
     
@@ -105,8 +105,8 @@ def make_tight_loop() -> tuple[list[Instruction], dict, str]:
         Instruction(op=OpCode.ADD, rd=2, rs1=0, imm=1),   # r2 = 1
         Instruction(op=OpCode.ADD, rd=3, rs1=0, imm=10),  # r3 = 10
         # loop:
-        Instruction(op=OpCode.RADD, rd=1, rs1=2),         # r1 += r2 (reversible)
-        Instruction(op=OpCode.RADD, rd=4, rs1=1),         # r4 += r1 (reversible accumulate)
+        Instruction(op=OpCode.RMODADD, rd=1, rs1=2),         # r1 += r2 (reversible)
+        Instruction(op=OpCode.RMODADD, rd=4, rs1=1),         # r4 += r1 (reversible accumulate)
         Instruction(op=OpCode.SUB, rd=5, rs1=1, rs2=3),   # r5 = r1 - r3 (for comparison)
         Instruction(op=OpCode.BEQ, rs1=1, rs2=3, label="done"),  # if r1 == 10, done
         Instruction(op=OpCode.BEQ, rs1=0, rs2=0, label="loop"),  # else loop (unconditional)
@@ -128,12 +128,12 @@ def make_nested_loop() -> tuple[list[Instruction], dict, str]:
         # outer:
         Instruction(op=OpCode.ADD, rd=2, rs1=0, imm=0),   # r2 = inner counter (reset)
         # inner:
-        Instruction(op=OpCode.RADD, rd=3, rs1=7),         # r3 += 1 (reversible work)
-        Instruction(op=OpCode.RADD, rd=2, rs1=7),         # r2 += 1
+        Instruction(op=OpCode.RMODADD, rd=3, rs1=7),         # r3 += 1 (reversible work)
+        Instruction(op=OpCode.RMODADD, rd=2, rs1=7),         # r2 += 1
         Instruction(op=OpCode.BEQ, rs1=2, rs2=6, label="inner_done"),
         Instruction(op=OpCode.BEQ, rs1=0, rs2=0, label="inner"),
         # inner_done:
-        Instruction(op=OpCode.RADD, rd=1, rs1=7),         # r1 += 1 (outer increment)
+        Instruction(op=OpCode.RMODADD, rd=1, rs1=7),         # r1 += 1 (outer increment)
         Instruction(op=OpCode.BEQ, rs1=1, rs2=5, label="outer_done"),
         Instruction(op=OpCode.BEQ, rs1=0, rs2=0, label="outer"),
         # outer_done:
@@ -161,9 +161,9 @@ def make_branch_heavy() -> tuple[list[Instruction], dict, str]:
         else:
             # Not taken branch  
             prog.append(Instruction(op=OpCode.BEQ, rs1=1, rs2=3, label=f"skip{i}"))
-        prog.append(Instruction(op=OpCode.RADD, rd=4, rs1=3))  # Skipped or not
+        prog.append(Instruction(op=OpCode.RMODADD, rd=4, rs1=3))  # Skipped or not
         # skip{i}: (label target)
-        prog.append(Instruction(op=OpCode.RADD, rd=5, rs1=3))  # Always executed
+        prog.append(Instruction(op=OpCode.RMODADD, rd=5, rs1=3))  # Always executed
     
     prog.append(Instruction(op=OpCode.HALT))
     return prog, labels, "Branch-heavy (10 conditionals, mixed taken/not-taken)"

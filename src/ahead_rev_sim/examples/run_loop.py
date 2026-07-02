@@ -19,7 +19,7 @@ SOURCE = (
     "BEQ r1, r0, done    ; if r1 == 0, exit loop\n"
     "\n"
     "; Reversible work\n"
-    "RADD r2, r1         ; r2 = r2 + r1\n"
+    "RMODADD r2, r1      ; r2 = (r2 + r1) mod 2^32\n"
     "RXOR r2, r1         ; reversible mix\n"
     "RXOR r2, r1         ; unmix\n"
     "\n"

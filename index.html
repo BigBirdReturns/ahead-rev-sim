@@ -359,7 +359,7 @@
       </div>
       <div class="header-meta animate-up delay-2">
         <div class="version-block">
-          <div>VERSION <span class="val">0.7.0</span></div>
+          <div>VERSION <span class="val">0.8.0</span></div>
           <div>ISA <span class="val">reversible lanes + std ops</span></div>
           <div>UNDO <span class="val">algebraic inversion</span></div>
           <div>BRANCHES <span class="val">1 bit + PC</span></div>
@@ -431,14 +431,20 @@
           <td><span class="badge badge-rev">Reversible</span></td>
         </tr>
         <tr>
-          <td class="op cold">RADD rd, rs1</td>
-          <td>rd = rd + rs1 &nbsp;(mod 2³²)</td>
-          <td class="inv">subtract rs1</td>
+          <td class="op cold">RMODADD rd, rs1</td>
+          <td>rd = (rd + rs1) mod 2³²</td>
+          <td class="inv">modular subtract</td>
           <td><span class="badge badge-rev">Reversible</span></td>
         </tr>
         <tr>
           <td class="op cold">RSWAP rd, rs1</td>
           <td>swap rd ↔ rs1</td>
+          <td class="inv">self-inverse</td>
+          <td><span class="badge badge-rev">Reversible</span></td>
+        </tr>
+        <tr>
+          <td class="op cold">REXCH rd, rs1, imm</td>
+          <td>exchange rd ↔ mem[rs1 + imm] &nbsp;(rd ≠ rs1)</td>
           <td class="inv">self-inverse</td>
           <td><span class="badge badge-rev">Reversible</span></td>
         </tr>
@@ -535,7 +541,7 @@
       <div class="term-body"><pre><span class="prompt">$ </span><span class="cmd">ahead-rev-debug</span>
 
 <span class="comment">Program: Compute r1 = 10 + 5 + 3 = 18</span>
-<span class="comment">Bug: One instruction is RXOR instead of RADD</span>
+<span class="comment">Bug: One instruction is RXOR instead of RMODADD</span>
 
 Forward execution: 7 steps
 Expected r1 = 18
@@ -545,7 +551,7 @@ Actual   r1 = 15
 
 Beginning reverse execution to locate bug...
 
-  Step back 1: Undid RADD at PC 5
+  Step back 1: Undid RMODADD at PC 5
     r1: 15 → 12
   Step back 2: Undid RXOR at PC 4
     r1: 12 → 15
@@ -674,7 +680,7 @@ Branch-heavy                     9997     329901    100%         33.0
 <span class="comment"># History buffer analysis (answers silicon sizing questions)</span>
 <span class="prompt">$ </span><span class="cmd">ahead-rev-history</span>
 
-<span class="comment"># Reversible memory preview (bridge to v0.8)</span>
+<span class="comment"># Reversible memory demo (REXCH in the ISA)</span>
 <span class="prompt">$ </span><span class="cmd">ahead-rev-memory</span>
 
 <span class="comment"># Run your own programs</span>
@@ -709,12 +715,12 @@ Branch-heavy                     9997     329901    100%         33.0
       <div class="road-step shipped">
         <div class="road-ver">0.7</div>
         <div class="road-body">Time-travel debugger, history buffer analysis, reversible memory preview</div>
-        <div class="road-status"><span class="badge badge-rev">Current</span></div>
+        <div class="road-status"><span class="badge badge-rev">Shipped</span></div>
       </div>
-      <div class="road-step">
+      <div class="road-step shipped">
         <div class="road-ver">0.8</div>
-        <div class="road-body">Reversible memory region + exchange-based memory ops in the ISA</div>
-        <div class="road-status"><span class="badge badge-hist">Next</span></div>
+        <div class="road-body">Reversible memory in the ISA — <code>REXCH</code> register/memory exchange, <code>RMODADD</code> rename</div>
+        <div class="road-status"><span class="badge badge-rev">Current</span></div>
       </div>
       <div class="road-step">
         <div class="road-ver">0.9</div>
@@ -734,7 +740,7 @@ Branch-heavy                     9997     329901    100%         33.0
   <div class="page-wrap">
     <div class="footer-inner">
       <div class="footer-left">
-        <div><strong>ahead-rev-sim</strong> v0.7.0 · MIT</div>
+        <div><strong>ahead-rev-sim</strong> v0.8.0 · MIT</div>
         <div>Reversible + adiabatic compute simulator for RISC-V</div>
         <div>History is recoverable, not recorded.</div>
       </div>
@@ -770,18 +776,18 @@ Branch-heavy                     9997     329901    100%         33.0
   // Program: all-reversible lane. Each op knows exec and undo.
   const MASK = 0xFFFFFFFF;
   const PROGRAM = [
-    { text:'RADD  r1, r2', rev:true,
-      exec:s=>{ s.r1=(s.r1+s.r2)&MASK; return 'RADD: r1 += r2 — <span class="hl">inverse is subtraction</span>, nothing stored.'; },
-      undo:s=>{ s.r1=(s.r1-s.r2)&MASK; return 'Undid RADD by <span class="hl">subtracting r2</span>. No snapshot was needed.'; } },
-    { text:'RXOR  r1, r3', rev:true,
+    { text:'RMODADD r1, r2', rev:true,
+      exec:s=>{ s.r1=(s.r1+s.r2)&MASK; return 'RMODADD: r1 += r2 (mod 2³²) — <span class="hl">inverse is modular subtraction</span>, nothing stored.'; },
+      undo:s=>{ s.r1=(s.r1-s.r2)&MASK; return 'Undid RMODADD by <span class="hl">subtracting r2</span>. No snapshot was needed.'; } },
+    { text:'RXOR    r1, r3', rev:true,
       exec:s=>{ s.r1=(s.r1^s.r3)&MASK; return 'RXOR: r1 ^= r3 — <span class="hl">self-inverse</span>.'; },
       undo:s=>{ s.r1=(s.r1^s.r3)&MASK; return 'Undid RXOR by <span class="hl">applying it again</span> — XOR is its own inverse.'; } },
-    { text:'RSWAP r2, r3', rev:true,
+    { text:'RSWAP   r2, r3', rev:true,
       exec:s=>{ const t=s.r2; s.r2=s.r3; s.r3=t; return 'RSWAP: r2 ↔ r3 — <span class="hl">self-inverse</span>.'; },
       undo:s=>{ const t=s.r2; s.r2=s.r3; s.r3=t; return 'Undid RSWAP by <span class="hl">swapping back</span>.'; } },
-    { text:'RADD  r3, r1', rev:true,
-      exec:s=>{ s.r3=(s.r3+s.r1)&MASK; return 'RADD: r3 += r1 — reversible chain keeps growing, history stays at <span class="hl">0 bits</span>.'; },
-      undo:s=>{ s.r3=(s.r3-s.r1)&MASK; return 'Undid RADD — state derived, <span class="hl">not restored from a buffer</span>.'; } },
+    { text:'RMODADD r3, r1', rev:true,
+      exec:s=>{ s.r3=(s.r3+s.r1)&MASK; return 'RMODADD: r3 += r1 — reversible chain keeps growing, history stays at <span class="hl">0 bits</span>.'; },
+      undo:s=>{ s.r3=(s.r3-s.r1)&MASK; return 'Undid RMODADD — state derived, <span class="hl">not restored from a buffer</span>.'; } },
     { text:'HALT', rev:false, halt:true }
   ];
   const INIT = { pc:0, r1:10, r2:5, r3:3, energy:0 };
