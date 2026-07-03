@@ -5,7 +5,8 @@ The simulator separates instructions into reversible and irreversible groups.
 ## Reversible instructions
 
 - `RXOR` bitwise XOR, self inverse
-- `RADD` addition with algebraic inverse
+- `RMODADD` modular addition (mod 2^32) with algebraic inverse; renamed from `RADD` in v0.8 to expose the wraparound semantics
+- `REXCH` register/memory exchange, self-inverse with zero history; the machine rejects `rd == rs1` because the undo recomputes the effective address from `rs1`
 - `RSWAP` register swap, self inverse
 - `BEQ` branch, reversible at the control flow level
 

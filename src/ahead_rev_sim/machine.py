@@ -136,9 +136,9 @@ class Machine:
             self.registers[rd] = self.registers[rd] ^ self.registers[rs1]
             return None
 
-        if instr.op == OpCode.RADD:
+        if instr.op == OpCode.RMODADD:
             if rs1 is None:
-                raise ValueError(f"RADD missing source register: {instr!r}")
+                raise ValueError(f"RMODADD missing source register: {instr!r}")
             self._validate_reg_index(rd)
             self._validate_reg_index(rs1)
             self.registers[rd] = (self.registers[rd] + self.registers[rs1]) & 0xFFFFFFFF
@@ -150,6 +150,21 @@ class Machine:
             self._validate_reg_index(rd)
             self._validate_reg_index(rs1)
             self.registers[rd], self.registers[rs1] = self.registers[rs1], self.registers[rd]
+            return None
+
+        if instr.op == OpCode.REXCH:
+            if rs1 is None:
+                raise ValueError(f"REXCH missing base register: {instr!r}")
+            self._validate_reg_index(rd)
+            self._validate_reg_index(rs1)
+            # The undo recomputes the effective address from rs1. If rd
+            # aliased rs1, the exchange would rewrite the base register and
+            # the undo would target a different address, silently breaking
+            # reversibility — so aliasing is rejected outright.
+            if rd == rs1:
+                raise ValueError(f"REXCH requires rd != rs1 (got r{rd} for both): {instr!r}")
+            addr = self.registers[rs1] + (instr.imm or 0)
+            self.registers[rd] = self.memory.exchange(addr, self.registers[rd])
             return None
 
         raise NotImplementedError(f"Reversible op not implemented: {instr.op}")
@@ -168,9 +183,9 @@ class Machine:
             self.registers[rd] = self.registers[rd] ^ self.registers[rs1]
             return
 
-        if instr.op == OpCode.RADD:
+        if instr.op == OpCode.RMODADD:
             if rs1 is None:
-                raise ValueError(f"Undo RADD missing source register: {instr!r}")
+                raise ValueError(f"Undo RMODADD missing source register: {instr!r}")
             self._validate_reg_index(rd)
             self._validate_reg_index(rs1)
             self.registers[rd] = (self.registers[rd] - self.registers[rs1]) & 0xFFFFFFFF
@@ -182,6 +197,15 @@ class Machine:
             self._validate_reg_index(rd)
             self._validate_reg_index(rs1)
             self.registers[rd], self.registers[rs1] = self.registers[rs1], self.registers[rd]
+            return
+
+        if instr.op == OpCode.REXCH:
+            if rs1 is None:
+                raise ValueError(f"Undo REXCH missing base register: {instr!r}")
+            self._validate_reg_index(rd)
+            self._validate_reg_index(rs1)
+            addr = self.registers[rs1] + (instr.imm or 0)
+            self.registers[rd] = self.memory.exchange(addr, self.registers[rd])
             return
 
         raise NotImplementedError(f"Undo for reversible op not implemented: {instr.op}")

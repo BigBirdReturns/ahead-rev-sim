@@ -22,7 +22,7 @@ def make_buggy_program() -> list[Instruction]:
 
     # Enter reversible region via a no op label. The marker is conceptual here.
     # Correct reversible step: r2 = r2 + r1 = 15
-    prog.append(Instruction(op=OpCode.RADD, rd=2, rs1=1))
+    prog.append(Instruction(op=OpCode.RMODADD, rd=2, rs1=1))
 
     # Buggy reversible step: corrupt r2 by XOR with r1
     prog.append(Instruction(op=OpCode.RXOR, rd=2, rs1=1))

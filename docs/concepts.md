@@ -8,7 +8,8 @@ Some instructions are logically reversible given the right inputs:
 
 - `RXOR rd, rs1` is its own inverse
 - `RSWAP rd, rs1` is its own inverse
-- `RADD rd, rs1` can be undone with subtraction of the same `rs1`
+- `RMODADD rd, rs1` can be undone with modular subtraction of the same `rs1`
+- `REXCH rd, rs1, imm` exchanges `rd` with `mem[rs1 + imm]` and is its own inverse (aliasing `rd == rs1` is rejected)
 
 The simulator uses these rules to undo reversible steps without saving full copies of register files. 
 This keeps the model closer to what real reversible hardware can do.

@@ -1,4 +1,4 @@
-# ahead-rev-sim v0.7.0
+# ahead-rev-sim v0.8.0
 
 Reversible execution simulator for RISC-V.  
 **History is recoverable, not recorded.**
@@ -15,7 +15,8 @@ Reversible execution: Run forward. Run backward. State derived from operations.
 This is not theory. This is working code that demonstrates:
 - Time-travel debugging (find bugs by running backward)
 - History buffer sizing (answer silicon questions)
-- Hot/cold pipeline modeling (preview of v0.8)
+- Reversible memory in the ISA (REXCH register/memory exchange)
+- Hot/cold pipeline modeling
 
 ## Why It Matters
 
@@ -40,14 +41,26 @@ ahead-rev-debug
 # History buffer analysis (answers silicon sizing questions)
 ahead-rev-history
 
-# Reversible memory preview (bridge to v0.8)
+# Reversible memory demo (REXCH in the ISA)
 ahead-rev-memory
 
 # Run your own programs
 ahead-rev-sim run program.asm
 ```
 
-## What's New in v0.7
+## What's New in v0.8
+
+### Reversible Memory in the ISA
+
+`REXCH rd, rs1, imm` exchanges a register with `mem[rs1 + imm]`. Exchange
+is self-inverse, so it costs zero history bits, and the machine rejects
+`rd == rs1` (aliasing the base register would break reversibility).
+Also in this release: `RADD` is renamed `RMODADD` to expose its modular
+semantics (#1) - the old mnemonic still parses with a `DeprecationWarning` -
+and the debugger class typo is fixed (`TimeTraveDebugger` ->
+`TimeTravelDebugger`).
+
+## Carried from v0.7
 
 ### Time-Travel Debugger
 
@@ -57,7 +70,7 @@ Run a buggy program. Walk backward to find the bug. No trace buffers.
 $ ahead-rev-debug
 
 Program: Compute r1 = 10 + 5 + 3 = 18
-Bug: One instruction is RXOR instead of RADD
+Bug: One instruction is RXOR instead of RMODADD
 
 Forward execution: 7 steps
 Expected r1 = 18
@@ -67,7 +80,7 @@ Actual r1   = 15
 
 Beginning reverse execution to locate bug...
 
-  Step back 1: Undid RADD at PC 5
+  Step back 1: Undid RMODADD at PC 5
     r1: 15 → 12
   Step back 2: Undid RXOR at PC 4
     r1: 12 → 15
@@ -76,7 +89,7 @@ Beginning reverse execution to locate bug...
 Bug located at PC 4: RXOR r1 r3
 
 The RXOR instruction corrupted the accumulator.
-It should have been RADD to continue the sum.
+It should have been RMODADD to continue the sum.
 ```
 
 ### History Buffer Analysis
@@ -113,11 +126,11 @@ Initial:
   Register = 42
   Memory[0x1000] = 100
 
-After RLOAD (exchange):
+After REXCH (exchange):
   Register = 100
   Memory[0x1000] = 42
 
-After second RLOAD (reverse):
+After second REXCH (reverse):
   Register = 42
   Memory[0x1000] = 100
 
@@ -131,9 +144,10 @@ Key insight: Exchange is self-inverse. No history needed.
 These can be algebraically inverted:
 
 ```asm
-RXOR  rd, rs1      ; rd = rd XOR rs1 (self-inverse)
-RADD  rd, rs1      ; rd = rd + rs1 (inverse: subtract)
-RSWAP rd, rs1      ; swap rd <-> rs1 (self-inverse)
+RXOR    rd, rs1       ; rd = rd XOR rs1 (self-inverse)
+RMODADD rd, rs1       ; rd = (rd + rs1) mod 2^32 (inverse: modular subtract)
+RSWAP   rd, rs1       ; swap rd <-> rs1 (self-inverse)
+REXCH   rd, rs1, imm  ; exchange rd <-> mem[rs1 + imm] (self-inverse, rd != rs1)
 ```
 
 ### Control Flow
@@ -198,7 +212,7 @@ If this project executes well, it becomes a shared contract between hardware and
 ```
 v0.6.0 ✅ First full release (forward/backward, clean repo)
 v0.7.0 ✅ Time-travel debugger, history buffer analysis, memory preview
-v0.8.0    Reversible memory region + RLOAD/RSTORE in ISA
+v0.8.0 ✅ Reversible memory in the ISA (REXCH), RMODADD rename, parser hardening
 v0.9.0    Compiler intrinsics + LLVM pass
 v1.0.0    FPGA/RTL reference implementation
 ```
@@ -218,7 +232,7 @@ The reversible ISA is designed for:
 
 1. **Basic block reversal:** Mark regions as reversible, compiler ensures algebraic invertibility
 2. **Register allocation:** Reversible ops update in place, need careful liveness analysis
-3. **Spill strategy:** RLOAD/RSTORE for reversible spills (v0.8)
+3. **Spill strategy:** REXCH for reversible spills
 
 ## For Debug Engineers
 
