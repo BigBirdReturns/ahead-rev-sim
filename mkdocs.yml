@@ -12,3 +12,6 @@ nav:
   - Design:
     - ISA and Machine: design_isa_machine.md
     - Reversibility Metrics: design_metrics.md
+  - Planning:
+    - Next Steps: next_steps.md
+    - Time-Travel Debug Demo: time_travel_debug_demo.md
