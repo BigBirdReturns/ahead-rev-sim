@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/physical-substrate-receipt.schema.json",
+  "title": "ahead-rev-sim physical substrate receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "descriptor_sha256",
+    "substrate_id",
+    "operator_class",
+    "portable_binding",
+    "optional_riscv_extension",
+    "input_frame_sha256",
+    "output_sha256",
+    "state_before_sha256",
+    "state_after_sha256",
+    "entropy_trace_sha256",
+    "determinism_contract",
+    "exact_replay",
+    "fallback_used",
+    "execution_status",
+    "outputs",
+    "role_map",
+    "energy_evidence_class",
+    "physical_energy_claim_allowed",
+    "physical_compute_claim_allowed",
+    "blockers",
+    "claim_boundary",
+    "receipt_sha256",
+    "schema_version"
+  ],
+  "properties": {
+    "descriptor_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "substrate_id": {"type": "string", "minLength": 1},
+    "operator_class": {"type": "string", "minLength": 1},
+    "portable_binding": {"const": "physical-compute-mmio/v1"},
+    "optional_riscv_extension": {"const": "Xphys"},
+    "input_frame_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "output_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "state_before_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "state_after_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "entropy_trace_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "determinism_contract": {
+      "enum": ["exact", "replay_with_trace", "distributional"]
+    },
+    "exact_replay": {"type": "boolean"},
+    "fallback_used": {"type": "boolean"},
+    "execution_status": {"enum": ["accepted", "refused"]},
+    "outputs": {"type": "array", "items": {"type": "integer"}},
+    "role_map": {
+      "type": "object",
+      "required": ["operand", "dynamics", "energy", "context", "result"],
+      "additionalProperties": false,
+      "properties": {
+        "operand": {"type": "array", "items": {"type": "string"}},
+        "dynamics": {"type": "array", "items": {"type": "string"}},
+        "energy": {"type": "array", "items": {"type": "string"}},
+        "context": {"type": "array", "items": {"type": "string"}},
+        "result": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "energy_evidence_class": {
+      "enum": ["reference_model", "simulated", "measured"]
+    },
+    "physical_energy_claim_allowed": {"type": "boolean"},
+    "physical_compute_claim_allowed": {"type": "boolean"},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "claim_boundary": {"type": "string", "minLength": 1},
+    "receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "schema_version": {"const": "ahead.physical-substrate-receipt/v0.1"}
+  }
+}

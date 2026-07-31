@@ -29,6 +29,25 @@ from .semantics import (
     analyze_instruction,
     verify_bijective,
 )
+from .physical_substrate import (
+    OPTIONAL_RISCV_EXTENSION,
+    PHYSICAL_COMPUTE_MMIO_V1,
+    PORTABLE_BINDING,
+    CouplingMode,
+    DeterminismContract as PhysicalDeterminismContract,
+    DynamicsClass,
+    EntropyTrace,
+    PhysicalComputeRuntime,
+    PhysicalSignalFrame,
+    PhysicalSubstrateDescriptor,
+    PhysicalSubstrateReceipt,
+    RealizationClass,
+    SignalRole,
+    default_runtime as default_physical_runtime,
+    harvested_world_descriptor,
+    rc_relaxation_cartridge,
+    thermal_sampler_cartridge,
+)
 
 __all__ = [
     # Version
@@ -74,4 +93,22 @@ __all__ = [
     "ExecutionProof",
     "HistoryCompleteMachine",
     "run_and_prove",
+    # Commodity physical compute
+    "OPTIONAL_RISCV_EXTENSION",
+    "PHYSICAL_COMPUTE_MMIO_V1",
+    "PORTABLE_BINDING",
+    "SignalRole",
+    "DynamicsClass",
+    "RealizationClass",
+    "CouplingMode",
+    "PhysicalDeterminismContract",
+    "PhysicalSubstrateDescriptor",
+    "PhysicalSignalFrame",
+    "EntropyTrace",
+    "PhysicalSubstrateReceipt",
+    "PhysicalComputeRuntime",
+    "rc_relaxation_cartridge",
+    "thermal_sampler_cartridge",
+    "harvested_world_descriptor",
+    "default_physical_runtime",
 ]
