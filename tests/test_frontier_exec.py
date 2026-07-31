@@ -38,7 +38,7 @@ def test_history_complete_machine_restores_sparse_memory_absence() -> None:
 
 def test_history_complete_machine_restores_taken_branch() -> None:
     source = "ADD r1, r0, 1\nBEQ r1, r1, done\nADD r2, r0, 99\ndone:\nHALT\n"
-    parser = AssembyParser()
+    parser = AssemblyParser()
     machine = HistoryCompleteMachine()
     machine.load_program(parser.parse(source), labels=parser.labels)
     before = ArchitectedState.capture(machine)

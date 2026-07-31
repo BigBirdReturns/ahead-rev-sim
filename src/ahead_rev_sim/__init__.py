@@ -14,7 +14,6 @@ from .machine import Machine
 from .memory import Memory
 from .energy import EnergyModel
 from .metrics import ReversibilityMetrics
-
 from .parser import AssemblyParser
 from .history import HistoryBuffer, HistoryAnalyzer, HistoryEntry, EntryType
 from .debugger import TimeTravelDebugger, Watchpoint, CorruptionReport
