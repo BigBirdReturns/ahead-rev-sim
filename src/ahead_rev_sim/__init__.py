@@ -18,6 +18,16 @@ from .parser import AssemblyParser
 from .history import HistoryBuffer, HistoryAnalyzer, HistoryEntry, EntryType
 from .debugger import TimeTravelDebugger, Watchpoint, CorruptionReport
 from .reversible_memory import ReversibleMemory, MemoryController, MemoryRegionType
+from .frontier import ArchitectureProfile, FrontierArtifact, analyze_assembly, analyze_program
+from .semantics import (
+    BijectivityCheck,
+    BijectivityStatus,
+    InformationEffect,
+    OperationSemantics,
+    SemanticClass,
+    analyze_instruction,
+    verify_bijective,
+)
 
 __all__ = [
     # Version
@@ -47,4 +57,16 @@ __all__ = [
     "CorruptionReport",
     # Parser
     "AssemblyParser",
+    # Reversibility frontier
+    "ArchitectureProfile",
+    "FrontierArtifact",
+    "analyze_assembly",
+    "analyze_program",
+    "BijectivityCheck",
+    "BijectivityStatus",
+    "InformationEffect",
+    "OperationSemantics",
+    "SemanticClass",
+    "analyze_instruction",
+    "verify_bijective",
 ]
