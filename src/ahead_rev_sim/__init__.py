@@ -14,11 +14,13 @@ from .machine import Machine
 from .memory import Memory
 from .energy import EnergyModel
 from .metrics import ReversibilityMetrics
+
 from .parser import AssemblyParser
 from .history import HistoryBuffer, HistoryAnalyzer, HistoryEntry, EntryType
 from .debugger import TimeTravelDebugger, Watchpoint, CorruptionReport
 from .reversible_memory import ReversibleMemory, MemoryController, MemoryRegionType
 from .frontier import ArchitectureProfile, FrontierArtifact, analyze_assembly, analyze_program
+from .frontier_exec import ArchitectedState, ExecutionProof, HistoryCompleteMachine, run_and_prove
 from .semantics import (
     BijectivityCheck,
     BijectivityStatus,
@@ -69,4 +71,8 @@ __all__ = [
     "SemanticClass",
     "analyze_instruction",
     "verify_bijective",
+    "ArchitectedState",
+    "ExecutionProof",
+    "HistoryCompleteMachine",
+    "run_and_prove",
 ]

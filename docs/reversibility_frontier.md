@@ -42,3 +42,15 @@ ahead-rev-frontier examples/asm/mixed_frontier.asm \
 ```
 
 The command returns exit code `2` when semantic invalidity makes the artifact inadmissible. An artifact with valid semantics remains a `modeled_candidate` until physical and workload-acceptance evidence is supplied.
+
+## Executable history-complete point
+
+`ahead-rev-prove` now executes the history-complete strategy rather than leaving it as a cost row. Native reversible operations are algebraically inverted. Branches retain the source PC and path bit. Register overwrites retain the old word. Memory stores retain the old word plus an absence bit so sparse memory is restored exactly rather than merely restored to a numerical zero.
+
+The proof binds the source and fixture, checks the expected final state, reverses every executed step, and compares the restored architected state against the entry state. Its trace and receipt are SHA-256 sealed. Energy counters remain explicitly labeled as a normalized uncalibrated model. The proof therefore closes a software-semantic transaction while continuing to refuse physical recovery, joule, volume, timing, and manufacturability claims.
+
+```bash
+ahead-rev-prove examples/asm/mixed_frontier.asm \
+  --fixture examples/asm/execution-fixture.json \
+  --out artifacts/mixed-frontier.execution-proof.json
+```

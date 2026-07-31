@@ -1,0 +1,20 @@
+{
+  "initial_state": {
+    "registers": {
+      "3": 0
+    },
+    "memory": {}
+  },
+  "expected_final_state": {
+    "registers": {
+      "1": 15,
+      "2": 5,
+      "4": 15
+    },
+    "memory": {
+      "64": 15
+    },
+    "halted": true
+  },
+  "max_steps": 100
+}
