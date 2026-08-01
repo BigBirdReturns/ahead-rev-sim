@@ -4,10 +4,36 @@ All notable changes to `ahead-rev-sim` are recorded here. The format follows Kee
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-08-01
+
 ### Added
 
-- Production packaging, release, security, governance, and repository-integrity controls.
-- Installed-package doctor and clean-wheel smoke qualification.
+- `physical-cartridge-link/v1`, which separates the generated MMIO bridge, opaque-handle resolver, and replaceable cartridge state machine.
+- `ahead-rev-rtl bundle` for deterministic generation of the resolver, cartridge, testbench, accepted trace, contract, and sealed manifest.
+- `ahead-rev-rtl proof` for admitting an executed RTL transaction only after source custody and byte-identical trace comparison pass.
+- Actual Icarus Verilog compilation and `vvp` execution across ambiguous-command refusal, reset, invalid-descriptor refusal, resolver fault, load, evolve, read, capture, and receipt paths.
+- Draft 2020-12 schemas for the RTL attachment contract, generated manifest, and executed proof.
+- Fail-closed source-custody checks for stale MMIO, altered resolver, cartridge or testbench sources, incomplete source sets, duplicate source identities, forged manifests, and divergent traces.
+- A reconstructable RTL evidence kit containing the exact sources, accepted and raw traces, schemas, manifest, and sealed proof.
+- Production packaging, release, security, governance, support, conduct, and repository-integrity controls.
+- Installed-package doctor, clean-wheel smoke qualification, Windows command qualification, CodeQL, and dependency update automation.
+
+### Changed
+
+- The qualified software evidence tier now includes provider-neutral standalone RTL attachment execution in addition to deterministic Python evidence and RV64GC target-model execution.
+- The public RTL proof API now routes through fail-closed source custody rather than exposing the lower-level proof constructor directly.
+- All generated RTL attachment and MMIO artifacts written by the public CLIs use exact UTF-8 LF bytes on every supported operating system.
+- The installed command surface expands to twenty-five commands with `ahead-rev-rtl`.
+
+### Fixed
+
+- Windows newline translation can no longer change generated SystemVerilog, expected traces, manifests, or proof bytes after their hashes are calculated.
+- Simulator diagnostics emitted after `$finish` are retained in a raw trace but excluded from the accepted semantic trace.
+- Package-level RTL writers and proof builders now resolve to the deterministic and fail-closed implementations.
+
+### Evidence boundary
+
+Version 0.10.0 establishes executed open-source RTL evidence for the standalone MMIO, resolver, and cartridge attachment. It does not establish Chipyard subsystem elaboration, FPGA or silicon execution, physical substrate work, measured energy recovery, complete-system EVP advantage, fabrication, acknowledged external-provider participation, or independent physical acceptance.
 
 ## [0.9.0] - 2026-08-01
 
@@ -70,7 +96,8 @@ Version 0.9.0 establishes deterministic software evidence and RV64GC target-mode
 
 - Initial complete forward and reverse execution release.
 
-[Unreleased]: https://github.com/BigBirdReturns/ahead-rev-sim/compare/v0.9.0...HEAD
+[Unreleased]: https://github.com/BigBirdReturns/ahead-rev-sim/compare/v0.10.0...HEAD
+[0.10.0]: https://github.com/BigBirdReturns/ahead-rev-sim/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/BigBirdReturns/ahead-rev-sim/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/BigBirdReturns/ahead-rev-sim/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/BigBirdReturns/ahead-rev-sim/compare/v0.6.0...v0.7.0
