@@ -88,6 +88,7 @@ from .fambs_pck_lowering import (
     prove_control_map,
     prove_initialization_round_trip,
 )
+from .fambs_pck_frontier import analyze_pck
 
 __all__ = [
     # Version
