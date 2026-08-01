@@ -10,11 +10,7 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping
 
 from .commodity_registry import canonical_json, registry_digest
-from .commodity_registry_constants import (
-    PLAN_SCHEMA_VERSION,
-    PROGRAM_RESOURCE,
-    PROGRAM_SCHEMA_VERSION,
-)
+from .commodity_registry_constants import PLAN_SCHEMA_VERSION, PROGRAM_RESOURCE
 from .commodity_validation import validate_completion_program, validate_registry
 
 
@@ -68,10 +64,7 @@ def build_completion_plan(
         raise ValueError("priority_max must be in the range 1..5")
 
     selected_lanes = select_lanes(program, lane_ids=lane_ids)
-    records = {
-        str(record["id"]): record
-        for record in registry["records"]
-    }
+    records = {str(record["id"]): record for record in registry["records"]}
     selected_record_ids = sorted(
         {
             str(record_id)
@@ -109,22 +102,14 @@ def build_completion_plan(
         )
 
     covered_by_lane = Counter(
-        record_id
-        for lane in lane_transactions
-        for record_id in lane["record_ids"]
+        record_id for lane in lane_transactions for record_id in lane["record_ids"]
     )
     priority_counts = Counter(
-        str(record["ingestion_policy"]["priority"])
-        for record in selected_records
+        str(record["ingestion_policy"]["priority"]) for record in selected_records
     )
-    category_counts = Counter(
-        str(record["category"])
-        for record in selected_records
-    )
+    category_counts = Counter(str(record["category"]) for record in selected_records)
     gap_counts = Counter(
-        str(gap)
-        for record in selected_records
-        for gap in record["system_gaps"]
+        str(gap) for record in selected_records for gap in record["system_gaps"]
     )
 
     record_transactions = [
@@ -143,13 +128,9 @@ def build_completion_plan(
             "actions": record["ingestion_policy"]["actions"],
             "system_gaps": record["system_gaps"],
             "completion_questions": record["completion_questions"],
-            "source_urls": [
-                source["url"]
-                for source in record["official_sources"]
-            ],
+            "source_urls": [source["url"] for source in record["official_sources"]],
             "commodity_locators": [
-                asset["locator"]
-                for asset in record["commodity_assets"]
+                asset["locator"] for asset in record["commodity_assets"]
             ],
         }
         for record in selected_records
@@ -183,9 +164,7 @@ def build_completion_plan(
         "record_transactions": record_transactions,
         "control_question": program["control_question"],
     }
-    plan["plan_sha256"] = sha256(
-        canonical_json(plan).encode("utf-8")
-    ).hexdigest()
+    plan["plan_sha256"] = sha256(canonical_json(plan).encode("utf-8")).hexdigest()
     return plan
 
 
