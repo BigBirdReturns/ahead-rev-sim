@@ -1,0 +1,210 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "Normal Computing",
+      "category": "thermodynamic_computing",
+      "commodity_assets": [
+        {
+          "asset_kind": "ou_and_sde_operator_specifications",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "public_papers",
+          "locator": "https://www.normalcomputing.com/research"
+        },
+        {
+          "asset_kind": "future_physical_asic",
+          "ingest_modes": [
+            "cartridge"
+          ],
+          "license": "commercial",
+          "locator": "https://www.normalcomputing.com/solutions/asics"
+        },
+        {
+          "asset_kind": "characterization_targets",
+          "ingest_modes": [
+            "benchmark"
+          ],
+          "license": "public_web",
+          "locator": "https://normalcomputing.com/blog/scaling-thermodynamic-compute"
+        }
+      ],
+      "completion_questions": [
+        "What exact sampling, linear-algebra, and diffusion outputs will CN101 accept, with what error and mixing criteria?",
+        "What are relaxation, equilibrium, readout, upload, download, and host orchestration costs?",
+        "Which measured stochastic trajectories replace the public simulator, and how are they replayed?",
+        "How do on-chip control, cache, NoC, and memory remove the off-chip bottleneck without hiding their energy?"
+      ],
+      "id": "normal-cn101-carnot",
+      "ingestion_policy": {
+        "actions": [
+          "map Carnot operators onto physical-compute cartridges",
+          "bind each claimed primitive to thermox digital parity",
+          "import public characterization when released",
+          "retain independent host, readout, and energy accounting"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a CN101 cartridge profile whose acceptance requires matching thermox output quality and a complete device-plus-host measurement boundary.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "product",
+          "public_completion_signal": "Describes stochastic, stateful, asynchronous thermodynamic ASICs and the CN101 to CN301 roadmap.",
+          "title": "Normal ASICs",
+          "url": "https://www.normalcomputing.com/solutions/asics"
+        },
+        {
+          "kind": "press_release",
+          "public_completion_signal": "States that characterization and benchmarking follow tape-out.",
+          "title": "CN101 tape-out",
+          "url": "https://www.normalcomputing.com/blog/normal-computing-announces-tape-out-of-worlds-first-thermodynamic-computing-chip"
+        },
+        {
+          "kind": "roadmap",
+          "public_completion_signal": "Names low-speed I/O, on-chip control, caching, network-on-chip, high-speed memory, and reticle-scale integration as remaining system work.",
+          "title": "Scaling thermodynamic compute",
+          "url": "https://normalcomputing.com/blog/scaling-thermodynamic-compute"
+        }
+      ],
+      "project": "Carnot CN101, CN201, and thermodynamic ASIC roadmap",
+      "public_stage": "cn101_taped_out_characterization_next",
+      "system_gaps": [
+        "accepted_result",
+        "host_interface",
+        "state_reset",
+        "determinism_entropy",
+        "calibration_environment",
+        "data_movement",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "model_hardware_fidelity",
+        "scaling_interconnect",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "Oscillator Ising machine research community",
+      "category": "oscillator_ising",
+      "commodity_assets": [
+        {
+          "asset_kind": "oscillator_network_model",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "research_paper",
+          "locator": "https://arxiv.org/abs/1903.07163"
+        },
+        {
+          "asset_kind": "maxcut_and_graph_coloring_workloads",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "research_paper",
+          "locator": "https://arxiv.org/abs/1903.07163"
+        }
+      ],
+      "completion_questions": [
+        "What graph embedding, coupling precision, injection schedule, noise, and readout define one accepted solve?",
+        "How does time-to-solution and success probability include repeated attempts and host mapping?"
+      ],
+      "id": "oscillator-ising-machines",
+      "ingestion_policy": {
+        "actions": [
+          "treat oscillator networks as cartridges",
+          "separate mapping anneal readout and host costs",
+          "compare physical and digital stochastic baselines"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Define an oscillator-Ising descriptor with graph mapping, coupling, injection schedule, readout, success probability, and replay fields.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "paper",
+          "public_completion_signal": "Maps coupled oscillator phase dynamics to Ising objectives and reports hardware prototypes.",
+          "title": "Oscillator-based Ising machines",
+          "url": "https://arxiv.org/abs/1903.07163"
+        }
+      ],
+      "project": "Coupled nonlinear oscillator optimization",
+      "public_stage": "theory_and_small_hardware_prototypes",
+      "system_gaps": [
+        "accepted_result",
+        "host_interface",
+        "determinism_entropy",
+        "calibration_environment",
+        "scaling_interconnect",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "model_hardware_fidelity"
+      ]
+    },
+    {
+      "actor": "Purdue probabilistic computing community",
+      "category": "probabilistic_computing",
+      "commodity_assets": [
+        {
+          "asset_kind": "pbit_primitive_semantics",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "public_research",
+          "locator": "https://engineering.purdue.edu/ECE/Events/2020/probabilistic-computing"
+        },
+        {
+          "asset_kind": "probabilistic_workloads",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "public_research",
+          "locator": "https://engineering.purdue.edu/ECE/News/2021/creating-a-new-type-of-computing-thats-naturally-probabilistic"
+        }
+      ],
+      "completion_questions": [
+        "Which update schedule, coupling precision, temperature, and partition refresh define the implemented distribution?",
+        "How does device fluctuation become a reproducible workload receipt at scale?"
+      ],
+      "id": "purdue-pbits",
+      "ingestion_policy": {
+        "actions": [
+          "model p-bits as stochastic cartridge primitives",
+          "import invertible logic and Ising workloads",
+          "require schedule, coupling, temperature, and entropy receipts"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Add a p-bit cartridge profile interoperable with THRML and the thermal sampler reference.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "overview",
+          "public_completion_signal": "Describes controllably fluctuating p-bits as a bridge between deterministic and quantum computing.",
+          "title": "Naturally probabilistic computing",
+          "url": "https://engineering.purdue.edu/ECE/News/2021/creating-a-new-type-of-computing-thats-naturally-probabilistic"
+        },
+        {
+          "kind": "systems_talk",
+          "public_completion_signal": "Frames p-bits as present-technology building blocks for optimization, invertible logic, and learning.",
+          "title": "Probabilistic computing from devices to systems",
+          "url": "https://engineering.purdue.edu/ECE/Events/2020/probabilistic-computing"
+        }
+      ],
+      "project": "p-bits and probabilistic spin logic",
+      "public_stage": "device_to_system_research_and_hardware_demonstrations",
+      "system_gaps": [
+        "accepted_result",
+        "determinism_entropy",
+        "calibration_environment",
+        "scaling_interconnect",
+        "host_interface",
+        "full_system_energy",
+        "model_hardware_fidelity",
+        "independent_validation"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "frontier_b"
+}

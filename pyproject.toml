@@ -53,6 +53,7 @@ ahead-rev-substrate = "ahead_rev_sim.substrate_cli:main"
 ahead-rev-fambs = "ahead_rev_sim.fambs_cli:main"
 ahead-rev-svk = "ahead_rev_sim.svk_cli:main"
 ahead-rev-pck = "ahead_rev_sim.pck_cli:main"
+ahead-rev-commodities = "ahead_rev_sim.commodity_cli:main"
 
 [project.urls]
 Homepage = "https://github.com/BigBirdReturns/ahead-rev-sim"
@@ -66,6 +67,9 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+ahead_rev_sim = ["data/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

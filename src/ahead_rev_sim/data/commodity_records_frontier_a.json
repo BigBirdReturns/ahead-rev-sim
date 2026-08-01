@@ -1,0 +1,304 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "Vaire Computing",
+      "category": "reversible_computing",
+      "commodity_assets": [
+        {
+          "asset_kind": "architecture_claims",
+          "ingest_modes": [
+            "monitor"
+          ],
+          "license": "CC-BY-NC-ND-or-public-web",
+          "locator": "https://vaire.co/whitepapers"
+        },
+        {
+          "asset_kind": "energy_recovery_measurements",
+          "ingest_modes": [
+            "benchmark"
+          ],
+          "license": "unknown",
+          "locator": "https://vaire.co/whitepapers"
+        },
+        {
+          "asset_kind": "evp_metric_proposal",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "CC-BY-NC-ND-4.0",
+          "locator": "https://www.researchgate.net/publication/407085731_Energy_Volume_and_Performance_Post-Moore%27s_Law_Scaling"
+        }
+      ],
+      "completion_questions": [
+        "Which accepted workload executes through the reversible logic rather than only the resonator or test structure?",
+        "How much clock, waveform generation, memory, conversion, and control energy lies outside the published recovery ratio?",
+        "Which compiler and state-liveness rules determine what can remain reversible?",
+        "At what complete-system workload and volume does the reversible lane beat a conventional implementation?"
+      ],
+      "id": "vaire-arc-evp",
+      "ingestion_policy": {
+        "actions": [
+          "extract resonator and power-clock assumptions",
+          "convert EVP into receipt fields rather than a scalar score",
+          "derive break-even workload envelopes",
+          "monitor each tapeout and published measurement"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Bind every public Ice River measurement to its exact component boundary and compare it with the workload-level reversal overhead already emitted by ahead-rev-sim.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "whitepaper_index",
+          "public_completion_signal": "Publishes near-zero-energy and software-first architecture papers.",
+          "title": "Vaire whitepapers",
+          "url": "https://vaire.co/whitepapers"
+        },
+        {
+          "kind": "preprint",
+          "public_completion_signal": "Frames post-Moore evaluation around energy, occupied volume, and performance.",
+          "title": "Energy, Volume, and Performance",
+          "url": "https://www.researchgate.net/publication/407085731_Energy_Volume_and_Performance_Post-Moore%27s_Law_Scaling"
+        },
+        {
+          "kind": "toolchain_case_study",
+          "public_completion_signal": "Names commercial analog, electromagnetic, and physical-design tools used for the next chip.",
+          "title": "Vaire designed with Cadence",
+          "url": "https://www.cadence.com/en_US/home/resources/videos/designed-with-cadence/vaire-is-creating-near-zero-energy-computing-for-agentic-ai-with.html"
+        }
+      ],
+      "project": "Adiabatic reversible computing, Ice River, and EVP",
+      "public_stage": "measured_component_and_architecture_whitepapers",
+      "system_gaps": [
+        "accepted_result",
+        "workload_identity",
+        "compiler_lowering",
+        "host_interface",
+        "data_movement",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "fabrication_signoff",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "Extropic",
+      "category": "software_baseline",
+      "commodity_assets": [
+        {
+          "asset_kind": "jax_library",
+          "ingest_modes": [
+            "vendor"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/extropic-ai/thrml"
+        },
+        {
+          "asset_kind": "graph_and_schedule_models",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/extropic-ai/thrml"
+        },
+        {
+          "asset_kind": "probabilistic_workloads",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/extropic-ai/thrml"
+        }
+      ],
+      "completion_questions": [
+        "Which schedule, beta, mixing, convergence, and sample-quality rules are guaranteed by hardware?",
+        "How do THRML nodes and couplings map to X0, XTR-0, and Z1 without simulator-only behavior?",
+        "Which GPU baseline and complete-system energy boundary define advantage?"
+      ],
+      "id": "extropic-thrml",
+      "ingestion_policy": {
+        "actions": [
+          "import THRML graph and schedule semantics",
+          "bind GPU simulation as fallback",
+          "derive accepted distribution contracts",
+          "map nodes and couplings to cartridge descriptors"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Translate one THRML block-Gibbs workload into our distributional acceptance and entropy-custody receipt.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "software",
+          "public_completion_signal": "Presents THRML as the simulator, architecture exploration, and EBM training layer for TSUs.",
+          "title": "Extropic software",
+          "url": "https://extropic.ai/software"
+        },
+        {
+          "kind": "repository",
+          "public_completion_signal": "Publishes a JAX library for thermodynamic graphical models and GPU simulation.",
+          "title": "THRML GitHub",
+          "url": "https://github.com/extropic-ai/thrml"
+        }
+      ],
+      "project": "THRML thermodynamic hypergraphical-model library",
+      "public_stage": "open_source_hardware_simulation_and_model_training",
+      "system_gaps": [
+        "accepted_result",
+        "workload_identity",
+        "determinism_entropy",
+        "model_hardware_fidelity",
+        "host_interface",
+        "data_movement",
+        "full_system_energy",
+        "measurement_reproducibility"
+      ]
+    },
+    {
+      "actor": "Normal Computing",
+      "category": "software_baseline",
+      "commodity_assets": [
+        {
+          "asset_kind": "python_library",
+          "ingest_modes": [
+            "vendor"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/normal-computing/thermox"
+        },
+        {
+          "asset_kind": "ou_reference_model",
+          "ingest_modes": [
+            "benchmark"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/normal-computing/thermox"
+        },
+        {
+          "asset_kind": "thermodynamic_linear_algebra_workloads",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/normal-computing/thermox"
+        }
+      ],
+      "completion_questions": [
+        "Which exact thermox version, precision, seed, sample interval, and estimator define the digital baseline?",
+        "Which statistical distance and confidence interval establish physical parity or advantage?"
+      ],
+      "id": "normal-thermox",
+      "ingestion_policy": {
+        "actions": [
+          "vendor a pinned thermox baseline adapter",
+          "generate accepted-output distributions and error envelopes",
+          "compare physical cartridges against identical OU parameters"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Add thermox-backed OU solve, inverse, exponential, and sampling fixtures to the physical-substrate assay.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "announcement",
+          "public_completion_signal": "Explicitly proposes thermox as the digital baseline any thermodynamic advantage experiment must beat.",
+          "title": "thermox simulator",
+          "url": "https://www.normalcomputing.com/blog/thermox-the-first-thermodynamic-computing-simulator"
+        },
+        {
+          "kind": "repository",
+          "public_completion_signal": "Publishes exact OU-process simulation and thermodynamic linear-algebra primitives.",
+          "title": "thermox GitHub",
+          "url": "https://github.com/normal-computing/thermox"
+        }
+      ],
+      "project": "thermox exact Ornstein-Uhlenbeck simulator",
+      "public_stage": "open_source_digital_baseline",
+      "system_gaps": [
+        "workload_identity",
+        "accepted_result",
+        "determinism_entropy",
+        "model_hardware_fidelity",
+        "full_system_energy",
+        "measurement_reproducibility"
+      ]
+    },
+    {
+      "actor": "Extropic",
+      "category": "thermodynamic_computing",
+      "commodity_assets": [
+        {
+          "asset_kind": "future_sampling_card",
+          "ingest_modes": [
+            "cartridge"
+          ],
+          "license": "commercial",
+          "locator": "https://extropic.ai/hardware"
+        },
+        {
+          "asset_kind": "probabilistic_circuit_taxonomy",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "public_web",
+          "locator": "https://extropic.ai/hardware"
+        },
+        {
+          "asset_kind": "host_communication_claim",
+          "ingest_modes": [
+            "benchmark"
+          ],
+          "license": "public_web",
+          "locator": "https://extropic.ai/hardware"
+        }
+      ],
+      "completion_questions": [
+        "What protocol connects the traditional processor to the thermodynamic hardware?",
+        "How are device temperature, probability calibration, coupling, schedule, and drift represented?",
+        "What card-level result quality, latency, and wall energy close the claim?"
+      ],
+      "id": "extropic-xtr0-z1",
+      "ingestion_policy": {
+        "actions": [
+          "define pbit pdit pmod and pmog cartridge capabilities",
+          "require THRML fallback parity",
+          "measure host transport and card boundary",
+          "monitor early-access interfaces"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create an XTR-0 and Z1 capability manifest that can be satisfied by hardware, THRML, or another stochastic provider.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "hardware",
+          "public_completion_signal": "Describes X0 silicon, the XTR-0 research platform, and Z1 early-access hardware with probabilistic circuits.",
+          "title": "Extropic hardware",
+          "url": "https://extropic.ai/hardware"
+        },
+        {
+          "kind": "software",
+          "public_completion_signal": "States that THRML simulates the hardware and explores future architectures.",
+          "title": "Extropic software",
+          "url": "https://extropic.ai/software"
+        }
+      ],
+      "project": "X0, XTR-0, and Z1 thermodynamic sampling hardware",
+      "public_stage": "prototype_and_early_access_roadmap",
+      "system_gaps": [
+        "accepted_result",
+        "host_interface",
+        "determinism_entropy",
+        "calibration_environment",
+        "data_movement",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "model_hardware_fidelity",
+        "independent_validation"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "frontier_a"
+}

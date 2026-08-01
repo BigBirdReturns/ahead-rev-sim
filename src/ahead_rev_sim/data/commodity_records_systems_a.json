@@ -1,0 +1,211 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "ARIA and CommonAI CIC",
+      "category": "open_system_testbed",
+      "commodity_assets": [
+        {
+          "asset_kind": "open_rack_testbed",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "programme_access",
+          "locator": "https://aria.org.uk/opportunity-spaces/nature-computes-better/scaling-compute/scaling-inference-lab"
+        },
+        {
+          "asset_kind": "system_simulators",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "future_public_outputs",
+          "locator": "https://aria.org.uk/opportunity-spaces/nature-computes-better/scaling-compute/funded-projects"
+        },
+        {
+          "asset_kind": "benchmark_ground_truth",
+          "ingest_modes": [
+            "benchmark"
+          ],
+          "license": "future_public_outputs",
+          "locator": "https://aria.org.uk/opportunity-spaces/nature-computes-better/scaling-compute/funded-projects"
+        }
+      ],
+      "completion_questions": [
+        "What artifact, interface, telemetry, and fallback package must an unproven technology supply to enter a rack?",
+        "How are cross-rack workload identity and complete-system power preserved across six-month generations?",
+        "Who accepts the result and publishes reconstructable ground truth?"
+      ],
+      "id": "aria-scaling-inference-lab",
+      "ingestion_policy": {
+        "actions": [
+          "shape our receipt bundle for rack insertion",
+          "map their simulator outputs into our frontier",
+          "submit cartridge and fallback interfaces as testbed-ready contracts",
+          "monitor each six-month rack"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Produce a rack-insertion evidence package that lets any physical cartridge replace one component while preserving workload, fallback, and complete-system measurement.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "programme",
+          "public_completion_signal": "Funds simulators, networking, new computational primitives, and an open systems testbed.",
+          "title": "Scaling Compute",
+          "url": "https://aria.org.uk/opportunity-spaces/nature-computes-better/scaling-compute"
+        },
+        {
+          "kind": "testbed",
+          "public_completion_signal": "Plans a new rack every six months with one unproven technology integrated for end users.",
+          "title": "Scaling Inference Lab",
+          "url": "https://aria.org.uk/opportunity-spaces/nature-computes-better/scaling-compute/scaling-inference-lab"
+        },
+        {
+          "kind": "funded_projects",
+          "public_completion_signal": "Calls for open ground truth and continuously recalibrated benchmark targets.",
+          "title": "Scaling Compute funded projects",
+          "url": "https://aria.org.uk/opportunity-spaces/nature-computes-better/scaling-compute/funded-projects"
+        }
+      ],
+      "project": "Scaling Compute and Scaling Inference Lab",
+      "public_stage": "active_open_rack_testbed",
+      "system_gaps": [
+        "accepted_result",
+        "host_interface",
+        "data_movement",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "measurement_reproducibility",
+        "independent_validation",
+        "governance_durability"
+      ]
+    },
+    {
+      "actor": "Semiconductor Research Corporation and DARPA JUMP 2.0",
+      "category": "research_program",
+      "commodity_assets": [
+        {
+          "asset_kind": "composable_interface_research",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "mixed_research_outputs",
+          "locator": "https://www.src.org/program/jump2/ace/"
+        },
+        {
+          "asset_kind": "demonstrators_and_benchmarks",
+          "ingest_modes": [
+            "monitor"
+          ],
+          "license": "mixed_research_outputs",
+          "locator": "https://www.src.org/program/jump2/ace/"
+        }
+      ],
+      "completion_questions": [
+        "Which interface survives replacement across form factors, memory systems, and physical substrate classes?",
+        "How are correctness, security, calibration, and evidence represented rather than left to each accelerator?"
+      ],
+      "id": "src-ace",
+      "ingestion_policy": {
+        "actions": [
+          "harvest every public interface and demonstrator",
+          "crosswalk ACE functions to physical-compute cartridges",
+          "feed our fallback and receipt requirements into compatibility tests"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create an ACE crosswalk showing where physical state, calibration, entropy, and measured receipts extend ordinary accelerator composability.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "program",
+          "public_completion_signal": "Calls for standard, composable, replaceable accelerator interfaces and function-level abstraction.",
+          "title": "ACE",
+          "url": "https://www.src.org/program/jump2/ace/"
+        }
+      ],
+      "project": "ACE Evolvable Computing",
+      "public_stage": "active_multicenter_research",
+      "system_gaps": [
+        "host_interface",
+        "software_fallback",
+        "governance_durability",
+        "workload_identity",
+        "accepted_result",
+        "data_movement",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "UC Berkeley and the Chipyard community",
+      "category": "soc_integration",
+      "commodity_assets": [
+        {
+          "asset_kind": "soc_generator",
+          "ingest_modes": [
+            "vendor"
+          ],
+          "license": "BSD-and-component-specific",
+          "locator": "https://github.com/ucb-bar/chipyard"
+        },
+        {
+          "asset_kind": "mmio_and_rocc_interfaces",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "documentation",
+          "locator": "https://chipyard.readthedocs.io/en/stable/Customization/RoCC-or-MMIO.html"
+        },
+        {
+          "asset_kind": "firesim_and_vlsi_flows",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "mixed",
+          "locator": "https://chipyard.readthedocs.io/en/stable/"
+        }
+      ],
+      "completion_questions": [
+        "Can every cartridge run through MMIO with the standard toolchain before custom instructions are introduced?",
+        "Which FireSim and post-layout measurements expose host, memory, interrupt, and queue overhead?"
+      ],
+      "id": "chipyard",
+      "ingestion_policy": {
+        "actions": [
+          "implement physical-compute-mmio/v1 as a TileLink peripheral",
+          "reserve Xphys for evidence-backed acceleration only",
+          "use FireSim for full-system workload and data-movement receipts"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Generate a Chipyard MMIO peripheral stub and software driver from the cartridge descriptor schema.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "documentation",
+          "public_completion_signal": "Provides RISC-V cores, accelerator integration, full-system simulation, FPGA, and VLSI flows.",
+          "title": "Chipyard documentation",
+          "url": "https://chipyard.readthedocs.io/en/stable/"
+        },
+        {
+          "kind": "interface_guide",
+          "public_completion_signal": "Documents MMIO as standard-toolchain integration and RoCC as a custom-instruction path.",
+          "title": "RoCC versus MMIO",
+          "url": "https://chipyard.readthedocs.io/en/stable/Customization/RoCC-or-MMIO.html"
+        }
+      ],
+      "project": "Chipyard heterogeneous RISC-V SoC framework",
+      "public_stage": "open_source_full_system_generator",
+      "system_gaps": [
+        "host_interface",
+        "compiler_lowering",
+        "data_movement",
+        "fabrication_signoff",
+        "full_system_energy",
+        "timing_thermal_volume"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "systems_a"
+}

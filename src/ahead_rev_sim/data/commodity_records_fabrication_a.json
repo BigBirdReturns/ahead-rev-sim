@@ -1,0 +1,183 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "OpenROAD and OpenLane communities",
+      "category": "eda_fabrication",
+      "commodity_assets": [
+        {
+          "asset_kind": "rtl_to_gds_flow",
+          "ingest_modes": [
+            "vendor"
+          ],
+          "license": "BSD-3-Clause-and-components",
+          "locator": "https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts"
+        },
+        {
+          "asset_kind": "physical_design_metrics",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "open_source",
+          "locator": "https://openroad.org/"
+        },
+        {
+          "asset_kind": "signoff_logs",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "open_source",
+          "locator": "https://github.com/The-OpenROAD-Project/OpenLane"
+        }
+      ],
+      "completion_questions": [
+        "Which parts of an adiabatic, stochastic, mixed-signal, or sensor-coupled design remain outside the digital flow?",
+        "How are post-layout parasitics, power-clock structures, analog models, and measured silicon fed back?"
+      ],
+      "id": "openroad-openlane",
+      "ingestion_policy": {
+        "actions": [
+          "make digital control and queue logic reproducible",
+          "harvest PPA and signoff artifacts into EVP receipts",
+          "refuse analog or adiabatic closure the flow cannot establish"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Produce a minimal RISC-V physical-cartridge control block through an open RTL-to-GDS flow with archived PPA and signoff logs.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "openroad",
+          "public_completion_signal": "Targets autonomous, reproducible RTL-to-GDSII implementation.",
+          "title": "OpenROAD",
+          "url": "https://openroad.org/"
+        },
+        {
+          "kind": "openlane",
+          "public_completion_signal": "Integrates open synthesis, place, route, extraction, DRC, and LVS tools.",
+          "title": "OpenLane",
+          "url": "https://github.com/The-OpenROAD-Project/OpenLane"
+        }
+      ],
+      "project": "Open autonomous RTL-to-GDSII flows",
+      "public_stage": "open_source_tapeout_capable_digital_flow",
+      "system_gaps": [
+        "fabrication_signoff",
+        "timing_thermal_volume",
+        "full_system_energy",
+        "model_hardware_fidelity",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "IHP Open PDK community",
+      "category": "eda_fabrication",
+      "commodity_assets": [
+        {
+          "asset_kind": "bipolar_cmos_pdk",
+          "ingest_modes": [
+            "vendor"
+          ],
+          "license": "Apache-2.0-and-PDK-specific",
+          "locator": "https://github.com/IHP-GmbH/IHP-Open-PDK"
+        },
+        {
+          "asset_kind": "device_models",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "preview",
+          "locator": "https://ihp-open-pdk-docs.readthedocs.io/en/main/"
+        }
+      ],
+      "completion_questions": [
+        "Which preview models are adequate for exploration, and which foundry-qualified views are absent?",
+        "How do measured oscillator, noise, and passive behavior compare with the open models?"
+      ],
+      "id": "ihp-sg13g2-open-pdk",
+      "ingestion_policy": {
+        "actions": [
+          "explore oscillators, resonators, readout, and mixed-signal cartridges",
+          "mark preview status in every artifact",
+          "retain foundry and open-PDK divergence"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Compile one oscillator or relaxation reference design against SG13G2 models while refusing production qualification.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "repository",
+          "public_completion_signal": "Publishes a preview 130 nm BiCMOS PDK for analog, mixed-signal, RF, and digital exploration.",
+          "title": "IHP Open PDK",
+          "url": "https://github.com/IHP-GmbH/IHP-Open-PDK"
+        }
+      ],
+      "project": "SG13G2 130 nm BiCMOS open PDK",
+      "public_stage": "experimental_preview",
+      "system_gaps": [
+        "fabrication_signoff",
+        "model_hardware_fidelity",
+        "calibration_environment",
+        "timing_thermal_volume",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "Normal Computing",
+      "category": "eda_fabrication",
+      "commodity_assets": [
+        {
+          "asset_kind": "verilog_simulator",
+          "ingest_modes": [
+            "vendor"
+          ],
+          "license": "open_source_repository_to_pin",
+          "locator": "https://normalcomputing.com/blog/building-an-open-source-verilog-simulator-with-ai-580k-lines-in-43-days"
+        },
+        {
+          "asset_kind": "formal_and_mutation_tools",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "open_source_repository_to_pin",
+          "locator": "https://normalcomputing.com/blog/building-an-open-source-verilog-simulator-with-ai-580k-lines-in-43-days"
+        }
+      ],
+      "completion_questions": [
+        "Where is the canonical source, release, conformance corpus, and upstream strategy?",
+        "Which SystemVerilog, UVM, timing, analog, and mixed-signal semantics remain incomplete?"
+      ],
+      "id": "normal-open-verilog-stack",
+      "ingestion_policy": {
+        "actions": [
+          "locate and pin the public repository and CIRCT fork",
+          "run our control-plane RTL and mutation corpus",
+          "compare against Verilator and open formal tools"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Build a verification adapter that consumes cartridge-generated RTL and emits simulator, formal, mutation, and equivalence receipts.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "engineering_report",
+          "public_completion_signal": "Reports an open simulator, VPI, UVM, bounded model checking, equivalence, and mutation testing built on CIRCT.",
+          "title": "Open-source Verilog simulator with AI",
+          "url": "https://normalcomputing.com/blog/building-an-open-source-verilog-simulator-with-ai-580k-lines-in-43-days"
+        }
+      ],
+      "project": "AI-built open Verilog simulation and verification stack",
+      "public_stage": "open_source_verification_stack",
+      "system_gaps": [
+        "governance_durability",
+        "fabrication_signoff",
+        "independent_validation",
+        "model_hardware_fidelity",
+        "workload_identity"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "fabrication_a"
+}

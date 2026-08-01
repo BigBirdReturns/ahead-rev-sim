@@ -1,0 +1,188 @@
+{
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/commodity-harvest-report.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {
+      "const": "commodity_harvest_report"
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "registry_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "report_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "ahead.commodity-harvest-report/v0.1"
+    },
+    "selection": {
+      "additionalProperties": false,
+      "properties": {
+        "categories": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "priority_max": {
+          "maximum": 5,
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "categories",
+        "priority_max"
+      ],
+      "type": "object"
+    },
+    "summary": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_frequency": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "type": "object"
+        },
+        "category_counts": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "type": "object"
+        },
+        "gap_frequency": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "type": "object"
+        },
+        "priority_counts": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "type": "object"
+        },
+        "record_count": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "record_count",
+        "category_counts",
+        "priority_counts",
+        "gap_frequency",
+        "asset_frequency"
+      ],
+      "type": "object"
+    },
+    "transactions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "actions": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "actor": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "category": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "commodity_locators": {
+            "items": {
+              "pattern": "^https://",
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "completion_questions": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "first_transaction": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "priority": {
+            "maximum": 5,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "project": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "source_urls": {
+            "items": {
+              "pattern": "^https://",
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "system_gaps": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "actor",
+          "project",
+          "category",
+          "priority",
+          "first_transaction",
+          "actions",
+          "system_gaps",
+          "completion_questions",
+          "source_urls",
+          "commodity_locators"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "registry_sha256",
+    "selection",
+    "summary",
+    "transactions",
+    "control_question",
+    "report_sha256"
+  ],
+  "title": "ahead-rev-sim commodity harvest report",
+  "type": "object"
+}
