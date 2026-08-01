@@ -1,14 +1,13 @@
-"""
-ahead-rev-sim v0.8.0
+"""Public package surface for ahead-rev-sim.
 
-Reversible execution simulator for RISC-V.
-History is recoverable, not recorded.
+The package separates workload semantics, reversible execution proofs, physical
+substrate contracts, provider-neutral integration, causal custody, scale and
+venue receipts, and complete-system EVP qualification.
 """
 
 from __future__ import annotations
 
-__version__ = "0.8.0"
-
+from ._version import __version__
 from .isa import Instruction, OpCode
 from .machine import Machine
 from .memory import Memory
@@ -119,7 +118,7 @@ from .fambs_pck_lowering import (
     PCKLoweringArtifact,
     PCKPool,
     PCKStrategyPoint,
-    analyze_pck,
+    analyze_pck as analyze_pck_lowering,
     initialize_pool,
     pck_chase,
     pck_inverse_step,
@@ -129,7 +128,12 @@ from .fambs_pck_lowering import (
     prove_control_map,
     prove_initialization_round_trip,
 )
-from .fambs_pck_frontier import analyze_pck
+from .fambs_pck_frontier import analyze_pck as analyze_pck_frontier
+
+# Preserve the established package-level name while exposing the two distinct
+# implementation surfaces explicitly. The frontier wrapper is the current
+# public behavior because it enforces workload-cardinality-safe sampling.
+analyze_pck = analyze_pck_frontier
 
 __all__ = [
     # Version
@@ -264,5 +268,7 @@ __all__ = [
     "pck_chase",
     "pck_reverse_chase",
     "pck_source_result",
+    "analyze_pck_lowering",
+    "analyze_pck_frontier",
     "analyze_pck",
 ]
