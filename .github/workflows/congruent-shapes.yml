@@ -118,7 +118,10 @@ jobs:
         run: |
           mkdir -p artifacts/congruent-shapes/kit/data
           mkdir -p artifacts/congruent-shapes/kit/schemas
-          cp docs/congruent_shape_pylons.md artifacts/congruent-shapes/kit/
+          cp \
+            docs/congruent_shape_pylons.md \
+            docs/pylon_architecture_projection.md \
+            artifacts/congruent-shapes/kit/
           cp \
             src/ahead_rev_sim/data/congruent_shape_pylons.json \
             src/ahead_rev_sim/data/congruent_shape_surface_projection.json \
