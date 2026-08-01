@@ -27,11 +27,12 @@ jobs:
       - name: Install ahead-rev-sim
         run: python -m pip install --upgrade pip && python -m pip install -e .
 
-      - name: Install RISC-V compiler and emulator
+      - name: Install RISC-V compiler, libc headers, and emulator
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             gcc-riscv64-linux-gnu \
+            libc6-dev-riscv64-cross \
             qemu-user
 
       - name: Generate portable MMIO header
