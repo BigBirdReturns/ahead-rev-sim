@@ -8,8 +8,8 @@ from .mmio_abi import (
     render_c_header,
     render_sva,
     render_systemverilog,
-    write_bundle,
 )
+from .mmio_io import write_bundle
 
 
 _RENDERERS = {
