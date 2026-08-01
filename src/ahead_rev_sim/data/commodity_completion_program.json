@@ -1,0 +1,430 @@
+{
+  "artifact_type": "commodity_completion_program",
+  "as_of": "2026-07-31",
+  "control_question": "Which public claim, codebase, device, standard, testbed, or fabrication route can close a system seam now, and what receipt keeps it replaceable?",
+  "coverage": {
+    "all_registry_records_covered": true,
+    "control_question": "Which lane converts each public mechanism into the next closed artifact without waiting for the originating actor to complete the system?",
+    "lane_count": 12,
+    "record_count": 73
+  },
+  "doctrine": {
+    "admission_rule": "A lane may consume a commodity only through a pinned identity, a named system gap, an explicit first transaction, and a receipt that preserves replacement.",
+    "dependency_mode": "commodity_only",
+    "exit_rule": "A lane remains valid when any actor or implementation can be removed without changing workload identity, accepted output, fallback behavior, or historical evidence.",
+    "statement": "The program decomposes the public frontier into concurrent completion lanes. External actors supply interchangeable artifacts, and the programme retains authority over accepted work, fallback, receipts, and succession."
+  },
+  "lanes": [
+    {
+      "control_question": "Which claimed physical advantage survives the identical accepted workload, fallback, and complete system boundary?",
+      "first_transaction": "Execute one fixed probabilistic or reversible workload through every available software baseline and emit the physical recovery or sampling conditions required for parity.",
+      "gap_ids": [
+        "accepted_result",
+        "workload_identity",
+        "determinism_entropy",
+        "model_hardware_fidelity",
+        "full_system_energy",
+        "harvested_recovered_energy",
+        "timing_thermal_volume"
+      ],
+      "lane_id": "reversible-and-thermodynamic-semantics",
+      "mission": "Turn reversible, adiabatic, stochastic, and probabilistic mechanisms into workload-bound strategy and break-even evidence without allowing a device claim to define the workload.",
+      "record_ids": [
+        "vaire-arc-evp",
+        "normal-thermox",
+        "normal-cn101-carnot",
+        "extropic-thrml",
+        "extropic-xtr0-z1",
+        "purdue-pbits",
+        "oscillator-ising-machines",
+        "intel-loihi2-hala-point",
+        "ibm-aihwkit"
+      ],
+      "required_receipts": [
+        "accepted-work contract",
+        "information-erasure frontier",
+        "software baseline",
+        "physical recovery or stochastic trace",
+        "complete-system EVP receipt"
+      ]
+    },
+    {
+      "control_question": "Can the same continuous-time model and accepted event result survive every backend-specific discretization and mapping?",
+      "first_transaction": "Run one immutable NIR graph and event dataset across two remote systems, one commercial backend, and a software fallback with first-divergence evidence.",
+      "gap_ids": [
+        "task_encoding",
+        "compiler_lowering",
+        "precision_conversion",
+        "state_reset",
+        "time_synchronization",
+        "software_fallback",
+        "independent_validation"
+      ],
+      "lane_id": "neuromorphic-interoperability",
+      "mission": "Make neuromorphic models, event streams, remote systems, and commercial chips interchangeable behind explicit continuous-time, discretization, mapping, and accepted-output contracts.",
+      "record_ids": [
+        "neurobench",
+        "lava",
+        "nengo",
+        "intel-loihi2-hala-point",
+        "ebrains-brainscales2",
+        "ebrains-spinnaker",
+        "open-neuromorphic-research-registry",
+        "neuromorphic-nir-synfire",
+        "synsense-rockpool-xylo",
+        "thor-neuromorphic-commons",
+        "openspike-open-silicon"
+      ],
+      "required_receipts": [
+        "NIR and event-data identity",
+        "backend mapping",
+        "state reset",
+        "quantization and discretization",
+        "held-out accepted output",
+        "host-inclusive measurement"
+      ]
+    },
+    {
+      "control_question": "What transformation did the physical world perform beyond sensing, and what acquisition and readout work did the complete system pay?",
+      "first_transaction": "Qualify one environmental or molecular trajectory against raw input and a pinned digital fallback under the same held-out assay.",
+      "gap_ids": [
+        "accepted_result",
+        "task_encoding",
+        "readout_training",
+        "calibration_environment",
+        "determinism_entropy",
+        "full_system_energy",
+        "time_synchronization"
+      ],
+      "lane_id": "physical-world-and-biological-compute",
+      "mission": "Admit environmental, embodied, molecular, and reservoir dynamics only when held-out task gain, calibration, readout, and full acquisition cost prove useful computation.",
+      "record_ids": [
+        "openprc",
+        "reservoirpy",
+        "nupack-molecular-programming",
+        "visual-dsd",
+        "crosssim",
+        "protean-shepherd-nova",
+        "precice-fmi-openmodelica"
+      ],
+      "required_receipts": [
+        "raw-input baseline",
+        "digital reservoir or molecular fallback",
+        "train-test identity",
+        "environment and calibration",
+        "readout model",
+        "measured nonfallback episodes"
+      ]
+    },
+    {
+      "control_question": "Which compiler transformations preserve information effects, accepted output, state custody, and source provenance?",
+      "first_transaction": "Lower one reversible region and one physical-cartridge queue kernel through two compiler paths and prove equivalent RISC-V behavior.",
+      "gap_ids": [
+        "compiler_lowering",
+        "host_interface",
+        "workload_identity",
+        "accepted_result",
+        "security_isolation",
+        "fabrication_signoff",
+        "independent_validation"
+      ],
+      "lane_id": "riscv-control-and-hardware-compilers",
+      "mission": "Use ordinary RISC-V as the portable control and provenance plane while consuming compiler, generator, and verification communities as replaceable implementation machinery.",
+      "record_ids": [
+        "ahead-high-performance-riscv",
+        "chipyard",
+        "openasip",
+        "src-ace",
+        "circt-mlir",
+        "siliconcompiler",
+        "calyx-hardware-ir",
+        "riscv-verification-stack",
+        "normal-open-verilog-stack"
+      ],
+      "required_receipts": [
+        "semantic IR",
+        "generated RTL",
+        "standard RISC-V differential trace",
+        "formal properties",
+        "source-location provenance",
+        "software fallback"
+      ]
+    },
+    {
+      "control_question": "Where does the model stop, which physical behavior replaces it, and how is divergence measured?",
+      "first_transaction": "Build a coupled electrical, thermal, and physical cartridge model with shared time custody and two independent solver routes.",
+      "gap_ids": [
+        "model_hardware_fidelity",
+        "calibration_environment",
+        "precision_conversion",
+        "time_synchronization",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "measurement_reproducibility"
+      ],
+      "lane_id": "mixed-signal-and-multiphysics-models",
+      "mission": "Join circuit, compact-device, electromagnetic, thermal, mechanical, and fluid models through pinned interfaces without allowing simulated energy or fidelity to become measured truth.",
+      "record_ids": [
+        "crosssim",
+        "ihp-sg13g2-open-pdk",
+        "openfasoc",
+        "src-supreme",
+        "ngspice-xyce",
+        "openvaf-osdi",
+        "meep-openems",
+        "precice-fmi-openmodelica",
+        "gdsfactory-sax-gsim"
+      ],
+      "required_receipts": [
+        "model and solver identity",
+        "geometry and boundary conditions",
+        "coupling timestep",
+        "conversion assumptions",
+        "waveform traces",
+        "measured replacement evidence"
+      ]
+    },
+    {
+      "control_question": "Does useful delivered traffic still win after lasers, SerDes, package, retry, control, and cooling enter the receipt?",
+      "first_transaction": "Express one accepted traffic pattern through an electrical baseline and two photonic cartridge models, then fabricate the smallest measurable structure.",
+      "gap_ids": [
+        "data_movement",
+        "precision_conversion",
+        "packaging_assembly",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "reliability_endurance",
+        "measurement_reproducibility"
+      ],
+      "lane_id": "photonics-and-data-movement",
+      "mission": "Consume photonic fabrics, optical I/O, open photonic PDKs, simulators, foundries, and metrology as competing data-movement cartridges.",
+      "record_ids": [
+        "lightmatter-passage",
+        "ayar-labs-teraphy",
+        "oriole-prism",
+        "aim-photonics-pdk",
+        "gdsfactory-sax-gsim",
+        "siepic-tools",
+        "cornerstone-open-platform",
+        "openebl-photonics"
+      ],
+      "required_receipts": [
+        "traffic contract",
+        "laser and electrical boundary",
+        "PDK and compact models",
+        "package and fiber attach",
+        "BER and retry",
+        "measured S-parameters",
+        "complete transfer energy"
+      ]
+    },
+    {
+      "control_question": "Can a die or link implementation be replaced without changing the workload, state, security, or measurement contract?",
+      "first_transaction": "Create one substrate-neutral chiplet package model that can switch among UCIe, CXL, and OpenHBI transport profiles.",
+      "gap_ids": [
+        "host_interface",
+        "data_movement",
+        "packaging_assembly",
+        "scaling_interconnect",
+        "security_isolation",
+        "full_system_energy",
+        "reliability_endurance"
+      ],
+      "lane_id": "chiplet-and-package-composition",
+      "mission": "Make die-to-die links, coherent fabrics, package models, and chiplet architectures interchangeable while preserving cartridge lifecycle, security, and system receipts.",
+      "record_ids": [
+        "src-chimes",
+        "src-prism",
+        "ucie-3",
+        "cxl-4",
+        "ocp-open-chiplet-economy",
+        "ocp-chiplet-virtual-prototyping",
+        "ocp-fcsa",
+        "ocp-openhbi",
+        "caliptra-root-of-trust"
+      ],
+      "required_receipts": [
+        "interface version",
+        "package topology",
+        "link training and errors",
+        "lifecycle and reset",
+        "attestation",
+        "traffic and coherency",
+        "package energy and thermal state"
+      ]
+    },
+    {
+      "control_question": "Which route can reproduce the same accepted design after a tool, PDK, facility, or programme disappears?",
+      "first_transaction": "Build the cartridge control plane in two open PDKs and prepare one digital, one mixed-signal, and one photonic fabrication package.",
+      "gap_ids": [
+        "fabrication_signoff",
+        "model_hardware_fidelity",
+        "packaging_assembly",
+        "measurement_reproducibility",
+        "access_licensing",
+        "governance_durability",
+        "reliability_endurance"
+      ],
+      "lane_id": "open-silicon-and-fabrication",
+      "mission": "Maintain multiple reproducible routes from RTL and mixed-signal models to fabrication, packaging, and measured silicon without any foundry or flow becoming authority.",
+      "record_ids": [
+        "openroad-openlane",
+        "ihp-sg13g2-open-pdk",
+        "openfasoc",
+        "tiny-tapeout-wafer-space",
+        "skywater-sky130-open-pdk",
+        "gf180mcu-open-pdk",
+        "open-pdks-librelane",
+        "natcast-nstc-ppf",
+        "microelectronics-commons",
+        "smart-usa-terminated",
+        "cornerstone-open-platform",
+        "openebl-photonics",
+        "openspike-open-silicon"
+      ],
+      "required_receipts": [
+        "PDK and tool identity",
+        "DRC LVS extraction and timing",
+        "test structure and calibration",
+        "package and board",
+        "failed-run evidence",
+        "measured silicon",
+        "facility access terms"
+      ]
+    },
+    {
+      "control_question": "Can an external laboratory reproduce the same accepted result and synchronized complete-system measurement?",
+      "first_transaction": "Join MLCFlow automation, PTDaemon telemetry, semantic result checks, and EVP qualification for one RISC-V target run.",
+      "gap_ids": [
+        "accepted_result",
+        "workload_identity",
+        "measurement_reproducibility",
+        "time_synchronization",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "independent_validation"
+      ],
+      "lane_id": "measurement-and-benchmark-custody",
+      "mission": "Bind workload, semantic result, power, temperature, time, instruments, uncertainty, automation, and independent acceptance into one reconstructable run.",
+      "record_ids": [
+        "mlcommons-power",
+        "mlcommons-mlcflow",
+        "spec-ptdaemon",
+        "neurobench",
+        "aria-scaling-inference-lab",
+        "protean-shepherd-nova",
+        "openprc",
+        "thor-neuromorphic-commons",
+        "ebrains-brainscales2"
+      ],
+      "required_receipts": [
+        "automation manifest",
+        "accepted semantic result",
+        "instrument and calibration",
+        "synchronized raw traces",
+        "uncertainty",
+        "complete boundary",
+        "external acceptance"
+      ]
+    },
+    {
+      "control_question": "Who can independently prove what ran, what measured it, and what superseded it after a vendor or programme exits?",
+      "first_transaction": "Produce a signed source-to-GDS-to-measurement provenance chain and reconstruct it without the original builder.",
+      "gap_ids": [
+        "security_isolation",
+        "workload_identity",
+        "governance_durability",
+        "independent_validation",
+        "fabrication_signoff",
+        "access_licensing"
+      ],
+      "lane_id": "security-provenance-and-succession",
+      "mission": "Attest source, firmware, calibration, models, builds, measurements, and supersession while keeping security components subordinate to workload authority.",
+      "record_ids": [
+        "caliptra-root-of-trust",
+        "pavona-open-silicon",
+        "reproducible-builds-slsa-in-toto",
+        "riscv-verification-stack",
+        "normal-open-verilog-stack",
+        "smart-usa-terminated",
+        "open-neuromorphic-research-registry"
+      ],
+      "required_receipts": [
+        "measured boot",
+        "signed build provenance",
+        "artifact hashes",
+        "calibration and firmware attestation",
+        "supersession chain",
+        "independent reproducible build"
+      ]
+    },
+    {
+      "control_question": "Which execution strategy delivers the most accepted work after failures, retries, storage, sensing, and harvested energy are reconciled?",
+      "first_transaction": "Replay one workload under a pinned energy trace across checkpoint, task-atomic, reversible-history, and cartridge execution.",
+      "gap_ids": [
+        "state_reset",
+        "determinism_entropy",
+        "harvested_recovered_energy",
+        "full_system_energy",
+        "reliability_endurance",
+        "time_synchronization",
+        "software_fallback"
+      ],
+      "lane_id": "intermittent-and-harvested-energy",
+      "mission": "Compare reversible, checkpointed, task-atomic, and retry execution under identical energy traces and complete acquisition boundaries.",
+      "record_ids": [
+        "protean-shepherd-nova",
+        "immortal-threads-intermittent",
+        "vaire-arc-evp",
+        "normal-cn101-carnot",
+        "spec-ptdaemon",
+        "openprc"
+      ],
+      "required_receipts": [
+        "energy trace",
+        "progress and commit state",
+        "failure schedule",
+        "retry and lost work",
+        "storage and sensing energy",
+        "accepted result",
+        "net harvested or recovered energy"
+      ]
+    },
+    {
+      "control_question": "Can the project survive denial, delay, cancellation, or replacement of any external venue without losing evidence or progress?",
+      "first_transaction": "Package one workload so it can move among two remote compute systems and two fabrication or measurement venues without changing acceptance.",
+      "gap_ids": [
+        "access_licensing",
+        "governance_durability",
+        "independent_validation",
+        "measurement_reproducibility",
+        "software_fallback",
+        "packaging_assembly"
+      ],
+      "lane_id": "external-testbeds-and-programme-durability",
+      "mission": "Treat remote systems, national facilities, research programmes, and public communities as replaceable execution venues whose access and failure are part of the evidence.",
+      "record_ids": [
+        "aria-scaling-inference-lab",
+        "ebrains-brainscales2",
+        "ebrains-spinnaker",
+        "thor-neuromorphic-commons",
+        "natcast-nstc-ppf",
+        "microelectronics-commons",
+        "smart-usa-terminated",
+        "open-neuromorphic-research-registry",
+        "aim-photonics-pdk",
+        "openebl-photonics"
+      ],
+      "required_receipts": [
+        "access and queue terms",
+        "facility and hardware identity",
+        "submission package",
+        "returned raw artifacts",
+        "failed-run evidence",
+        "migration and exit plan"
+      ]
+    }
+  ],
+  "registry_record_count": 73,
+  "schema_version": "ahead.commodity-completion-program/v0.1"
+}

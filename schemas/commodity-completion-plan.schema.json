@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/commodity-completion-plan.schema.json",
+  "title": "ahead-rev-sim commodity completion plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "registry_sha256",
+    "program_sha256",
+    "selection",
+    "summary",
+    "lane_transactions",
+    "record_transactions",
+    "control_question",
+    "plan_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ahead.commodity-completion-plan/v0.1"
+    },
+    "artifact_type": {
+      "const": "commodity_completion_plan"
+    },
+    "registry_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "program_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lane_ids",
+        "priority_max"
+      ],
+      "properties": {
+        "lane_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]+$"
+          }
+        },
+        "priority_max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lane_count",
+        "record_count",
+        "priority_counts",
+        "category_counts",
+        "gap_frequency",
+        "records_with_multiple_lanes",
+        "all_selected_records_covered"
+      ],
+      "properties": {
+        "lane_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "record_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "priority_counts": {
+          "$ref": "#/$defs/counts"
+        },
+        "category_counts": {
+          "$ref": "#/$defs/counts"
+        },
+        "gap_frequency": {
+          "$ref": "#/$defs/counts"
+        },
+        "records_with_multiple_lanes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "all_selected_records_covered": {
+          "const": true
+        }
+      }
+    },
+    "lane_transactions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/lane"
+      }
+    },
+    "record_transactions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/record"
+      }
+    },
+    "control_question": {
+      "type": "string",
+      "minLength": 1
+    },
+    "plan_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "$defs": {
+    "counts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "strings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "urls": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^https://"
+      }
+    },
+    "lane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lane_id",
+        "mission",
+        "record_ids",
+        "gap_ids",
+        "required_receipts",
+        "first_transaction",
+        "control_question"
+      ],
+      "properties": {
+        "lane_id": {
+          "type": "string"
+        },
+        "mission": {
+          "type": "string"
+        },
+        "record_ids": {
+          "$ref": "#/$defs/strings"
+        },
+        "gap_ids": {
+          "$ref": "#/$defs/strings"
+        },
+        "required_receipts": {
+          "$ref": "#/$defs/strings"
+        },
+        "first_transaction": {
+          "type": "string"
+        },
+        "control_question": {
+          "type": "string"
+        }
+      }
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "actor",
+        "project",
+        "category",
+        "priority",
+        "covered_by_lanes",
+        "first_transaction",
+        "actions",
+        "system_gaps",
+        "completion_questions",
+        "source_urls",
+        "commodity_locators"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "actor": {
+          "type": "string"
+        },
+        "project": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "covered_by_lanes": {
+          "$ref": "#/$defs/strings"
+        },
+        "first_transaction": {
+          "type": "string"
+        },
+        "actions": {
+          "$ref": "#/$defs/strings"
+        },
+        "system_gaps": {
+          "$ref": "#/$defs/strings"
+        },
+        "completion_questions": {
+          "$ref": "#/$defs/strings"
+        },
+        "source_urls": {
+          "$ref": "#/$defs/urls"
+        },
+        "commodity_locators": {
+          "$ref": "#/$defs/urls"
+        }
+      }
+    }
+  }
+}

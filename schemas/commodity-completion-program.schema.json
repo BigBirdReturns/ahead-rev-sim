@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/commodity-completion-program.schema.json",
+  "title": "ahead-rev-sim commodity completion programme",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "as_of",
+    "doctrine",
+    "registry_record_count",
+    "lanes",
+    "coverage",
+    "control_question"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ahead.commodity-completion-program/v0.1"
+    },
+    "artifact_type": {
+      "const": "commodity_completion_program"
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date"
+    },
+    "doctrine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dependency_mode",
+        "statement",
+        "admission_rule",
+        "exit_rule"
+      ],
+      "properties": {
+        "dependency_mode": {
+          "const": "commodity_only"
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "admission_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "exit_rule": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "registry_record_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "lanes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "lane_id",
+          "mission",
+          "record_ids",
+          "gap_ids",
+          "required_receipts",
+          "first_transaction",
+          "control_question"
+        ],
+        "properties": {
+          "lane_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]+$"
+          },
+          "mission": {
+            "type": "string",
+            "minLength": 1
+          },
+          "record_ids": {
+            "type": "array",
+            "minItems": 2,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]+$"
+            }
+          },
+          "gap_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            }
+          },
+          "required_receipts": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "first_transaction": {
+            "type": "string",
+            "minLength": 1
+          },
+          "control_question": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lane_count",
+        "record_count",
+        "all_registry_records_covered",
+        "control_question"
+      ],
+      "properties": {
+        "lane_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "record_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "all_registry_records_covered": {
+          "const": true
+        },
+        "control_question": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "control_question": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

@@ -1,0 +1,258 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "Caltech NUPACK community",
+      "category": "biological_computing",
+      "commodity_assets": [
+        {
+          "asset_kind": "molecular_thermodynamic_model",
+          "ingest_modes": [
+            "fallback",
+            "adapt"
+          ],
+          "license": "academic_terms",
+          "locator": "https://www.nupack.org/"
+        },
+        {
+          "asset_kind": "sequence_design_workloads",
+          "ingest_modes": [
+            "ingest",
+            "benchmark"
+          ],
+          "license": "academic_terms",
+          "locator": "https://docs.nupack.org/"
+        }
+      ],
+      "completion_questions": [
+        "What physical reaction implements the accepted transformation?",
+        "Which preparation, incubation, sensing, and disposal costs surround the result?"
+      ],
+      "id": "nupack-molecular-programming",
+      "ingestion_policy": {
+        "actions": [
+          "treat molecular systems as physical cartridge candidates",
+          "bind sequence environment and reaction conditions",
+          "separate design simulation wet execution and readout"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Define a molecular cartridge receipt that binds sequence, concentration, temperature, kinetics, readout, accepted result, and wet-lab evidence.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_home",
+          "public_completion_signal": "Publishes analysis and design tools for interacting nucleic-acid systems.",
+          "title": "NUPACK",
+          "url": "https://www.nupack.org/"
+        },
+        {
+          "kind": "official_docs",
+          "public_completion_signal": "Documents thermodynamic models, complexes, tubes, design, and computation.",
+          "title": "NUPACK documentation",
+          "url": "https://docs.nupack.org/"
+        }
+      ],
+      "project": "NUPACK nucleic-acid system analysis and design",
+      "public_stage": "active_research_software_for_molecular_programming",
+      "system_gaps": [
+        "accepted_result",
+        "workload_identity",
+        "model_hardware_fidelity",
+        "calibration_environment",
+        "readout_training",
+        "time_synchronization",
+        "full_system_energy",
+        "access_licensing",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "Microsoft Research and DNA computing community",
+      "category": "biological_computing",
+      "commodity_assets": [
+        {
+          "asset_kind": "molecular_circuit_language",
+          "ingest_modes": [
+            "vendor",
+            "adapt"
+          ],
+          "license": "MIT-or-project-specific",
+          "locator": "https://github.com/microsoft/visual-dsd"
+        },
+        {
+          "asset_kind": "reaction_network_fallback",
+          "ingest_modes": [
+            "fallback"
+          ],
+          "license": "research_public",
+          "locator": "https://www.microsoft.com/en-us/research/project/visual-dsd/"
+        }
+      ],
+      "completion_questions": [
+        "Which stochastic realization and reaction conditions define replay?",
+        "How is a simulated species count converted into a measured accepted result?"
+      ],
+      "id": "visual-dsd",
+      "ingestion_policy": {
+        "actions": [
+          "translate molecular circuits into cartridge descriptors",
+          "bind stochastic simulation and wet execution",
+          "retain reaction and readout uncertainty"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a Visual DSD cartridge adapter that emits reaction-network, stochastic trace, sequence, environment, and accepted-output receipts.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_tool",
+          "public_completion_signal": "Publishes a language and simulator for DNA strand-displacement systems.",
+          "title": "Visual DSD",
+          "url": "https://www.microsoft.com/en-us/research/project/visual-dsd/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes source and examples for molecular circuit modeling.",
+          "title": "Visual DSD GitHub",
+          "url": "https://github.com/microsoft/visual-dsd"
+        }
+      ],
+      "project": "Visual DSD DNA strand-displacement design and simulation",
+      "public_stage": "open_research_language_and_simulator",
+      "system_gaps": [
+        "compiler_lowering",
+        "determinism_entropy",
+        "model_hardware_fidelity",
+        "calibration_environment",
+        "readout_training",
+        "time_synchronization",
+        "software_fallback",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "Immortal Threads community",
+      "category": "intermittent_energy",
+      "commodity_assets": [
+        {
+          "asset_kind": "intermittent_runtime",
+          "ingest_modes": [
+            "adapt",
+            "fallback"
+          ],
+          "license": "research_open_source",
+          "locator": "https://tinysystems.github.io/ImmortalThreads/"
+        },
+        {
+          "asset_kind": "failure_recovery_semantics",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "research_public",
+          "locator": "https://tinysystems.github.io/ImmortalThreads/"
+        }
+      ],
+      "completion_questions": [
+        "Which progress and shared state survive arbitrary interruption?",
+        "What retries, lost work, and storage energy enter one accepted result?"
+      ],
+      "id": "immortal-threads-intermittent",
+      "ingestion_policy": {
+        "actions": [
+          "map thread and progress state into receipts",
+          "replay identical energy traces",
+          "compare checkpoint commit and reversible-state strategies"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Run one accepted cartridge workload under repeatable power failures using Immortal Threads and the existing Shepherd trace boundary.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_project",
+          "public_completion_signal": "Publishes compiler and runtime concepts for failure-resilient multithreaded intermittent execution.",
+          "title": "Immortal Threads",
+          "url": "https://tinysystems.github.io/ImmortalThreads/"
+        }
+      ],
+      "project": "Intermittent multithreaded runtime for energy-harvesting systems",
+      "public_stage": "open_research_runtime_and_compiler",
+      "system_gaps": [
+        "accepted_result",
+        "state_reset",
+        "determinism_entropy",
+        "harvested_recovered_energy",
+        "full_system_energy",
+        "software_fallback",
+        "reliability_endurance",
+        "time_synchronization"
+      ]
+    },
+    {
+      "actor": "GlobalFoundries, Google, and open PDK community",
+      "category": "eda_fabrication",
+      "commodity_assets": [
+        {
+          "asset_kind": "open_mixed_signal_pdk",
+          "ingest_modes": [
+            "vendor",
+            "fabricate"
+          ],
+          "license": "Apache-2.0-and-PDK-specific",
+          "locator": "https://github.com/google/gf180mcu-pdk"
+        },
+        {
+          "asset_kind": "device_and_rule_decks",
+          "ingest_modes": [
+            "ingest",
+            "qualify"
+          ],
+          "license": "PDK_terms",
+          "locator": "https://gf180mcu-pdk.readthedocs.io/"
+        }
+      ],
+      "completion_questions": [
+        "Which open views are sufficient for signoff and which remain preview?",
+        "What measured silicon closes the model and reliability gaps?"
+      ],
+      "id": "gf180mcu-open-pdk",
+      "ingestion_policy": {
+        "actions": [
+          "port control calibration and test macros",
+          "exercise high-voltage and analog options where relevant",
+          "compare open models with shuttle measurements"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Build a minimal sampler or relaxation test macro in GF180MCU with on-chip calibration and complete external measurement hooks.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes open digital, analog, high-voltage, and memory process collateral.",
+          "title": "GF180MCU PDK GitHub",
+          "url": "https://github.com/google/gf180mcu-pdk"
+        },
+        {
+          "kind": "official_docs",
+          "public_completion_signal": "Documents supported devices, libraries, rules, and status.",
+          "title": "GF180MCU PDK documentation",
+          "url": "https://gf180mcu-pdk.readthedocs.io/"
+        }
+      ],
+      "project": "GF180MCU open PDK",
+      "public_stage": "open_pdk_for_test_chip_and_mixed_signal_design",
+      "system_gaps": [
+        "fabrication_signoff",
+        "model_hardware_fidelity",
+        "calibration_environment",
+        "measurement_reproducibility",
+        "reliability_endurance",
+        "independent_validation"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "bio_intermittent"
+}

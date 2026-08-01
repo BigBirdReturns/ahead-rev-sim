@@ -1,0 +1,269 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "LLVM and CIRCT communities",
+      "category": "hardware_compiler",
+      "commodity_assets": [
+        {
+          "asset_kind": "hardware_ir_and_dialects",
+          "ingest_modes": [
+            "vendor",
+            "adapt"
+          ],
+          "license": "Apache-2.0-WITH-LLVM-exception",
+          "locator": "https://github.com/llvm/circt"
+        },
+        {
+          "asset_kind": "lowering_and_verification_passes",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "Apache-2.0-WITH-LLVM-exception",
+          "locator": "https://github.com/llvm/circt"
+        }
+      ],
+      "completion_questions": [
+        "Which transformations preserve information-loss annotations?",
+        "Can every generated module be traced to workload and receipt fields?"
+      ],
+      "id": "circt-mlir",
+      "ingestion_policy": {
+        "actions": [
+          "define erasure and physical-substrate dialects above CIRCT",
+          "lower standard control RTL through existing dialects",
+          "retain semantic and source-location provenance"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Implement the first erasure-aware and cartridge-control MLIR bridge, then prove generated RTL against the ahead semantic receipt.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_project",
+          "public_completion_signal": "Publishes MLIR-based hardware dialects, transformations, simulation, and lowering infrastructure.",
+          "title": "CIRCT",
+          "url": "https://circt.llvm.org/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes source, tests, dialects, and releases.",
+          "title": "CIRCT GitHub",
+          "url": "https://github.com/llvm/circt"
+        }
+      ],
+      "project": "CIRCT hardware compiler infrastructure",
+      "public_stage": "active_open_source_hardware_compiler_stack",
+      "system_gaps": [
+        "compiler_lowering",
+        "workload_identity",
+        "accepted_result",
+        "fabrication_signoff",
+        "model_hardware_fidelity",
+        "governance_durability",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "SiliconCompiler community",
+      "category": "hardware_compiler",
+      "commodity_assets": [
+        {
+          "asset_kind": "portable_build_graph",
+          "ingest_modes": [
+            "vendor",
+            "adapt"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/siliconcompiler/siliconcompiler"
+        },
+        {
+          "asset_kind": "tool_and_artifact_manifest",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/siliconcompiler/siliconcompiler"
+        }
+      ],
+      "completion_questions": [
+        "Can a build be reconstructed without the original orchestration service?",
+        "Which tool and PDK changes alter the accepted design identity?"
+      ],
+      "id": "siliconcompiler",
+      "ingestion_policy": {
+        "actions": [
+          "map workload-to-RTL receipts into build nodes",
+          "pin every tool container PDK and artifact",
+          "compare open and commercial implementation routes"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a SiliconCompiler target that builds the standard cartridge control block and emits a complete tool, PDK, report, and artifact receipt.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_home",
+          "public_completion_signal": "Publishes a Python API and schema for portable multi-tool semiconductor workflows.",
+          "title": "SiliconCompiler",
+          "url": "https://www.siliconcompiler.com/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes the build orchestration engine, flows, examples, and releases.",
+          "title": "SiliconCompiler GitHub",
+          "url": "https://github.com/siliconcompiler/siliconcompiler"
+        }
+      ],
+      "project": "SiliconCompiler multi-tool silicon build system",
+      "public_stage": "active_open_source_tool_orchestration",
+      "system_gaps": [
+        "fabrication_signoff",
+        "workload_identity",
+        "governance_durability",
+        "model_hardware_fidelity",
+        "measurement_reproducibility",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "Calyx community",
+      "category": "hardware_compiler",
+      "commodity_assets": [
+        {
+          "asset_kind": "accelerator_ir",
+          "ingest_modes": [
+            "vendor",
+            "adapt"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/calyxir/calyx"
+        },
+        {
+          "asset_kind": "source_location_metadata",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "public_docs",
+          "locator": "https://docs.calyxir.org/"
+        }
+      ],
+      "completion_questions": [
+        "Which Calyx scheduling decisions alter retained state or latency?",
+        "Can source and receipt identity survive through generated RTL?"
+      ],
+      "id": "calyx-hardware-ir",
+      "ingestion_policy": {
+        "actions": [
+          "map reversible regions and cartridge commands into Calyx control",
+          "preserve source locations and state effects",
+          "compare with CIRCT lowering"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Lower one SVK and one cartridge queue kernel through Calyx while retaining erasure, accepted-output, and source provenance.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_docs",
+          "public_completion_signal": "Publishes a hardware IR, frontend interfaces, passes, and source-location metadata.",
+          "title": "Calyx documentation",
+          "url": "https://docs.calyxir.org/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes compiler and examples for accelerator generation.",
+          "title": "Calyx GitHub",
+          "url": "https://github.com/calyxir/calyx"
+        }
+      ],
+      "project": "Calyx intermediate language for accelerator generation",
+      "public_stage": "active_open_source_accelerator_ir",
+      "system_gaps": [
+        "compiler_lowering",
+        "workload_identity",
+        "accepted_result",
+        "model_hardware_fidelity",
+        "fabrication_signoff",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "RISC-V International and CHIPS Alliance communities",
+      "category": "verification_provenance",
+      "commodity_assets": [
+        {
+          "asset_kind": "executable_isa_reference",
+          "ingest_modes": [
+            "vendor",
+            "fallback"
+          ],
+          "license": "BSD-or-project-specific",
+          "locator": "https://github.com/riscv/sail-riscv"
+        },
+        {
+          "asset_kind": "formal_and_random_verification",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "ISC-or-project-specific",
+          "locator": "https://github.com/YosysHQ/riscv-formal"
+        }
+      ],
+      "completion_questions": [
+        "Which behaviors are architectural, custom, or implementation-defined?",
+        "Can a third party reproduce every failure from a seed and pinned reference model?"
+      ],
+      "id": "riscv-verification-stack",
+      "ingestion_policy": {
+        "actions": [
+          "differentially execute every new instruction and MMIO path",
+          "generate formal collision and state-restoration properties",
+          "retain test seed tool and reference identity"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Build one conformance bundle that checks standard RISC-V behavior, Xphys refusal boundaries, and reversible-state restoration across Sail, formal, and randomized tests.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_model",
+          "public_completion_signal": "Publishes the executable architectural reference model.",
+          "title": "Sail RISC-V model",
+          "url": "https://github.com/riscv/sail-riscv"
+        },
+        {
+          "kind": "official_tests",
+          "public_completion_signal": "Publishes certification-oriented architecture tests.",
+          "title": "RISC-V architectural tests",
+          "url": "https://github.com/riscv-non-isa/riscv-arch-test"
+        },
+        {
+          "kind": "official_formal",
+          "public_completion_signal": "Publishes formal ISA interfaces and checks.",
+          "title": "riscv-formal",
+          "url": "https://github.com/YosysHQ/riscv-formal"
+        },
+        {
+          "kind": "official_random",
+          "public_completion_signal": "Publishes randomized privileged and ISA verification generation.",
+          "title": "RISCV-DV",
+          "url": "https://github.com/chipsalliance/riscv-dv"
+        }
+      ],
+      "project": "Sail, architectural tests, riscv-formal, and RISCV-DV",
+      "public_stage": "active_open_reference_and_verification_stack",
+      "system_gaps": [
+        "accepted_result",
+        "workload_identity",
+        "compiler_lowering",
+        "security_isolation",
+        "independent_validation",
+        "governance_durability",
+        "reliability_endurance"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "compilers_verification"
+}

@@ -1,0 +1,255 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "SiEPIC community",
+      "category": "photonic_eda",
+      "commodity_assets": [
+        {
+          "asset_kind": "photonic_layout_and_verification",
+          "ingest_modes": [
+            "vendor",
+            "adapt"
+          ],
+          "license": "project_specific",
+          "locator": "https://github.com/SiEPIC/SiEPIC-Tools"
+        },
+        {
+          "asset_kind": "open_photonic_pdk",
+          "ingest_modes": [
+            "vendor",
+            "fabricate"
+          ],
+          "license": "project_specific",
+          "locator": "https://github.com/SiEPIC/SiEPIC_EBeam_PDK"
+        }
+      ],
+      "completion_questions": [
+        "Which design and measurement labels guarantee automated reconstruction?",
+        "How do simulated and measured components diverge across runs?"
+      ],
+      "id": "siepic-tools",
+      "ingestion_policy": {
+        "actions": [
+          "ingest netlist extraction and verification",
+          "bind labels and automated measurement recipes",
+          "preserve PDK and fabrication-run identity"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Wrap a SiEPIC component from layout through openEBL measurement with model, process, calibration, and data receipts.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_tools",
+          "public_completion_signal": "Publishes KLayout-based photonic layout, verification, netlist extraction, and simulation tooling.",
+          "title": "SiEPIC-Tools",
+          "url": "https://github.com/SiEPIC/SiEPIC-Tools"
+        },
+        {
+          "kind": "official_pdk",
+          "public_completion_signal": "Publishes an open PDK with fabrication and measured-run examples.",
+          "title": "SiEPIC EBeam PDK",
+          "url": "https://github.com/SiEPIC/SiEPIC_EBeam_PDK"
+        }
+      ],
+      "project": "SiEPIC-Tools, EBeam PDK, and automated electro-optic test stack",
+      "public_stage": "active_open_design_fabrication_and_measurement_stack",
+      "system_gaps": [
+        "fabrication_signoff",
+        "model_hardware_fidelity",
+        "calibration_environment",
+        "measurement_reproducibility",
+        "packaging_assembly",
+        "access_licensing",
+        "governance_durability"
+      ]
+    },
+    {
+      "actor": "University of Southampton CORNERSTONE",
+      "category": "photonic_eda",
+      "commodity_assets": [
+        {
+          "asset_kind": "open_foundry_pdk",
+          "ingest_modes": [
+            "vendor",
+            "fabricate"
+          ],
+          "license": "platform_terms",
+          "locator": "https://cornerstone.sotonfab.co.uk/mpw/process-design-kit/cornerstone-open-platform/"
+        },
+        {
+          "asset_kind": "community_component_library",
+          "ingest_modes": [
+            "ingest",
+            "qualify"
+          ],
+          "license": "platform_terms",
+          "locator": "https://cornerstone.sotonfab.co.uk/mpw/process-design-kit/cornerstone-open-platform/"
+        }
+      ],
+      "completion_questions": [
+        "Which community cells have measured foundry data?",
+        "What compatibility and archival policy survives PDK evolution?"
+      ],
+      "id": "cornerstone-open-platform",
+      "ingestion_policy": {
+        "actions": [
+          "pin standard and community component provenance",
+          "bind foundry process and metrology data",
+          "test interchange with GDSFactory and SiEPIC"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Build a CORNERSTONE cartridge receipt that distinguishes standard PDK cells, community cells, process revision, fabrication, and measured data.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_launch",
+          "public_completion_signal": "Publishes open foundry-compatible PDKs and plans for simulation, fabrication, and metrology data.",
+          "title": "CORNERSTONE Open Platform launch",
+          "url": "https://cornerstone.sotonfab.co.uk/cornerstone-photonics-innovation-centre-launches-open-github-repository-at-ecoc-2025/"
+        },
+        {
+          "kind": "official_platform",
+          "public_completion_signal": "Provides standard and community PDK access with foundry compatibility.",
+          "title": "CORNERSTONE Open Platform",
+          "url": "https://cornerstone.sotonfab.co.uk/mpw/process-design-kit/cornerstone-open-platform/"
+        }
+      ],
+      "project": "CORNERSTONE Open Platform and foundry-compatible photonic PDKs",
+      "public_stage": "launched_open_pdk_and_component_platform",
+      "system_gaps": [
+        "fabrication_signoff",
+        "model_hardware_fidelity",
+        "measurement_reproducibility",
+        "packaging_assembly",
+        "access_licensing",
+        "governance_durability",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "SiEPICfab openEBL community",
+      "category": "prototyping_fabrication",
+      "commodity_assets": [
+        {
+          "asset_kind": "photonic_fabrication_slot",
+          "ingest_modes": [
+            "fabricate"
+          ],
+          "license": "submission_terms",
+          "locator": "https://siepic.ca/openebl/"
+        },
+        {
+          "asset_kind": "automated_measurement_data",
+          "ingest_modes": [
+            "qualify",
+            "ingest"
+          ],
+          "license": "public_run_data",
+          "locator": "https://siepic.ca/openebl/"
+        }
+      ],
+      "completion_questions": [
+        "Which run data and failures remain public and machine-readable?",
+        "Can the same component be reproduced across fabrication runs and instruments?"
+      ],
+      "id": "openebl-photonics",
+      "ingestion_policy": {
+        "actions": [
+          "prepare minimal cartridge test structures",
+          "bind submission layout PDK and run identity",
+          "archive failed and successful automated measurements"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Submit one relaxation, sampler, or optical-transfer test structure whose labels and data close a physical-cartridge measurement receipt.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_program",
+          "public_completion_signal": "Publishes a free recurring design, fabrication, and electro-optic test service with process and measurement conditions.",
+          "title": "openEBL",
+          "url": "https://siepic.ca/openebl/"
+        }
+      ],
+      "project": "Open-access photonic fabrication and automated test runs",
+      "public_stage": "recurring_open_fabrication_and_test_service",
+      "system_gaps": [
+        "fabrication_signoff",
+        "calibration_environment",
+        "measurement_reproducibility",
+        "packaging_assembly",
+        "access_licensing",
+        "independent_validation",
+        "reliability_endurance"
+      ]
+    },
+    {
+      "actor": "Meep and openEMS communities",
+      "category": "multiphysics_modeling",
+      "commodity_assets": [
+        {
+          "asset_kind": "electromagnetic_fallback",
+          "ingest_modes": [
+            "vendor",
+            "fallback"
+          ],
+          "license": "GPL-2.0",
+          "locator": "https://github.com/NanoComp/meep"
+        },
+        {
+          "asset_kind": "rf_and_package_solver",
+          "ingest_modes": [
+            "vendor",
+            "benchmark"
+          ],
+          "license": "GPL-3.0",
+          "locator": "https://www.openems.de/"
+        }
+      ],
+      "completion_questions": [
+        "Which geometry and boundary assumptions dominate the result?",
+        "How do simulated S-parameters compare with measured package or photonic structures?"
+      ],
+      "id": "meep-openems",
+      "ingestion_policy": {
+        "actions": [
+          "bind geometry mesh materials ports and boundary conditions",
+          "compare solvers on shared structures",
+          "feed S-parameters and fields into package and photonic receipts"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a shared EM fixture for one optical or high-speed cartridge interface and record mesh, convergence, ports, and solver divergence.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_meep",
+          "public_completion_signal": "Publishes open-source FDTD simulation for electromagnetic systems.",
+          "title": "Meep",
+          "url": "https://meep.readthedocs.io/"
+        },
+        {
+          "kind": "official_openems",
+          "public_completion_signal": "Publishes an open-source electromagnetic field solver and geometry interface.",
+          "title": "openEMS",
+          "url": "https://www.openems.de/"
+        }
+      ],
+      "project": "Open electromagnetic and FDTD simulation",
+      "public_stage": "active_open_source_electromagnetic_solver_stack",
+      "system_gaps": [
+        "model_hardware_fidelity",
+        "packaging_assembly",
+        "precision_conversion",
+        "calibration_environment",
+        "measurement_reproducibility",
+        "software_fallback"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "photonics_b"
+}

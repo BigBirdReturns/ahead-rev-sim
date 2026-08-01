@@ -1,0 +1,277 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "ngspice and Sandia Xyce communities",
+      "category": "mixed_signal_modeling",
+      "commodity_assets": [
+        {
+          "asset_kind": "circuit_reference_simulators",
+          "ingest_modes": [
+            "vendor",
+            "fallback"
+          ],
+          "license": "BSD-and-project-specific",
+          "locator": "https://ngspice.sourceforge.io/"
+        },
+        {
+          "asset_kind": "parallel_spice_solver",
+          "ingest_modes": [
+            "vendor",
+            "benchmark"
+          ],
+          "license": "GPL-and-project-specific",
+          "locator": "https://xyce.sandia.gov/"
+        }
+      ],
+      "completion_questions": [
+        "Which compact model and solver tolerance produce each trajectory?",
+        "Where do event, analog, and power intervals align with accepted output?"
+      ],
+      "id": "ngspice-xyce",
+      "ingestion_policy": {
+        "actions": [
+          "define canonical circuit and stimulus artifacts",
+          "compare numerical and model divergence",
+          "bind transient waveforms to cartridge and EVP receipts"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create an RC, oscillator, and stochastic-device circuit suite that runs identically through ngspice and Xyce with waveform and solver receipts.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_ngspice",
+          "public_completion_signal": "Publishes SPICE, XSPICE, mixed-signal simulation, models, and interfaces.",
+          "title": "ngspice",
+          "url": "https://ngspice.sourceforge.io/"
+        },
+        {
+          "kind": "official_xyce",
+          "public_completion_signal": "Publishes a parallel circuit simulator and current source releases.",
+          "title": "Xyce",
+          "url": "https://xyce.sandia.gov/"
+        }
+      ],
+      "project": "Open SPICE and parallel circuit simulation",
+      "public_stage": "active_open_circuit_simulation_ecosystem",
+      "system_gaps": [
+        "model_hardware_fidelity",
+        "calibration_environment",
+        "precision_conversion",
+        "time_synchronization",
+        "measurement_reproducibility",
+        "software_fallback",
+        "governance_durability"
+      ]
+    },
+    {
+      "actor": "OpenVAF and OSDI community",
+      "category": "mixed_signal_modeling",
+      "commodity_assets": [
+        {
+          "asset_kind": "verilog_a_compiler",
+          "ingest_modes": [
+            "vendor",
+            "adapt"
+          ],
+          "license": "GPL-3.0",
+          "locator": "https://github.com/pascalkuthe/OpenVAF"
+        },
+        {
+          "asset_kind": "open_device_model_interface",
+          "ingest_modes": [
+            "adapt",
+            "qualify"
+          ],
+          "license": "public_docs",
+          "locator": "https://openvaf.semimod.de/docs/"
+        }
+      ],
+      "completion_questions": [
+        "Which Verilog-A semantics remain unsupported?",
+        "Can one compiled model preserve behavior across simulators and platforms?"
+      ],
+      "id": "openvaf-osdi",
+      "ingestion_policy": {
+        "actions": [
+          "compile shared compact models for multiple simulators",
+          "pin generated libraries and compiler revision",
+          "compare model behavior with measured devices"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Compile one relaxation and one stochastic compact model through OpenVAF and exercise it in every available OSDI simulator.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes a Verilog-A compiler and OSDI-compatible compact model flow.",
+          "title": "OpenVAF GitHub",
+          "url": "https://github.com/pascalkuthe/OpenVAF"
+        },
+        {
+          "kind": "official_interface",
+          "public_completion_signal": "Documents model compilation and simulator integration.",
+          "title": "OpenVAF documentation",
+          "url": "https://openvaf.semimod.de/docs/"
+        }
+      ],
+      "project": "Open Verilog-A compilation and simulator device interface",
+      "public_stage": "active_open_compact_model_toolchain",
+      "system_gaps": [
+        "model_hardware_fidelity",
+        "compiler_lowering",
+        "governance_durability",
+        "calibration_environment",
+        "measurement_reproducibility",
+        "reliability_endurance"
+      ]
+    },
+    {
+      "actor": "preCICE, FMI, and OpenModelica communities",
+      "category": "multiphysics_modeling",
+      "commodity_assets": [
+        {
+          "asset_kind": "multiphysics_coupling",
+          "ingest_modes": [
+            "vendor",
+            "adapt"
+          ],
+          "license": "LGPL-3.0",
+          "locator": "https://github.com/precice/precice"
+        },
+        {
+          "asset_kind": "fmi_model_exchange",
+          "ingest_modes": [
+            "adapt",
+            "qualify"
+          ],
+          "license": "standard_terms",
+          "locator": "https://fmi-standard.org/"
+        },
+        {
+          "asset_kind": "system_model_fallback",
+          "ingest_modes": [
+            "fallback"
+          ],
+          "license": "OSMC-PL-and-components",
+          "locator": "https://openmodelica.org/"
+        }
+      ],
+      "completion_questions": [
+        "Which coupling scheme and timestep preserve accepted behavior?",
+        "Where do model boundaries omit control, sensing, or heat-rejection costs?"
+      ],
+      "id": "precice-fmi-openmodelica",
+      "ingestion_policy": {
+        "actions": [
+          "couple electrical thermal fluid mechanical and optical models",
+          "preserve timestep and convergence custody",
+          "compare partitioned model against measurements"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Build a coupled cartridge model whose electrical, thermal, and mechanical FMUs share one time base and one accepted workload interval.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_precice",
+          "public_completion_signal": "Publishes open partitioned multi-physics coupling and adapters.",
+          "title": "preCICE",
+          "url": "https://precice.org/"
+        },
+        {
+          "kind": "official_fmi_runner",
+          "public_completion_signal": "Connects Functional Mock-up Units to multi-physics coupling.",
+          "title": "preCICE FMI runner",
+          "url": "https://precice.org/adapter-fmi.html"
+        },
+        {
+          "kind": "official_openmodelica",
+          "public_completion_signal": "Publishes open Modelica and FMI simulation tooling.",
+          "title": "OpenModelica",
+          "url": "https://openmodelica.org/"
+        }
+      ],
+      "project": "Open multiphysics coupling and model exchange",
+      "public_stage": "active_open_multiphysics_and_cosimulation_stack",
+      "system_gaps": [
+        "model_hardware_fidelity",
+        "time_synchronization",
+        "calibration_environment",
+        "timing_thermal_volume",
+        "full_system_energy",
+        "precision_conversion",
+        "software_fallback"
+      ]
+    },
+    {
+      "actor": "ReservoirPy community",
+      "category": "physical_reservoir",
+      "commodity_assets": [
+        {
+          "asset_kind": "digital_reservoir_fallback",
+          "ingest_modes": [
+            "vendor",
+            "fallback"
+          ],
+          "license": "MIT",
+          "locator": "https://github.com/reservoirpy/reservoirpy"
+        },
+        {
+          "asset_kind": "readout_and_capacity_metrics",
+          "ingest_modes": [
+            "benchmark",
+            "adapt"
+          ],
+          "license": "public_docs",
+          "locator": "https://reservoirpy.readthedocs.io/"
+        }
+      ],
+      "completion_questions": [
+        "Does the physical trajectory outperform both raw stimulus and a matched digital reservoir?",
+        "Which readout training and hyperparameter search costs are included?"
+      ],
+      "id": "reservoirpy",
+      "ingestion_policy": {
+        "actions": [
+          "make digital reservoir the mandatory raw and software baseline",
+          "reuse readout and capacity metrics",
+          "bind train test split and random state"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Add ReservoirPy to the held-out physical assay so every environmental reservoir competes against raw input and a pinned digital reservoir.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes reservoir models, training, metrics, datasets, and reproducible examples.",
+          "title": "ReservoirPy GitHub",
+          "url": "https://github.com/reservoirpy/reservoirpy"
+        },
+        {
+          "kind": "official_docs",
+          "public_completion_signal": "Documents digital reservoirs and readout training.",
+          "title": "ReservoirPy documentation",
+          "url": "https://reservoirpy.readthedocs.io/"
+        }
+      ],
+      "project": "ReservoirPy echo-state and reservoir computing toolkit",
+      "public_stage": "active_open_source_digital_reservoir_baseline",
+      "system_gaps": [
+        "accepted_result",
+        "workload_identity",
+        "determinism_entropy",
+        "readout_training",
+        "task_encoding",
+        "software_fallback",
+        "measurement_reproducibility",
+        "independent_validation"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "models_multiphysics"
+}

@@ -6,7 +6,7 @@
     "control_question": "What can we ingest now, what completion evidence is missing, and how do we make the actor compete behind our contract rather than become our dependency?",
     "dependency_mode": "commodity_only",
     "exit_rule": "Any commodity may be removed or replaced while preserving workload identity, accepted output, fallback execution, and historical evidence.",
-    "statement": "External actors, projects, code, hardware, testbeds, papers, and standards are inputs to be pinned, wrapped, benchmarked, substituted, and independently qualified. No external actor receives architectural sovereignty."
+    "statement": "External actors, projects, code, hardware, testbeds, papers, standards, programmes, and fabrication routes are inputs to be pinned, wrapped, benchmarked, substituted, and independently qualified. No external actor receives architectural sovereignty."
   },
   "gap_taxonomy": [
     {
@@ -98,9 +98,49 @@
       "claim_blocked": "durability",
       "control_question": "Who maintains the public contract, fixtures, compatibility surface, and archival evidence after a vendor or grant changes direction?",
       "gap_id": "governance_durability"
+    },
+    {
+      "claim_blocked": "task_fidelity",
+      "control_question": "How is an accepted task encoded into the substrate without preprocessing or mapping work disappearing from the receipt?",
+      "gap_id": "task_encoding"
+    },
+    {
+      "claim_blocked": "readout_validity",
+      "control_question": "What readout, training, adaptation, and validation work turns physical state into an accepted result?",
+      "gap_id": "readout_training"
+    },
+    {
+      "claim_blocked": "numeric_fidelity",
+      "control_question": "Which quantization, DAC, ADC, encoding, conversion, and tolerance costs preserve accepted quality?",
+      "gap_id": "precision_conversion"
+    },
+    {
+      "claim_blocked": "operational_durability",
+      "control_question": "What wear, retention, aging, fault, recovery, and lifetime evidence makes the implementation durable?",
+      "gap_id": "reliability_endurance"
+    },
+    {
+      "claim_blocked": "package_completion",
+      "control_question": "Which die, package, board, optical, electrical, thermal, and assembly interfaces complete the deployable system?",
+      "gap_id": "packaging_assembly"
+    },
+    {
+      "claim_blocked": "trust_boundary",
+      "control_question": "How are identity, measurement, isolation, authorization, attestation, and fault containment preserved across replaceable components?",
+      "gap_id": "security_isolation"
+    },
+    {
+      "claim_blocked": "reproducible_access",
+      "control_question": "What public access, licensing, queue, export, data, and artifact terms permit independent reproduction?",
+      "gap_id": "access_licensing"
+    },
+    {
+      "claim_blocked": "temporal_custody",
+      "control_question": "How are events, samples, clocks, traces, power, and accepted output aligned to the same execution interval?",
+      "gap_id": "time_synchronization"
     }
   ],
-  "record_count": 28,
+  "record_count": 73,
   "schema_version": "ahead.commodity-ecosystem-registry/v0.1",
   "shards": [
     {
@@ -131,12 +171,12 @@
     {
       "record_count": 4,
       "resource": "commodity_records_measurement_a.json",
-      "shard_id": "measurement_a"
+        "shard_id": "measurement_a"
     },
     {
       "record_count": 3,
       "resource": "commodity_records_measurement_b.json",
-      "shard_id": "measurement_b"
+       "shard_id": "measurement_b"
     },
     {
       "record_count": 3,
@@ -146,7 +186,57 @@
     {
       "record_count": 3,
       "resource": "commodity_records_fabrication_b.json",
-      "shard_id": "fabrication_b"
+       "shard_id": "fabrication_b"
+    },
+    {
+      "record_count": 5,
+      "resource": "commodity_records_neuromorphic_a.json",
+      "shard_id": "neuromorphic_a"
+    },
+    {
+      "record_count": 4,
+      "resource": "commodity_records_neuromorphic_b.json",
+       "shard_id": "neuromorphic_b"
+    },
+    {
+      "record_count": 5,
+      "resource": "commodity_records_photonics_a.json",
+      "shard_id": "photonics_a"
+    },
+    {
+      "record_count": 4,
+      "resource": "commodity_records_photonics_b.json",
+      "shard_id": "photonics_b"
+    },
+    {
+      "record_count": 8,
+      "resource": "commodity_records_chiplets_security.json",
+      "shard_id": "chiplets_security"
+    },
+    {
+      "record_count": 4,
+      "resource": "commodity_records_compilers_verification.json",
+       "shard_id": "compilers_verification"
+    },
+    {
+      "record_count": 4,
+      "resource": "commodity_records_models_multiphysics.json",
+      "shard_id": "models_multiphysics"
+    },
+    {
+      "record_count": 4,
+      "resource": "commodity_records_bio_intermittent.json",
+      "shard_id": "bio_intermittent"
+    },
+    {
+      "record_count": 3,
+      "resource": "commodity_records_programmes_provenance_a.json",
+      "shard_id": "programmes_provenance_a"
+    },
+    {
+      "record_count": 4,
+      "resource": "commodity_records_programmes_provenance_b.json",
+      "shard_id": "programmes_provenance_b"
     }
   ]
 }

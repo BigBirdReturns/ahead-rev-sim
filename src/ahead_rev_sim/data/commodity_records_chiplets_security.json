@@ -1,0 +1,471 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "UCIe Consortium",
+      "category": "chiplet_interconnect",
+      "commodity_assets": [
+        {
+          "asset_kind": "die_to_die_specification",
+          "ingest_modes": [
+            "adapt",
+            "qualify"
+          ],
+          "license": "consortium_spec_terms",
+          "locator": "https://www.uciexpress.org/specification"
+        },
+        {
+          "asset_kind": "compliance_model",
+          "ingest_modes": [
+            "benchmark"
+          ],
+          "license": "consortium_terms",
+          "locator": "https://www.uciexpress.org/"
+        }
+      ],
+      "completion_questions": [
+        "Which protocol mode preserves cartridge state and failure semantics?",
+        "What package and PHY costs accompany one accepted transfer?"
+      ],
+      "id": "ucie-3",
+      "ingestion_policy": {
+        "actions": [
+          "map cartridge queues onto UCIe protocol services",
+          "account for PHY package retry and coherency overhead",
+          "retain version and compliance identity"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a UCIe transport profile for physical-compute cartridges with transaction, latency, energy, error, reset, and package receipts.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_spec",
+          "public_completion_signal": "Publishes the current die-to-die protocol and physical-layer specification.",
+          "title": "UCIe specifications",
+          "url": "https://www.uciexpress.org/specification"
+        },
+        {
+          "kind": "official_announcement",
+          "public_completion_signal": "Announces expanded bandwidth, manageability, and advanced packaging support.",
+          "title": "UCIe 3.0 release",
+          "url": "https://www.uciexpress.org/post/ucie-consortium-releases-ucie-3-0-specification"
+        }
+      ],
+      "project": "UCIe 3.0 die-to-die interconnect specification",
+      "public_stage": "current_industry_interconnect_standard",
+      "system_gaps": [
+        "host_interface",
+        "data_movement",
+        "scaling_interconnect",
+        "packaging_assembly",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "reliability_endurance",
+        "security_isolation",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "CXL Consortium",
+      "category": "chiplet_interconnect",
+      "commodity_assets": [
+        {
+          "asset_kind": "coherent_host_device_protocol",
+          "ingest_modes": [
+            "adapt",
+            "host"
+          ],
+          "license": "consortium_spec_terms",
+          "locator": "https://www.computeexpresslink.org/download-the-specification"
+        },
+        {
+          "asset_kind": "memory_pooling_semantics",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "consortium_terms",
+          "locator": "https://www.computeexpresslink.org/"
+        }
+      ],
+      "completion_questions": [
+        "Where do reversible history and stochastic traces live in a pooled fabric?",
+        "How are device removal and partial failure reflected in the receipt?"
+      ],
+      "id": "cxl-4",
+      "ingestion_policy": {
+        "actions": [
+          "map history ancilla and entropy storage onto coherent memory",
+          "measure protocol and fabric overhead",
+          "preserve failure containment and device identity"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Define a CXL-attached cartridge and state-store profile that exposes coherency, reset, retry, security, latency, and energy boundaries.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_spec",
+          "public_completion_signal": "Publishes the current coherent host, memory, and device protocol.",
+          "title": "CXL specifications",
+          "url": "https://www.computeexpresslink.org/download-the-specification"
+        },
+        {
+          "kind": "official_announcement",
+          "public_completion_signal": "Announces higher bandwidth, memory pooling, and fabric capabilities.",
+          "title": "CXL 4.0 release",
+          "url": "https://www.computeexpresslink.org/post/cxl-consortium-releases-cxl-4-0-specification"
+        }
+      ],
+      "project": "Compute Express Link 4.0",
+      "public_stage": "current_open_coherent_interconnect_standard",
+      "system_gaps": [
+        "host_interface",
+        "data_movement",
+        "scaling_interconnect",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "security_isolation",
+        "reliability_endurance",
+        "software_fallback"
+      ]
+    },
+    {
+      "actor": "Open Compute Project",
+      "category": "chiplet_interconnect",
+      "commodity_assets": [
+        {
+          "asset_kind": "open_chiplet_workstreams",
+          "ingest_modes": [
+            "monitor",
+            "adapt"
+          ],
+          "license": "OCP_IP_policy",
+          "locator": "https://www.opencompute.org/community/open-chiplet-economy"
+        },
+        {
+          "asset_kind": "public_meetings_and_materials",
+          "ingest_modes": [
+            "ingest",
+            "qualify"
+          ],
+          "license": "OCP_IP_policy",
+          "locator": "https://www.opencompute.org/community/open-chiplet-economy"
+        }
+      ],
+      "completion_questions": [
+        "Which public collateral is sufficient to replace a chiplet vendor?",
+        "How are known-good die, package, firmware, and system evidence linked?"
+      ],
+      "id": "ocp-open-chiplet-economy",
+      "ingestion_policy": {
+        "actions": [
+          "ingest workstream artifacts and interface drafts",
+          "map cartridge descriptors to chiplet collateral",
+          "preserve vendor-neutral replacement and receipt semantics"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Produce an OCP chiplet crosswalk showing the missing state, calibration, entropy, fallback, and measurement fields for physical-compute cartridges.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_project",
+          "public_completion_signal": "Publishes open workstreams for EDA, collateral, interfaces, marketplace, and multi-vendor systems.",
+          "title": "Open Chiplet Economy",
+          "url": "https://www.opencompute.org/community/open-chiplet-economy"
+        }
+      ],
+      "project": "Open Chiplet Economy",
+      "public_stage": "active_open_multivendor_chiplet_program",
+      "system_gaps": [
+        "host_interface",
+        "data_movement",
+        "packaging_assembly",
+        "scaling_interconnect",
+        "security_isolation",
+        "governance_durability",
+        "independent_validation",
+        "access_licensing"
+      ]
+    },
+    {
+      "actor": "Open Compute Project",
+      "category": "chiplet_interconnect",
+      "commodity_assets": [
+        {
+          "asset_kind": "virtual_prototyping_requirements",
+          "ingest_modes": [
+            "adapt",
+            "ingest"
+          ],
+          "license": "OCP_IP_policy",
+          "locator": "https://www.opencompute.org/community/open-chiplet-economy/open-framework-for-chiplet-eco-system-virtual-prototyping"
+        }
+      ],
+      "completion_questions": [
+        "Which model format permits independent tool substitution?",
+        "How is virtual behavior reconciled with measured die and package data?"
+      ],
+      "id": "ocp-chiplet-virtual-prototyping",
+      "ingestion_policy": {
+        "actions": [
+          "feed cartridge descriptors into virtual prototypes",
+          "bind model fidelity and workload traffic",
+          "retain tool and model interchange"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a substrate-aware chiplet virtual-prototype fixture with state, traffic, thermal, package, and fallback models.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_project",
+          "public_completion_signal": "Calls for a vendor-neutral multi-die planning and prototyping framework.",
+          "title": "OCP chiplet virtual prototyping",
+          "url": "https://www.opencompute.org/community/open-chiplet-economy/open-framework-for-chiplet-eco-system-virtual-prototyping"
+        },
+        {
+          "kind": "official_cfp",
+          "public_completion_signal": "Defines open participation and front-end SiP evaluation goals.",
+          "title": "OCP virtual prototyping CFP",
+          "url": "https://www.opencompute.org/blog/call-for-participation-cfp-open-framework-for-chiplet-eco-system-virtual-prototyping"
+        }
+      ],
+      "project": "Open framework for chiplet ecosystem virtual prototyping",
+      "public_stage": "active_vendor_neutral_framework_definition",
+      "system_gaps": [
+        "model_hardware_fidelity",
+        "packaging_assembly",
+        "data_movement",
+        "timing_thermal_volume",
+        "workload_identity",
+        "software_fallback",
+        "governance_durability"
+      ]
+    },
+    {
+      "actor": "Open Compute Project",
+      "category": "chiplet_interconnect",
+      "commodity_assets": [
+        {
+          "asset_kind": "chiplet_system_architecture",
+          "ingest_modes": [
+            "adapt",
+            "monitor"
+          ],
+          "license": "OCP_IP_policy",
+          "locator": "https://www.opencompute.org/wiki/Server/OCE/FCSA"
+        }
+      ],
+      "completion_questions": [
+        "Which lifecycle and management semantics are portable across chiplets?",
+        "How is a refused or failed physical substrate replaced without changing accepted work?"
+      ],
+      "id": "ocp-fcsa",
+      "ingestion_policy": {
+        "actions": [
+          "map cartridge discovery and lifecycle into FCSA",
+          "retain open host and firmware fallback",
+          "compare with UCIe and CXL profiles"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Draft an FCSA-compatible lifecycle profile for discovery, reset, state custody, attestation, refusal, and replacement.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_workstream",
+          "public_completion_signal": "Publishes the ISA-neutral and vendor-neutral mission, leads, and workstream materials.",
+          "title": "FCSA workstream",
+          "url": "https://www.opencompute.org/wiki/Server/OCE/FCSA"
+        },
+        {
+          "kind": "official_release",
+          "public_completion_signal": "Announces public availability of the Foundation Chiplet System Architecture specification.",
+          "title": "FCSA release",
+          "url": "https://www.opencompute.org/blog/ocp-open-chiplet-economy-is-leading-the-next-wave-of-ai-inference"
+        }
+      ],
+      "project": "Flexible Chiplet System Architecture",
+      "public_stage": "published_open_chiplet_architecture_workstream",
+      "system_gaps": [
+        "host_interface",
+        "packaging_assembly",
+        "security_isolation",
+        "governance_durability",
+        "software_fallback",
+        "scaling_interconnect"
+      ]
+    },
+    {
+      "actor": "Open Compute Project",
+      "category": "chiplet_interconnect",
+      "commodity_assets": [
+        {
+          "asset_kind": "parallel_die_to_die_interface",
+          "ingest_modes": [
+            "adapt",
+            "benchmark"
+          ],
+          "license": "OCP_spec_terms",
+          "locator": "https://www.opencompute.org/chiplets/30/openhbi-specification"
+        }
+      ],
+      "completion_questions": [
+        "What traffic and package assumptions bind reported bandwidth?",
+        "How are link errors and retries charged to accepted work?"
+      ],
+      "id": "ocp-openhbi",
+      "ingestion_policy": {
+        "actions": [
+          "model physical cartridge traffic over OpenHBI",
+          "account for package and PHY energy",
+          "compare against UCIe profiles"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create an OpenHBI transport receipt with width, rate, latency, BER, retry, package, and full-boundary energy fields.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_spec",
+          "public_completion_signal": "Publishes an open high-bandwidth die-to-die interface for chiplet systems.",
+          "title": "OpenHBI specification",
+          "url": "https://www.opencompute.org/chiplets/30/openhbi-specification"
+        }
+      ],
+      "project": "Open High Bandwidth Interface",
+      "public_stage": "published_open_die_to_die_interface",
+      "system_gaps": [
+        "data_movement",
+        "packaging_assembly",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "reliability_endurance",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "CHIPS Alliance and Open Compute Project",
+      "category": "silicon_security",
+      "commodity_assets": [
+        {
+          "asset_kind": "root_of_trust_ip",
+          "ingest_modes": [
+            "vendor",
+            "adapt"
+          ],
+          "license": "Apache-2.0-and-components",
+          "locator": "https://github.com/chipsalliance/Caliptra"
+        },
+        {
+          "asset_kind": "attestation_and_measured_boot",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "Apache-2.0-and-components",
+          "locator": "https://github.com/chipsalliance/Caliptra"
+        }
+      ],
+      "completion_questions": [
+        "Which artifacts and measurements are attested before a physical run?",
+        "How are cartridge firmware, calibration, and receipt keys rotated or revoked?"
+      ],
+      "id": "caliptra-root-of-trust",
+      "ingestion_policy": {
+        "actions": [
+          "bind cartridge descriptor and firmware identity",
+          "attest calibration models and measurement firmware",
+          "preserve replaceable trust boundaries"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Integrate a Caliptra-backed identity and measured-boot receipt for the RISC-V cartridge control plane without granting the security block workload authority.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes root-of-trust RTL, ROM, firmware, specifications, and integration material.",
+          "title": "Caliptra GitHub",
+          "url": "https://github.com/chipsalliance/Caliptra"
+        },
+        {
+          "kind": "official_project",
+          "public_completion_signal": "Publishes major specification revisions and ecosystem context.",
+          "title": "Caliptra 1.0",
+          "url": "https://www.opencompute.org/products/614/caliptra-10"
+        }
+      ],
+      "project": "Caliptra silicon root of trust",
+      "public_stage": "active_open_ip_and_firmware_standard",
+      "system_gaps": [
+        "security_isolation",
+        "host_interface",
+        "governance_durability",
+        "fabrication_signoff",
+        "software_fallback",
+        "independent_validation",
+        "reliability_endurance"
+      ]
+    },
+    {
+      "actor": "OpenTitan and RISC-V silicon-security community",
+      "category": "silicon_security",
+      "commodity_assets": [
+        {
+          "asset_kind": "secure_open_silicon_platform",
+          "ingest_modes": [
+            "monitor",
+            "host",
+            "vendor"
+          ],
+          "license": "Apache-2.0-or-project-specific",
+          "locator": "https://pavona.dev/"
+        }
+      ],
+      "completion_questions": [
+        "Which source and board revision is reproducible now?",
+        "How does the platform isolate untrusted physical cartridges and preserve evidence?"
+      ],
+      "id": "pavona-open-silicon",
+      "ingestion_policy": {
+        "actions": [
+          "monitor stable releases and boards",
+          "map cartridge control plane and attestation",
+          "compare against Caliptra and OpenTitan"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a Pavona host profile whose admission depends on pinned RTL, firmware, boot, isolation, and measurement receipts.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_project",
+          "public_completion_signal": "Publishes an open secure-silicon platform and roadmap.",
+          "title": "Pavona",
+          "url": "https://pavona.dev/"
+        },
+        {
+          "kind": "official_announcement",
+          "public_completion_signal": "Describes the platform's open-source silicon, software, and security objectives.",
+          "title": "Pavona announcement",
+          "url": "https://zerorisc.com/blog/pavona-open-silicon-platform"
+        }
+      ],
+      "project": "Pavona open silicon platform",
+      "public_stage": "announced_open_secure_silicon_platform",
+      "system_gaps": [
+        "security_isolation",
+        "host_interface",
+        "workload_identity",
+        "governance_durability",
+        "fabrication_signoff",
+        "software_fallback",
+        "independent_validation"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "chiplets_security"
+}
