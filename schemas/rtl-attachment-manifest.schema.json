@@ -1,0 +1,148 @@
+{
+  "$defs": {
+    "file_record": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha"
+        }
+      },
+      "required": [
+        "sha256",
+        "bytes"
+      ],
+      "type": "object"
+    },
+    "sha": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/rtl-attachment-manifest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "abi_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "artifact_type": {
+      "const": "physical_compute_rtl_attachment_manifest"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "contract_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "files": {
+      "additionalProperties": false,
+      "properties": {
+        "ahead_physical_compute_attachment_tb.sv": {
+          "$ref": "#/$defs/file_record"
+        },
+        "ahead_reference_handle_resolver_v1.sv": {
+          "$ref": "#/$defs/file_record"
+        },
+        "ahead_reference_reversible_cartridge_v1.sv": {
+          "$ref": "#/$defs/file_record"
+        },
+        "physical-cartridge-link-v1.json": {
+          "$ref": "#/$defs/file_record"
+        },
+        "rtl-attachment.expected": {
+          "$ref": "#/$defs/file_record"
+        }
+      },
+      "required": [
+        "ahead_physical_compute_attachment_tb.sv",
+        "ahead_reference_handle_resolver_v1.sv",
+        "ahead_reference_reversible_cartridge_v1.sv",
+        "physical-cartridge-link-v1.json",
+        "rtl-attachment.expected"
+      ],
+      "type": "object"
+    },
+    "link_id": {
+      "const": "physical-cartridge-link/v1"
+    },
+    "manifest_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "portable_binding": {
+      "const": "physical-compute-mmio/v1"
+    },
+    "qualification": {
+      "additionalProperties": false,
+      "properties": {
+        "blockers": {
+          "const": [
+            "RTL_COMPILATION_UNRUN",
+            "RTL_EXECUTION_UNRUN",
+            "CHIPYARD_SUBSYSTEM_ELABORATION_UNRUN",
+            "PHYSICAL_SUBSTRATE_UNMEASURED",
+            "COMPLETE_SYSTEM_EVP_UNMEASURED"
+          ]
+        },
+        "physical_claim_allowed": {
+          "const": false
+        },
+        "status": {
+          "const": "generated_unexecuted"
+        }
+      },
+      "required": [
+        "status",
+        "physical_claim_allowed",
+        "blockers"
+      ],
+      "type": "object"
+    },
+    "resolver_id": {
+      "const": "physical-cartridge-handle-resolver/v1"
+    },
+    "schema_version": {
+      "const": "ahead.rtl-attachment-manifest/v0.1"
+    },
+    "tool_floor": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "SystemVerilog-2012"
+        },
+        "reference_compiler": {
+          "const": "iverilog"
+        },
+        "reference_runtime": {
+          "const": "vvp"
+        }
+      },
+      "required": [
+        "language",
+        "reference_compiler",
+        "reference_runtime"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "portable_binding",
+    "link_id",
+    "resolver_id",
+    "abi_sha256",
+    "contract_sha256",
+    "files",
+    "tool_floor",
+    "qualification",
+    "claim_boundary",
+    "manifest_sha256"
+  ],
+  "title": "ahead-rev-sim generated RTL attachment manifest",
+  "type": "object"
+}
