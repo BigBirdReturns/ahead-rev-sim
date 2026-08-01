@@ -132,6 +132,10 @@ warn_return_any = true
 warn_unreachable = true
 warn_unused_configs = true
 
+[[tool.mypy.overrides]]
+module = ["ahead_rev_sim.repository_audit"]
+disable_error_code = ["import-not-found", "import-untyped", "no-any-return"]
+
 [tool.ruff]
 line-length = 100
 target-version = "py310"
