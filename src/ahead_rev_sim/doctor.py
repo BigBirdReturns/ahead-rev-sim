@@ -62,8 +62,6 @@ REQUIRED_IMPORTS = (
     "ahead_rev_sim.debugger_cli",
     "ahead_rev_sim.history_cli",
     "ahead_rev_sim.memory_cli",
-    "ahead_rev_sim.repository_audit",
-    "ahead_rev_sim.release_preflight",
 )
 
 SOURCE_GOVERNANCE_FILES = (
