@@ -61,16 +61,48 @@
         "RAW_RETURN_FROM_REAL_FACILITY_MISSING",
         "VENUE_MIGRATION_AFTER_DENIAL_MISSING"
       ]
+    },
+    {
+      "evidence_tier": "software_reference",
+      "new_state": "contract_implemented",
+      "new_surface_refs": [
+        "repo://src/ahead_rev_sim/causal_custody.py",
+        "repo://src/ahead_rev_sim/causal_custody_cli.py",
+        "repo://schemas/causal-custody-receipt.schema.json",
+        "repo://examples/causal_custody/reference-model.json",
+        "repo://tests/test_causal_custody.py",
+        "repo://docs/causal_custody_braid.md",
+        "repo://.github/workflows/causal-custody.yml"
+      ],
+      "prior_state": "partial_contract",
+      "proof_transaction": "Map workload, device, calibration, environment, power, thermal, and accepted-output events from two clock domains into one bounded interval, resolve explicit causal edges under uncertainty, and retain separate reference and measured evidence tiers.",
+      "pylon_id": "causal-custody-braid",
+      "qualified_invariants": [
+        "reference, simulated, and measured clock evidence remain distinct",
+        "local timestamps, mappings, rate corrections, and uncertainty produce one common interval",
+        "causal order is proven from non-overlapping uncertainty bounds rather than display order",
+        "calibration and environment precede work and power observations bracket the work interval",
+        "accepted output, trace manifests, determinism class, entropy custody, and blockers are sealed together",
+        "causal custody cannot authorize physical-compute or complete-system EVP claims"
+      ],
+      "remaining_blockers": [
+        "OPENTELEMETRY_SEMANTIC_PROFILE_MISSING",
+        "PERFETTO_TRACE_ADAPTER_MISSING",
+        "PTP_OR_WHITE_RABBIT_MEASUREMENT_MISSING",
+        "PHYSICAL_ENTROPY_TRACE_MISSING",
+        "MEASURED_INSTRUMENT_INTERVAL_MISSING",
+        "INDEPENDENT_CAUSAL_RECONSTRUCTION_MISSING"
+      ]
     }
   ],
   "artifact_type": "pylon_surface_advance",
   "as_of": "2026-08-01",
-  "claim_boundary": "The advances close deterministic software-reference contracts for the two previously mapped-open pylons. They do not establish measured scale behavior, external venue participation, physical execution, complete-system EVP advantage, or independent physical acceptance.",
-  "control_question": "Can measured models, actual RTL, and external venues now replace the reference implementations without changing the pylon invariants, accepted work, fallback, refusal, receipts, or historical custody?",
+  "claim_boundary": "The advances close deterministic software-reference contracts for scale seams, remote venues, and causal custody. They do not establish measured scale behavior, external venue participation, physical execution, complete-system EVP advantage, or independent physical acceptance.",
+  "control_question": "Can measured models, actual RTL, synchronized instruments, physical entropy, and external venues replace the reference implementations without changing the pylon invariants, accepted work, fallback, refusal, receipts, or historical custody?",
   "effective_state_counts": {
-    "contract_implemented": 11,
+    "contract_implemented": 12,
     "mapped_open": 0,
-    "partial_contract": 8
+    "partial_contract": 7
   },
   "prior_projection_ref": "repo://src/ahead_rev_sim/data/congruent_shape_surface_projection.json",
   "schema_version": "ahead.pylon-surface-advance/v0.1"
