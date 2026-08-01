@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from ._version import __version__
 from .rtl_attachment import (
     build_rtl_attachment_proof_from_tools,
     write_attachment_bundle,
@@ -17,6 +18,11 @@ def main(argv: list[str] | None = None) -> int:
             "Generate and qualify the provider-neutral SystemVerilog MMIO, "
             "opaque-handle resolver, and replaceable-cartridge attachment."
         ),
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
