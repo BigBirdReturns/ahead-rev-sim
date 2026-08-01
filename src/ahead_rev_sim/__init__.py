@@ -61,6 +61,28 @@ from .congruent_shapes import (
     load_pylon_catalog,
     write_congruent_shape_atlas,
 )
+from .pylon_wave import (
+    REPORT_SCHEMA_VERSION as PYLON_WAVE_REPORT_SCHEMA_VERSION,
+    WAVE_SCHEMA_VERSION as PYLON_WAVE_SCHEMA_VERSION,
+    build_wave_report,
+    load_wave,
+    write_wave_report,
+)
+from .scale_seam import (
+    SCALE_SEAM_ARTIFACT_TYPE,
+    SCALE_SEAM_SCHEMA_VERSION,
+    build_scale_seam_receipt,
+    write_scale_seam_receipt,
+)
+from .remote_venue import (
+    REMOTE_COMPARISON_SCHEMA_VERSION,
+    REMOTE_RECEIPT_SCHEMA_VERSION,
+    REMOTE_SUBMISSION_SCHEMA_VERSION,
+    build_remote_submission,
+    build_remote_venue_comparison,
+    build_remote_venue_receipt,
+    write_json_artifact as write_remote_venue_artifact,
+)
 from .fambs import (
     FAMBS_IMPORT_SCHEMA_VERSION,
     FAMBS_SOURCE_MANIFEST_SCHEMA_VERSION,
@@ -176,6 +198,25 @@ __all__ = [
     "load_pylon_catalog",
     "build_congruent_shape_atlas",
     "write_congruent_shape_atlas",
+    # Second-wave pylon intake
+    "PYLON_WAVE_SCHEMA_VERSION",
+    "PYLON_WAVE_REPORT_SCHEMA_VERSION",
+    "load_wave",
+    "build_wave_report",
+    "write_wave_report",
+    # Scale-seam reference contract
+    "SCALE_SEAM_SCHEMA_VERSION",
+    "SCALE_SEAM_ARTIFACT_TYPE",
+    "build_scale_seam_receipt",
+    "write_scale_seam_receipt",
+    # Remote-venue reference contract
+    "REMOTE_SUBMISSION_SCHEMA_VERSION",
+    "REMOTE_RECEIPT_SCHEMA_VERSION",
+    "REMOTE_COMPARISON_SCHEMA_VERSION",
+    "build_remote_submission",
+    "build_remote_venue_receipt",
+    "build_remote_venue_comparison",
+    "write_remote_venue_artifact",
     # FAMBS intake
     "FAMBS_IMPORT_SCHEMA_VERSION",
     "FAMBS_SOURCE_MANIFEST_SCHEMA_VERSION",
