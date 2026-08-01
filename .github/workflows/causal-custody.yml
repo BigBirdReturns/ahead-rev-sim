@@ -1,0 +1,115 @@
+name: Causal Custody Braid
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  causal-custody:
+    name: Multi-clock causal record qualification
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install ahead-rev-sim
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Generate reference causal-custody receipt
+        run: |
+          mkdir -p artifacts/causal-custody
+          ahead-rev-causal \
+            examples/causal_custody/reference-model.json \
+            --out artifacts/causal-custody/reference.json \
+            --quiet
+
+      - name: Validate schema, causal order, and claim boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+
+          receipt = json.loads(
+              Path("artifacts/causal-custody/reference.json")
+              .read_text(encoding="utf-8")
+          )
+          schema = json.loads(
+              Path("schemas/causal-custody-receipt.schema.json")
+              .read_text(encoding="utf-8")
+          )
+          Draft202012Validator.check_schema(schema)
+          Draft202012Validator(schema).validate(receipt)
+
+          summary = receipt["summary"]
+          qualification = receipt["qualification"]
+          assert summary["clock_count"] == 2
+          assert summary["event_count"] == 10
+          assert summary["causal_edge_count"] == 5
+          assert summary["resolved_causal_edge_count"] == 5
+          assert summary["unresolved_causal_edge_ids"] == []
+          assert summary["power_covers_work_interval"] is True
+          assert summary["calibration_precedes_work"] is True
+          assert summary["environment_precedes_work"] is True
+          assert summary["accepted_output_matches"] is True
+          assert qualification["status"] == "reference_causal_custody"
+          assert qualification["reference_causal_custody_allowed"] is True
+          assert qualification["measured_causal_custody_allowed"] is False
+          assert qualification["physical_compute_claim_allowed"] is False
+          assert qualification["complete_system_advantage_claim_allowed"] is False
+          assert qualification["blockers"] == [
+              "CAUSAL_CUSTODY_UNMEASURED",
+              "INSTRUMENT_CUSTODY_UNMEASURED",
+              "COMPLETE_SYSTEM_EVP_RECEIPT_REQUIRED",
+          ]
+          assert len(receipt["receipt_sha256"]) == 64
+          PY
+
+      - name: Require measured tier to refuse the reference fixture
+        run: |
+          if ahead-rev-causal \
+            examples/causal_custody/reference-model.json \
+            --out artifacts/causal-custody/refused-measured.json \
+            --quiet \
+            --require-measured; then
+            echo "reference fixture unexpectedly qualified as measured" >&2
+            exit 1
+          fi
+
+      - name: Run focused causal-custody tests
+        run: python -m pytest -q tests/test_causal_custody.py
+
+      - name: Assemble causal-custody kit
+        run: |
+          mkdir -p artifacts/causal-custody/kit/examples
+          mkdir -p artifacts/causal-custody/kit/schemas
+          cp docs/causal_custody_braid.md artifacts/causal-custody/kit/
+          cp \
+            examples/causal_custody/reference-model.json \
+            artifacts/causal-custody/kit/examples/
+          cp \
+            schemas/causal-custody-receipt.schema.json \
+            artifacts/causal-custody/kit/schemas/
+          cp \
+            artifacts/causal-custody/reference.json \
+            artifacts/causal-custody/kit/
+
+      - name: Upload causal-custody evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: causal-custody-${{ github.sha }}
+          path: artifacts/causal-custody
+          if-no-files-found: error
+          retention-days: 30
