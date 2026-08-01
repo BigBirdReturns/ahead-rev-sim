@@ -66,7 +66,7 @@ def main(argv: list[str] | None = None) -> int:
         print(rendered, end="")
     else:
         args.out.parent.mkdir(parents=True, exist_ok=True)
-        args.out.write_text(rendered, encoding="utf-8")
+        args.out.write_bytes(rendered.encode("utf-8"))
     return 0
 
 
