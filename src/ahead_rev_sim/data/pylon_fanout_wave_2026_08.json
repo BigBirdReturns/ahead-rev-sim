@@ -1,0 +1,1863 @@
+{
+  "artifact_type": "pylon_fanout_wave",
+  "as_of": "2026-08-01",
+  "doctrine": {
+    "admission_rule": "A wave record must point to official public artifacts, project onto existing design pylons and registry gaps, name a bounded first transaction, and preserve a public substitution route.",
+    "control_question": "Which new public mechanism closes scale, venue, or causal custody while remaining replaceable behind the existing workload, pylon, and receipt authority?",
+    "dependency_mode": "commodity_only",
+    "promotion_rule": "A wave record may enter the main commodity registry only after source identity, license, adapter, reference fixture, receipt schema, and substitute coverage are qualified.",
+    "statement": "Second-wave intake expands the two mapped-open pylons and the causal-custody dependencies beneath them without promoting any external actor into architecture authority."
+  },
+  "fronts": [
+    {
+      "front_id": "scale_seam",
+      "mission": "Make tile, die, package, board, rack, and facility communication, synchronization, thermal, and energy taxes executable and comparable.",
+      "primary_pylon_ids": [
+        "scale-seam-communication-tax",
+        "reference-twin-substitution",
+        "complete-system-envelope"
+      ],
+      "promotion_receipts": [
+        "trace identity",
+        "topology and mapping",
+        "per-seam cost vector",
+        "model divergence",
+        "EVP linkage"
+      ]
+    },
+    {
+      "front_id": "remote_venue",
+      "mission": "Make submission, queue, facility, raw return, local replay, refusal, and migration portable across execution venues.",
+      "primary_pylon_ids": [
+        "remote-venue-envelope",
+        "bounded-transition-spine",
+        "provenance-succession-chain"
+      ],
+      "promotion_receipts": [
+        "sealed submission",
+        "venue identity",
+        "raw-return manifest",
+        "local replay",
+        "migration or refusal"
+      ]
+    },
+    {
+      "front_id": "causal_custody",
+      "mission": "Align state, entropy, environment, calibration, events, clocks, instruments, power, and accepted output to one reconstructable interval.",
+      "primary_pylon_ids": [
+        "causal-custody-braid",
+        "provenance-succession-chain",
+        "negative-space-refusal-ledger"
+      ],
+      "promotion_receipts": [
+        "clock map",
+        "instrument identity",
+        "calibration and environment",
+        "raw trace",
+        "accepted interval"
+      ]
+    }
+  ],
+  "record_count": 25,
+  "records": [
+    {
+      "actor": "MLCommons Chakra Working Group",
+      "commodity_assets": [
+        {
+          "asset_kind": "execution_trace_schema",
+          "ingest_modes": [
+            "vendor",
+            "adapt",
+            "benchmark"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/mlcommons/chakra"
+        },
+        {
+          "asset_kind": "framework_trace_collectors",
+          "ingest_modes": [
+            "monitor",
+            "ingest"
+          ],
+          "license": "working_group_terms",
+          "locator": "https://mlcommons.org/working-groups/research/chakra/"
+        }
+      ],
+      "completion_questions": [
+        "Which events and dependencies are sufficient to reconstruct the accepted work?",
+        "Which framework and runtime details remain outside the trace?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Define an ahead trace profile over Chakra that binds accepted work, topology, collective operations, timestamps, source framework, and denominator-preserving replay.",
+      "front": "scale_seam",
+      "gap_ids": [
+        "workload_identity",
+        "task_encoding",
+        "data_movement",
+        "time_synchronization",
+        "governance_durability"
+      ],
+      "id": "mlcommons-chakra-traces",
+      "official_sources": [
+        {
+          "kind": "official_working_group",
+          "public_completion_signal": "Defines schema, trace collection, synthesis, downstream simulator enablement, benchmarks, and metrics.",
+          "title": "MLCommons Chakra Working Group",
+          "url": "https://mlcommons.org/working-groups/research/chakra/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes trace schema, converters, tooling, and examples.",
+          "title": "Chakra GitHub",
+          "url": "https://github.com/mlcommons/chakra"
+        }
+      ],
+      "priority": 1,
+      "project": "Chakra execution-trace schema and trace ecosystem",
+      "promotion_blockers": [
+        "PINNED_SOURCE_COMMIT_MISSING",
+        "AHEAD_TRACE_PROFILE_MISSING",
+        "ACCEPTED_WORK_MAPPING_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_standardization_and_tool_integration",
+      "pylon_ids": [
+        "bounded-transition-spine",
+        "semantic-ir-lowering-sandwich",
+        "scale-seam-communication-tax",
+        "provenance-succession-chain"
+      ],
+      "required_receipts": [
+        "trace schema identity",
+        "collector identity",
+        "accepted-work mapping",
+        "clock and topology manifest",
+        "replay receipt"
+      ]
+    },
+    {
+      "actor": "ASTRA-sim community",
+      "commodity_assets": [
+        {
+          "asset_kind": "distributed_system_simulator",
+          "ingest_modes": [
+            "vendor",
+            "fallback",
+            "benchmark"
+          ],
+          "license": "MIT",
+          "locator": "https://github.com/astra-sim/astra-sim"
+        },
+        {
+          "asset_kind": "analytical_network_backend",
+          "ingest_modes": [
+            "vendor",
+            "benchmark"
+          ],
+          "license": "MIT",
+          "locator": "https://github.com/astra-sim/astra-network-analytical"
+        }
+      ],
+      "completion_questions": [
+        "Which modeled seams dominate accepted-work latency?",
+        "Where does the simulator stop and measured behavior begin?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Run one pinned Chakra workload through two ASTRA-sim network backends and emit per-seam traffic, synchronization, latency, and model-divergence receipts.",
+      "front": "scale_seam",
+      "gap_ids": [
+        "data_movement",
+        "scaling_interconnect",
+        "model_hardware_fidelity",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "workload_identity"
+      ],
+      "id": "astra-sim-scale-model",
+      "official_sources": [
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes a distributed AI simulator with workload, system, network, and memory modeling APIs.",
+          "title": "ASTRA-sim GitHub",
+          "url": "https://github.com/astra-sim/astra-sim"
+        },
+        {
+          "kind": "official_site",
+          "public_completion_signal": "Documents pluggable simulation backends and Chakra trace intake.",
+          "title": "ASTRA-sim documentation",
+          "url": "https://astra-sim.github.io/"
+        }
+      ],
+      "priority": 1,
+      "project": "ASTRA-sim 2.0 distributed AI system simulator",
+      "promotion_blockers": [
+        "PINNED_VERSION_MISSING",
+        "ENERGY_MODEL_BOUNDARY_MISSING",
+        "MEASURED_REPLACEMENT_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_multi_fidelity_simulator",
+      "pylon_ids": [
+        "reference-twin-substitution",
+        "scale-seam-communication-tax",
+        "complete-system-envelope",
+        "model-fidelity-staircase"
+      ],
+      "required_receipts": [
+        "workload trace identity",
+        "system and network configuration",
+        "backend identity",
+        "per-seam traffic and timing",
+        "model-divergence receipt"
+      ]
+    },
+    {
+      "actor": "gem5 community",
+      "commodity_assets": [
+        {
+          "asset_kind": "cycle_accurate_interconnect_model",
+          "ingest_modes": [
+            "vendor",
+            "fallback",
+            "benchmark"
+          ],
+          "license": "BSD-3-Clause",
+          "locator": "https://github.com/gem5/gem5"
+        },
+        {
+          "asset_kind": "full_system_memory_model",
+          "ingest_modes": [
+            "adapt",
+            "benchmark"
+          ],
+          "license": "BSD-3-Clause",
+          "locator": "https://www.gem5.org/documentation/"
+        }
+      ],
+      "completion_questions": [
+        "Which microarchitectural assumptions change the scale-seam result?",
+        "Can the same traffic fixture reproduce across full-system and standalone network models?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Translate one physical-compute traffic fixture into Garnet, retain topology and flow-control identity, and compare its seam receipt with ASTRA-sim and BookSim2.",
+      "front": "scale_seam",
+      "gap_ids": [
+        "data_movement",
+        "scaling_interconnect",
+        "model_hardware_fidelity",
+        "time_synchronization",
+        "full_system_energy"
+      ],
+      "id": "gem5-garnet-scale-model",
+      "official_sources": [
+        {
+          "kind": "official_documentation",
+          "public_completion_signal": "Documents cycle-accurate router, topology, routing, virtual-channel, and off-chip link modeling.",
+          "title": "gem5 Garnet 2.0",
+          "url": "https://www.gem5.org/documentation/general_docs/ruby/garnet-2/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes the full-system simulator and Garnet source.",
+          "title": "gem5 GitHub",
+          "url": "https://github.com/gem5/gem5"
+        }
+      ],
+      "priority": 1,
+      "project": "gem5 Garnet 2.0 on-chip and off-chip network model",
+      "promotion_blockers": [
+        "PINNED_GEM5_COMMIT_MISSING",
+        "TRACE_ADAPTER_MISSING",
+        "ENERGY_COUPLING_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_cycle_accurate_network_model",
+      "pylon_ids": [
+        "reference-twin-substitution",
+        "scale-seam-communication-tax",
+        "composition-fabric",
+        "model-fidelity-staircase"
+      ],
+      "required_receipts": [
+        "topology manifest",
+        "routing and VC configuration",
+        "traffic trace",
+        "cycle trace",
+        "cross-model divergence"
+      ]
+    },
+    {
+      "actor": "FireSim community",
+      "commodity_assets": [
+        {
+          "asset_kind": "fpga_accelerated_rtl_simulator",
+          "ingest_modes": [
+            "vendor",
+            "qualify",
+            "benchmark"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/firesim/firesim"
+        },
+        {
+          "asset_kind": "validated_io_models",
+          "ingest_modes": [
+            "adapt",
+            "qualify"
+          ],
+          "license": "project_terms",
+          "locator": "https://docs.fires.im/en/latest/"
+        }
+      ],
+      "completion_questions": [
+        "Does RTL execution preserve the MMIO lifecycle and accepted result?",
+        "Which host and FPGA costs surround the simulated target?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Elaborate the physical-compute bridge into FireSim, boot the accepted RV64GC workload, and compare RTL, target-model, and scale-seam traces.",
+      "front": "scale_seam",
+      "gap_ids": [
+        "compiler_lowering",
+        "model_hardware_fidelity",
+        "scaling_interconnect",
+        "measurement_reproducibility",
+        "access_licensing",
+        "full_system_energy"
+      ],
+      "id": "firesim-scaleout-rtl",
+      "official_sources": [
+        {
+          "kind": "official_site",
+          "public_completion_signal": "Describes FPGA-accelerated simulation of arbitrary RTL and datacenter-scale systems.",
+          "title": "FireSim",
+          "url": "https://fires.im/"
+        },
+        {
+          "kind": "official_documentation",
+          "public_completion_signal": "Documents cloud and on-premises single-node and cluster simulation workflows.",
+          "title": "FireSim documentation",
+          "url": "https://docs.fires.im/en/latest/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes the simulation infrastructure and validated I/O models.",
+          "title": "FireSim GitHub",
+          "url": "https://github.com/firesim/firesim"
+        }
+      ],
+      "priority": 1,
+      "project": "FireSim FPGA-accelerated full-system RTL simulation",
+      "promotion_blockers": [
+        "FIRESIM_CHECKOUT_MISSING",
+        "TARGET_ELABORATION_MISSING",
+        "FPGA_OR_CLOUD_EXECUTION_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_full_system_rtl_simulation",
+      "pylon_ids": [
+        "materialization-funnel",
+        "reference-twin-substitution",
+        "scale-seam-communication-tax",
+        "remote-venue-envelope",
+        "complete-system-envelope"
+      ],
+      "required_receipts": [
+        "source and target configuration",
+        "FPGA build identity",
+        "workload image",
+        "RTL trace",
+        "I/O model manifest",
+        "host-inclusive execution receipt"
+      ]
+    },
+    {
+      "actor": "FireSim community",
+      "commodity_assets": [
+        {
+          "asset_kind": "riscv_workload_builder",
+          "ingest_modes": [
+            "vendor",
+            "adapt",
+            "fallback"
+          ],
+          "license": "BSD-3-Clause",
+          "locator": "https://github.com/firesim/FireMarshal"
+        },
+        {
+          "asset_kind": "workload_image_manifest",
+          "ingest_modes": [
+            "ingest",
+            "qualify"
+          ],
+          "license": "BSD-3-Clause",
+          "locator": "https://github.com/firesim/FireMarshal"
+        }
+      ],
+      "completion_questions": [
+        "Can the same workload image execute in target model, RTL, and remote FPGA venues?",
+        "Which build inputs are currently implicit?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Package FAMBS and the cartridge lifecycle as FireMarshal workloads with immutable inputs, expected results, toolchain custody, and artifact-only replay.",
+      "front": "scale_seam",
+      "gap_ids": [
+        "workload_identity",
+        "compiler_lowering",
+        "software_fallback",
+        "access_licensing",
+        "independent_validation"
+      ],
+      "id": "firemarshal-workload-bundles",
+      "official_sources": [
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes workload build, configuration, launch, and result collection for FireSim and Chipyard targets.",
+          "title": "FireMarshal GitHub",
+          "url": "https://github.com/firesim/FireMarshal"
+        }
+      ],
+      "priority": 1,
+      "project": "FireMarshal workload construction and evaluation",
+      "promotion_blockers": [
+        "REFERENCE_WORKLOAD_PACKAGE_MISSING",
+        "ARTIFACT_ONLY_REPLAY_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_workload_builder",
+      "pylon_ids": [
+        "bounded-transition-spine",
+        "semantic-ir-lowering-sandwich",
+        "remote-venue-envelope",
+        "provenance-succession-chain"
+      ],
+      "required_receipts": [
+        "workload configuration",
+        "source and toolchain identity",
+        "disk and binary hashes",
+        "expected output",
+        "launch and return receipt"
+      ]
+    },
+    {
+      "actor": "Sandia National Laboratories and SST community",
+      "commodity_assets": [
+        {
+          "asset_kind": "parallel_discrete_event_core",
+          "ingest_modes": [
+            "vendor",
+            "fallback",
+            "benchmark"
+          ],
+          "license": "BSD-3-Clause",
+          "locator": "https://github.com/sstsimulator/sst-core"
+        },
+        {
+          "asset_kind": "component_model_interface",
+          "ingest_modes": [
+            "adapt",
+            "vendor"
+          ],
+          "license": "project_terms",
+          "locator": "https://sst-simulator.org/"
+        }
+      ],
+      "completion_questions": [
+        "Which event ordering assumptions change the scale projection?",
+        "How far can the topology scale before the model itself dominates?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Implement the scale-seam reference topology as SST components and compare event ordering, communication tax, and cumulative EVP with the analytical reference.",
+      "front": "scale_seam",
+      "gap_ids": [
+        "scaling_interconnect",
+        "data_movement",
+        "model_hardware_fidelity",
+        "time_synchronization",
+        "full_system_energy"
+      ],
+      "id": "sst-scale-simulator",
+      "official_sources": [
+        {
+          "kind": "official_site",
+          "public_completion_signal": "Publishes a modular parallel simulation framework for large-scale computer systems.",
+          "title": "Structural Simulation Toolkit",
+          "url": "https://sst-simulator.org/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes the discrete-event simulation core and component interfaces.",
+          "title": "SST Core GitHub",
+          "url": "https://github.com/sstsimulator/sst-core"
+        }
+      ],
+      "priority": 2,
+      "project": "Structural Simulation Toolkit",
+      "promotion_blockers": [
+        "PINNED_SST_VERSION_MISSING",
+        "AHEAD_COMPONENT_ADAPTER_MISSING",
+        "ENERGY_MODEL_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_modular_parallel_discrete_event_simulator",
+      "pylon_ids": [
+        "reference-twin-substitution",
+        "scale-seam-communication-tax",
+        "composition-fabric",
+        "model-fidelity-staircase"
+      ],
+      "required_receipts": [
+        "component and simulator identity",
+        "topology",
+        "event trace",
+        "synchronization policy",
+        "cross-model divergence"
+      ]
+    },
+    {
+      "actor": "BookSim community",
+      "commodity_assets": [
+        {
+          "asset_kind": "noc_reference_model",
+          "ingest_modes": [
+            "vendor",
+            "fallback",
+            "benchmark"
+          ],
+          "license": "BSD-3-Clause",
+          "locator": "https://github.com/booksim/booksim2"
+        }
+      ],
+      "completion_questions": [
+        "Where do cycle-accurate network models disagree?",
+        "Which disagreement matters to accepted-work performance?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Replay the same synthetic and workload-derived traffic in BookSim2 and Garnet and emit first latency, queueing, and routing divergence.",
+      "front": "scale_seam",
+      "gap_ids": [
+        "data_movement",
+        "scaling_interconnect",
+        "model_hardware_fidelity",
+        "time_synchronization"
+      ],
+      "id": "booksim2-noc-model",
+      "official_sources": [
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes a cycle-accurate interconnection-network simulator with configurable topologies and routing.",
+          "title": "BookSim2 GitHub",
+          "url": "https://github.com/booksim/booksim2"
+        }
+      ],
+      "priority": 2,
+      "project": "BookSim2 cycle-accurate network-on-chip simulator",
+      "promotion_blockers": [
+        "PINNED_COMMIT_MISSING",
+        "TRACE_CONVERTER_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_noc_simulator",
+      "pylon_ids": [
+        "reference-twin-substitution",
+        "scale-seam-communication-tax",
+        "composition-fabric"
+      ],
+      "required_receipts": [
+        "traffic identity",
+        "topology and routing",
+        "queue and latency trace",
+        "cross-model divergence"
+      ]
+    },
+    {
+      "actor": "Accelergy Project",
+      "commodity_assets": [
+        {
+          "asset_kind": "architecture_energy_estimator",
+          "ingest_modes": [
+            "vendor",
+            "fallback",
+            "benchmark"
+          ],
+          "license": "MIT",
+          "locator": "https://github.com/Accelergy-Project/accelergy"
+        },
+        {
+          "asset_kind": "energy_reference_tables",
+          "ingest_modes": [
+            "ingest",
+            "adapt"
+          ],
+          "license": "project_terms",
+          "locator": "https://accelergy.mit.edu/"
+        }
+      ],
+      "completion_questions": [
+        "Which action counts are stable across simulators?",
+        "Which modeled components must be replaced by measured receipts first?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Bind one scale-seam event count to Accelergy component models, emit modeled energy by seam, and preserve the path by which measured replacements supersede estimates.",
+      "front": "scale_seam",
+      "gap_ids": [
+        "full_system_energy",
+        "model_hardware_fidelity",
+        "precision_conversion",
+        "measurement_reproducibility",
+        "workload_identity"
+      ],
+      "id": "accelergy-energy-estimator",
+      "official_sources": [
+        {
+          "kind": "official_site",
+          "public_completion_signal": "Documents architecture-level energy estimation and plug-in component models.",
+          "title": "Accelergy",
+          "url": "https://accelergy.mit.edu/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes estimator, plug-in interfaces, and examples.",
+          "title": "Accelergy GitHub",
+          "url": "https://github.com/Accelergy-Project/accelergy"
+        }
+      ],
+      "priority": 1,
+      "project": "Accelergy architecture-level energy estimation",
+      "promotion_blockers": [
+        "COMPONENT_LIBRARY_PIN_MISSING",
+        "MEASURED_REPLACEMENT_MISSING",
+        "COMPLETE_BOUNDARY_MAPPING_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_energy_estimation_framework",
+      "pylon_ids": [
+        "complete-system-envelope",
+        "evp-pareto-frontier",
+        "model-fidelity-staircase",
+        "provenance-succession-chain"
+      ],
+      "required_receipts": [
+        "architecture and action counts",
+        "component model identity",
+        "energy reference table",
+        "modeled energy breakdown",
+        "replacement map"
+      ]
+    },
+    {
+      "actor": "Timeloop community",
+      "commodity_assets": [
+        {
+          "asset_kind": "mapping_search_and_cost_model",
+          "ingest_modes": [
+            "vendor",
+            "fallback",
+            "benchmark"
+          ],
+          "license": "BSD-3-Clause",
+          "locator": "https://github.com/NVlabs/timeloop"
+        }
+      ],
+      "completion_questions": [
+        "Which mapping work disappears from accelerator comparisons?",
+        "Can movement counts be reconciled with target execution traces?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Lower one accepted kernel into Timeloop, retain mapping and storage-hierarchy identity, and reconcile its movement counts with FAMBS and scale-seam receipts.",
+      "front": "scale_seam",
+      "gap_ids": [
+        "task_encoding",
+        "compiler_lowering",
+        "data_movement",
+        "precision_conversion",
+        "model_hardware_fidelity",
+        "full_system_energy"
+      ],
+      "id": "timeloop-mapping-model",
+      "official_sources": [
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes a mapper and modeling infrastructure for loop nests, storage hierarchies, and data movement.",
+          "title": "Timeloop GitHub",
+          "url": "https://github.com/NVlabs/timeloop"
+        }
+      ],
+      "priority": 2,
+      "project": "Timeloop architecture and mapping model",
+      "promotion_blockers": [
+        "WORKLOAD_ADAPTER_MISSING",
+        "MAPPING_DENOMINATOR_MISSING",
+        "MEASURED_ENERGY_REPLACEMENT_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_mapping_and_modeling_stack",
+      "pylon_ids": [
+        "semantic-ir-lowering-sandwich",
+        "scale-seam-communication-tax",
+        "complete-system-envelope",
+        "model-fidelity-staircase"
+      ],
+      "required_receipts": [
+        "workload and loop identity",
+        "architecture specification",
+        "mapping",
+        "movement counts",
+        "cost-model identity",
+        "accepted-output parity"
+      ]
+    },
+    {
+      "actor": "EPFL ESL and 3D-ICE community",
+      "commodity_assets": [
+        {
+          "asset_kind": "transient_thermal_model",
+          "ingest_modes": [
+            "vendor",
+            "fallback",
+            "benchmark"
+          ],
+          "license": "GPL-3.0",
+          "locator": "https://github.com/esl-epfl/3d-ice"
+        }
+      ],
+      "completion_questions": [
+        "Which package and cooling assumptions dominate the result?",
+        "How does thermal state change accepted-work throughput and volume?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Project one package and scale-seam power trace through 3D-ICE, retain geometry and cooling identity, and feed temperature and cooling burden into EVP.",
+      "front": "scale_seam",
+      "gap_ids": [
+        "timing_thermal_volume",
+        "model_hardware_fidelity",
+        "packaging_assembly",
+        "full_system_energy",
+        "calibration_environment"
+      ],
+      "id": "three-d-ice-thermal-model",
+      "official_sources": [
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes a compact transient thermal simulator for 2D and 3D integrated circuits with cooling models.",
+          "title": "3D-ICE GitHub",
+          "url": "https://github.com/esl-epfl/3d-ice"
+        }
+      ],
+      "priority": 1,
+      "project": "3D-ICE transient thermal modeling",
+      "promotion_blockers": [
+        "GEOMETRY_FIXTURE_MISSING",
+        "POWER_TRACE_ADAPTER_MISSING",
+        "MEASURED_THERMAL_CALIBRATION_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_compact_thermal_simulator",
+      "pylon_ids": [
+        "model-fidelity-staircase",
+        "complete-system-envelope",
+        "evp-pareto-frontier",
+        "scale-seam-communication-tax"
+      ],
+      "required_receipts": [
+        "geometry and stack manifest",
+        "power trace",
+        "cooling boundary",
+        "thermal trace",
+        "calibration and model identity",
+        "EVP linkage"
+      ]
+    },
+    {
+      "actor": "GA4GH Cloud Work Stream",
+      "commodity_assets": [
+        {
+          "asset_kind": "workflow_submission_api",
+          "ingest_modes": [
+            "adapt",
+            "vendor",
+            "qualify"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/ga4gh/workflow-execution-service-schemas"
+        }
+      ],
+      "completion_questions": [
+        "Which service-info fields are required to reproduce the venue?",
+        "How are data credentials and returned artifacts kept outside provider authority?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Define an ahead WES profile that submits a sealed workload crate, requires raw-return artifacts, and separates service completion from accepted work.",
+      "front": "remote_venue",
+      "gap_ids": [
+        "host_interface",
+        "workload_identity",
+        "access_licensing",
+        "security_isolation",
+        "independent_validation",
+        "software_fallback"
+      ],
+      "id": "ga4gh-wes-portable-workflows",
+      "official_sources": [
+        {
+          "kind": "official_specification",
+          "public_completion_signal": "Defines platform-agnostic workflow submission, status, logs, cancellation, and outputs.",
+          "title": "GA4GH WES 1.1",
+          "url": "https://ga4gh.github.io/workflow-execution-service-schemas/docs/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes OpenAPI schemas and governance artifacts.",
+          "title": "WES schemas GitHub",
+          "url": "https://github.com/ga4gh/workflow-execution-service-schemas"
+        }
+      ],
+      "priority": 1,
+      "project": "Workflow Execution Service 1.1",
+      "promotion_blockers": [
+        "AHEAD_WES_PROFILE_MISSING",
+        "REFERENCE_SERVER_MISSING",
+        "RAW_RETURN_PROFILE_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "published_interoperability_specification",
+      "pylon_ids": [
+        "remote-venue-envelope",
+        "bounded-transition-spine",
+        "lifecycle-refusal-state-machine",
+        "authority-outside-provider"
+      ],
+      "required_receipts": [
+        "service-info identity",
+        "workflow request",
+        "submission digest",
+        "run and queue log",
+        "raw outputs",
+        "accepted-result receipt",
+        "cancellation and refusal receipt"
+      ]
+    },
+    {
+      "actor": "GA4GH Cloud Work Stream",
+      "commodity_assets": [
+        {
+          "asset_kind": "task_execution_api",
+          "ingest_modes": [
+            "adapt",
+            "vendor",
+            "qualify"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/ga4gh/task-execution-schemas"
+        }
+      ],
+      "completion_questions": [
+        "Which TES fields survive migration across HPC and cloud backends?",
+        "Which physical measurement and device identities require an extension rather than backend parameters?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Map one physical-compute task packet to TES, retain container, resource, input, output, log, and backend identity, and verify the returned receipt locally.",
+      "front": "remote_venue",
+      "gap_ids": [
+        "host_interface",
+        "workload_identity",
+        "access_licensing",
+        "security_isolation",
+        "measurement_reproducibility",
+        "software_fallback"
+      ],
+      "id": "ga4gh-tes-portable-tasks",
+      "official_sources": [
+        {
+          "kind": "official_specification",
+          "public_completion_signal": "Defines asynchronous batch tasks with inputs, containers, commands, outputs, resources, logs, and metadata.",
+          "title": "GA4GH TES 1.1",
+          "url": "https://ga4gh.github.io/task-execution-schemas/preview/develop/docs/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes the task execution OpenAPI schema and governance.",
+          "title": "TES schemas GitHub",
+          "url": "https://github.com/ga4gh/task-execution-schemas"
+        }
+      ],
+      "priority": 1,
+      "project": "Task Execution Service 1.1",
+      "promotion_blockers": [
+        "AHEAD_TES_PROFILE_MISSING",
+        "REFERENCE_SERVER_MISSING",
+        "MEASUREMENT_EXTENSION_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "published_interoperability_specification",
+      "pylon_ids": [
+        "remote-venue-envelope",
+        "self-describing-cartridge",
+        "lifecycle-refusal-state-machine",
+        "bounded-transition-spine"
+      ],
+      "required_receipts": [
+        "task document",
+        "container and command identity",
+        "resource request",
+        "backend parameters",
+        "logs and outputs",
+        "accepted-result receipt"
+      ]
+    },
+    {
+      "actor": "Research Object Crate community",
+      "commodity_assets": [
+        {
+          "asset_kind": "research_object_packaging",
+          "ingest_modes": [
+            "adapt",
+            "vendor",
+            "qualify"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://www.researchobject.org/ro-crate/specification/1.3/index.html"
+        }
+      ],
+      "completion_questions": [
+        "Which minimum metadata permits reconstruction without the originating repository?",
+        "How are physical equipment and measurement intervals represented?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Define an ahead audit-crate profile that packages workload, submission, provider, raw return, traces, instruments, EVP, acceptance, and supersession.",
+      "front": "remote_venue",
+      "gap_ids": [
+        "workload_identity",
+        "independent_validation",
+        "governance_durability",
+        "access_licensing",
+        "measurement_reproducibility"
+      ],
+      "id": "ro-crate-1-3-audit-bundles",
+      "official_sources": [
+        {
+          "kind": "official_specification",
+          "public_completion_signal": "Defines JSON-LD packaging for data, workflows, software, equipment, people, provenance, reuse, and archival context.",
+          "title": "RO-Crate 1.3",
+          "url": "https://www.researchobject.org/ro-crate/specification/1.3/index.html"
+        },
+        {
+          "kind": "official_announcement",
+          "public_completion_signal": "Announces the current recommendation and workflow vocabulary updates.",
+          "title": "RO-Crate 1.3 announcement",
+          "url": "https://www.researchobject.org/ro-crate/blog/2026-06-23/announcing-ro-crate-1-3"
+        }
+      ],
+      "priority": 1,
+      "project": "RO-Crate Metadata Specification 1.3",
+      "promotion_blockers": [
+        "AHEAD_CRATE_PROFILE_MISSING",
+        "VALIDATOR_FIXTURE_MISSING",
+        "ARTIFACT_ONLY_REPLAY_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "current_recommendation",
+      "pylon_ids": [
+        "provenance-succession-chain",
+        "remote-venue-envelope",
+        "bounded-transition-spine",
+        "registry-gap-transaction-dispatch"
+      ],
+      "required_receipts": [
+        "RO-Crate metadata",
+        "artifact hashes",
+        "workflow and run identity",
+        "equipment and software identity",
+        "acceptance and supersession links"
+      ]
+    },
+    {
+      "actor": "Globus",
+      "commodity_assets": [
+        {
+          "asset_kind": "managed_flow_orchestration",
+          "ingest_modes": [
+            "host",
+            "adapt",
+            "qualify"
+          ],
+          "license": "service_terms",
+          "locator": "https://docs.globus.org/api/flows/"
+        },
+        {
+          "asset_kind": "reliable_data_transfer",
+          "ingest_modes": [
+            "host",
+            "qualify"
+          ],
+          "license": "service_terms",
+          "locator": "https://www.globus.org/platform/services/transfer"
+        }
+      ],
+      "completion_questions": [
+        "Which provider actions can be reconstructed without the managed service?",
+        "How are private credentials excluded while preserving evidence?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Wrap a reference submission, instrument trace, compute task, return transfer, and local acceptance as one externally replayable flow with private provider parameters excluded from authority.",
+      "front": "remote_venue",
+      "gap_ids": [
+        "data_movement",
+        "host_interface",
+        "access_licensing",
+        "security_isolation",
+        "time_synchronization",
+        "governance_durability"
+      ],
+      "id": "globus-flows-transfer-envelope",
+      "official_sources": [
+        {
+          "kind": "official_documentation",
+          "public_completion_signal": "Documents managed, secure automation of actions across heterogeneous research resources.",
+          "title": "Globus Flows",
+          "url": "https://docs.globus.org/api/flows/"
+        },
+        {
+          "kind": "official_instrument_workflows",
+          "public_completion_signal": "Describes event-triggered transfer, computation, sharing, and preservation for instrument data.",
+          "title": "Managing instrument data with Globus",
+          "url": "https://www.globus.org/instruments"
+        }
+      ],
+      "priority": 2,
+      "project": "Globus Flows and Transfer",
+      "promotion_blockers": [
+        "SERVICE_ACCESS_NOT_CONFIGURED",
+        "AHEAD_FLOW_PROFILE_MISSING",
+        "OFFLINE_REPLAY_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "managed_research_automation_service",
+      "pylon_ids": [
+        "remote-venue-envelope",
+        "composition-fabric",
+        "lifecycle-refusal-state-machine",
+        "provenance-succession-chain"
+      ],
+      "required_receipts": [
+        "flow definition",
+        "action-provider identity",
+        "transfer task receipts",
+        "compute task receipt",
+        "raw-return manifest",
+        "local acceptance"
+      ]
+    },
+    {
+      "actor": "Flux Framework community",
+      "commodity_assets": [
+        {
+          "asset_kind": "hpc_workload_manager",
+          "ingest_modes": [
+            "vendor",
+            "host",
+            "qualify"
+          ],
+          "license": "LGPL-3.0",
+          "locator": "https://github.com/flux-framework/flux-core"
+        },
+        {
+          "asset_kind": "kubernetes_hpc_operator",
+          "ingest_modes": [
+            "vendor",
+            "host"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/flux-framework/flux-operator"
+        }
+      ],
+      "completion_questions": [
+        "Which scheduler and broker state must be preserved to reconstruct the run?",
+        "Can the same packet migrate between a local broker and Kubernetes MiniCluster?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Implement a Flux jobspec adapter for the sealed task packet and capture allocation, scheduler, execution, eventlog, raw output, failure, and restore identity.",
+      "front": "remote_venue",
+      "gap_ids": [
+        "host_interface",
+        "workload_identity",
+        "access_licensing",
+        "reliability_endurance",
+        "time_synchronization",
+        "security_isolation"
+      ],
+      "id": "flux-framework-venue-adapter",
+      "official_sources": [
+        {
+          "kind": "official_site",
+          "public_completion_signal": "Publishes modular HPC workload-management components, releases, and cloud integration.",
+          "title": "Flux Framework",
+          "url": "https://flux-framework.org/"
+        },
+        {
+          "kind": "official_operator",
+          "public_completion_signal": "Documents ephemeral and persistent Flux MiniClusters on Kubernetes.",
+          "title": "Flux Operator",
+          "url": "https://flux-framework.org/flux-operator/"
+        }
+      ],
+      "priority": 2,
+      "project": "Flux Framework and Flux Operator",
+      "promotion_blockers": [
+        "PINNED_RELEASE_MISSING",
+        "AHEAD_JOBSPEC_PROFILE_MISSING",
+        "REFERENCE_MINICLUSTER_FIXTURE_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_hpc_workload_manager",
+      "pylon_ids": [
+        "remote-venue-envelope",
+        "lifecycle-refusal-state-machine",
+        "bounded-transition-spine",
+        "provenance-succession-chain"
+      ],
+      "required_receipts": [
+        "jobspec",
+        "resource set",
+        "scheduler and broker identity",
+        "eventlog",
+        "raw output",
+        "failure and restore receipt"
+      ]
+    },
+    {
+      "actor": "Open OnDemand community",
+      "commodity_assets": [
+        {
+          "asset_kind": "remote_hpc_portal",
+          "ingest_modes": [
+            "host",
+            "adapt",
+            "qualify"
+          ],
+          "license": "MIT",
+          "locator": "https://github.com/OSC/ondemand"
+        },
+        {
+          "asset_kind": "interactive_app_framework",
+          "ingest_modes": [
+            "adapt",
+            "host"
+          ],
+          "license": "MIT",
+          "locator": "https://osc.github.io/ood-documentation/latest/app-development/"
+        }
+      ],
+      "completion_questions": [
+        "Which portal state is user interface rather than execution evidence?",
+        "Can the submission be reproduced outside the portal?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Create an Open OnDemand application that submits only sealed ahead packets and returns raw venue artifacts for local acceptance rather than treating the portal status as proof.",
+      "front": "remote_venue",
+      "gap_ids": [
+        "host_interface",
+        "access_licensing",
+        "security_isolation",
+        "workload_identity",
+        "independent_validation"
+      ],
+      "id": "open-ondemand-submission-surface",
+      "official_sources": [
+        {
+          "kind": "official_site",
+          "public_completion_signal": "Describes browser-based remote access to supercomputing resources.",
+          "title": "Open OnDemand",
+          "url": "https://www.openondemand.org/"
+        },
+        {
+          "kind": "official_administration",
+          "public_completion_signal": "Documents files, jobs, applications, SSH, customization, and open-source deployment.",
+          "title": "Administer Open OnDemand",
+          "url": "https://www.openondemand.org/administer-open-ondemand"
+        }
+      ],
+      "priority": 3,
+      "project": "Open OnDemand remote HPC portal",
+      "promotion_blockers": [
+        "AHEAD_OOD_APP_MISSING",
+        "REFERENCE_DEPLOYMENT_MISSING",
+        "RAW_RETURN_PATH_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "widely_deployed_open_source_remote_access_portal",
+      "pylon_ids": [
+        "remote-venue-envelope",
+        "authority-outside-provider",
+        "lifecycle-refusal-state-machine",
+        "provenance-succession-chain"
+      ],
+      "required_receipts": [
+        "portal and app identity",
+        "submission packet",
+        "scheduler job identity",
+        "returned raw artifacts",
+        "local acceptance receipt"
+      ]
+    },
+    {
+      "actor": "ReFrame community",
+      "commodity_assets": [
+        {
+          "asset_kind": "hpc_regression_framework",
+          "ingest_modes": [
+            "vendor",
+            "qualify",
+            "benchmark"
+          ],
+          "license": "BSD-3-Clause",
+          "locator": "https://github.com/reframe-hpc/reframe"
+        }
+      ],
+      "completion_questions": [
+        "Which sanity functions represent accepted work rather than superficial completion?",
+        "How are site-specific settings prevented from changing the denominator?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Express the accepted workload, fallback, semantic checks, performance envelope, and returned evidence as a portable ReFrame test across two scheduler backends.",
+      "front": "remote_venue",
+      "gap_ids": [
+        "accepted_result",
+        "workload_identity",
+        "measurement_reproducibility",
+        "independent_validation",
+        "software_fallback",
+        "access_licensing"
+      ],
+      "id": "reframe-hpc-acceptance",
+      "official_sources": [
+        {
+          "kind": "official_documentation",
+          "public_completion_signal": "Documents portable regression tests, scheduler backends, environments, sanity functions, performance checks, and reports.",
+          "title": "ReFrame documentation",
+          "url": "https://reframe-hpc.readthedocs.io/en/stable/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes the regression framework and test pipeline.",
+          "title": "ReFrame GitHub",
+          "url": "https://github.com/reframe-hpc/reframe"
+        }
+      ],
+      "priority": 2,
+      "project": "ReFrame HPC regression testing framework",
+      "promotion_blockers": [
+        "AHEAD_REFRAME_TEST_MISSING",
+        "SECOND_BACKEND_MISSING",
+        "EVP_ADAPTER_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_hpc_regression_framework",
+      "pylon_ids": [
+        "remote-venue-envelope",
+        "bounded-transition-spine",
+        "reference-twin-substitution",
+        "negative-space-refusal-ledger"
+      ],
+      "required_receipts": [
+        "test identity",
+        "environment and scheduler",
+        "sanity and performance rules",
+        "raw job output",
+        "failure report",
+        "accepted-result receipt"
+      ]
+    },
+    {
+      "actor": "Common Workflow Language community",
+      "commodity_assets": [
+        {
+          "asset_kind": "portable_workflow_language",
+          "ingest_modes": [
+            "adapt",
+            "vendor",
+            "qualify"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/common-workflow-language/common-workflow-language"
+        },
+        {
+          "asset_kind": "reference_runner",
+          "ingest_modes": [
+            "fallback",
+            "qualify"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/common-workflow-language/cwltool"
+        }
+      ],
+      "completion_questions": [
+        "Which physical-device and measurement fields remain outside CWL?",
+        "Can the reference runner reproduce the same artifact graph as a remote WES venue?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Encode one ahead remote transaction as CWL, run it with the reference runner, submit it through WES, and compare artifact and accepted-output identity.",
+      "front": "remote_venue",
+      "gap_ids": [
+        "compiler_lowering",
+        "workload_identity",
+        "software_fallback",
+        "independent_validation",
+        "access_licensing"
+      ],
+      "id": "common-workflow-language-portability",
+      "official_sources": [
+        {
+          "kind": "official_site",
+          "public_completion_signal": "Publishes standards for portable command-line workflows and tools.",
+          "title": "Common Workflow Language",
+          "url": "https://www.commonwl.org/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes schemas, specifications, conformance tests, and governance.",
+          "title": "CWL specifications GitHub",
+          "url": "https://github.com/common-workflow-language/common-workflow-language"
+        }
+      ],
+      "priority": 2,
+      "project": "Common Workflow Language standards and reference runner",
+      "promotion_blockers": [
+        "AHEAD_CWL_PROFILE_MISSING",
+        "WES_REFERENCE_INTEGRATION_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "published_open_workflow_standard",
+      "pylon_ids": [
+        "semantic-ir-lowering-sandwich",
+        "remote-venue-envelope",
+        "reference-twin-substitution",
+        "provenance-succession-chain"
+      ],
+      "required_receipts": [
+        "CWL tool and workflow",
+        "input object",
+        "reference-runner receipt",
+        "WES submission",
+        "returned artifacts",
+        "accepted-result comparison"
+      ]
+    },
+    {
+      "actor": "OpenTelemetry community",
+      "commodity_assets": [
+        {
+          "asset_kind": "telemetry_data_model",
+          "ingest_modes": [
+            "adapt",
+            "vendor",
+            "qualify"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://opentelemetry.io/docs/specs/otel/"
+        },
+        {
+          "asset_kind": "telemetry_transport",
+          "ingest_modes": [
+            "adapt",
+            "vendor"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://opentelemetry.io/docs/specs/otlp/"
+        }
+      ],
+      "completion_questions": [
+        "Which signals can share OTLP without losing physical causality?",
+        "How are trace loss, sampling, and collector transformations receipted?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Define an ahead semantic-convention profile for workload, lifecycle, cartridge, instrument, energy, environment, acceptance, refusal, and supersession spans.",
+      "front": "causal_custody",
+      "gap_ids": [
+        "time_synchronization",
+        "measurement_reproducibility",
+        "workload_identity",
+        "security_isolation",
+        "data_movement"
+      ],
+      "id": "opentelemetry-causal-telemetry",
+      "official_sources": [
+        {
+          "kind": "official_specification",
+          "public_completion_signal": "Defines traces, metrics, logs, context, resource, SDK, and compatibility requirements.",
+          "title": "OpenTelemetry Specification",
+          "url": "https://opentelemetry.io/docs/specs/otel/"
+        },
+        {
+          "kind": "official_protocol",
+          "public_completion_signal": "Defines telemetry encoding, transport, and delivery over gRPC and HTTP.",
+          "title": "OTLP Specification",
+          "url": "https://opentelemetry.io/docs/specs/otlp/"
+        }
+      ],
+      "priority": 1,
+      "project": "OpenTelemetry specification and OTLP",
+      "promotion_blockers": [
+        "AHEAD_SEMANTIC_CONVENTIONS_MISSING",
+        "CLOCK_CORRELATION_MISSING",
+        "TRACE_OVERHEAD_RECEIPT_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "current_vendor_neutral_observability_standard",
+      "pylon_ids": [
+        "causal-custody-braid",
+        "bounded-transition-spine",
+        "provenance-succession-chain",
+        "composition-fabric"
+      ],
+      "required_receipts": [
+        "trace and resource schema",
+        "clock and machine identity",
+        "span links",
+        "metrics and logs",
+        "collector and export identity",
+        "accepted interval mapping"
+      ]
+    },
+    {
+      "actor": "Perfetto community",
+      "commodity_assets": [
+        {
+          "asset_kind": "full_stack_trace_format",
+          "ingest_modes": [
+            "vendor",
+            "adapt",
+            "qualify"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/google/perfetto"
+        },
+        {
+          "asset_kind": "trace_processor",
+          "ingest_modes": [
+            "vendor",
+            "qualify"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://perfetto.dev/docs/analysis/trace-processor"
+        }
+      ],
+      "completion_questions": [
+        "Which custom data sources preserve physical state without excessive overhead?",
+        "Can traces from multiple machines and instruments be merged without ambiguous ordering?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Emit workload, host, MMIO, cartridge, instrument, power, and acceptance events into one trace and verify causal interval reconstruction with Trace Processor SQL.",
+      "front": "causal_custody",
+      "gap_ids": [
+        "time_synchronization",
+        "measurement_reproducibility",
+        "workload_identity",
+        "data_movement",
+        "independent_validation"
+      ],
+      "id": "perfetto-causal-trace",
+      "official_sources": [
+        {
+          "kind": "official_documentation",
+          "public_completion_signal": "Documents system profiling, app tracing, trace viewing, and SQL-based analysis.",
+          "title": "Perfetto documentation",
+          "url": "https://perfetto.dev/docs/"
+        },
+        {
+          "kind": "official_sdk",
+          "public_completion_signal": "Documents C++ instrumentation, custom data sources, in-process and system tracing.",
+          "title": "Perfetto Tracing SDK",
+          "url": "https://perfetto.dev/docs/instrumentation/tracing-sdk"
+        },
+        {
+          "kind": "official_processor",
+          "public_completion_signal": "Documents ingestion, sorting, storage, and SQL analysis of multiple trace formats.",
+          "title": "Trace Processor architecture",
+          "url": "https://perfetto.dev/docs/design-docs/trace-processor-architecture"
+        }
+      ],
+      "priority": 1,
+      "project": "Perfetto tracing SDK and Trace Processor",
+      "promotion_blockers": [
+        "AHEAD_PERFETTO_SCHEMA_MISSING",
+        "MULTI_CLOCK_FIXTURE_MISSING",
+        "TRACE_OVERHEAD_UNMEASURED"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_full_stack_tracing_suite",
+      "pylon_ids": [
+        "causal-custody-braid",
+        "bounded-transition-spine",
+        "model-fidelity-staircase",
+        "provenance-succession-chain"
+      ],
+      "required_receipts": [
+        "trace config",
+        "data-source identity",
+        "machine and clock mapping",
+        "trace file",
+        "SQL acceptance queries",
+        "trace-loss and overhead receipt"
+      ]
+    },
+    {
+      "actor": "LinuxPTP and White Rabbit communities",
+      "commodity_assets": [
+        {
+          "asset_kind": "precision_time_software",
+          "ingest_modes": [
+            "vendor",
+            "adapt",
+            "qualify"
+          ],
+          "license": "GPL-2.0",
+          "locator": "https://linuxptp.sourceforge.net/"
+        },
+        {
+          "asset_kind": "precision_time_hardware_stack",
+          "ingest_modes": [
+            "vendor",
+            "qualify"
+          ],
+          "license": "CERN-OHL-and-components",
+          "locator": "https://ohwr.org/projects/white-rabbit/"
+        }
+      ],
+      "completion_questions": [
+        "Which accuracy is required for accepted causal ordering?",
+        "What synchronization cost grows at each scale seam?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Create a clock-custody profile that measures offset, drift, correction, grandmaster identity, holdover, path delay, and synchronization energy for distributed EVP traces.",
+      "front": "causal_custody",
+      "gap_ids": [
+        "time_synchronization",
+        "measurement_reproducibility",
+        "scaling_interconnect",
+        "full_system_energy",
+        "reliability_endurance"
+      ],
+      "id": "linuxptp-white-rabbit-timebase",
+      "official_sources": [
+        {
+          "kind": "official_linuxptp",
+          "public_completion_signal": "Publishes an implementation of IEEE 1588 Precision Time Protocol for Linux.",
+          "title": "LinuxPTP",
+          "url": "https://linuxptp.sourceforge.net/"
+        },
+        {
+          "kind": "official_white_rabbit",
+          "public_completion_signal": "Publishes open hardware, firmware, and software for sub-nanosecond synchronization and deterministic data delivery.",
+          "title": "White Rabbit",
+          "url": "https://ohwr.org/projects/white-rabbit/"
+        }
+      ],
+      "priority": 1,
+      "project": "PTP and White Rabbit precision time synchronization",
+      "promotion_blockers": [
+        "HARDWARE_TIMEBASE_MISSING",
+        "CLOCK_PROFILE_MISSING",
+        "SYNC_ENERGY_UNMEASURED"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_precision_time_ecosystem",
+      "pylon_ids": [
+        "causal-custody-braid",
+        "scale-seam-communication-tax",
+        "complete-system-envelope",
+        "composition-fabric"
+      ],
+      "required_receipts": [
+        "time-source identity",
+        "PTP or White Rabbit configuration",
+        "offset and drift trace",
+        "holdover and fault receipt",
+        "clock energy and volume",
+        "event correlation proof"
+      ]
+    },
+    {
+      "actor": "Google OpenHTF community",
+      "commodity_assets": [
+        {
+          "asset_kind": "hardware_test_orchestration",
+          "ingest_modes": [
+            "vendor",
+            "adapt",
+            "qualify"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/google/openhtf"
+        }
+      ],
+      "completion_questions": [
+        "Which test phases correspond to admission rather than characterization?",
+        "How are station-specific instruments kept out of workload authority?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Map one physical-cartridge qualification into OpenHTF phases with calibration, instrument plugs, measurement limits, refusal reasons, raw attachments, and sealed output.",
+      "front": "causal_custody",
+      "gap_ids": [
+        "accepted_result",
+        "measurement_reproducibility",
+        "calibration_environment",
+        "fabrication_signoff",
+        "reliability_endurance"
+      ],
+      "id": "openhtf-hardware-test",
+      "official_sources": [
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes a Python framework for hardware manufacturing and test stations, phases, measurements, plugs, and records.",
+          "title": "OpenHTF GitHub",
+          "url": "https://github.com/google/openhtf"
+        }
+      ],
+      "priority": 2,
+      "project": "OpenHTF hardware test framework",
+      "promotion_blockers": [
+        "AHEAD_OPENHTF_PROFILE_MISSING",
+        "REFERENCE_STATION_MISSING",
+        "PHYSICAL_FIXTURE_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_hardware_test_framework",
+      "pylon_ids": [
+        "bounded-transition-spine",
+        "negative-space-refusal-ledger",
+        "causal-custody-braid",
+        "materialization-funnel"
+      ],
+      "required_receipts": [
+        "test descriptor",
+        "phase and plug identity",
+        "calibration",
+        "measurements and limits",
+        "attachments",
+        "pass fail refusal receipt"
+      ]
+    },
+    {
+      "actor": "QCoDeS community",
+      "commodity_assets": [
+        {
+          "asset_kind": "instrument_driver_framework",
+          "ingest_modes": [
+            "vendor",
+            "adapt",
+            "qualify"
+          ],
+          "license": "MIT",
+          "locator": "https://github.com/microsoft/Qcodes"
+        },
+        {
+          "asset_kind": "experiment_dataset",
+          "ingest_modes": [
+            "ingest",
+            "qualify"
+          ],
+          "license": "MIT",
+          "locator": "https://microsoft.github.io/Qcodes/"
+        }
+      ],
+      "completion_questions": [
+        "Which snapshot fields are required to reproduce a physical run?",
+        "How are driver changes and instrument firmware superseded?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Build a QCoDeS adapter that binds instrument snapshots, parameter sweeps, environment, calibration, raw datasets, accepted intervals, and EVP receipts.",
+      "front": "causal_custody",
+      "gap_ids": [
+        "measurement_reproducibility",
+        "calibration_environment",
+        "time_synchronization",
+        "model_hardware_fidelity",
+        "independent_validation"
+      ],
+      "id": "qcodes-instrument-custody",
+      "official_sources": [
+        {
+          "kind": "official_documentation",
+          "public_completion_signal": "Documents instrument drivers, parameters, datasets, measurement loops, metadata, and experiment storage.",
+          "title": "QCoDeS documentation",
+          "url": "https://microsoft.github.io/Qcodes/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes the measurement framework and drivers.",
+          "title": "QCoDeS GitHub",
+          "url": "https://github.com/microsoft/Qcodes"
+        }
+      ],
+      "priority": 2,
+      "project": "QCoDeS experiment and instrument framework",
+      "promotion_blockers": [
+        "AHEAD_QCODES_ADAPTER_MISSING",
+        "REFERENCE_INSTRUMENT_FIXTURE_MISSING",
+        "CLOCK_LINKAGE_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_experiment_framework",
+      "pylon_ids": [
+        "causal-custody-braid",
+        "model-fidelity-staircase",
+        "provenance-succession-chain",
+        "negative-space-refusal-ledger"
+      ],
+      "required_receipts": [
+        "instrument snapshot",
+        "parameter and sweep identity",
+        "dataset",
+        "timestamps",
+        "calibration and environment",
+        "acceptance linkage"
+      ]
+    },
+    {
+      "actor": "Bluesky Project",
+      "commodity_assets": [
+        {
+          "asset_kind": "experiment_plan_engine",
+          "ingest_modes": [
+            "vendor",
+            "adapt",
+            "qualify"
+          ],
+          "license": "BSD-3-Clause",
+          "locator": "https://github.com/bluesky/bluesky"
+        },
+        {
+          "asset_kind": "hardware_abstraction",
+          "ingest_modes": [
+            "vendor",
+            "adapt"
+          ],
+          "license": "BSD-3-Clause",
+          "locator": "https://github.com/bluesky/ophyd"
+        }
+      ],
+      "completion_questions": [
+        "Can one plan execute against simulated and physical devices unchanged?",
+        "Which event documents are sufficient for exact or statistical replay?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Represent a physical-compute experiment as a Bluesky plan over Ophyd devices, preserving lifecycle commands, state, event documents, calibration, refusal, and accepted output.",
+      "front": "causal_custody",
+      "gap_ids": [
+        "host_interface",
+        "calibration_environment",
+        "measurement_reproducibility",
+        "time_synchronization",
+        "state_reset"
+      ],
+      "id": "bluesky-ophyd-experiment-plans",
+      "official_sources": [
+        {
+          "kind": "official_bluesky",
+          "public_completion_signal": "Documents plans, RunEngine execution, event documents, metadata, callbacks, and data acquisition.",
+          "title": "Bluesky documentation",
+          "url": "https://blueskyproject.io/bluesky/main/"
+        },
+        {
+          "kind": "official_ophyd",
+          "public_completion_signal": "Documents hardware abstraction into positioners, detectors, signals, and devices.",
+          "title": "Ophyd documentation",
+          "url": "https://blueskyproject.io/ophyd/"
+        }
+      ],
+      "priority": 2,
+      "project": "Bluesky RunEngine and Ophyd hardware abstraction",
+      "promotion_blockers": [
+        "AHEAD_BLUESKY_PLAN_MISSING",
+        "OPHYD_DEVICE_ADAPTER_MISSING",
+        "REFERENCE_RUN_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_experiment_orchestration",
+      "pylon_ids": [
+        "causal-custody-braid",
+        "self-describing-cartridge",
+        "lifecycle-refusal-state-machine",
+        "provenance-succession-chain"
+      ],
+      "required_receipts": [
+        "plan identity",
+        "device descriptors",
+        "event documents",
+        "run start and stop metadata",
+        "calibration and environment",
+        "accepted-result link"
+      ]
+    },
+    {
+      "actor": "PyMeasure community",
+      "commodity_assets": [
+        {
+          "asset_kind": "instrument_control_framework",
+          "ingest_modes": [
+            "vendor",
+            "adapt",
+            "qualify"
+          ],
+          "license": "MIT",
+          "locator": "https://github.com/pymeasure/pymeasure"
+        }
+      ],
+      "completion_questions": [
+        "Can the same procedure switch between simulated and physical instruments?",
+        "How are retry and instrument-disconnect failures retained?"
+      ],
+      "dependency_mode": "commodity_only",
+      "first_transaction": "Create a minimal physical-cartridge procedure with simulated and real instrument backends, raw result files, failure injection, calibration, and accepted-result checks.",
+      "front": "causal_custody",
+      "gap_ids": [
+        "measurement_reproducibility",
+        "calibration_environment",
+        "time_synchronization",
+        "software_fallback",
+        "reliability_endurance"
+      ],
+      "id": "pymeasure-instrument-automation",
+      "official_sources": [
+        {
+          "kind": "official_documentation",
+          "public_completion_signal": "Documents instrument classes, procedures, results, workers, experiments, and graphical interfaces.",
+          "title": "PyMeasure documentation",
+          "url": "https://pymeasure.readthedocs.io/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes instrument drivers and experiment automation.",
+          "title": "PyMeasure GitHub",
+          "url": "https://github.com/pymeasure/pymeasure"
+        }
+      ],
+      "priority": 3,
+      "project": "PyMeasure scientific instrument automation",
+      "promotion_blockers": [
+        "AHEAD_PYMEASURE_PROCEDURE_MISSING",
+        "SIMULATED_INSTRUMENT_FIXTURE_MISSING",
+        "PHYSICAL_INSTRUMENT_MISSING"
+      ],
+      "promotion_state": "candidate",
+      "public_stage": "active_open_source_instrument_control_framework",
+      "pylon_ids": [
+        "causal-custody-braid",
+        "bounded-transition-spine",
+        "negative-space-refusal-ledger",
+        "reference-twin-substitution"
+      ],
+      "required_receipts": [
+        "procedure identity",
+        "instrument class and firmware",
+        "parameters",
+        "raw results",
+        "failure and retry log",
+        "calibration",
+        "accepted result"
+      ]
+    }
+  ],
+  "schema_version": "ahead.pylon-fanout-wave/v0.1",
+  "wave_id": "2026-08-scale-venue-causality"
+}
