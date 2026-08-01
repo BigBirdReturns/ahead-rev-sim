@@ -1,6 +1,7 @@
 name: RTL Attachment Execution
 
 on:
+  workflow_call:
   pull_request:
   push:
     branches:
