@@ -1,0 +1,70 @@
+name: Commodity or research intake
+description: Propose a public project, mechanism, standard, facility, or measurement method for bounded intake
+title: "[intake] "
+labels:
+  - research-intake
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A public project becomes useful when it can be pinned, mapped to a system gap and pylon, exercised through a bounded transaction, and replaced without transferring workload or evidence authority.
+  - type: input
+    id: actor
+    attributes:
+      label: Actor and project
+      placeholder: Organization and exact project name
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Official public source
+      placeholder: https://...
+    validations:
+      required: true
+  - type: textarea
+    id: asset
+    attributes:
+      label: Reusable commodity asset
+      description: Name the code, model, specification, device, dataset, testbed, fabrication route, or measurement procedure that can be consumed.
+    validations:
+      required: true
+  - type: textarea
+    id: gap
+    attributes:
+      label: System gap and congruent-shape pylon
+      description: Explain the recurring causal structure and the missing complete-system seam.
+    validations:
+      required: true
+  - type: textarea
+    id: transaction
+    attributes:
+      label: First bounded transaction
+      description: State the smallest adapter, fixture, refusal path, and receipt needed to test usefulness.
+    validations:
+      required: true
+  - type: textarea
+    id: substitution
+    attributes:
+      label: Reference twin and substitution route
+      description: Name the public fallback or competing implementation that prevents dependency capture.
+    validations:
+      required: true
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Claim boundary
+      description: State what the public artifact does and does not prove.
+    validations:
+      required: true
+  - type: checkboxes
+    id: public
+    attributes:
+      label: Material status
+      options:
+        - label: All referenced material is public or independently generated.
+          required: true
+        - label: The proposal does not imply participation, endorsement, or implementation by the named actor.
+          required: true
+        - label: License and access terms are identified or preserved as an explicit blocker.
+          required: true
