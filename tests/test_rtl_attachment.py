@@ -19,11 +19,13 @@ from ahead_rev_sim.rtl_attachment import (
     build_attachment_contract,
     build_attachment_manifest,
     parse_rtl_attachment_trace,
-    write_attachment_bundle,
-    write_rtl_attachment_proof,
 )
 from ahead_rev_sim.rtl_attachment_cli import main as rtl_main
 from ahead_rev_sim.rtl_attachment_execution import build_rtl_attachment_proof
+from ahead_rev_sim.rtl_attachment_io import (
+    write_attachment_bundle,
+    write_rtl_attachment_proof,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -49,11 +51,11 @@ def _fixture(
     root.mkdir(parents=True, exist_ok=True)
     outputs = write_attachment_bundle(root)
     mmio = root / "ahead_physical_compute_mmio_v1.sv"
-    mmio.write_text(render_systemverilog(), encoding="utf-8")
+    mmio.write_bytes(render_systemverilog().encode("utf-8"))
     executable = root / "rtl-attachment.vvp"
     executable.write_bytes(b"#! /usr/bin/vvp\nrtl-attachment-fixture\n")
     trace = root / "rtl-attachment.trace"
-    trace.write_text(EXPECTED_TRACE, encoding="utf-8")
+    trace.write_bytes(EXPECTED_TRACE.encode("utf-8"))
     expected = outputs["rtl-attachment.expected"]
     manifest = outputs["rtl-attachment-manifest.json"]
     sources = [
@@ -99,6 +101,7 @@ def test_contract_and_manifest_are_deterministic_sealed_and_schema_valid(
         payload = outputs[name].read_bytes()
         assert len(payload) == record["bytes"]
         assert sha256(payload).hexdigest() == record["sha256"]
+        assert b"\r\n" not in payload
 
 
 def test_trace_parser_proves_admission_refusal_fault_and_receipts() -> None:
@@ -147,6 +150,7 @@ def test_rtl_proof_is_deterministic_sealed_and_schema_valid(tmp_path: Path) -> N
 
     output = write_rtl_attachment_proof(tmp_path / "proof.json", first)
     assert json.loads(output.read_text(encoding="utf-8")) == first
+    assert b"\r\n" not in output.read_bytes()
 
 
 def test_rtl_proof_refuses_trace_manifest_and_source_divergence(
@@ -154,7 +158,7 @@ def test_rtl_proof_refuses_trace_manifest_and_source_divergence(
 ) -> None:
     trace_root = tmp_path / "trace"
     executable, trace, expected, manifest, sources, _outputs = _fixture(trace_root)
-    trace.write_text("result=pass\n", encoding="utf-8")
+    trace.write_bytes(b"result=pass\n")
     with pytest.raises(ValueError, match="trace diverges"):
         build_rtl_attachment_proof(
             executable,
@@ -170,9 +174,8 @@ def test_rtl_proof_refuses_trace_manifest_and_source_divergence(
     executable, trace, expected, manifest, sources, _outputs = _fixture(manifest_root)
     manifest_payload = json.loads(manifest.read_text(encoding="utf-8"))
     manifest_payload["qualification"]["status"] = "forged"
-    manifest.write_text(
-        json.dumps(manifest_payload, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
+    manifest.write_bytes(
+        (json.dumps(manifest_payload, indent=2, sort_keys=True) + "\n").encode("utf-8")
     )
     with pytest.raises(ValueError, match="manifest diverges"):
         build_rtl_attachment_proof(
@@ -187,10 +190,7 @@ def test_rtl_proof_refuses_trace_manifest_and_source_divergence(
 
     bundle_root = tmp_path / "bundle-source"
     executable, trace, expected, manifest, sources, outputs = _fixture(bundle_root)
-    outputs["ahead_reference_handle_resolver_v1.sv"].write_text(
-        "// tampered\n",
-        encoding="utf-8",
-    )
+    outputs["ahead_reference_handle_resolver_v1.sv"].write_bytes(b"// tampered\n")
     with pytest.raises(ValueError, match="diverges from sealed manifest"):
         build_rtl_attachment_proof(
             executable,
@@ -206,7 +206,7 @@ def test_rtl_proof_refuses_trace_manifest_and_source_divergence(
     executable, trace, expected, manifest, sources, _outputs = _fixture(source_root)
     alternate = source_root / "alternate" / sources[1].name
     alternate.parent.mkdir(parents=True)
-    alternate.write_text("// alternate resolver\n", encoding="utf-8")
+    alternate.write_bytes(b"// alternate resolver\n")
     alternate_sources = [sources[0], alternate, sources[2], sources[3]]
     with pytest.raises(ValueError, match="diverges from sealed manifest"):
         build_rtl_attachment_proof(
@@ -221,7 +221,7 @@ def test_rtl_proof_refuses_trace_manifest_and_source_divergence(
 
     mmio_root = tmp_path / "mmio-source"
     executable, trace, expected, manifest, sources, _outputs = _fixture(mmio_root)
-    sources[0].write_text("// stale MMIO\n", encoding="utf-8")
+    sources[0].write_bytes(b"// stale MMIO\n")
     with pytest.raises(ValueError, match="MMIO RTL diverges"):
         build_rtl_attachment_proof(
             executable,
@@ -264,7 +264,9 @@ def test_rtl_cli_generates_bundle_and_reports_version(
     assert rtl_main(["bundle", "--out-dir", str(tmp_path)]) == 0
     output = capsys.readouterr().out
     assert "rtl-attachment-manifest.json" in output
-    assert (tmp_path / "ahead_physical_compute_attachment_tb.sv").is_file()
+    testbench = tmp_path / "ahead_physical_compute_attachment_tb.sv"
+    assert testbench.is_file()
+    assert b"\r\n" not in testbench.read_bytes()
 
     with pytest.raises(SystemExit) as exc:
         rtl_main(["--version"])
