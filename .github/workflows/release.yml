@@ -13,8 +13,16 @@ permissions:
   contents: write
 
 jobs:
+  rtl-attachment:
+    name: Requalify executed RTL attachment
+    permissions:
+      contents: read
+    uses: ./.github/workflows/rtl-attachment.yml
+
   release:
     name: Build, verify, and publish release artifacts
+    needs:
+      - rtl-attachment
     runs-on: ubuntu-latest
     timeout-minutes: 35
 
@@ -59,6 +67,8 @@ jobs:
           /tmp/ahead-rev-release/bin/python -m pip install dist/*.whl
           /tmp/ahead-rev-release/bin/ahead-rev-doctor --strict
           test "$(/tmp/ahead-rev-release/bin/ahead-rev-sim --version)" = "ahead-rev-sim ${GITHUB_REF_NAME#v}"
+          test "$(/tmp/ahead-rev-release/bin/ahead-rev-rtl --version)" = "ahead-rev-rtl ${GITHUB_REF_NAME#v}"
+          /tmp/ahead-rev-release/bin/ahead-rev-rtl --help >/dev/null
 
       - name: Upload release evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
