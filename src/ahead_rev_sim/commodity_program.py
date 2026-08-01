@@ -10,7 +10,11 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping
 
 from .commodity_registry import canonical_json, registry_digest
-from .commodity_registry_constants import PLAN_SCHEMA_VERSION, PROGRAM_RESOURCE
+from .commodity_registry_constants import (
+    PLAN_SCHEMA_VERSION,
+    PROGRAM_RESOURCE,
+    PROGRAM_SCHEMA_VERSION as PROGRAM_SCHEMA_VERSION,
+)
 from .commodity_validation import validate_completion_program, validate_registry
 
 
