@@ -122,7 +122,7 @@ jobs:
             ahead-rev-frontier ahead-rev-prove ahead-rev-substrate ahead-rev-fambs \
             ahead-rev-svk ahead-rev-pck ahead-rev-commodities ahead-rev-fanout \
             ahead-rev-pylons ahead-rev-wave ahead-rev-scale-seam ahead-rev-venue \
-            ahead-rev-causal ahead-rev-mmio ahead-rev-chipyard \
+            ahead-rev-causal ahead-rev-mmio ahead-rev-rtl ahead-rev-chipyard \
             ahead-rev-riscv-target-proof ahead-rev-hitch ahead-rev-consist-proof \
             ahead-rev-evp ahead-rev-doctor; do
             /tmp/ahead-rev-clean/bin/$command --help >/dev/null
@@ -166,5 +166,6 @@ jobs:
         run: |
           ahead-rev-doctor --strict
           ahead-rev-sim --version
+          ahead-rev-rtl --version
           python scripts/repository_audit.py
-          pytest -q tests/test_doctor.py tests/test_provider_hitch.py tests/test_remote_venue.py
+          pytest -q tests/test_doctor.py tests/test_provider_hitch.py tests/test_remote_venue.py tests/test_rtl_attachment.py
