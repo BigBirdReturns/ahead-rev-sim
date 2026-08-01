@@ -55,6 +55,7 @@ ahead-rev-svk = "ahead_rev_sim.svk_cli:main"
 ahead-rev-pck = "ahead_rev_sim.pck_cli:main"
 ahead-rev-commodities = "ahead_rev_sim.commodity_cli:main"
 ahead-rev-fanout = "ahead_rev_sim.fanout_cli:main"
+ahead-rev-mmio = "ahead_rev_sim.mmio_cli:main"
 
 [project.urls]
 Homepage = "https://github.com/BigBirdReturns/ahead-rev-sim"
