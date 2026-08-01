@@ -73,11 +73,40 @@ jobs:
           assert payload["physical_compute_claim_allowed"] is False
           PY
 
+      - name: Generate EVP reference receipt and preserve refusal
+        run: |
+          ahead-rev-evp \
+            examples/evp/reference-model.json \
+            --out artifacts/provider-hitch/reference-model.evp.json \
+            --quiet
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          payload = json.loads(
+              Path("artifacts/provider-hitch/reference-model.evp.json")
+              .read_text(encoding="utf-8")
+          )
+          qualification = payload["qualification"]
+          assert qualification["status"] == "modeled_evp_vector"
+          assert qualification["measured_evp_vector_allowed"] is False
+          assert qualification["complete_system_measurement_allowed"] is False
+          assert qualification["advantage_claim_allowed"] is False
+          assert payload["comparison"] is None
+          assert payload["provenance"]["supplier_chain"][0]["actor"] == "AheadComputing"
+          assert payload["provenance"]["supplier_chain"][1]["actor"] == "Vaire Computing"
+          assert "COMPLETE_SYSTEM_BOUNDARY_NOT_DECLARED" in qualification["blockers"]
+          assert "BASELINE_MISSING_FOR_ADVANTAGE" in qualification["blockers"]
+          PY
+
       - name: Assemble provider hitch kit
         run: |
           mkdir -p artifacts/provider-hitch/kit/examples
           mkdir -p artifacts/provider-hitch/kit/schemas
-          cp docs/provider_hitch_surface.md artifacts/provider-hitch/kit/
+          cp \
+            docs/provider_hitch_surface.md \
+            docs/evp_receipt.md \
+            artifacts/provider-hitch/kit/
           cp \
             examples/hitches/aheadcomputing-riscv-host.offer.json \
             examples/hitches/vaire-reversible-cartridge.offer.json \
@@ -86,11 +115,13 @@ jobs:
             examples/hitches/reference-loopback-substrate.json \
             examples/hitches/reference-riscv-target-proof.json \
             examples/hitches/reference-consist-execution-proof.json \
+            examples/evp/reference-model.json \
             artifacts/provider-hitch/kit/examples/
           cp \
             schemas/physical-compute-provider-hitch.schema.json \
             schemas/physical-compute-consist.schema.json \
             schemas/physical-compute-consist-execution-proof.schema.json \
+            schemas/evp-receipt.schema.json \
             artifacts/provider-hitch/kit/schemas/
 
       - name: Upload provider hitch evidence
