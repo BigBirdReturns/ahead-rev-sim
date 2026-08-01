@@ -1,0 +1,222 @@
+{
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/physical-compute-consist.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "abi_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "artifact_type": {
+      "const": "physical_compute_consist"
+    },
+    "cartridge": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "hitch_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "hitch_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "project": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "hitch_id",
+        "actor",
+        "project",
+        "hitch_sha256"
+      ],
+      "type": "object"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "consist_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "execution_admission": {
+      "enum": [
+        "accepted",
+        "refused"
+      ]
+    },
+    "execution_blockers": {
+      "items": {
+        "pattern": "^[A-Z0-9_]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "hitchable": {
+      "type": "boolean"
+    },
+    "host": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "hitch_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "hitch_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "project": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "hitch_id",
+        "actor",
+        "project",
+        "hitch_sha256"
+      ],
+      "type": "object"
+    },
+    "interface_state": {
+      "enum": [
+        "compatible",
+        "incompatible"
+      ]
+    },
+    "negotiated_capabilities": {
+      "items": {
+        "enum": [
+          "exact",
+          "trace_replay",
+          "distributional",
+          "software_fallback",
+          "measured_energy",
+          "xphys_acceleration"
+        ]
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "negotiated_commands": {
+      "items": {
+        "enum": [
+          "reset",
+          "load",
+          "evolve",
+          "read",
+          "capture"
+        ]
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "physical_claim_blockers": {
+      "items": {
+        "pattern": "^[A-Z0-9_]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "physical_compute_claim_allowed": {
+      "type": "boolean"
+    },
+    "physical_energy_claim_allowed": {
+      "type": "boolean"
+    },
+    "portable_binding": {
+      "const": "physical-compute-mmio/v1"
+    },
+    "qualification_state": {
+      "enum": [
+        "interface_refused",
+        "hitchable_unqualified",
+        "execution_admitted"
+      ]
+    },
+    "schema_version": {
+      "const": "ahead.physical-compute-consist/v0.1"
+    },
+    "substitution_contract": {
+      "additionalProperties": false,
+      "properties": {
+        "cartridge_replaceable": {
+          "const": true
+        },
+        "dependency_mode": {
+          "const": "commodity_only"
+        },
+        "host_replaceable": {
+          "const": true
+        },
+        "provider_may_change": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "provider_may_not_change": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "software_fallback_required": {
+          "const": true
+        }
+      },
+      "required": [
+        "dependency_mode",
+        "host_replaceable",
+        "cartridge_replaceable",
+        "software_fallback_required",
+        "provider_may_change",
+        "provider_may_not_change"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "portable_binding",
+    "abi_sha256",
+    "host",
+    "cartridge",
+    "interface_state",
+    "qualification_state",
+    "execution_admission",
+    "hitchable",
+    "negotiated_commands",
+    "negotiated_capabilities",
+    "execution_blockers",
+    "physical_claim_blockers",
+    "physical_compute_claim_allowed",
+    "physical_energy_claim_allowed",
+    "substitution_contract",
+    "claim_boundary",
+    "consist_sha256"
+  ],
+  "title": "ahead-rev-sim physical-compute consist",
+  "type": "object"
+}

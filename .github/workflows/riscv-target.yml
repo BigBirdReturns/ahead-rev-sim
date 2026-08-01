@@ -77,6 +77,32 @@ jobs:
             --trace artifacts/riscv-target/mmio_target_smoke.trace \
             --expected examples/riscv/mmio_target_smoke.expected \
             --out artifacts/riscv-target/riscv-target-proof.json
+          diff -u \
+            examples/hitches/reference-riscv-target-proof.json \
+            artifacts/riscv-target/riscv-target-proof.json
+
+      - name: Compose admitted reference consist
+        run: |
+          ahead-rev-hitch \
+            --host examples/hitches/reference-rv64gc-host.hitch.json \
+            --cartridge examples/hitches/reference-loopback-cartridge.hitch.json \
+            --out artifacts/riscv-target/reference.consist.json \
+            --require-admitted
+          diff -u \
+            examples/hitches/reference.consist.json \
+            artifacts/riscv-target/reference.consist.json
+
+      - name: Bind target execution to provider consist
+        run: |
+          ahead-rev-consist-proof \
+            --consist artifacts/riscv-target/reference.consist.json \
+            --host-hitch examples/hitches/reference-rv64gc-host.hitch.json \
+            --cartridge-hitch examples/hitches/reference-loopback-cartridge.hitch.json \
+            --target-proof artifacts/riscv-target/riscv-target-proof.json \
+            --out artifacts/riscv-target/reference-consist-execution-proof.json
+          diff -u \
+            examples/hitches/reference-consist-execution-proof.json \
+            artifacts/riscv-target/reference-consist-execution-proof.json
 
       - name: Upload target evidence
         uses: actions/upload-artifact@v4

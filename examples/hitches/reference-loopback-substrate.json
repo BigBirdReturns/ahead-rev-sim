@@ -1,0 +1,77 @@
+{
+  "channels": [
+    {
+      "calibration_required": false,
+      "channel_id": "input_words",
+      "direction": "input",
+      "dtype": "uint32",
+      "physical_quantity": "logical_words",
+      "roles": [
+        "operand"
+      ],
+      "sample_period_ns": null,
+      "unit": "word"
+    },
+    {
+      "calibration_required": false,
+      "channel_id": "loopback_state",
+      "direction": "internal",
+      "dtype": "uint32",
+      "physical_quantity": "logical_state",
+      "roles": [
+        "dynamics"
+      ],
+      "sample_period_ns": null,
+      "unit": "word"
+    },
+    {
+      "calibration_required": false,
+      "channel_id": "output_words",
+      "direction": "output",
+      "dtype": "uint32",
+      "physical_quantity": "logical_words",
+      "roles": [
+        "result"
+      ],
+      "sample_period_ns": null,
+      "unit": "word"
+    },
+    {
+      "calibration_required": false,
+      "channel_id": "energy_accounting",
+      "direction": "internal",
+      "dtype": "uint64",
+      "physical_quantity": "unmeasured_reference_energy",
+      "roles": [
+        "energy"
+      ],
+      "sample_period_ns": null,
+      "unit": "joule"
+    }
+  ],
+  "coupling_mode": "stimulate_and_observe",
+  "determinism": "exact",
+  "dynamics_class": "reversible",
+  "energy_contract": {
+    "evidence_class": "reference_model",
+    "instrument_ref": null,
+    "measurement_boundary": "virtual reference; no physical energy claim",
+    "recovered_or_harvested_joules": null,
+    "source_class": "external",
+    "supplied_joules": null
+  },
+  "environment_boundary": "qemu-riscv64 process and independent C device model",
+  "fallback_model_id": "ahead-rv64gc-independent-c-device-model",
+  "operator_class": "mmio_loopback",
+  "optional_riscv_extension": "Xphys",
+  "parameters": {
+    "capabilities_word": 9,
+    "identity_word": 1095772249
+  },
+  "portable_binding": "physical-compute-mmio/v1",
+  "realization_class": "virtual_reference",
+  "reset_contract": "exact",
+  "schema_version": "ahead.physical-substrate/v0.1",
+  "state_words": 13,
+  "substrate_id": "ahead-loopback-v0"
+}

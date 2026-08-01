@@ -58,6 +58,8 @@ ahead-rev-fanout = "ahead_rev_sim.fanout_cli:main"
 ahead-rev-mmio = "ahead_rev_sim.mmio_cli:main"
 ahead-rev-chipyard = "ahead_rev_sim.chipyard_cli:main"
 ahead-rev-riscv-target-proof = "ahead_rev_sim.riscv_target_cli:main"
+ahead-rev-hitch = "ahead_rev_sim.hitch_cli:main"
+ahead-rev-consist-proof = "ahead_rev_sim.consist_execution_cli:main"
 
 [project.urls]
 Homepage = "https://github.com/BigBirdReturns/ahead-rev-sim"

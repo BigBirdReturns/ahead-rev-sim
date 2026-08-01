@@ -1,0 +1,143 @@
+{
+  "actor": "ahead-rev-sim",
+  "actor_acknowledged": false,
+  "artifact_type": "physical_compute_provider_hitch",
+  "artifacts": [
+    {
+      "digest": {
+        "algorithm": "sha256",
+        "scope": "content",
+        "value": "748fe416f787e51fe97720ee2fa35c63ecd7958815d4cd924dd5ac0a2439c74d"
+      },
+      "evidence_class": "source",
+      "locator": "repo://examples/hitches/reference-loopback-substrate.json",
+      "required_for": "execution",
+      "slot": "substrate_descriptor",
+      "status": "present"
+    },
+    {
+      "digest": {
+        "algorithm": "git-sha1",
+        "scope": "git_blob",
+        "value": "40384205b2428b0fe0a41c8efe59e037cc1d19dc"
+      },
+      "evidence_class": "source",
+      "locator": "repo://src/ahead_rev_sim/physical_operators.py",
+      "required_for": "execution",
+      "slot": "software_fallback",
+      "status": "present"
+    },
+    {
+      "digest": {
+        "algorithm": "git-sha1",
+        "scope": "git_blob",
+        "value": "0c919711aa385ac625e6b84adb4ed9367674955e"
+      },
+      "evidence_class": "source",
+      "locator": "repo://src/ahead_rev_sim/mmio_abi.py",
+      "required_for": "execution",
+      "slot": "device_interface",
+      "status": "present"
+    },
+    {
+      "digest": {
+        "algorithm": "sha256",
+        "scope": "artifact_seal",
+        "value": "f0c12ea525dd236a3ee841e2a28ccc3fb50ac5d8656abcef3118b5559543a651"
+      },
+      "evidence_class": "target_observed",
+      "locator": "workflow://riscv-target-proof/f0c12ea525dd236a3ee841e2a28ccc3fb50ac5d8656abcef3118b5559543a651",
+      "required_for": "execution",
+      "slot": "accepted_output_receipt",
+      "status": "present"
+    },
+    {
+      "digest": {
+        "algorithm": "sha256",
+        "scope": "artifact_seal",
+        "value": "f0c12ea525dd236a3ee841e2a28ccc3fb50ac5d8656abcef3118b5559543a651"
+      },
+      "evidence_class": "target_observed",
+      "locator": "workflow://riscv-target-proof/f0c12ea525dd236a3ee841e2a28ccc3fb50ac5d8656abcef3118b5559543a651",
+      "required_for": "execution",
+      "slot": "reset_state_receipt",
+      "status": "present"
+    },
+    {
+      "digest": null,
+      "evidence_class": "simulated",
+      "locator": null,
+      "required_for": "physical_claim",
+      "slot": "complete_system_energy_receipt",
+      "status": "not_applicable"
+    },
+    {
+      "digest": null,
+      "evidence_class": "simulated",
+      "locator": null,
+      "required_for": "physical_claim",
+      "slot": "timing_thermal_volume_receipt",
+      "status": "not_applicable"
+    },
+    {
+      "digest": null,
+      "evidence_class": "simulated",
+      "locator": null,
+      "required_for": "physical_claim",
+      "slot": "independent_validation_receipt",
+      "status": "not_applicable"
+    }
+  ],
+  "claim_boundary": "This internal virtual-reference cartridge proves lifecycle, fallback, refusal, state, and receipt semantics. It does not claim physical substrate work or a measured energy, timing, thermal, volume, or fabrication result.",
+  "commodity_record_id": "internal-loopback-reference-cartridge",
+  "dependency_mode": "commodity_only",
+  "hitch_id": "ahead-rev-loopback-reference-cartridge-v0",
+  "hitch_sha256": "44e51ea2b76c9dd966e48159cb4c74087a80bd05b7340214e1e040ca849efcc9",
+  "interface": {
+    "abi_sha256": "f8a90e60f5b16d275df9ecabbc4fc9856a4551858583361ce9fd3cab3c75ae06",
+    "any_of_capabilities": [
+      "exact",
+      "trace_replay",
+      "distributional"
+    ],
+    "byte_order": "little",
+    "declared_capabilities": [
+      "exact",
+      "software_fallback"
+    ],
+    "declared_commands": [
+      "reset",
+      "load",
+      "evolve",
+      "read",
+      "capture"
+    ],
+    "optional_riscv_extension": "Xphys",
+    "portable_binding": "physical-compute-mmio/v1",
+    "required_capabilities": [
+      "software_fallback"
+    ],
+    "required_commands": [
+      "reset",
+      "load",
+      "evolve",
+      "read",
+      "capture"
+    ],
+    "word_bytes": 4,
+    "xphys_policy": "evidence_only"
+  },
+  "issuer": "ahead-rev-sim",
+  "manifest_kind": "reference",
+  "project": "Virtual loopback physical-compute cartridge",
+  "public_sources": [
+    {
+      "completion_signal": "Provides the reference descriptor, fallback operator, MMIO ABI, independent C device model, and target proof.",
+      "title": "ahead-rev-sim physical-compute cartridge floor",
+      "url": "https://github.com/BigBirdReturns/ahead-rev-sim"
+    }
+  ],
+  "realization_class": "virtual_reference",
+  "role": "cartridge",
+  "schema_version": "ahead.physical-compute-provider-hitch/v0.1"
+}

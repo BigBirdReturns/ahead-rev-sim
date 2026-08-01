@@ -1,0 +1,115 @@
+{
+  "actor": "AheadComputing",
+  "actor_acknowledged": false,
+  "artifact_type": "physical_compute_provider_hitch",
+  "artifacts": [
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "execution",
+      "slot": "riscv_implementation",
+      "status": "missing"
+    },
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "execution",
+      "slot": "mmio_driver",
+      "status": "missing"
+    },
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "execution",
+      "slot": "accepted_target_trace",
+      "status": "missing"
+    },
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "execution",
+      "slot": "reset_refusal_receipt",
+      "status": "missing"
+    },
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "execution",
+      "slot": "toolchain_receipt",
+      "status": "missing"
+    },
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "physical_claim",
+      "slot": "full_system_energy_receipt",
+      "status": "missing"
+    },
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "physical_claim",
+      "slot": "timing_thermal_volume_receipt",
+      "status": "missing"
+    },
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "physical_claim",
+      "slot": "independent_validation_receipt",
+      "status": "missing"
+    }
+  ],
+  "claim_boundary": "This is an ahead-rev-sim integration offer, not an AheadComputing statement, endorsement, partnership, implementation claim, or acknowledgement. AheadComputing can attach by satisfying the ordinary RISC-V MMIO, target-trace, fallback, refusal, measurement, and receipt slots without changing accepted work or evidence boundaries.",
+  "commodity_record_id": "ahead-high-performance-riscv",
+  "dependency_mode": "commodity_only",
+  "hitch_id": "aheadcomputing-riscv-host-offer-v0",
+  "hitch_sha256": "0ce18be3989f1aff8838d436eae8609875ff27a6b7adf80f5b2296a7b7f2d645",
+  "interface": {
+    "abi_sha256": "f8a90e60f5b16d275df9ecabbc4fc9856a4551858583361ce9fd3cab3c75ae06",
+    "any_of_capabilities": [],
+    "byte_order": "little",
+    "declared_capabilities": [],
+    "declared_commands": [],
+    "optional_riscv_extension": "Xphys",
+    "portable_binding": "physical-compute-mmio/v1",
+    "required_capabilities": [
+      "software_fallback"
+    ],
+    "required_commands": [
+      "reset",
+      "load",
+      "evolve",
+      "read",
+      "capture"
+    ],
+    "word_bytes": 4,
+    "xphys_policy": "evidence_only"
+  },
+  "issuer": "ahead-rev-sim",
+  "manifest_kind": "offer",
+  "project": "High-performance open-standard RISC-V cores",
+  "public_sources": [
+    {
+      "completion_signal": "Describes a clean-sheet big-core RISC-V architecture with server-grade reliability under active development.",
+      "title": "AheadComputing",
+      "url": "https://www.aheadcomputing.com/"
+    },
+    {
+      "completion_signal": "Treats RISC-V as the open host architecture for a broad AI ecosystem.",
+      "title": "Why Ahead chose RISC-V",
+      "url": "https://www.aheadcomputing.com/blog/why-we-chose-risc-v-to-win"
+    }
+  ],
+  "realization_class": "physical",
+  "role": "host",
+  "schema_version": "ahead.physical-compute-provider-hitch/v0.1"
+}

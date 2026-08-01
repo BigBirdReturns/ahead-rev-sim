@@ -1,0 +1,119 @@
+{
+  "actor": "Vaire Computing",
+  "actor_acknowledged": false,
+  "artifact_type": "physical_compute_provider_hitch",
+  "artifacts": [
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "execution",
+      "slot": "substrate_descriptor",
+      "status": "missing"
+    },
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "execution",
+      "slot": "software_fallback",
+      "status": "missing"
+    },
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "execution",
+      "slot": "device_interface",
+      "status": "missing"
+    },
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "execution",
+      "slot": "accepted_output_receipt",
+      "status": "missing"
+    },
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "execution",
+      "slot": "reset_state_receipt",
+      "status": "missing"
+    },
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "physical_claim",
+      "slot": "complete_system_energy_receipt",
+      "status": "missing"
+    },
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "physical_claim",
+      "slot": "timing_thermal_volume_receipt",
+      "status": "missing"
+    },
+    {
+      "digest": null,
+      "evidence_class": "public_signal",
+      "locator": null,
+      "required_for": "physical_claim",
+      "slot": "independent_validation_receipt",
+      "status": "missing"
+    }
+  ],
+  "claim_boundary": "This is an ahead-rev-sim integration offer, not a Vaire Computing statement, endorsement, partnership, implementation claim, or acknowledgement. Vaire can attach as a reversible cartridge by supplying descriptor, fallback, device, reset, accepted-output, complete-system energy, timing, thermal, volume, and independent-validation receipts behind the unchanged MMIO surface.",
+  "commodity_record_id": "vaire-arc-evp",
+  "dependency_mode": "commodity_only",
+  "hitch_id": "vaire-reversible-cartridge-offer-v0",
+  "hitch_sha256": "583ae529a06579677794a237187c32e58f63d77321c6833f152cd60938c60fee",
+  "interface": {
+    "abi_sha256": "f8a90e60f5b16d275df9ecabbc4fc9856a4551858583361ce9fd3cab3c75ae06",
+    "any_of_capabilities": [
+      "exact",
+      "trace_replay",
+      "distributional"
+    ],
+    "byte_order": "little",
+    "declared_capabilities": [],
+    "declared_commands": [],
+    "optional_riscv_extension": "Xphys",
+    "portable_binding": "physical-compute-mmio/v1",
+    "required_capabilities": [
+      "software_fallback"
+    ],
+    "required_commands": [
+      "reset",
+      "load",
+      "evolve",
+      "read",
+      "capture"
+    ],
+    "word_bytes": 4,
+    "xphys_policy": "evidence_only"
+  },
+  "issuer": "ahead-rev-sim",
+  "manifest_kind": "offer",
+  "project": "Adiabatic reversible computing, Ice River, and EVP",
+  "public_sources": [
+    {
+      "completion_signal": "Publishes reversible-computing architecture and component-measurement papers.",
+      "title": "Vaire whitepapers",
+      "url": "https://vaire.co/whitepapers"
+    },
+    {
+      "completion_signal": "Proposes energy, occupied volume, and performance as a post-Moore evaluation frame.",
+      "title": "Energy, Volume, and Performance",
+      "url": "https://www.researchgate.net/publication/407085731_Energy_Volume_and_Performance_Post-Moore%27s_Law_Scaling"
+    }
+  ],
+  "realization_class": "physical",
+  "role": "cartridge",
+  "schema_version": "ahead.physical-compute-provider-hitch/v0.1"
+}
