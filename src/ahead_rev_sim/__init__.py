@@ -58,6 +58,19 @@ from .fambs import (
     load_manifest as load_fambs_manifest,
     parse_jsonl as parse_fambs_jsonl,
 )
+from .fambs_svk_lowering import (
+    SVK_EXPECTED_RESULT,
+    SVK_LOWERING_SCHEMA_VERSION,
+    RoundTripProof,
+    SVKConfig,
+    SVKLoweringArtifact,
+    SVKStrategyPoint,
+    analyze_svk,
+    prove_checkpoint_round_trip,
+    prove_linear_round_trip,
+    svk_dot,
+    svk_source_result,
+)
 
 __all__ = [
     # Version
@@ -130,4 +143,16 @@ __all__ = [
     "derive_source_emission",
     "parse_fambs_jsonl",
     "import_fambs",
+    # FAMBS SVK lowering
+    "SVK_EXPECTED_RESULT",
+    "SVK_LOWERING_SCHEMA_VERSION",
+    "SVKConfig",
+    "RoundTripProof",
+    "SVKStrategyPoint",
+    "SVKLoweringArtifact",
+    "svk_dot",
+    "svk_source_result",
+    "prove_linear_round_trip",
+    "prove_checkpoint_round_trip",
+    "analyze_svk",
 ]

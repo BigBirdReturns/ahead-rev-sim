@@ -51,6 +51,7 @@ ahead-rev-frontier = "ahead_rev_sim.frontier_cli:main"
 ahead-rev-prove = "ahead_rev_sim.proof_cli:main"
 ahead-rev-substrate = "ahead_rev_sim.substrate_cli:main"
 ahead-rev-fambs = "ahead_rev_sim.fambs_cli:main"
+ahead-rev-svk = "ahead_rev_sim.svk_cli:main"
 
 [project.urls]
 Homepage = "https://github.com/BigBirdReturns/ahead-rev-sim"
