@@ -1,10 +1,41 @@
+# Virtual environments
 .venv/
+venv/
+env/
+
+# Python bytecode and caches
 __pycache__/
+*.py[cod]
+*$py.class
 .pytest_cache/
-*.pyc
-*.pyo
-*.pyd
-*.log
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Packaging
 dist/
 build/
 *.egg-info/
+*.whl
+
+# Tool and editor state
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+
+# Local artifacts and generated evidence
+artifacts/
+reports/
+*.execution-proof.json
+*.frontier.json
+*.evp.json
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*~
