@@ -59,18 +59,29 @@ REQUIRED_IMPORTS = (
     "ahead_rev_sim.remote_venue",
     "ahead_rev_sim.causal_custody",
     "ahead_rev_sim.congruent_shapes",
+    "ahead_rev_sim.debugger_cli",
+    "ahead_rev_sim.history_cli",
+    "ahead_rev_sim.memory_cli",
+    "ahead_rev_sim.repository_audit",
+    "ahead_rev_sim.release_preflight",
 )
 
 SOURCE_GOVERNANCE_FILES = (
     "README.md",
     "CHANGELOG.md",
     "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "SUPPORT.md",
     "SECURITY.md",
     "GOVERNANCE.md",
     "LICENSE",
     "CITATION.cff",
+    "MANIFEST.in",
+    "docs/production_readiness.md",
+    "docs/release_process.md",
     ".github/CODEOWNERS",
     ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/dependabot.yml",
 )
 
 
