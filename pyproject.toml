@@ -1,45 +1,56 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=77.0.3", "wheel>=0.45"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "ahead-rev-sim"
-version = "0.8.0"
-description = "Reversible execution for RISC-V. History is recoverable, not recorded."
+dynamic = ["version"]
+description = "Workload-to-physics evidence tooling for reversible and heterogeneous RISC-V compute."
 authors = [{ name = "Jonathan Sandhu", email = "jonathan@nodalflow.ai" }]
+maintainers = [{ name = "Jonathan Sandhu", email = "jonathan@nodalflow.ai" }]
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
-license = {text = "MIT"}
+license = "MIT"
+license-files = ["LICENSE"]
 keywords = [
     "risc-v",
     "reversible-computing",
+    "thermodynamic-computing",
+    "physical-computing",
     "time-travel-debugging",
     "adiabatic-logic",
     "auditable-compute",
-    "derivation-over-storage"
+    "execution-provenance",
+    "energy-volume-performance",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Topic :: Software Development :: Debuggers",
-    "Topic :: System :: Hardware",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Debuggers",
+    "Topic :: Software Development :: Testing",
+    "Topic :: System :: Hardware",
+    "Typing :: Typed",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0",
-    "pytest-cov>=4.0",
-    "mypy>=1.0",
-    "ruff>=0.1.0",
-    "jsonschema>=4.0",
+    "build>=1.2.2,<2",
+    "jsonschema>=4.23,<5",
+    "mypy>=1.14,<2",
+    "pytest>=8.3,<9",
+    "pytest-cov>=6,<7",
+    "ruff>=0.9,<1",
+    "tomli>=2.2,<3; python_version < '3.11'",
+    "twine>=6,<7",
 ]
 
 [project.scripts]
@@ -66,33 +77,66 @@ ahead-rev-riscv-target-proof = "ahead_rev_sim.riscv_target_cli:main"
 ahead-rev-hitch = "ahead_rev_sim.hitch_cli:main"
 ahead-rev-consist-proof = "ahead_rev_sim.consist_execution_cli:main"
 ahead-rev-evp = "ahead_rev_sim.evp_cli:main"
+ahead-rev-doctor = "ahead_rev_sim.doctor_cli:main"
 
 [project.urls]
 Homepage = "https://github.com/BigBirdReturns/ahead-rev-sim"
-Documentation = "https://github.com/BigBirdReturns/ahead-rev-sim#readme"
+Documentation = "https://github.com/BigBirdReturns/ahead-rev-sim/tree/main/docs"
 Repository = "https://github.com/BigBirdReturns/ahead-rev-sim"
 Issues = "https://github.com/BigBirdReturns/ahead-rev-sim/issues"
+Changelog = "https://github.com/BigBirdReturns/ahead-rev-sim/blob/main/CHANGELOG.md"
+"Security Policy" = "https://github.com/BigBirdReturns/ahead-rev-sim/blob/main/SECURITY.md"
 "Sibling Project: Axiom" = "https://github.com/bigbirdreturns/axiom-kg"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
 
+[tool.setuptools.dynamic]
+version = { attr = "ahead_rev_sim._version.__version__" }
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-ahead_rev_sim = ["data/*.json"]
+ahead_rev_sim = ["data/*.json", "py.typed"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_functions = ["test_*"]
+addopts = "-ra --strict-config --strict-markers"
+
+[tool.coverage.run]
+branch = true
+source = ["ahead_rev_sim"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
 
 [tool.mypy]
 python_version = "3.10"
+files = [
+    "src/ahead_rev_sim/_version.py",
+    "src/ahead_rev_sim/doctor.py",
+    "src/ahead_rev_sim/doctor_cli.py",
+    "scripts",
+]
+check_untyped_defs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
 warn_return_any = true
+warn_unreachable = true
 warn_unused_configs = true
 
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+exclude = ["build", "dist"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/ahead_rev_sim/__init__.py" = ["F401"]
