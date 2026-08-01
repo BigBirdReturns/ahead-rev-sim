@@ -18,12 +18,12 @@ from ahead_rev_sim.rtl_attachment import (
     RTL_ATTACHMENT_RESOLVER,
     build_attachment_contract,
     build_attachment_manifest,
-    build_rtl_attachment_proof,
     parse_rtl_attachment_trace,
     write_attachment_bundle,
     write_rtl_attachment_proof,
 )
 from ahead_rev_sim.rtl_attachment_cli import main as rtl_main
+from ahead_rev_sim.rtl_attachment_execution import build_rtl_attachment_proof
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -167,12 +167,14 @@ def test_rtl_proof_refuses_trace_manifest_and_source_divergence(
         )
 
     manifest_root = tmp_path / "manifest"
-    executable, trace, expected, manifest, sources, outputs = _fixture(manifest_root)
-    outputs["ahead_reference_handle_resolver_v1.sv"].write_text(
-        "// tampered\n",
+    executable, trace, expected, manifest, sources, _outputs = _fixture(manifest_root)
+    manifest_payload = json.loads(manifest.read_text(encoding="utf-8"))
+    manifest_payload["qualification"]["status"] = "forged"
+    manifest.write_text(
+        json.dumps(manifest_payload, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
-    with pytest.raises(ValueError, match="hash mismatch"):
+    with pytest.raises(ValueError, match="manifest diverges"):
         build_rtl_attachment_proof(
             executable,
             trace,
@@ -183,8 +185,56 @@ def test_rtl_proof_refuses_trace_manifest_and_source_divergence(
             vvp_version="vvp fixture",
         )
 
-    source_root = tmp_path / "sources"
+    bundle_root = tmp_path / "bundle-source"
+    executable, trace, expected, manifest, sources, outputs = _fixture(bundle_root)
+    outputs["ahead_reference_handle_resolver_v1.sv"].write_text(
+        "// tampered\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError, match="diverges from sealed manifest"):
+        build_rtl_attachment_proof(
+            executable,
+            trace,
+            expected,
+            manifest,
+            sources,
+            iverilog_version="iverilog fixture",
+            vvp_version="vvp fixture",
+        )
+
+    source_root = tmp_path / "alternate-source"
     executable, trace, expected, manifest, sources, _outputs = _fixture(source_root)
+    alternate = source_root / "alternate" / sources[1].name
+    alternate.parent.mkdir(parents=True)
+    alternate.write_text("// alternate resolver\n", encoding="utf-8")
+    alternate_sources = [sources[0], alternate, sources[2], sources[3]]
+    with pytest.raises(ValueError, match="diverges from sealed manifest"):
+        build_rtl_attachment_proof(
+            executable,
+            trace,
+            expected,
+            manifest,
+            alternate_sources,
+            iverilog_version="iverilog fixture",
+            vvp_version="vvp fixture",
+        )
+
+    mmio_root = tmp_path / "mmio-source"
+    executable, trace, expected, manifest, sources, _outputs = _fixture(mmio_root)
+    sources[0].write_text("// stale MMIO\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="MMIO RTL diverges"):
+        build_rtl_attachment_proof(
+            executable,
+            trace,
+            expected,
+            manifest,
+            sources,
+            iverilog_version="iverilog fixture",
+            vvp_version="vvp fixture",
+        )
+
+    missing_root = tmp_path / "missing-source"
+    executable, trace, expected, manifest, sources, _outputs = _fixture(missing_root)
     with pytest.raises(ValueError, match="requires exactly"):
         build_rtl_attachment_proof(
             executable,
