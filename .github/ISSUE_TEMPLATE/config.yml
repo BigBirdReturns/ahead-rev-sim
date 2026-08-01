@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/BigBirdReturns/ahead-rev-sim/security
+    about: Report vulnerabilities privately when possible.
+  - name: Contribution policy
+    url: https://github.com/BigBirdReturns/ahead-rev-sim/blob/main/CONTRIBUTING.md
+    about: Review evidence, licensing, and public-material requirements before proposing work.
