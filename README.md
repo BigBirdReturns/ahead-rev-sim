@@ -1,10 +1,11 @@
-# ahead-rev-sim 0.9.0
+# ahead-rev-sim 0.10.0
 
 [![CI](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/ci.yml/badge.svg)](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/ci.yml)
+[![RTL Attachment Execution](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/rtl-attachment.yml/badge.svg)](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/rtl-attachment.yml)
 [![Provider Hitch Surface](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/provider-hitch.yml/badge.svg)](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/provider-hitch.yml)
 [![RISC-V Target Model](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/riscv-target.yml/badge.svg)](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/riscv-target.yml)
 
-`ahead-rev-sim` is a workload-to-physics evidence system for reversible and heterogeneous RISC-V compute. It combines instantiated information semantics, exact forward and reverse execution proofs, workload custody, provider-neutral physical-compute interfaces, scale and venue receipts, causal synchronization, and complete-system Energy, Volume, and Performance qualification.
+`ahead-rev-sim` is a workload-to-physics evidence system for reversible and heterogeneous RISC-V compute. It combines instantiated information semantics, exact forward and reverse execution proofs, workload custody, provider-neutral physical-compute interfaces, executed RTL attachment evidence, scale and venue receipts, causal synchronization, and complete-system Energy, Volume, and Performance qualification.
 
 The repository is production-hardened as a Python software package and evidence producer. It does not claim that a physical substrate has performed useful computation, recovered net energy, achieved a complete-system EVP advantage, closed timing or thermal requirements, or reached fabrication acceptance.
 
@@ -19,7 +20,7 @@ information and reversibility frontier
         ↓
 executable lowering and restoration proof
         ↓
-provider-neutral RISC-V host and cartridge transaction
+provider-neutral RISC-V host, MMIO, resolver, and cartridge transaction
         ↓
 scale, venue, and causal-custody receipts
         ↓
@@ -39,6 +40,9 @@ The current software estate provides:
 - exact history-complete execution with accepted-output verification and entry-state restoration;
 - source-pinned Future AI Microbench Suite intake, including structured SVK and memory-irregular PCK lowerings;
 - `physical-compute-mmio/v1`, with generated JSON, C, SystemVerilog, and SVA artifacts;
+- `physical-cartridge-link/v1`, with an opaque-handle resolver and replaceable cartridge boundary;
+- an executed Icarus Verilog lifecycle across bridge admission, cartridge refusal, resolver fault, load, evolve, read, capture, and receipt paths;
+- fail-closed RTL source custody that rejects altered manifests, stale MMIO, changed resolver or cartridge sources, incomplete source sets, and divergent traces;
 - deterministic RC-like and trace-replay thermodynamic reference cartridges;
 - a held-out assay that separates useful physical transformation from sensing;
 - provider-neutral host and cartridge hitches, including reserved AheadComputing and Vaire offer manifests that do not imply participation or endorsement;
@@ -52,16 +56,19 @@ The current software estate provides:
 
 ## Evidence boundary
 
-The current qualified tier is deterministic software evidence plus RV64GC target-model execution. The following remain open gates:
+The current qualified tier is deterministic software evidence, RV64GC target-model execution, and provider-neutral Icarus RTL attachment execution. The standalone RTL proof establishes compiled command, state, refusal, fault, resolver, and receipt behavior. It does not establish a Chipyard subsystem, FPGA, silicon, or physical-compute result.
+
+The following remain open gates:
 
 - target-observed FAMBS v0.4 output;
 - composite workload lowering;
-- Chipyard elaboration and RTL execution;
+- Chipyard subsystem elaboration and RTL execution;
+- FPGA or measured-silicon execution;
 - an acknowledged external provider submission;
 - a measured nonfallback physical cartridge;
 - synchronized physical instruments and entropy custody;
 - complete-system EVP against a matched sealed baseline;
-- fabrication, package, and measured-silicon evidence;
+- fabrication, package, and reliability evidence;
 - artifact-only independent physical acceptance.
 
 ## Installation
@@ -130,6 +137,63 @@ ahead-rev-chipyard \
 ```
 
 The MMIO interface is the portability floor. `Xphys` is reserved as an optional acceleration path and cannot alter the workload, descriptor, refusal behavior, fallback, or evidence boundary.
+
+## Execute the provider-neutral RTL attachment
+
+Install Icarus Verilog, then generate the current MMIO authority and attachment bundle:
+
+```bash
+mkdir -p artifacts/rtl-attachment
+
+ahead-rev-mmio \
+  --format systemverilog \
+  --out artifacts/rtl-attachment/ahead_physical_compute_mmio_v1.sv
+
+ahead-rev-rtl bundle \
+  --out-dir artifacts/rtl-attachment
+```
+
+Compile and execute the bridge, opaque-handle resolver, cartridge, and testbench:
+
+```bash
+iverilog \
+  -g2012 \
+  -Wall \
+  -s ahead_physical_compute_attachment_tb \
+  -o artifacts/rtl-attachment/rtl-attachment.vvp \
+  artifacts/rtl-attachment/ahead_physical_compute_mmio_v1.sv \
+  artifacts/rtl-attachment/ahead_reference_handle_resolver_v1.sv \
+  artifacts/rtl-attachment/ahead_reference_reversible_cartridge_v1.sv \
+  artifacts/rtl-attachment/ahead_physical_compute_attachment_tb.sv
+
+vvp artifacts/rtl-attachment/rtl-attachment.vvp \
+  | tee artifacts/rtl-attachment/rtl-attachment.raw.trace
+
+sed '/\$finish called at /d' \
+  artifacts/rtl-attachment/rtl-attachment.raw.trace \
+  > artifacts/rtl-attachment/rtl-attachment.trace
+
+diff -u \
+  artifacts/rtl-attachment/rtl-attachment.expected \
+  artifacts/rtl-attachment/rtl-attachment.trace
+```
+
+Seal the execution only after source custody and accepted-trace comparison pass:
+
+```bash
+ahead-rev-rtl proof \
+  --executable artifacts/rtl-attachment/rtl-attachment.vvp \
+  --trace artifacts/rtl-attachment/rtl-attachment.trace \
+  --expected artifacts/rtl-attachment/rtl-attachment.expected \
+  --manifest artifacts/rtl-attachment/rtl-attachment-manifest.json \
+  --source artifacts/rtl-attachment/ahead_physical_compute_mmio_v1.sv \
+  --source artifacts/rtl-attachment/ahead_reference_handle_resolver_v1.sv \
+  --source artifacts/rtl-attachment/ahead_reference_reversible_cartridge_v1.sv \
+  --source artifacts/rtl-attachment/ahead_physical_compute_attachment_tb.sv \
+  --out artifacts/rtl-attachment/rtl-attachment-proof.json
+```
+
+The accepted reference transaction loads state `0x2A`, evolves it to output `0x54`, and captures the deterministic receipt word `0x52544C50524F4F46`. See [the RTL attachment proof](docs/rtl_attachment_proof.md) for the complete actor map, refusal ledger, and reconstruction procedure.
 
 ## Exercise a physical-compute reference cartridge
 
@@ -232,7 +296,9 @@ The admitted registry and second-wave staging surface are intentionally separate
 | `ahead-rev-prove` | Accepted output and exact restoration proof |
 | `ahead-rev-fambs`, `ahead-rev-svk`, `ahead-rev-pck` | Workload custody and lowerings |
 | `ahead-rev-substrate` | Reference physical-compute cartridges |
-| `ahead-rev-mmio`, `ahead-rev-chipyard` | Portable RISC-V control and integration generation |
+| `ahead-rev-mmio` | Portable RISC-V MMIO control-plane generation |
+| `ahead-rev-rtl` | Provider-neutral RTL bundle generation and executed-proof sealing |
+| `ahead-rev-chipyard` | Source-bound Chipyard integration generation |
 | `ahead-rev-hitch`, `ahead-rev-consist-proof` | Provider-neutral composition and target binding |
 | `ahead-rev-evp` | Complete-system Energy, Volume, and Performance vector |
 | `ahead-rev-scale-seam` | Adjacent scale-domain cost attribution |

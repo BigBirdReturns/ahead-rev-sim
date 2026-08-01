@@ -20,9 +20,9 @@ from ahead_rev_sim.mmio_abi import (
     render_c_header,
     render_sva,
     render_systemverilog,
-    write_bundle,
 )
 from ahead_rev_sim.mmio_cli import main as mmio_main
+from ahead_rev_sim.mmio_io import write_bundle
 from ahead_rev_sim.physical_constants import (
     OPTIONAL_RISCV_EXTENSION,
     PHYSICAL_COMPUTE_MMIO_V1,
@@ -153,7 +153,9 @@ def test_generated_bundle_is_complete_and_deterministic(tmp_path: Path) -> None:
     assert set(first) == {"abi", "c_header", "systemverilog", "sva"}
     assert set(second) == set(first)
     for name in first:
-        assert first[name].read_bytes() == second[name].read_bytes()
+        first_bytes = first[name].read_bytes()
+        assert first_bytes == second[name].read_bytes()
+        assert b"\r\n" not in first_bytes
 
 
 def test_mmio_cli_writes_single_artifact_and_bundle(tmp_path: Path) -> None:
@@ -162,6 +164,7 @@ def test_mmio_cli_writes_single_artifact_and_bundle(tmp_path: Path) -> None:
     payload = json.loads(abi_path.read_text(encoding="utf-8"))
     assert payload["portable_binding"] == PORTABLE_BINDING
     assert len(payload["abi_sha256"]) == 64
+    assert b"\r\n" not in abi_path.read_bytes()
 
     bundle = tmp_path / "bundle"
     assert mmio_main(["--format", "bundle", "--out-dir", str(bundle)]) == 0
@@ -171,3 +174,4 @@ def test_mmio_cli_writes_single_artifact_and_bundle(tmp_path: Path) -> None:
         "ahead_physical_compute_mmio_v1.sv",
         "ahead_physical_compute_mmio_v1_sva.sv",
     }
+    assert all(b"\r\n" not in path.read_bytes() for path in bundle.iterdir())

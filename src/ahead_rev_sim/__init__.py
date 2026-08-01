@@ -47,6 +47,29 @@ from .physical_substrate import (
     rc_relaxation_cartridge,
     thermal_sampler_cartridge,
 )
+from .rtl_attachment import (
+    EXPECTED_TRACE as RTL_ATTACHMENT_EXPECTED_TRACE,
+    RTL_ATTACHMENT_CONTRACT_SCHEMA_VERSION,
+    RTL_ATTACHMENT_LINK,
+    RTL_ATTACHMENT_MANIFEST_SCHEMA_VERSION,
+    RTL_ATTACHMENT_PROOF_SCHEMA_VERSION,
+    RTL_ATTACHMENT_RESOLVER,
+    build_attachment_contract,
+    build_attachment_manifest,
+    parse_rtl_attachment_trace,
+    render_cartridge_systemverilog,
+    render_contract_json,
+    render_resolver_systemverilog,
+    render_testbench_systemverilog,
+)
+from .rtl_attachment_execution import (
+    build_rtl_attachment_proof,
+    build_rtl_attachment_proof_from_tools,
+)
+from .rtl_attachment_io import (
+    write_attachment_bundle,
+    write_rtl_attachment_proof,
+)
 from .evp import (
     EVP_ARTIFACT_TYPE,
     EVP_SCHEMA_VERSION,
@@ -197,6 +220,24 @@ __all__ = [
     "thermal_sampler_cartridge",
     "harvested_world_descriptor",
     "default_physical_runtime",
+    # Provider-neutral RTL attachment
+    "RTL_ATTACHMENT_CONTRACT_SCHEMA_VERSION",
+    "RTL_ATTACHMENT_MANIFEST_SCHEMA_VERSION",
+    "RTL_ATTACHMENT_PROOF_SCHEMA_VERSION",
+    "RTL_ATTACHMENT_LINK",
+    "RTL_ATTACHMENT_RESOLVER",
+    "RTL_ATTACHMENT_EXPECTED_TRACE",
+    "build_attachment_contract",
+    "build_attachment_manifest",
+    "write_attachment_bundle",
+    "parse_rtl_attachment_trace",
+    "build_rtl_attachment_proof",
+    "build_rtl_attachment_proof_from_tools",
+    "write_rtl_attachment_proof",
+    "render_contract_json",
+    "render_resolver_systemverilog",
+    "render_cartridge_systemverilog",
+    "render_testbench_systemverilog",
     # Energy, Volume, and Performance receipts
     "EVP_SCHEMA_VERSION",
     "EVP_ARTIFACT_TYPE",

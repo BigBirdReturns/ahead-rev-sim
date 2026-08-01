@@ -19,10 +19,11 @@ python -m twine check dist/*
 python scripts/release_preflight.py --dist dist
 ```
 
-4. Open a release pull request and require the complete check suite.
-5. Merge without rewriting independently meaningful evidence history.
-6. Create an annotated tag matching the package version, for example `v0.9.0`.
-7. Push the tag. The release workflow builds the distributions, runs the clean-wheel doctor, generates `SHA256SUMS`, and creates the GitHub release.
+4. Require the RTL Attachment Execution workflow to compile, execute, compare, seal, validate, and red-team the current MMIO, resolver, cartridge, and accepted trace.
+5. Open a release pull request and require the complete check suite.
+6. Merge without rewriting independently meaningful evidence history.
+7. Create an annotated tag matching the package version, for example `v0.10.0`.
+8. Push the tag. The release workflow builds the distributions, runs the clean-wheel doctor, generates `SHA256SUMS`, and creates the GitHub release.
 
 ## Trusted publication
 
@@ -42,7 +43,7 @@ src/ahead_rev_sim/_version.py
 
 ## Reproducibility and checksums
 
-The release workflow derives `SOURCE_DATE_EPOCH` from the tagged commit and records SHA-256 checksums for every distribution. A checksum proves byte identity only. It does not replace source provenance, workflow logs, or the package doctor.
+The release workflow derives `SOURCE_DATE_EPOCH` from the tagged commit and records SHA-256 checksums for every distribution. Generated MMIO and RTL attachment artifacts are written as exact UTF-8 LF bytes so their manifests remain identical on Windows and Linux. A checksum proves byte identity only. It does not replace source provenance, workflow logs, the package doctor, or the executed RTL proof.
 
 ## Rollback and supersession
 
@@ -50,4 +51,4 @@ Do not move or delete a published version tag. When a release is defective, publ
 
 ## Claim boundary
 
-A software release may be production-grade while physical execution and complete-system advantage remain open. Release notes must state the strongest qualified evidence tier and the remaining blockers. A version tag cannot promote modeled, provider-offer, generated-RTL, or component evidence into a measured complete-system claim.
+A software release may be production-grade while physical execution and complete-system advantage remain open. Release notes must state the strongest qualified evidence tier and the remaining blockers. A version tag cannot promote modeled, provider-offer, standalone RTL, or component evidence into a Chipyard, FPGA, silicon, physical-substrate, fabrication, or measured complete-system claim.

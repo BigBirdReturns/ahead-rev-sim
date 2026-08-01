@@ -14,7 +14,7 @@ from ahead_rev_sim.doctor_cli import main as doctor_main
 def test_doctor_passes_for_editable_install() -> None:
     report = build_doctor_report()
     assert report["status"] == "pass", report["blockers"]
-    assert report["package"]["version"] == "0.9.0"
+    assert report["package"]["version"] == "0.10.0"
     assert report["package"]["version"] == __version__
     assert report["package"]["installed_metadata_version"] == __version__
     assert set(report["console_scripts"]) == set(EXPECTED_CONSOLE_SCRIPTS)
