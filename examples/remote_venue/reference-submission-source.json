@@ -1,0 +1,54 @@
+{
+  "execution": {
+    "command": [
+      "./fambs-svk",
+      "--config",
+      "inputs/config.json"
+    ],
+    "container_image_digest": null,
+    "environment": {
+      "LC_ALL": "C",
+      "TZ": "UTC"
+    },
+    "resource_request": {
+      "cores": 1,
+      "memory_mib": 256,
+      "riscv_isa": "rv64gc"
+    },
+    "software_fallback_id": "svk-reference-python/v1",
+    "timeout_seconds": 60,
+    "working_directory": "."
+  },
+  "files": [
+    {
+      "path": "bin/fambs-svk",
+      "role": "executable",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "path": "inputs/config.json",
+      "role": "configuration",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  ],
+  "requested_receipts": [
+    "venue manifest",
+    "provider execution receipt",
+    "accepted output",
+    "raw execution trace"
+  ],
+  "required_return_artifacts": [
+    "accepted_output",
+    "execution_trace",
+    "raw_logs"
+  ],
+  "submission_id": "svk-portable-venue-v1",
+  "workload": {
+    "accepted_output_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "accepted_work_unit": "accepted sparse-vector dot product",
+    "accepted_work_units": 100,
+    "artifact_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "contract_id": "fambs-svk/remote-reference-v1",
+    "quality_rule": "exact semantic output digest"
+  }
+}
