@@ -15,6 +15,73 @@
       },
       "type": "array",
       "uniqueItems": true
+    },
+    "witness": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "category": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "project": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "record_id": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "record_id",
+        "actor",
+        "project",
+        "category"
+      ],
+      "type": "object"
+    },
+    "match": {
+      "additionalProperties": false,
+      "properties": {
+        "category_match": {
+          "type": "boolean"
+        },
+        "matched_gap_ids": {
+          "$ref": "#/$defs/strings"
+        },
+        "pylon_id": {
+          "$ref": "#/$defs/id"
+        },
+        "reasons": {
+          "$ref": "#/$defs/strings"
+        },
+        "score": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "strength": {
+          "enum": [
+            "strong",
+            "fallback_overlap"
+          ]
+        },
+        "witness_match": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "pylon_id",
+        "score",
+        "strength",
+        "matched_gap_ids",
+        "category_match",
+        "witness_match",
+        "reasons"
+      ],
+      "type": "object"
     }
   },
   "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/congruent-shape-atlas.schema.json",
@@ -112,6 +179,7 @@
               ],
               "type": "object"
             },
+            "minItems": 1,
             "type": "array"
           },
           "design_consequences": {
@@ -253,44 +321,7 @@
           },
           "matches": {
             "items": {
-              "additionalProperties": false,
-              "properties": {
-                "category_match": {
-                  "type": "boolean"
-                },
-                "matched_gap_ids": {
-                  "$ref": "#/$defs/strings"
-                },
-                "pylon_id": {
-                  "$ref": "#/$defs/id"
-                },
-                "reasons": {
-                  "$ref": "#/$defs/strings"
-                },
-                "score": {
-                  "minimum": 1,
-                  "type": "integer"
-                },
-                "strength": {
-                  "enum": [
-                    "strong",
-                    "fallback_overlap"
-                  ]
-                },
-                "witness_match": {
-                  "type": "boolean"
-                }
-              },
-              "required": [
-                "pylon_id",
-                "score",
-                "strength",
-                "matched_gap_ids",
-                "category_match",
-                "witness_match",
-                "reasons"
-              ],
-              "type": "object"
+              "$ref": "#/$defs/match"
             },
             "minItems": 2,
             "type": "array"
@@ -472,50 +503,5 @@
     "atlas_sha256"
   ],
   "title": "ahead-rev-sim congruent-shape pylon atlas",
-  "type": "object",
-  "$defs": {
-    "id": {
-      "pattern": "^[a-z0-9][a-z0-9-]+$",
-      "type": "string"
-    },
-    "sha": {
-      "pattern": "^[0-9a-f]{64}$",
-      "type": "string"
-    },
-    "strings": {
-      "items": {
-        "minLength": 1,
-        "type": "string"
-      },
-      "type": "array",
-      "uniqueItems": true
-    },
-    "witness": {
-      "additionalProperties": false,
-      "properties": {
-        "actor": {
-          "minLength": 1,
-          "type": "string"
-        },
-        "category": {
-          "minLength": 1,
-          "type": "string"
-        },
-        "project": {
-          "minLength": 1,
-          "type": "string"
-        },
-        "record_id": {
-          "$ref": "#/$defs/id"
-        }
-      },
-      "required": [
-        "record_id",
-        "actor",
-        "project",
-        "category"
-      ],
-      "type": "object"
-    }
-  }
+  "type": "object"
 }
