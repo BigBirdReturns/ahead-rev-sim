@@ -117,6 +117,11 @@ jobs:
         run: |
           cd chipyard
           source env.sh
+          # The pinned authority registers the optional SPEC 2026 workload through
+          # a private SSH remote. It is outside this public subsystem proof and is
+          # explicitly excluded before the upstream recursive initializer runs.
+          git config --local submodule.software/spec2026.update none
+          test "$(git config --local --get submodule.software/spec2026.update)" = "none"
           ./scripts/init-submodules-no-riscv-tools.sh \
             2>&1 | tee ../artifacts/chipyard-subsystem/submodules.log
           git submodule status --recursive \
