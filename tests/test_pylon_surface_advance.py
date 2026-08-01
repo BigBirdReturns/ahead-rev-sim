@@ -27,7 +27,7 @@ ADVANCE = (
 SCHEMA = ROOT / "schemas" / "pylon-surface-advance.schema.json"
 
 
-def test_advances_close_both_previously_mapped_open_pylons() -> None:
+def test_advances_close_open_and_partial_pylons_at_reference_tier() -> None:
     prior = json.loads(PRIOR.read_text(encoding="utf-8"))
     advance = json.loads(ADVANCE.read_text(encoding="utf-8"))
     prior_by_id = {item["pylon_id"]: item for item in prior["entries"]}
@@ -36,12 +36,27 @@ def test_advances_close_both_previously_mapped_open_pylons() -> None:
     assert set(advance_by_id) == {
         "scale-seam-communication-tax",
         "remote-venue-envelope",
+        "causal-custody-braid",
     }
-    for pylon_id, item in advance_by_id.items():
+    for pylon_id in (
+        "scale-seam-communication-tax",
+        "remote-venue-envelope",
+    ):
+        item = advance_by_id[pylon_id]
         assert prior_by_id[pylon_id]["implementation_state"] == "mapped_open"
         assert item["prior_state"] == "mapped_open"
         assert item["new_state"] == "contract_implemented"
         assert item["evidence_tier"] == "software_reference"
+
+    causal = advance_by_id["causal-custody-braid"]
+    assert prior_by_id["causal-custody-braid"]["implementation_state"] == (
+        "partial_contract"
+    )
+    assert causal["prior_state"] == "partial_contract"
+    assert causal["new_state"] == "contract_implemented"
+    assert causal["evidence_tier"] == "software_reference"
+
+    for item in advance_by_id.values():
         assert item["qualified_invariants"]
         assert item["remaining_blockers"]
         assert item["proof_transaction"]
@@ -68,8 +83,8 @@ def test_effective_state_counts_match_prior_plus_advances() -> None:
     }
     assert normalized == advance["effective_state_counts"]
     assert advance["effective_state_counts"] == {
-        "contract_implemented": 11,
-        "partial_contract": 8,
+        "contract_implemented": 12,
+        "partial_contract": 7,
         "mapped_open": 0,
     }
 
