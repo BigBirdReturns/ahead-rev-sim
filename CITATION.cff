@@ -1,11 +1,11 @@
 cff-version: 1.2.0
-message: "Please cite ahead-rev-sim when using its workload, execution-proof, physical-substrate, or EVP artifacts."
+message: "Please cite ahead-rev-sim when using its workload, execution-proof, RTL-attachment, physical-substrate, or EVP artifacts."
 title: "ahead-rev-sim: workload-to-physics evidence tooling for reversible and heterogeneous RISC-V compute"
 type: software
 authors:
   - family-names: Sandhu
     given-names: Jonathan
-version: 0.9.0
+version: 0.10.0
 date-released: 2026-08-01
 license: MIT
 repository-code: "https://github.com/BigBirdReturns/ahead-rev-sim"
@@ -13,12 +13,15 @@ url: "https://github.com/BigBirdReturns/ahead-rev-sim"
 abstract: >-
   ahead-rev-sim provides instantiated information-effect analysis, exact
   reversible execution proofs, workload custody, provider-neutral physical
-  compute interfaces, scale and venue receipts, causal synchronization, and
-  complete-system Energy, Volume, and Performance qualification for RISC-V and
-  heterogeneous physical-compute research.
+  compute interfaces, executed RTL attachment evidence, scale and venue
+  receipts, causal synchronization, and complete-system Energy, Volume, and
+  Performance qualification for RISC-V and heterogeneous physical-compute
+  research.
 keywords:
   - RISC-V
   - reversible computing
+  - SystemVerilog
+  - RTL simulation
   - thermodynamic computing
   - physical computing
   - execution provenance
