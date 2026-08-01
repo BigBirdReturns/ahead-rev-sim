@@ -31,6 +31,7 @@ REQUIRED_FILES = (
     "LICENSE",
     "CITATION.cff",
     "pyproject.toml",
+    "MANIFEST.in",
     ".editorconfig",
     ".gitattributes",
     ".gitignore",
@@ -66,7 +67,7 @@ NONEMPTY_SUFFIXES = {
 }
 
 LOCAL_LINK = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
-REPO_REFERENCE = re.compile(r"repo://([^\s\"']+)")
+REPO_REFERENCE = re.compile(r"repo://([A-Za-z0-9._/-]+)")
 ACTION_MAJOR_TAG = re.compile(r"uses:\s+[^\s]+@v\d+\s*$", re.MULTILINE)
 
 
