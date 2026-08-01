@@ -83,6 +83,12 @@ from .remote_venue import (
     build_remote_venue_receipt,
     write_json_artifact as write_remote_venue_artifact,
 )
+from .causal_custody import (
+    CAUSAL_CUSTODY_ARTIFACT_TYPE,
+    CAUSAL_CUSTODY_SCHEMA_VERSION,
+    build_causal_custody_receipt,
+    write_causal_custody_receipt,
+)
 from .fambs import (
     FAMBS_IMPORT_SCHEMA_VERSION,
     FAMBS_SOURCE_MANIFEST_SCHEMA_VERSION,
@@ -217,6 +223,11 @@ __all__ = [
     "build_remote_venue_receipt",
     "build_remote_venue_comparison",
     "write_remote_venue_artifact",
+    # Causal-custody reference contract
+    "CAUSAL_CUSTODY_SCHEMA_VERSION",
+    "CAUSAL_CUSTODY_ARTIFACT_TYPE",
+    "build_causal_custody_receipt",
+    "write_causal_custody_receipt",
     # FAMBS intake
     "FAMBS_IMPORT_SCHEMA_VERSION",
     "FAMBS_SOURCE_MANIFEST_SCHEMA_VERSION",
