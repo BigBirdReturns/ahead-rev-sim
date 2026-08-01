@@ -1,0 +1,223 @@
+name: RTL Attachment Execution
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: rtl-attachment-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  rtl-attachment:
+    name: MMIO, resolver, and cartridge lifecycle
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install ahead-rev-sim and validation tools
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Install Icarus Verilog
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends iverilog
+          iverilog -V | tee iverilog-version.txt
+          vvp -V | tee vvp-version.txt
+
+      - name: Generate the MMIO authority and attachment bundle
+        run: |
+          mkdir -p artifacts/rtl-attachment
+          ahead-rev-mmio \
+            --format systemverilog \
+            --out artifacts/rtl-attachment/ahead_physical_compute_mmio_v1.sv
+          ahead-rev-rtl bundle \
+            --out-dir artifacts/rtl-attachment \
+            | tee artifacts/rtl-attachment/bundle.txt
+
+      - name: Validate contract and manifest schemas
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+
+          root = Path("artifacts/rtl-attachment")
+          pairs = (
+              (
+                  root / "physical-cartridge-link-v1.json",
+                  Path("schemas/rtl-attachment-contract.schema.json"),
+              ),
+              (
+                  root / "rtl-attachment-manifest.json",
+                  Path("schemas/rtl-attachment-manifest.schema.json"),
+              ),
+          )
+          for artifact_path, schema_path in pairs:
+              artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+              schema = json.loads(schema_path.read_text(encoding="utf-8"))
+              Draft202012Validator.check_schema(schema)
+              Draft202012Validator(schema).validate(artifact)
+
+          manifest = json.loads(
+              (root / "rtl-attachment-manifest.json").read_text(encoding="utf-8")
+          )
+          assert manifest["qualification"]["status"] == "generated_unexecuted"
+          assert manifest["qualification"]["physical_claim_allowed"] is False
+          assert len(manifest["manifest_sha256"]) == 64
+          PY
+
+      - name: Compile the complete SystemVerilog attachment
+        run: |
+          iverilog \
+            -g2012 \
+            -Wall \
+            -s ahead_physical_compute_attachment_tb \
+            -o artifacts/rtl-attachment/rtl-attachment.vvp \
+            artifacts/rtl-attachment/ahead_physical_compute_mmio_v1.sv \
+            artifacts/rtl-attachment/ahead_reference_handle_resolver_v1.sv \
+            artifacts/rtl-attachment/ahead_reference_reversible_cartridge_v1.sv \
+            artifacts/rtl-attachment/ahead_physical_compute_attachment_tb.sv \
+            2>&1 | tee artifacts/rtl-attachment/compile.log
+          test -s artifacts/rtl-attachment/rtl-attachment.vvp
+
+      - name: Execute and compare the accepted lifecycle trace
+        run: |
+          vvp artifacts/rtl-attachment/rtl-attachment.vvp \
+            | tee artifacts/rtl-attachment/rtl-attachment.trace
+          diff -u \
+            artifacts/rtl-attachment/rtl-attachment.expected \
+            artifacts/rtl-attachment/rtl-attachment.trace
+
+      - name: Seal the executed RTL proof
+        run: |
+          ahead-rev-rtl proof \
+            --executable artifacts/rtl-attachment/rtl-attachment.vvp \
+            --trace artifacts/rtl-attachment/rtl-attachment.trace \
+            --expected artifacts/rtl-attachment/rtl-attachment.expected \
+            --manifest artifacts/rtl-attachment/rtl-attachment-manifest.json \
+            --source artifacts/rtl-attachment/ahead_physical_compute_mmio_v1.sv \
+            --source artifacts/rtl-attachment/ahead_reference_handle_resolver_v1.sv \
+            --source artifacts/rtl-attachment/ahead_reference_reversible_cartridge_v1.sv \
+            --source artifacts/rtl-attachment/ahead_physical_compute_attachment_tb.sv \
+            --out artifacts/rtl-attachment/rtl-attachment-proof.json \
+            | tee artifacts/rtl-attachment/proof.txt
+
+      - name: Validate proof schema and claim boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+
+          proof = json.loads(
+              Path("artifacts/rtl-attachment/rtl-attachment-proof.json")
+              .read_text(encoding="utf-8")
+          )
+          schema = json.loads(
+              Path("schemas/rtl-attachment-proof.schema.json")
+              .read_text(encoding="utf-8")
+          )
+          Draft202012Validator.check_schema(schema)
+          Draft202012Validator(schema).validate(proof)
+
+          qualification = proof["qualification"]
+          assert qualification["status"] == "rtl_attachment_execution_proved"
+          assert qualification["accepted"] is True
+          assert qualification["chipyard_subsystem_claim_allowed"] is False
+          assert qualification["physical_claim_allowed"] is False
+          assert qualification["complete_system_advantage_claim_allowed"] is False
+          assert proof["observations"]["line_count"] == 11
+          assert all(proof["observations"]["checks"].values())
+          assert len(proof["proof_sha256"]) == 64
+          PY
+
+      - name: Prove trace and source-custody refusal
+        run: |
+          cp \
+            artifacts/rtl-attachment/rtl-attachment.trace \
+            artifacts/rtl-attachment/refused-trace.txt
+          printf 'result=pass\n' >> artifacts/rtl-attachment/refused-trace.txt
+          if ahead-rev-rtl proof \
+            --executable artifacts/rtl-attachment/rtl-attachment.vvp \
+            --trace artifacts/rtl-attachment/refused-trace.txt \
+            --expected artifacts/rtl-attachment/rtl-attachment.expected \
+            --manifest artifacts/rtl-attachment/rtl-attachment-manifest.json \
+            --source artifacts/rtl-attachment/ahead_physical_compute_mmio_v1.sv \
+            --source artifacts/rtl-attachment/ahead_reference_handle_resolver_v1.sv \
+            --source artifacts/rtl-attachment/ahead_reference_reversible_cartridge_v1.sv \
+            --source artifacts/rtl-attachment/ahead_physical_compute_attachment_tb.sv \
+            --out artifacts/rtl-attachment/refused-trace-proof.json; then
+            echo "divergent trace unexpectedly admitted" >&2
+            exit 1
+          fi
+
+          mkdir -p artifacts/rtl-attachment/tampered
+          cp \
+            artifacts/rtl-attachment/ahead_reference_handle_resolver_v1.sv \
+            artifacts/rtl-attachment/tampered/ahead_reference_handle_resolver_v1.sv
+          printf '\n// tampered\n' \
+            >> artifacts/rtl-attachment/tampered/ahead_reference_handle_resolver_v1.sv
+          if ahead-rev-rtl proof \
+            --executable artifacts/rtl-attachment/rtl-attachment.vvp \
+            --trace artifacts/rtl-attachment/rtl-attachment.trace \
+            --expected artifacts/rtl-attachment/rtl-attachment.expected \
+            --manifest artifacts/rtl-attachment/rtl-attachment-manifest.json \
+            --source artifacts/rtl-attachment/ahead_physical_compute_mmio_v1.sv \
+            --source artifacts/rtl-attachment/tampered/ahead_reference_handle_resolver_v1.sv \
+            --source artifacts/rtl-attachment/ahead_reference_reversible_cartridge_v1.sv \
+            --source artifacts/rtl-attachment/ahead_physical_compute_attachment_tb.sv \
+            --out artifacts/rtl-attachment/refused-source-proof.json; then
+            echo "tampered source unexpectedly admitted" >&2
+            exit 1
+          fi
+
+      - name: Run focused RTL attachment tests
+        run: python -m pytest -q tests/test_rtl_attachment.py
+
+      - name: Assemble the reconstructable RTL kit
+        run: |
+          mkdir -p artifacts/rtl-attachment/kit/schemas
+          cp docs/rtl_attachment_proof.md artifacts/rtl-attachment/kit/
+          cp \
+            schemas/rtl-attachment-contract.schema.json \
+            schemas/rtl-attachment-manifest.schema.json \
+            schemas/rtl-attachment-proof.schema.json \
+            artifacts/rtl-attachment/kit/schemas/
+          cp \
+            artifacts/rtl-attachment/physical-cartridge-link-v1.json \
+            artifacts/rtl-attachment/rtl-attachment-manifest.json \
+            artifacts/rtl-attachment/rtl-attachment-proof.json \
+            artifacts/rtl-attachment/rtl-attachment.expected \
+            artifacts/rtl-attachment/rtl-attachment.trace \
+            artifacts/rtl-attachment/ahead_physical_compute_mmio_v1.sv \
+            artifacts/rtl-attachment/ahead_reference_handle_resolver_v1.sv \
+            artifacts/rtl-attachment/ahead_reference_reversible_cartridge_v1.sv \
+            artifacts/rtl-attachment/ahead_physical_compute_attachment_tb.sv \
+            artifacts/rtl-attachment/kit/
+
+      - name: Upload RTL attachment evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rtl-attachment-${{ github.sha }}
+          path: artifacts/rtl-attachment
+          if-no-files-found: error
+          retention-days: 30
