@@ -1,0 +1,285 @@
+{
+  "$defs": {
+    "artifact_record": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha"
+        }
+      },
+      "required": [
+        "sha256",
+        "bytes"
+      ],
+      "type": "object"
+    },
+    "sha": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/rtl-attachment-proof.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {
+      "const": "physical_compute_rtl_attachment_execution_proof"
+    },
+    "artifacts": {
+      "additionalProperties": false,
+      "properties": {
+        "abi_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "contract_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "executable_bytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "executable_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "expected_trace_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "manifest_file_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "manifest_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "sources": {
+          "additionalProperties": false,
+          "properties": {
+            "ahead_physical_compute_attachment_tb.sv": {
+              "$ref": "#/$defs/artifact_record"
+            },
+            "ahead_physical_compute_mmio_v1.sv": {
+              "$ref": "#/$defs/artifact_record"
+            },
+            "ahead_reference_handle_resolver_v1.sv": {
+              "$ref": "#/$defs/artifact_record"
+            },
+            "ahead_reference_reversible_cartridge_v1.sv": {
+              "$ref": "#/$defs/artifact_record"
+            }
+          },
+          "required": [
+            "ahead_physical_compute_attachment_tb.sv",
+            "ahead_physical_compute_mmio_v1.sv",
+            "ahead_reference_handle_resolver_v1.sv",
+            "ahead_reference_reversible_cartridge_v1.sv"
+          ],
+          "type": "object"
+        },
+        "trace_sha256": {
+          "$ref": "#/$defs/sha"
+        }
+      },
+      "required": [
+        "abi_sha256",
+        "contract_sha256",
+        "manifest_sha256",
+        "manifest_file_sha256",
+        "executable_sha256",
+        "executable_bytes",
+        "trace_sha256",
+        "expected_trace_sha256",
+        "sources"
+      ],
+      "type": "object"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "execution": {
+      "additionalProperties": false,
+      "properties": {
+        "compiler": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "language": {
+          "const": "SystemVerilog-2012"
+        },
+        "runtime": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "test_class": {
+          "const": "mmio_bridge_handle_resolver_and_replaceable_cartridge"
+        }
+      },
+      "required": [
+        "language",
+        "compiler",
+        "runtime",
+        "test_class"
+      ],
+      "type": "object"
+    },
+    "link_id": {
+      "const": "physical-cartridge-link/v1"
+    },
+    "observations": {
+      "additionalProperties": false,
+      "properties": {
+        "checks": {
+          "additionalProperties": false,
+          "properties": {
+            "ambiguous_refused_without_receipt": {
+              "const": true
+            },
+            "capabilities": {
+              "const": true
+            },
+            "capture_done": {
+              "const": true
+            },
+            "evolve_done": {
+              "const": true
+            },
+            "identity": {
+              "const": true
+            },
+            "invalid_descriptor_refused": {
+              "const": true
+            },
+            "link_contract": {
+              "const": true
+            },
+            "load_done": {
+              "const": true
+            },
+            "portable_binding": {
+              "const": true
+            },
+            "read_done": {
+              "const": true
+            },
+            "resolver_contract": {
+              "const": true
+            },
+            "resolver_fault_propagated": {
+              "const": true
+            },
+            "result_pass": {
+              "const": true
+            },
+            "reset_done": {
+              "const": true
+            },
+            "rtl_runtime": {
+              "const": true
+            }
+          },
+          "required": [
+            "portable_binding",
+            "rtl_runtime",
+            "link_contract",
+            "resolver_contract",
+            "identity",
+            "capabilities",
+            "ambiguous_refused_without_receipt",
+            "reset_done",
+            "invalid_descriptor_refused",
+            "resolver_fault_propagated",
+            "load_done",
+            "evolve_done",
+            "read_done",
+            "capture_done",
+            "result_pass"
+          ],
+          "type": "object"
+        },
+        "line_count": {
+          "const": 11
+        }
+      },
+      "required": [
+        "line_count",
+        "checks"
+      ],
+      "type": "object"
+    },
+    "portable_binding": {
+      "const": "physical-compute-mmio/v1"
+    },
+    "proof_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "qualification": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {
+          "const": true
+        },
+        "blockers": {
+          "const": [
+            "CHIPYARD_SUBSYSTEM_ELABORATION_UNRUN",
+            "FPGA_OR_SILICON_EXECUTION_UNRUN",
+            "PHYSICAL_SUBSTRATE_UNMEASURED",
+            "PHYSICAL_ENERGY_UNMEASURED",
+            "TIMING_THERMAL_VOLUME_UNMEASURED",
+            "COMPLETE_SYSTEM_EVP_UNMEASURED",
+            "INDEPENDENT_PHYSICAL_ACCEPTANCE_MISSING"
+          ]
+        },
+        "chipyard_subsystem_claim_allowed": {
+          "const": false
+        },
+        "complete_system_advantage_claim_allowed": {
+          "const": false
+        },
+        "physical_claim_allowed": {
+          "const": false
+        },
+        "status": {
+          "const": "rtl_attachment_execution_proved"
+        }
+      },
+      "required": [
+        "status",
+        "accepted",
+        "chipyard_subsystem_claim_allowed",
+        "physical_claim_allowed",
+        "complete_system_advantage_claim_allowed",
+        "blockers"
+      ],
+      "type": "object"
+    },
+    "resolver_id": {
+      "const": "physical-cartridge-handle-resolver/v1"
+    },
+    "schema_version": {
+      "const": "ahead.rtl-attachment-proof/v0.1"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "portable_binding",
+    "link_id",
+    "resolver_id",
+    "execution",
+    "artifacts",
+    "observations",
+    "qualification",
+    "claim_boundary",
+    "control_question",
+    "proof_sha256"
+  ],
+  "title": "ahead-rev-sim executed RTL attachment proof",
+  "type": "object"
+}
