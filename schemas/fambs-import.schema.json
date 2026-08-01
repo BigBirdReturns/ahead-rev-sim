@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/fambs-import.schema.json",
+  "title": "ahead-rev-sim FAMBS workload intake artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "generated_by",
+    "source",
+    "config",
+    "workloads",
+    "source_emission",
+    "reference_results",
+    "observed_result_stream",
+    "coverage",
+    "qualification",
+    "claim_boundary",
+    "control_question",
+    "artifact_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ahead.fambs-import/v0.1"
+    },
+    "artifact_type": {
+      "const": "fambs_workload_intake"
+    },
+    "generated_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "repository",
+        "commit",
+        "suite",
+        "version",
+        "manifest_sha256",
+        "source_custody"
+      ],
+      "properties": {
+        "repository": {"type": "string", "minLength": 1},
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "suite": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "source_custody": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "config": {
+      "type": "object"
+    },
+    "workloads": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "object",
+        "required": [
+          "bench_id",
+          "name",
+          "source_path",
+          "source_git_blob_sha1",
+          "workload_class",
+          "config",
+          "emission",
+          "required_semantic_capabilities",
+          "accepted_output_contract",
+          "gaps"
+        ],
+        "properties": {
+          "bench_id": {"type": "string", "minLength": 1},
+          "source_git_blob_sha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+          "accepted_output_contract": {"type": ["object", "null"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "source_emission": {
+      "type": "object",
+      "required": [
+        "top_level_order",
+        "standalone_rows",
+        "nested_expansions",
+        "expected_bench_counts",
+        "expected_total_rows",
+        "declared_reference_shape"
+      ],
+      "properties": {
+        "expected_total_rows": {"type": "integer", "minimum": 0},
+        "expected_bench_counts": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 0}
+        }
+      },
+      "additionalProperties": true
+    },
+    "reference_results": {
+      "type": "object",
+      "required": [
+        "row_count",
+        "bench_counts",
+        "notes_by_bench",
+        "stream_sha256",
+        "source_path",
+        "source_git_blob_sha1",
+        "shape_status",
+        "unknown_benches",
+        "note_mismatches",
+        "blockers"
+      ],
+      "properties": {
+        "row_count": {"type": "integer", "minimum": 0},
+        "stream_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "shape_status": {"enum": ["match", "diverges"]}
+      },
+      "additionalProperties": true
+    },
+    "observed_result_stream": {
+      "type": "object",
+      "required": [
+        "provided",
+        "row_count",
+        "bench_counts",
+        "notes_by_bench",
+        "stream_sha256",
+        "parse_errors",
+        "shape_status",
+        "blockers"
+      ],
+      "properties": {
+        "provided": {"type": "boolean"},
+        "row_count": {"type": "integer", "minimum": 0},
+        "stream_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "shape_status": {"enum": ["not_provided", "match", "diverges"]}
+      },
+      "additionalProperties": true
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "expected_workloads",
+        "imported_workloads",
+        "all_expected_workloads_present",
+        "workload_classes",
+        "missing_accepted_output_contracts",
+        "placeholder_self_checks"
+      ],
+      "additionalProperties": true
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blockers",
+        "performance_claim_allowed",
+        "energy_claim_allowed",
+        "accepted_work_claim_allowed"
+      ],
+      "properties": {
+        "status": {"enum": ["captured_blocked", "captured_shape_closed"]},
+        "blockers": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        },
+        "performance_claim_allowed": {"const": false},
+        "energy_claim_allowed": {"const": false},
+        "accepted_work_claim_allowed": {"type": "boolean"}
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 1},
+    "control_question": {"type": "string", "minLength": 1},
+    "artifact_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

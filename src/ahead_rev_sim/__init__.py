@@ -48,6 +48,16 @@ from .physical_substrate import (
     rc_relaxation_cartridge,
     thermal_sampler_cartridge,
 )
+from .fambs import (
+    FAMBS_IMPORT_SCHEMA_VERSION,
+    FAMBS_SOURCE_MANIFEST_SCHEMA_VERSION,
+    FambsImportArtifact,
+    FambsResultRow,
+    derive_source_emission,
+    import_fambs,
+    load_manifest as load_fambs_manifest,
+    parse_jsonl as parse_fambs_jsonl,
+)
 
 __all__ = [
     # Version
@@ -111,4 +121,13 @@ __all__ = [
     "thermal_sampler_cartridge",
     "harvested_world_descriptor",
     "default_physical_runtime",
+    # FAMBS intake
+    "FAMBS_IMPORT_SCHEMA_VERSION",
+    "FAMBS_SOURCE_MANIFEST_SCHEMA_VERSION",
+    "FambsResultRow",
+    "FambsImportArtifact",
+    "load_fambs_manifest",
+    "derive_source_emission",
+    "parse_fambs_jsonl",
+    "import_fambs",
 ]
