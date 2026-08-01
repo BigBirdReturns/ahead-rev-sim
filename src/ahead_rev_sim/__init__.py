@@ -54,6 +54,13 @@ from .evp import (
     build_evp_receipt,
     write_evp_receipt,
 )
+from .congruent_shapes import (
+    PYLON_ATLAS_SCHEMA_VERSION,
+    PYLON_CATALOG_SCHEMA_VERSION,
+    build_congruent_shape_atlas,
+    load_pylon_catalog,
+    write_congruent_shape_atlas,
+)
 from .fambs import (
     FAMBS_IMPORT_SCHEMA_VERSION,
     FAMBS_SOURCE_MANIFEST_SCHEMA_VERSION,
@@ -163,6 +170,12 @@ __all__ = [
     "EVP_ARTIFACT_TYPE",
     "build_evp_receipt",
     "write_evp_receipt",
+    # Congruent-shape design pylons
+    "PYLON_CATALOG_SCHEMA_VERSION",
+    "PYLON_ATLAS_SCHEMA_VERSION",
+    "load_pylon_catalog",
+    "build_congruent_shape_atlas",
+    "write_congruent_shape_atlas",
     # FAMBS intake
     "FAMBS_IMPORT_SCHEMA_VERSION",
     "FAMBS_SOURCE_MANIFEST_SCHEMA_VERSION",
