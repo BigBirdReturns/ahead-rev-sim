@@ -120,8 +120,8 @@ def test_harvest_report_is_deterministic_and_prioritized() -> None:
     assert first["registry_sha256"] == registry_digest(registry)
     assert first["summary"]["record_count"] == 73
     assert first["summary"]["priority_counts"] == {
-        "1": 32,
-        "2": 37,
+        "1": 31,
+        "2": 38,
         "3": 4,
     }
     assert len(first["report_sha256"]) == 64
@@ -135,7 +135,7 @@ def test_harvest_report_is_deterministic_and_prioritized() -> None:
 def test_priority_one_selection_is_the_immediate_harvest_floor() -> None:
     registry = load_registry()
     selected = select_records(registry, priority_max=1)
-    assert len(selected) == 32
+    assert len(selected) == 31
     assert all(item["ingestion_policy"]["priority"] == 1 for item in selected)
     assert {
         "vaire-arc-evp",
@@ -195,7 +195,7 @@ def test_registry_priority_counts_are_closed() -> None:
         record["ingestion_policy"]["priority"]
         for record in registry["records"]
     )
-    assert counts == Counter({1: 32, 2: 37, 3: 4})
+    assert counts == Counter({1: 31, 2: 38, 3: 4})
 
 
 def test_validator_rejects_noncommodity_dependency_mode() -> None:
@@ -210,5 +210,5 @@ def test_cli_writes_a_sealed_harvest_report(tmp_path: Path) -> None:
     assert commodity_main(["--priority-max", "1", "--out", str(output)]) == 0
     payload = json.loads(output.read_text(encoding="utf-8"))
     assert payload["schema_version"] == REPORT_SCHEMA_VERSION
-    assert payload["summary"]["record_count"] == 32
+    assert payload["summary"]["record_count"] == 31
     assert len(payload["report_sha256"]) == 64

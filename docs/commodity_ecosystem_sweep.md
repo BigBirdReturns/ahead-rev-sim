@@ -18,8 +18,8 @@ It expands 19 independently reviewable shards into one registry containing:
 73 actors and projects
 25 ecosystem categories
 26 completion gaps
-32 priority-one transactions
-37 priority-two transactions
+31 priority-one transactions
+38 priority-two transactions
 4 priority-three transactions
 ```
 

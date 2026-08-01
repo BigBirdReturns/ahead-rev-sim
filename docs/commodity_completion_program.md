@@ -47,7 +47,7 @@ A plan binds the registry digest, programme digest, lane selection, priority bou
 
 ## Immediate priority-one floor
 
-Priority one now contains 32 transactions. The additions beyond the initial registry include UCIe and CXL transport profiles, open chiplet collateral, Caliptra attestation, BrainScaleS-2 remote execution, NIR interchange, IBM AIHWKit, THOR testbed preparation, GDSFactory/SAX/gsim photonics, CIRCT and SiliconCompiler lowering, RISC-V differential verification, ngspice/Xyce circuit parity, ReservoirPy baselines, open PDK and LibreLane succession, MLCFlow automation, PTDaemon telemetry, and signed reproducible-build provenance.
+Priority one now contains 31 transactions. The additions beyond the initial registry include UCIe and CXL transport profiles, open chiplet collateral, Caliptra attestation, BrainScaleS-2 remote execution, NIR interchange, IBM AIHWKit, GDSFactory/SAX/gsim photonics, CIRCT and SiliconCompiler lowering, RISC-V differential verification, ngspice/Xyce circuit parity, ReservoirPy baselines, open PDK and LibreLane succession, MLCFlow automation, PTDaemon telemetry, and signed reproducible-build provenance.
 
 The programme does not wait for an actor to finish its own system. It identifies the public asset, wraps it behind our contract, supplies the missing fallback or benchmark, and asks the completion question that the actor's own announcement exposes.
 

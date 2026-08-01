@@ -91,9 +91,9 @@ def test_priority_one_plan_keeps_all_lanes_active() -> None:
     registry = load_registry()
     program = load_completion_program(registry=registry)
     plan = build_completion_plan(registry, program, priority_max=1)
-    assert plan["summary"]["record_count"] == 32
+    assert plan["summary"]["record_count"] == 31
     assert plan["summary"]["lane_count"] == 12
-    assert plan["summary"]["priority_counts"] == {"1": 32}
+    assert plan["summary"]["priority_counts"] == {"1": 31}
     assert plan["summary"]["all_selected_records_covered"] is True
 
 
