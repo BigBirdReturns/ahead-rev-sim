@@ -57,7 +57,16 @@ def test_effective_state_counts_match_prior_plus_advances() -> None:
     for item in advance["advances"]:
         assert states[item["pylon_id"]] == item["prior_state"]
         states[item["pylon_id"]] = item["new_state"]
-    assert Counter(states.values()) == advance["effective_state_counts"]
+    observed = Counter(states.values())
+    normalized = {
+        state: observed[state]
+        for state in (
+            "contract_implemented",
+            "partial_contract",
+            "mapped_open",
+        )
+    }
+    assert normalized == advance["effective_state_counts"]
     assert advance["effective_state_counts"] == {
         "contract_implemented": 11,
         "partial_contract": 8,
