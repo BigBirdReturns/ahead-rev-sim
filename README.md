@@ -1,262 +1,262 @@
-# ahead-rev-sim v0.8.0
+# ahead-rev-sim 0.9.0
 
-Reversible execution simulator for RISC-V.  
-**History is recoverable, not recorded.**
+[![CI](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/ci.yml/badge.svg)](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/ci.yml)
+[![Provider Hitch Surface](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/provider-hitch.yml/badge.svg)](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/provider-hitch.yml)
+[![RISC-V Target Model](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/riscv-target.yml/badge.svg)](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/riscv-target.yml)
 
-## What This Is
+`ahead-rev-sim` is a workload-to-physics evidence system for reversible and heterogeneous RISC-V compute. It combines instantiated information semantics, exact forward and reverse execution proofs, workload custody, provider-neutral physical-compute interfaces, scale and venue receipts, causal synchronization, and complete-system Energy, Volume, and Performance qualification.
 
-A software simulator for a RISC-V style core with reversible execution lanes.
+The repository is production-hardened as a Python software package and evidence producer. It does not claim that a physical substrate has performed useful computation, recovered net energy, achieved a complete-system EVP advantage, closed timing or thermal requirements, or reached fabrication acceptance.
 
+## Authority model
+
+The system keeps the accepted workload, reference fallback, verifier, refusal behavior, evidence boundary, and historical record outside every provider and implementation.
+
+```text
+accepted workload and quality contract
+        ↓
+information and reversibility frontier
+        ↓
+executable lowering and restoration proof
+        ↓
+provider-neutral RISC-V host and cartridge transaction
+        ↓
+scale, venue, and causal-custody receipts
+        ↓
+complete-system EVP vector
+        ↓
+independent acceptance
 ```
-Standard execution:  Run forward. State is overwritten. History lost.
-Reversible execution: Run forward. Run backward. State derived from operations.
-```
 
-This is not theory. This is working code that demonstrates:
-- Time-travel debugging (find bugs by running backward)
-- History buffer sizing (answer silicon questions)
-- Reversible memory in the ISA (REXCH register/memory exchange)
-- Hot/cold pipeline modeling
+Companies, universities, standards bodies, open-source projects, testbeds, foundries, and research programmes are treated as replaceable commodity suppliers. Their code, models, devices, interfaces, facilities, and measurements can enter the system without acquiring authority over the workload or result.
 
-## Why It Matters
+## What is implemented
 
-**The power wall is real.** Moore's Law ended. Dennard scaling ended. Data centers are building nuclear plants.
+The current software estate provides:
 
-**The physics says:** Irreversible computation must dissipate kT ln(2) per bit erased (Landauer). Reversible computation approaches zero in the limit.
+- instantiated reversibility analysis that rejects collapsing aliases rather than trusting mnemonics;
+- deterministic frontier artifacts for history, ancilla, uncomputation, commits, crossings, runtime, and normalized recovery pressure;
+- exact history-complete execution with accepted-output verification and entry-state restoration;
+- source-pinned Future AI Microbench Suite intake, including structured SVK and memory-irregular PCK lowerings;
+- `physical-compute-mmio/v1`, with generated JSON, C, SystemVerilog, and SVA artifacts;
+- deterministic RC-like and trace-replay thermodynamic reference cartridges;
+- a held-out assay that separates useful physical transformation from sensing;
+- provider-neutral host and cartridge hitches, including reserved AheadComputing and Vaire offer manifests that do not imply participation or endorsement;
+- an independently implemented RV64GC lifecycle proof under GNU RISC-V tooling and QEMU;
+- a source-bound Chipyard TileLink integration candidate;
+- Energy, Volume, throughput, and latency receipts with matched-baseline Pareto admission;
+- explicit scale-seam tax across adjacent system domains;
+- portable remote-venue submission, return, local acceptance, and substitution receipts;
+- multi-clock causal custody for state, entropy, environment, calibration, instruments, power, thermal traces, and accepted output;
+- a 73-record admitted commodity registry, 12 completion lanes, 19 congruent-shape pylons, and a controlled second-wave intake surface.
 
-**The gap:** Nobody has a usable reversible execution environment. The theory exists (Bennett, Fredkin, Toffoli). The silicon doesn't. The toolchain doesn't.
+## Evidence boundary
 
-**This project:** Working code that proves reversible execution is tractable. MIT licensed. Fork it.
+The current qualified tier is deterministic software evidence plus RV64GC target-model execution. The following remain open gates:
 
-## Quick Start
+- target-observed FAMBS v0.4 output;
+- composite workload lowering;
+- Chipyard elaboration and RTL execution;
+- an acknowledged external provider submission;
+- a measured nonfallback physical cartridge;
+- synchronized physical instruments and entropy custody;
+- complete-system EVP against a matched sealed baseline;
+- fabrication, package, and measured-silicon evidence;
+- artifact-only independent physical acceptance.
+
+## Installation
+
+Python 3.10 through 3.13 are supported by the declared test matrix.
 
 ```bash
-git clone https://github.com/BigBirdReturns/ahead-rev-sim
+git clone https://github.com/BigBirdReturns/ahead-rev-sim.git
 cd ahead-rev-sim
-pip install -e .
-
-# Time-travel debugger (the demo that makes it click)
-ahead-rev-debug
-
-# History buffer analysis (answers silicon sizing questions)
-ahead-rev-history
-
-# Reversible memory demo (REXCH in the ISA)
-ahead-rev-memory
-
-# Run your own programs
-ahead-rev-sim run program.asm
+python -m venv .venv
 ```
 
-## What's New in v0.8
+On Linux or macOS:
 
-### Reversible Memory in the ISA
-
-`REXCH rd, rs1, imm` exchanges a register with `mem[rs1 + imm]`. Exchange
-is self-inverse, so it costs zero history bits, and the machine rejects
-`rd == rs1` (aliasing the base register would break reversibility).
-Also in this release: `RADD` is renamed `RMODADD` to expose its modular
-semantics (#1) - the old mnemonic still parses with a `DeprecationWarning` -
-and the debugger class typo is fixed (`TimeTraveDebugger` ->
-`TimeTravelDebugger`).
-
-## Carried from v0.7
-
-### Time-Travel Debugger
-
-Run a buggy program. Walk backward to find the bug. No trace buffers.
-
-```
-$ ahead-rev-debug
-
-Program: Compute r1 = 10 + 5 + 3 = 18
-Bug: One instruction is RXOR instead of RMODADD
-
-Forward execution: 7 steps
-Expected r1 = 18
-Actual r1   = 15
-
-✗ Mismatch detected!
-
-Beginning reverse execution to locate bug...
-
-  Step back 1: Undid RMODADD at PC 5
-    r1: 15 → 12
-  Step back 2: Undid RXOR at PC 4
-    r1: 12 → 15
-    ⚠ This is a reversible XOR - suspicious!
-
-Bug located at PC 4: RXOR r1 r3
-
-The RXOR instruction corrupted the accumulator.
-It should have been RMODADD to continue the sum.
+```bash
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
 ```
 
-### History Buffer Analysis
+On Windows PowerShell:
 
-Answer the question silicon engineers ask: "How big does my buffer need to be?"
-
-```
-$ ahead-rev-history
-
-HISTORY BUFFER COMPARISON ACROSS PROGRAMS
-
-Program                      MaxDepth    MaxBits     Rev%   Bits/Instr
------------------------------------------------------------------------
-Linear reversible                  40        320     93%          7.4
-Linear mixed                       10         80     43%          3.5
-Tight loop                       7998     163934     80%         16.4
-Nested loops                       89       1812     90%         18.3
-Branch-heavy                     9997     329901    100%         33.0
-
-Silicon Implications:
-  SRAM for history buffer: ~0.22 KB
-  Entries at 64-deep FIFO: OVERFLOW
-  Entries at 256-deep FIFO: OK
+```powershell
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
 ```
 
-### Reversible Memory Preview
+Verify the installed authority surface:
 
-Exchange-based memory operations that don't destroy information.
-
-```
-$ ahead-rev-memory
-
-Initial:
-  Register = 42
-  Memory[0x1000] = 100
-
-After REXCH (exchange):
-  Register = 100
-  Memory[0x1000] = 42
-
-After second REXCH (reverse):
-  Register = 42
-  Memory[0x1000] = 100
-
-Key insight: Exchange is self-inverse. No history needed.
+```bash
+ahead-rev-doctor --strict
+ahead-rev-sim --version
+pytest -q
 ```
 
-## The ISA
+## First execution proof
 
-### Reversible Instructions
+Generate a reversibility frontier from the repository fixture:
 
-These can be algebraically inverted:
-
-```asm
-RXOR    rd, rs1       ; rd = rd XOR rs1 (self-inverse)
-RMODADD rd, rs1       ; rd = (rd + rs1) mod 2^32 (inverse: modular subtract)
-RSWAP   rd, rs1       ; swap rd <-> rs1 (self-inverse)
-REXCH   rd, rs1, imm  ; exchange rd <-> mem[rs1 + imm] (self-inverse, rd != rs1)
+```bash
+ahead-rev-frontier \
+  examples/asm/mixed_frontier.asm \
+  --accepted-output examples/asm/accepted-output.json \
+  --out artifacts/frontier.json
 ```
 
-### Control Flow
+Execute the history-complete lowering and prove exact restoration:
 
-Branches store minimal history (1 bit + source PC):
-
-```asm
-BEQ   rs1, rs2, label    ; branch if equal
+```bash
+ahead-rev-prove \
+  examples/asm/mixed_frontier.asm \
+  --fixture examples/asm/execution-fixture.json \
+  --out artifacts/execution-proof.json
 ```
 
-### Irreversible Instructions
+## Generate the RISC-V control plane
 
-Standard operations that overwrite state:
+```bash
+ahead-rev-mmio \
+  --format bundle \
+  --out-dir artifacts/mmio
 
-```asm
-ADD   rd, rs1, rs2    ; rd = rs1 + rs2
-SUB   rd, rs1, rs2    ; rd = rs1 - rs2
-LOAD  rd, rs1, imm    ; rd = mem[rs1 + imm]
-STORE rs1, rs2, imm   ; mem[rs1 + imm] = rs2
-HALT
+ahead-rev-chipyard \
+  --out-dir artifacts/chipyard
 ```
 
-## The Vision: HOT/COLD Dual Pipeline
+The MMIO interface is the portability floor. `Xphys` is reserved as an optional acceleration path and cannot alter the workload, descriptor, refusal behavior, fallback, or evidence boundary.
 
-```
-┌──────────────────────────────────┐
-│  HOT PIPELINE  (standard CMOS)   │  ➤  current workloads
-│  • irreversible ALU ops          │
-│  • high frequency / high drive   │
-└──────────────────────────────────┘
+## Exercise a physical-compute reference cartridge
 
-┌──────────────────────────────────┐
-│  COLD PIPELINE (reversible)      │  ➤  future low-power workloads
-│  • reversible ALU primitives     │
-│  • adiabatic switching window    │
-└──────────────────────────────────┘
-
-Shared: registers, memory, ISA decode, page tables, OS ABI
+```bash
+ahead-rev-substrate \
+  rc-relaxation-reference-v1 \
+  --samples "65536,32768,16384,8192" \
+  --calibration-sha256 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \
+  --out artifacts/rc-reference.json
 ```
 
-Legacy code still runs. Reversible code runs too. Same silicon.
+Reference execution proves contract behavior only. It does not prove that a physical device performed the transformation.
 
+## Compose host and cartridge hitches
 
-## Market Fit and What This Enables
+The internal reference pair is execution-admitted:
 
-This simulator should enable two near-term tracks:
-
-1. **Ahead-facing architecture exploration**
-   - Estimate history-buffer pressure under mixed reversible and irreversible kernels
-   - Evaluate which instruction patterns deserve reversible hardware acceleration first
-   - De-risk ISA additions before RTL investment
-
-2. **Vaire-facing software and workflow exploration**
-   - Prototype compiler region-marking for reversible basic blocks
-   - Build reverse-debug workflows that can transfer to tooling and platform integrations
-   - Establish measurable KPIs: reversibility ratio, history bits per instruction, and reverse-debug recovery distance
-
-If this project executes well, it becomes a shared contract between hardware and software teams, where instruction semantics, debug behavior, and energy assumptions can be validated early with the same executable model.
-
-## Roadmap
-
-```
-v0.6.0 ✅ First full release (forward/backward, clean repo)
-v0.7.0 ✅ Time-travel debugger, history buffer analysis, memory preview
-v0.8.0 ✅ Reversible memory in the ISA (REXCH), RMODADD rename, parser hardening
-v0.9.0    Compiler intrinsics + LLVM pass
-v1.0.0    FPGA/RTL reference implementation
+```bash
+ahead-rev-hitch \
+  --host examples/hitches/reference-rv64gc-host.hitch.json \
+  --cartridge examples/hitches/reference-loopback-cartridge.hitch.json \
+  --out artifacts/reference-consist.json \
+  --require-admitted
 ```
 
-## For Silicon Engineers
+The reserved AheadComputing plus Vaire offers are interface-compatible but deliberately unqualified:
 
-This simulator answers your questions:
+```bash
+ahead-rev-hitch \
+  --host examples/hitches/aheadcomputing-riscv-host.offer.json \
+  --cartridge examples/hitches/vaire-reversible-cartridge.offer.json \
+  --out artifacts/ahead-vaire-offer-consist.json
+```
 
-1. **Buffer sizing:** History analysis shows max depth and bits for different program patterns
-2. **Instruction mix:** Metrics track reversible vs irreversible ratio
-3. **Memory interface:** Hot/cold controller models bandwidth and latency tradeoffs
-4. **Area estimation:** Bits per instruction tells you buffer cost per compute
+Those offer manifests reserve replaceable integration positions. They do not state that either company has acknowledged, implemented, supplied, or endorsed the interface.
 
-## For Compiler Engineers
+## Generate system receipts
 
-The reversible ISA is designed for:
+```bash
+ahead-rev-evp \
+  examples/evp/reference-model.json \
+  --out artifacts/reference.evp.json
 
-1. **Basic block reversal:** Mark regions as reversible, compiler ensures algebraic invertibility
-2. **Register allocation:** Reversible ops update in place, need careful liveness analysis
-3. **Spill strategy:** REXCH for reversible spills
+ahead-rev-scale-seam \
+  examples/scale_seam/reference-model.json \
+  --out artifacts/scale-seam.json
 
-## For Debug Engineers
+ahead-rev-causal \
+  examples/causal_custody/reference-model.json \
+  --out artifacts/causal-custody.json
+```
 
-Time-travel debugging changes everything:
+Reference receipts retain blockers for measured and complete-system claims.
 
-1. **No trace buffers:** State derived from operations, not recorded
-2. **No Heisenbugs:** Deterministic reversal finds exact instruction
-3. **Post-silicon:** Works on real hardware with reversible ISA support
+## Prove bounded venue substitution
 
-## Related Work
+```bash
+ahead-rev-venue seal \
+  examples/remote_venue/reference-submission-source.json \
+  --out artifacts/remote-submission.json
 
-- Bennett, C.H. (1973). "Logical Reversibility of Computation"
-- Landauer, R. (1961). "Irreversibility and Heat Generation in the Computing Process"
-- Frank, M.P. (2017). "Throwing Computing into Reverse"
-- [Ahead Computing](https://aheadcomputing.com) - The hardware this simulates
+ahead-rev-venue verify \
+  artifacts/remote-submission.json \
+  examples/remote_venue/reference-return-a.json \
+  --out artifacts/venue-a.json \
+  --require-accepted
 
-## License
+ahead-rev-venue verify \
+  artifacts/remote-submission.json \
+  examples/remote_venue/reference-return-b.json \
+  --out artifacts/venue-b.json \
+  --require-accepted
 
-MIT
+ahead-rev-venue compare \
+  artifacts/venue-a.json \
+  artifacts/venue-b.json \
+  --out artifacts/venue-comparison.json \
+  --require-substitution
+```
 
-## Author
+Service completion is never treated as accepted work. Local verification retains authority.
 
-Jonathan Sandhu ([@BigBirdReturns](https://github.com/BigBirdReturns))
+## Ecosystem and pylon commands
 
----
+```bash
+ahead-rev-commodities --priority-max 1 --out artifacts/commodities.json
+ahead-rev-fanout --priority-max 1 --out artifacts/completion-plan.json
+ahead-rev-pylons --out artifacts/pylon-atlas.json --require-complete
+ahead-rev-wave --priority-max 1 --out artifacts/second-wave.json
+```
 
-*The audit trail is not a log. It's a physical property of the execution.*
+The admitted registry and second-wave staging surface are intentionally separate. A candidate must close source, license, adapter, fixture, receipt, refusal, and substitute-coverage requirements before promotion.
+
+## Command surface
+
+| Command | Authority |
+| --- | --- |
+| `ahead-rev-sim` | Core simulator, examples, version, and doctor entry point |
+| `ahead-rev-frontier` | Information-effect and reversibility frontier |
+| `ahead-rev-prove` | Accepted output and exact restoration proof |
+| `ahead-rev-fambs`, `ahead-rev-svk`, `ahead-rev-pck` | Workload custody and lowerings |
+| `ahead-rev-substrate` | Reference physical-compute cartridges |
+| `ahead-rev-mmio`, `ahead-rev-chipyard` | Portable RISC-V control and integration generation |
+| `ahead-rev-hitch`, `ahead-rev-consist-proof` | Provider-neutral composition and target binding |
+| `ahead-rev-evp` | Complete-system Energy, Volume, and Performance vector |
+| `ahead-rev-scale-seam` | Adjacent scale-domain cost attribution |
+| `ahead-rev-venue` | Remote submission, return verification, and substitution |
+| `ahead-rev-causal` | Multi-clock causal custody |
+| `ahead-rev-commodities`, `ahead-rev-fanout` | Admitted ecosystem intake and completion lanes |
+| `ahead-rev-pylons`, `ahead-rev-wave` | Congruent-shape architecture and controlled second-wave intake |
+| `ahead-rev-doctor` | Installed package and source-governance preflight |
+
+## Repository governance
+
+The repository accepts only public or independently generated material. Do not contribute employer PDKs, unreleased libraries, customer designs, internal roadmaps, confidential scripts, restricted documents, private device data, or work performed through unauthorized systems or accounts.
+
+Review the following before contributing:
+
+- [Contributing](CONTRIBUTING.md)
+- [Governance](GOVERNANCE.md)
+- [Security policy](SECURITY.md)
+- [Production readiness](docs/production_readiness.md)
+- [Release process](docs/release_process.md)
+- [Changelog](CHANGELOG.md)
+
+## License and citation
+
+The software is released under the MIT License. Citation metadata is provided in [`CITATION.cff`](CITATION.cff).
+
+Copyright 2025-2026 Jonathan Sandhu and ahead-rev-sim contributors.
