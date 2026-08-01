@@ -1,0 +1,1187 @@
+{
+  "artifact_type": "congruent_shape_pylon_catalog",
+  "as_of": "2026-08-01",
+  "doctrine": {
+    "admission_rule": "A pylon is admitted only when the same causal transaction appears in at least two distinct ecosystem categories, names its authority boundary, identifies its forbidden collapse, and yields a concrete proof transaction.",
+    "control_question": "Which causal structures recur across otherwise unrelated compute ecosystems, and what invariant surface should ahead-rev-sim preserve so every implementation can be consumed as a replaceable commodity?",
+    "shape_definition": "A congruent shape is a scale-independent causal structure, rather than a visual resemblance or shared vocabulary. It identifies where agency, state, authority, evidence, and cost move through a system.",
+    "statement": "The pylon catalog converts recurring ecosystem structures into design constraints. A pylon guides interfaces, receipts, tests, and succession without granting any witness project architectural authority."
+  },
+  "minimum_domain_pylons_per_record": 2,
+  "minimum_foundation_pylons_per_record": 4,
+  "pylons": [
+    {
+      "authority_location": "The accepted-work contract and hidden verifier remain outside every worker, provider, device, facility, and compiler.",
+      "category_ids": [],
+      "design_consequences": [
+        "Freeze the starting state and task identity before execution.",
+        "Represent each candidate as a bounded transition rather than mutable ambient state.",
+        "Seal candidate output, verifier result, replay material, and first divergence together.",
+        "Compare implementations only after replaying from the same frozen base."
+      ],
+      "design_plane": "custody",
+      "failure_modes": [
+        "mutable starting state",
+        "provider-defined success",
+        "unreplayable candidate transition",
+        "comparison after denominator drift"
+      ],
+      "forbidden_collapse": "Do not collapse execution completion into accepted work, or a provider response into repository state.",
+      "invariant": "Frozen base plus bounded task packet plus replaceable worker produces a candidate transition that is verified, receipted, replayed, and compared outside the worker.",
+      "matched_gap_ids": [
+        "workload_identity",
+        "accepted_result",
+        "independent_validation",
+        "measurement_reproducibility"
+      ],
+      "minimum_gap_matches": 0,
+      "name": "Bounded transition spine",
+      "pylon_class": "foundation",
+      "pylon_id": "bounded-transition-spine",
+      "proof_transaction": "Replay one candidate from a frozen base, reproduce the accepted result and receipt, then identify the first divergence after intentional tampering.",
+      "required_surfaces": [
+        "frozen base identity",
+        "bounded task packet",
+        "candidate transition artifact",
+        "hidden deterministic verifier",
+        "immutable receipt",
+        "replay and comparison report"
+      ],
+      "scale_domains": [
+        "instruction",
+        "workload",
+        "device",
+        "facility",
+        "ecosystem"
+      ],
+      "shape_notation": "frozen base + bounded packet + replaceable worker -> candidate delta -> verifier -> receipt -> replay -> comparison",
+      "upstream_pylon_ids": [],
+      "witness_record_ids": [
+        "mlcommons-mlcflow",
+        "openebl-photonics",
+        "ebrains-brainscales2",
+        "riscv-verification-stack"
+      ]
+    },
+    {
+      "authority_location": "The programme owns workload identity, acceptance, fallback, evidence, publication, and succession. The provider owns only its declared implementation surface.",
+      "category_ids": [],
+      "design_consequences": [
+        "Keep acceptance and publication APIs inaccessible to providers.",
+        "Require provider replacement without changing workload or receipts.",
+        "Represent offers, submissions, acknowledgements, and qualification as distinct states.",
+        "Treat public announcements as intake signals rather than implementation evidence."
+      ],
+      "design_plane": "authority",
+      "failure_modes": [
+        "provider self-certification",
+        "endorsement laundering",
+        "vendor-defined denominator",
+        "fallback controlled by the accelerated implementation"
+      ],
+      "forbidden_collapse": "Do not merge the actor performing work with the authority accepting, publishing, or preserving it.",
+      "invariant": "Execution authority is narrower than acceptance authority, and both remain narrower than architectural and historical custody.",
+      "matched_gap_ids": [
+        "accepted_result",
+        "workload_identity",
+        "software_fallback",
+        "independent_validation",
+        "governance_durability"
+      ],
+      "minimum_gap_matches": 0,
+      "name": "Authority outside provider",
+      "pylon_class": "foundation",
+      "pylon_id": "authority-outside-provider",
+      "proof_transaction": "Replace a named provider with a reference implementation while preserving the accepted result, refusal behavior, fallback, evidence boundary, and historical receipt chain.",
+      "required_surfaces": [
+        "provider manifest",
+        "acceptance contract",
+        "fallback contract",
+        "publication boundary",
+        "substitution test"
+      ],
+      "scale_domains": [
+        "worker",
+        "device",
+        "vendor",
+        "facility",
+        "programme"
+      ],
+      "shape_notation": "provider executes inside declared surface; acceptance, fallback, evidence, and publication remain outside",
+      "upstream_pylon_ids": [
+        "bounded-transition-spine"
+      ],
+      "witness_record_ids": [
+        "ahead-high-performance-riscv",
+        "vaire-arc-evp",
+        "aria-scaling-inference-lab",
+        "smart-usa-terminated"
+      ]
+    },
+    {
+      "authority_location": "The verifier and receipt layer define refusal, fault, absence, uncertainty, and unresolved boundaries before any positive claim is admitted.",
+      "category_ids": [],
+      "design_consequences": [
+        "Give refused, faulted, missing, and not-applicable outcomes stable identities.",
+        "Retain blockers in the same artifact as successful observations.",
+        "Require ambiguous command or evidence states to fail closed.",
+        "Use missing evidence to generate the next transaction rather than prose optimism."
+      ],
+      "design_plane": "failure",
+      "failure_modes": [
+        "silent omission",
+        "best-effort acceptance",
+        "ambiguous terminal state",
+        "absence represented as zero"
+      ],
+      "forbidden_collapse": "Do not collapse missing, refused, faulted, unmeasured, simulated, and accepted states into one boolean success field.",
+      "invariant": "Negative space is executable evidence. The system must preserve why a claim was refused and what transaction would remove the blocker.",
+      "matched_gap_ids": [
+        "accepted_result",
+        "reliability_endurance",
+        "governance_durability",
+        "independent_validation"
+      ],
+      "minimum_gap_matches": 0,
+      "name": "Negative-space refusal ledger",
+      "pylon_class": "foundation",
+      "pylon_id": "negative-space-refusal-ledger",
+      "proof_transaction": "Submit ambiguous, incomplete, stale, and faulting fixtures and prove that each produces a distinct terminal receipt without mutating accepted state.",
+      "required_surfaces": [
+        "terminal-state taxonomy",
+        "blocker codes",
+        "first-divergence evidence",
+        "next-transaction field"
+      ],
+      "scale_domains": [
+        "command",
+        "workload",
+        "measurement",
+        "fabrication run",
+        "programme"
+      ],
+      "shape_notation": "candidate -> accepted | refused | faulted | unmeasured, each with immutable blockers and next transaction",
+      "upstream_pylon_ids": [
+        "bounded-transition-spine",
+        "authority-outside-provider"
+      ],
+      "witness_record_ids": [
+        "smart-usa-terminated",
+        "riscv-verification-stack",
+        "protean-shepherd-nova",
+        "ucie-3"
+      ]
+    },
+    {
+      "authority_location": "The estate retains the source-to-build-to-execution-to-measurement-to-supersession chain independently of any current maintainer or facility.",
+      "category_ids": [],
+      "design_consequences": [
+        "Hash every authority-changing artifact and transformation.",
+        "Bind source, tool, model, PDK, firmware, calibration, execution, and measurement identities.",
+        "Record supersession without deleting prior accepted evidence.",
+        "Require artifact-only reconstruction by an external acceptor."
+      ],
+      "design_plane": "provenance",
+      "failure_modes": [
+        "orphaned binary",
+        "unversioned model or PDK",
+        "maintainer disappearance",
+        "history rewritten by latest release"
+      ],
+      "forbidden_collapse": "Do not replace historical custody with a link to the current vendor, branch, facility, or documentation page.",
+      "invariant": "Every accepted transition remains reconstructable after its original actor, tool, facility, or programme disappears.",
+      "matched_gap_ids": [
+        "governance_durability",
+        "workload_identity",
+        "security_isolation",
+        "independent_validation",
+        "access_licensing"
+      ],
+      "minimum_gap_matches": 0,
+      "name": "Provenance and succession chain",
+      "pylon_class": "foundation",
+      "pylon_id": "provenance-succession-chain",
+      "proof_transaction": "Reconstruct one accepted result from pinned artifacts after removing the original builder, network service, and current documentation from the path.",
+      "required_surfaces": [
+        "source identity",
+        "transformation attestations",
+        "artifact manifest",
+        "measurement provenance",
+        "supersession chain"
+      ],
+      "scale_domains": [
+        "source file",
+        "build",
+        "device",
+        "fabrication run",
+        "programme lifetime"
+      ],
+      "shape_notation": "source -> model/build -> execution -> measurement -> acceptance -> supersession, each edge signed and replayable",
+      "upstream_pylon_ids": [
+        "bounded-transition-spine",
+        "authority-outside-provider",
+        "negative-space-refusal-ledger"
+      ],
+      "witness_record_ids": [
+        "reproducible-builds-slsa-in-toto",
+        "caliptra-root-of-trust",
+        "siliconcompiler",
+        "open-pdks-librelane"
+      ]
+    },
+    {
+      "authority_location": "The cartridge descriptor declares capabilities and lifecycle; the workload and acceptance layers remain external.",
+      "category_ids": [
+        "chiplet_interconnect",
+        "neuromorphic",
+        "reversible_computing",
+        "thermodynamic_computing",
+        "photonic_interconnect",
+        "physical_reservoir"
+      ],
+      "design_consequences": [
+        "Require stable identity, capabilities, commands, state, reset, and receipt endpoints.",
+        "Use opaque handles rather than provider-owned address semantics.",
+        "Keep a software fallback behind the same accepted-work contract.",
+        "Make optional acceleration unable to alter evidence or semantics."
+      ],
+      "design_plane": "interface",
+      "failure_modes": [
+        "capability inferred from branding",
+        "raw pointer authority crossing the boundary",
+        "custom ISA as portability floor",
+        "device-specific acceptance"
+      ],
+      "forbidden_collapse": "Do not collapse a substrate, package, protocol, and workload into one proprietary execution island.",
+      "invariant": "A heterogeneous implementation is consumable through identity, descriptor, capability, lifecycle, state, fallback, and receipt surfaces that survive provider replacement.",
+      "matched_gap_ids": [
+        "host_interface",
+        "software_fallback",
+        "state_reset",
+        "determinism_entropy",
+        "security_isolation"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "Self-describing cartridge",
+      "pylon_class": "domain",
+      "pylon_id": "self-describing-cartridge",
+      "proof_transaction": "Swap two implementations behind one descriptor and command lifecycle, then reproduce admission, refusal, reset, output, and receipt behavior.",
+      "required_surfaces": [
+        "identity and descriptor",
+        "capability vector",
+        "command lifecycle",
+        "state and reset contract",
+        "fallback",
+        "receipt"
+      ],
+      "scale_domains": [
+        "functional unit",
+        "die",
+        "chiplet",
+        "board device",
+        "remote service"
+      ],
+      "shape_notation": "identity + descriptor + capabilities + lifecycle + state + fallback + receipt = replaceable cartridge",
+      "upstream_pylon_ids": [
+        "bounded-transition-spine",
+        "authority-outside-provider",
+        "negative-space-refusal-ledger"
+      ],
+      "witness_record_ids": [
+        "ucie-3",
+        "cxl-4",
+        "neuromorphic-nir-synfire",
+        "vaire-arc-evp"
+      ]
+    },
+    {
+      "authority_location": "The accepted workload and comparison harness own equivalence; the physical implementation and reference twin are peers under that authority.",
+      "category_ids": [
+        "software_baseline",
+        "in_memory_analog",
+        "physical_reservoir",
+        "mixed_signal_modeling",
+        "biological_computing",
+        "neuromorphic"
+      ],
+      "design_consequences": [
+        "Require a public reference twin for every physical implementation class.",
+        "Use identical workload identity and accepted-output rules on both paths.",
+        "Record first model-to-hardware divergence rather than averaging it away.",
+        "Keep fallback executable after hardware admission."
+      ],
+      "design_plane": "substitution",
+      "failure_modes": [
+        "simulator with different workload",
+        "fallback omitted after hardware arrives",
+        "model calibrated on held-out test data",
+        "physical claim inferred from model agreement"
+      ],
+      "forbidden_collapse": "Do not collapse a model, simulator, emulator, and measured device into one undifferentiated evidence tier.",
+      "invariant": "Every physical candidate competes against a pinned reference twin under the same accepted work while preserving where and why their trajectories diverge.",
+      "matched_gap_ids": [
+        "software_fallback",
+        "model_hardware_fidelity",
+        "independent_validation",
+        "workload_identity"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "Reference-twin substitution",
+      "pylon_class": "domain",
+      "pylon_id": "reference-twin-substitution",
+      "proof_transaction": "Run one immutable workload through the physical candidate and reference twin, compare accepted output and first divergence, then remove the physical path and replay the receipt through fallback.",
+      "required_surfaces": [
+        "reference implementation",
+        "shared workload contract",
+        "shared accepted-output rule",
+        "trajectory comparison",
+        "fallback substitution proof"
+      ],
+      "scale_domains": [
+        "device model",
+        "simulator",
+        "hardware target",
+        "complete system"
+      ],
+      "shape_notation": "physical candidate || reference twin, joined only by fixed workload, acceptance, and divergence receipt",
+      "upstream_pylon_ids": [
+        "self-describing-cartridge",
+        "bounded-transition-spine"
+      ],
+      "witness_record_ids": [
+        "normal-thermox",
+        "crosssim",
+        "reservoirpy",
+        "ibm-aihwkit"
+      ]
+    },
+    {
+      "authority_location": "The lifecycle state machine owns legal transitions and terminal outcomes; providers implement transitions but cannot invent terminal meaning.",
+      "category_ids": [
+        "soc_integration",
+        "chiplet_interconnect",
+        "open_system_testbed",
+        "intermittent_energy",
+        "silicon_security",
+        "neuromorphic"
+      ],
+      "design_consequences": [
+        "Declare discovery, configure, load, run, read, capture, reset, refuse, and fault states.",
+        "Make commands one-hot or transactionally serialized.",
+        "Keep control state immutable while busy.",
+        "Require reset and refusal receipts before admitting useful work."
+      ],
+      "design_plane": "lifecycle",
+      "failure_modes": [
+        "ambiguous concurrent command",
+        "reset as undocumented side effect",
+        "fault mutates accepted state",
+        "remote queue completion mistaken for task success"
+      ],
+      "forbidden_collapse": "Do not collapse transport completion, device completion, task acceptance, refusal, and fault into one status bit.",
+      "invariant": "Every replaceable component exposes an explicit lifecycle whose legal transitions and terminal receipts remain stable across implementations.",
+      "matched_gap_ids": [
+        "host_interface",
+        "state_reset",
+        "reliability_endurance",
+        "security_isolation"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "Lifecycle refusal state machine",
+      "pylon_class": "domain",
+      "pylon_id": "lifecycle-refusal-state-machine",
+      "proof_transaction": "Exercise every legal command, ambiguous command, reset, refusal, timeout, and fault path and prove terminal-state exclusivity plus state preservation.",
+      "required_surfaces": [
+        "command set",
+        "legal transition table",
+        "terminal-state taxonomy",
+        "reset receipt",
+        "fault containment receipt"
+      ],
+      "scale_domains": [
+        "register block",
+        "device",
+        "chiplet",
+        "remote job",
+        "intermittent task"
+      ],
+      "shape_notation": "discover -> configure -> load -> run -> read/capture, with reset/refuse/fault as explicit receipted transitions",
+      "upstream_pylon_ids": [
+        "self-describing-cartridge",
+        "negative-space-refusal-ledger"
+      ],
+      "witness_record_ids": [
+        "chipyard",
+        "caliptra-root-of-trust",
+        "ebrains-spinnaker",
+        "immortal-threads-intermittent"
+      ]
+    },
+    {
+      "authority_location": "The receipt layer owns the alignment of state, entropy, environment, calibration, and time; the substrate supplies observations within that braid.",
+      "category_ids": [
+        "thermodynamic_computing",
+        "probabilistic_computing",
+        "neuromorphic",
+        "physical_reservoir",
+        "benchmark_measurement",
+        "biological_computing"
+      ],
+      "design_consequences": [
+        "Classify determinism as exact, trace-replayable, or distributional.",
+        "Hash entropy and stochastic path traces when exact replay depends on them.",
+        "Bind calibration and environmental manifests to the execution interval.",
+        "Align events, power, clocks, and accepted output before comparison."
+      ],
+      "design_plane": "causality",
+      "failure_modes": [
+        "random seed substituted for physical entropy",
+        "calibration applied outside the measured interval",
+        "event and power clocks misaligned",
+        "environment treated as prose"
+      ],
+      "forbidden_collapse": "Do not collapse state, randomness, environment, calibration, and time into an opaque run identifier.",
+      "invariant": "A result is replayable or statistically interpretable only when the causal custody of state, entropy, environment, calibration, and time is explicit.",
+      "matched_gap_ids": [
+        "determinism_entropy",
+        "calibration_environment",
+        "time_synchronization",
+        "workload_identity"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "Causal custody braid",
+      "pylon_class": "domain",
+      "pylon_id": "causal-custody-braid",
+      "proof_transaction": "Replay an exact fixture with a retained trace, evaluate a distributional fixture without that trace, then shift calibration or clock alignment and require first-divergence refusal.",
+      "required_surfaces": [
+        "state digest",
+        "entropy or path trace",
+        "environment manifest",
+        "calibration manifest",
+        "synchronized clock interval"
+      ],
+      "scale_domains": [
+        "stochastic bit",
+        "event stream",
+        "device trajectory",
+        "environmental episode",
+        "measurement run"
+      ],
+      "shape_notation": "state + entropy/path + environment + calibration + synchronized time -> interpretable result",
+      "upstream_pylon_ids": [
+        "bounded-transition-spine",
+        "lifecycle-refusal-state-machine",
+        "provenance-succession-chain"
+      ],
+      "witness_record_ids": [
+        "extropic-thrml",
+        "purdue-pbits",
+        "openprc",
+        "spec-ptdaemon"
+      ]
+    },
+    {
+      "authority_location": "The domain-level accepted semantics sit above every intermediate representation and target lowering; differential verification sits below each lowering edge.",
+      "category_ids": [
+        "hardware_compiler",
+        "neuromorphic",
+        "biological_computing",
+        "mixed_signal_modeling",
+        "riscv_host",
+        "soc_integration"
+      ],
+      "design_consequences": [
+        "Define the domain semantics before choosing target instructions or hardware.",
+        "Use a portable IR that retains state, path, precision, and timing assumptions.",
+        "Generate target-specific lowerings as replaceable commodities.",
+        "Differentially verify source, IR, target, and accepted output."
+      ],
+      "design_plane": "semantics",
+      "failure_modes": [
+        "target vocabulary becomes semantic authority",
+        "quantization hidden in compiler defaults",
+        "source location and information effects lost",
+        "backend success accepted without output parity"
+      ],
+      "forbidden_collapse": "Do not collapse source semantics, portable representation, schedule, target encoding, and generated RTL into one compiler success event.",
+      "invariant": "Semantics are preserved through an explicit sandwich of domain contract, portable IR, target lowering, and differential proof.",
+      "matched_gap_ids": [
+        "compiler_lowering",
+        "task_encoding",
+        "precision_conversion",
+        "accepted_result"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "Semantic IR lowering sandwich",
+      "pylon_class": "domain",
+      "pylon_id": "semantic-ir-lowering-sandwich",
+      "proof_transaction": "Lower one accepted workload through two independent backends, compare source, IR, target traces, and accepted results, and emit first semantic divergence.",
+      "required_surfaces": [
+        "domain semantics",
+        "portable IR",
+        "target lowering",
+        "precision and timing manifest",
+        "differential proof"
+      ],
+      "scale_domains": [
+        "operation",
+        "graph",
+        "program",
+        "RTL module",
+        "physical target"
+      ],
+      "shape_notation": "accepted semantics -> portable IR -> target lowering -> target execution, with differential proof across every edge",
+      "upstream_pylon_ids": [
+        "bounded-transition-spine",
+        "provenance-succession-chain"
+      ],
+      "witness_record_ids": [
+        "circt-mlir",
+        "calyx-hardware-ir",
+        "neuromorphic-nir-synfire",
+        "visual-dsd"
+      ]
+    },
+    {
+      "authority_location": "Evidence tiers and measured replacement tests own fidelity; models and devices remain distinct witnesses.",
+      "category_ids": [
+        "mixed_signal_modeling",
+        "multiphysics_modeling",
+        "in_memory_analog",
+        "photonic_eda",
+        "biological_computing",
+        "eda_fabrication"
+      ],
+      "design_consequences": [
+        "Separate ideal, nonideal, calibrated, target-observed, measured, and independently validated tiers.",
+        "Name the model and solver at every tier.",
+        "Retain parameter, geometry, process, and uncertainty manifests.",
+        "Require measured behavior to replace rather than merely decorate simulation."
+      ],
+      "design_plane": "fidelity",
+      "failure_modes": [
+        "ideal model presented as device prediction",
+        "calibration fitted on evaluation data",
+        "solver disagreement hidden",
+        "measurement used without model replacement map"
+      ],
+      "forbidden_collapse": "Do not collapse ideal equations, compact models, simulation, calibration, target observation, and measurement into a single fidelity claim.",
+      "invariant": "Physical confidence ascends a visible staircase whose transitions identify what new evidence replaced the prior abstraction.",
+      "matched_gap_ids": [
+        "model_hardware_fidelity",
+        "calibration_environment",
+        "measurement_reproducibility",
+        "independent_validation"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "Model-fidelity staircase",
+      "pylon_class": "domain",
+      "pylon_id": "model-fidelity-staircase",
+      "proof_transaction": "Run a shared fixture through ideal, nonideal, calibrated, and measured tiers and record parameter identity plus first divergence at every transition.",
+      "required_surfaces": [
+        "model tier",
+        "solver identity",
+        "parameter and geometry manifest",
+        "calibration data",
+        "measured replacement map"
+      ],
+      "scale_domains": [
+        "equation",
+        "compact model",
+        "circuit simulation",
+        "fabricated device",
+        "complete system"
+      ],
+      "shape_notation": "ideal -> nonideal -> calibrated -> target-observed -> measured -> independently validated",
+      "upstream_pylon_ids": [
+        "reference-twin-substitution",
+        "causal-custody-braid",
+        "provenance-succession-chain"
+      ],
+      "witness_record_ids": [
+        "openvaf-osdi",
+        "gdsfactory-sax-gsim",
+        "crosssim",
+        "nupack-molecular-programming"
+      ]
+    },
+    {
+      "authority_location": "The held-out assay owns task separation and acceptance; sensing, substrate dynamics, readout, and training are independently receipted actors.",
+      "category_ids": [
+        "physical_reservoir",
+        "biological_computing",
+        "neuromorphic",
+        "in_memory_analog",
+        "thermodynamic_computing"
+      ],
+      "design_consequences": [
+        "Compare raw stimulus, substrate response, and reference computation under one held-out split.",
+        "Receipt preprocessing, readout training, adaptation, sensing, and acquisition energy.",
+        "Require useful task gain beyond direct sensing.",
+        "Reject physical compute claims from interesting trajectories alone."
+      ],
+      "design_plane": "task",
+      "failure_modes": [
+        "sensor output called computation",
+        "readout trained on test data",
+        "preprocessing omitted from cost",
+        "trajectory complexity mistaken for task gain"
+      ],
+      "forbidden_collapse": "Do not collapse observation, transformation, readout, training, and accepted task performance into one substrate accuracy number.",
+      "invariant": "A physical process earns compute credit only when its held-out response improves accepted task performance beyond raw sensing and a pinned comparison path.",
+      "matched_gap_ids": [
+        "task_encoding",
+        "readout_training",
+        "calibration_environment",
+        "accepted_result",
+        "full_system_energy"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "Compute-versus-sensing separation",
+      "pylon_class": "domain",
+      "pylon_id": "compute-vs-sensing-separation",
+      "proof_transaction": "Apply the same readout to raw input and substrate response on held-out episodes, include training and acquisition cost, and require positive compute gain before admission.",
+      "required_surfaces": [
+        "raw-stimulus baseline",
+        "substrate trajectory",
+        "readout and training manifest",
+        "held-out split",
+        "compute-gain receipt"
+      ],
+      "scale_domains": [
+        "sensor",
+        "reservoir",
+        "body or environment",
+        "neuromorphic system",
+        "molecular reaction"
+      ],
+      "shape_notation": "raw stimulus -> sensed input; substrate dynamics -> response; fixed readout -> held-out result; gain over raw decides compute",
+      "upstream_pylon_ids": [
+        "reference-twin-substitution",
+        "causal-custody-braid",
+        "bounded-transition-spine"
+      ],
+      "witness_record_ids": [
+        "openprc",
+        "reservoirpy",
+        "intel-loihi2-hala-point",
+        "visual-dsd"
+      ]
+    },
+    {
+      "authority_location": "The complete-system boundary owns cost attribution; primitives, hosts, links, converters, packages, sensors, and cooling are contributing components.",
+      "category_ids": [
+        "reversible_computing",
+        "thermodynamic_computing",
+        "photonic_interconnect",
+        "neuromorphic",
+        "in_memory_analog",
+        "chiplet_interconnect"
+      ],
+      "design_consequences": [
+        "Declare every component required to deliver accepted work.",
+        "Include host, memory, interconnect, conversion, control, sensing, readout, package, and cooling.",
+        "Align all component costs to the same accepted-work interval.",
+        "Keep component and complete-system claims separate."
+      ],
+      "design_plane": "system",
+      "failure_modes": [
+        "die metric promoted to system metric",
+        "laser or power clock omitted",
+        "host preprocessing omitted",
+        "cooling and package volume excluded"
+      ],
+      "forbidden_collapse": "Do not collapse a primitive, tile, die, card, package, rack, and facility into one denominator or boundary.",
+      "invariant": "Useful work is judged inside the full envelope of components, transfers, conversions, controls, and environmental support required to produce it.",
+      "matched_gap_ids": [
+        "full_system_energy",
+        "timing_thermal_volume",
+        "data_movement",
+        "packaging_assembly",
+        "precision_conversion"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "Complete-system envelope",
+      "pylon_class": "domain",
+      "pylon_id": "complete-system-envelope",
+      "proof_transaction": "Expand one component result into a complete boundary, reconcile every energy and volume contribution, and compare the resulting accepted-work cost with the component-only report.",
+      "required_surfaces": [
+        "boundary manifest",
+        "component inventory",
+        "allocation rules",
+        "synchronized accepted-work interval",
+        "complete-system receipt"
+      ],
+      "scale_domains": [
+        "primitive",
+        "die",
+        "package",
+        "board",
+        "rack",
+        "facility"
+      ],
+      "shape_notation": "primitive inside host + memory + movement + conversion + control + sensing/readout + package + cooling = complete result envelope",
+      "upstream_pylon_ids": [
+        "causal-custody-braid",
+        "lifecycle-refusal-state-machine",
+        "provenance-succession-chain"
+      ],
+      "witness_record_ids": [
+        "vaire-arc-evp",
+        "lightmatter-passage",
+        "intel-loihi2-hala-point",
+        "normal-cn101-carnot"
+      ]
+    },
+    {
+      "authority_location": "The accepted workload, matched baseline, complete boundary, and independent receipt own comparison. No provider chooses a scalar policy weight.",
+      "category_ids": [
+        "reversible_computing",
+        "thermodynamic_computing",
+        "benchmark_measurement",
+        "intermittent_energy",
+        "photonic_interconnect",
+        "neuromorphic"
+      ],
+      "design_consequences": [
+        "Report Energy, Volume, throughput, and latency as separate dimensions.",
+        "Require workload, boundary, environment, and claim scope to match the baseline.",
+        "Allow advantage only through Pareto dominance and complete measurement custody.",
+        "Keep ambient, signal-coupled, recovered, and external energy flows separate."
+      ],
+      "design_plane": "qualification",
+      "failure_modes": [
+        "weighted scalar hides a regression",
+        "baseline uses different workload or boundary",
+        "ambient energy called free",
+        "component volume compared with rack performance"
+      ],
+      "forbidden_collapse": "Do not collapse Energy, Volume, throughput, latency, workload quality, or measurement scope into a single self-authorizing score.",
+      "invariant": "A candidate can claim complete-system advantage only when a matched, sealed baseline is no better on any EVP dimension and worse on at least one.",
+      "matched_gap_ids": [
+        "full_system_energy",
+        "harvested_recovered_energy",
+        "timing_thermal_volume",
+        "accepted_result",
+        "independent_validation"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "EVP Pareto frontier",
+      "pylon_class": "domain",
+      "pylon_id": "evp-pareto-frontier",
+      "proof_transaction": "Measure candidate and baseline for identical accepted work, complete boundary, and environment, then emit separate EVP ratios and admit advantage only on Pareto dominance.",
+      "required_surfaces": [
+        "accepted-work contract",
+        "complete boundary",
+        "energy-flow ledger",
+        "occupied-volume allocation",
+        "throughput and latency",
+        "matched sealed baseline"
+      ],
+      "scale_domains": [
+        "component",
+        "subsystem",
+        "complete system",
+        "rack",
+        "facility"
+      ],
+      "shape_notation": "matched accepted work + complete boundary + sealed baseline -> E/V/throughput/latency vector -> Pareto admission",
+      "upstream_pylon_ids": [
+        "complete-system-envelope",
+        "reference-twin-substitution",
+        "causal-custody-braid"
+      ],
+      "witness_record_ids": [
+        "vaire-arc-evp",
+        "mlcommons-power",
+        "spec-ptdaemon",
+        "protean-shepherd-nova"
+      ]
+    },
+    {
+      "authority_location": "The stable composition contract owns transport and lifecycle semantics; endpoints retain implementation freedom but no authority over the other endpoint.",
+      "category_ids": [
+        "chiplet_interconnect",
+        "photonic_interconnect",
+        "soc_integration",
+        "riscv_host",
+        "silicon_security"
+      ],
+      "design_consequences": [
+        "Use stable versioned transport profiles and opaque handles.",
+        "Keep endpoint identity, state, reset, errors, and receipts explicit.",
+        "Account for coherency, protocol, retry, conversion, and package costs.",
+        "Permit link and endpoint replacement independently."
+      ],
+      "design_plane": "composition",
+      "failure_modes": [
+        "endpoint-specific transport semantics",
+        "coherency assumed rather than receipted",
+        "retry and error costs omitted",
+        "package topology hidden"
+      ],
+      "forbidden_collapse": "Do not collapse die, link, protocol, memory model, package, and endpoint lifecycle into one nominal bandwidth claim.",
+      "invariant": "Composition occurs through a stable fabric contract that preserves endpoint replacement, opaque state custody, error behavior, and complete transfer receipts.",
+      "matched_gap_ids": [
+        "host_interface",
+        "data_movement",
+        "scaling_interconnect",
+        "packaging_assembly",
+        "security_isolation"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "Composition fabric",
+      "pylon_class": "domain",
+      "pylon_id": "composition-fabric",
+      "proof_transaction": "Run one accepted traffic and lifecycle fixture across two endpoint implementations and two transport profiles while preserving state, errors, reset, and transfer receipts.",
+      "required_surfaces": [
+        "transport profile",
+        "opaque handle model",
+        "endpoint lifecycle",
+        "error and retry receipt",
+        "package and energy boundary"
+      ],
+      "scale_domains": [
+        "functional block",
+        "die-to-die",
+        "package",
+        "board",
+        "rack fabric"
+      ],
+      "shape_notation": "replaceable endpoint A <-> stable fabric contract <-> replaceable endpoint B, with state/error/receipt custody",
+      "upstream_pylon_ids": [
+        "self-describing-cartridge",
+        "lifecycle-refusal-state-machine",
+        "complete-system-envelope"
+      ],
+      "witness_record_ids": [
+        "ucie-3",
+        "cxl-4",
+        "ocp-openhbi",
+        "lightmatter-passage"
+      ]
+    },
+    {
+      "authority_location": "The workload and complete-system receipt own the scale comparison; each scale boundary exposes its own communication, synchronization, refresh, and failure tax.",
+      "category_ids": [
+        "chiplet_interconnect",
+        "photonic_interconnect",
+        "neuromorphic",
+        "research_program",
+        "soc_integration"
+      ],
+      "design_consequences": [
+        "Model tile, die, package, board, rack, and facility boundaries separately.",
+        "Move communication and synchronization costs outward as the system scales.",
+        "Retain topology and utilization in the workload identity.",
+        "Require scale claims to reproduce accepted work rather than local link rate."
+      ],
+      "design_plane": "scale",
+      "failure_modes": [
+        "tile result multiplied into rack claim",
+        "network topology omitted",
+        "synchronization and refresh hidden",
+        "failure domains ignored"
+      ],
+      "forbidden_collapse": "Do not extrapolate local device or link behavior across a scale seam without exposing the new communication and coordination mechanism.",
+      "invariant": "Every increase in scale creates a new causal seam whose movement, synchronization, refresh, utilization, and failure costs must become explicit.",
+      "matched_gap_ids": [
+        "data_movement",
+        "scaling_interconnect",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "reliability_endurance"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "Scale-seam communication tax",
+      "pylon_class": "domain",
+      "pylon_id": "scale-seam-communication-tax",
+      "proof_transaction": "Execute the same accepted workload at two adjacent scales, preserve topology and utilization, and attribute the delta to communication, synchronization, refresh, and failure handling.",
+      "required_surfaces": [
+        "scale topology",
+        "traffic and synchronization trace",
+        "utilization",
+        "failure domains",
+        "incremental EVP receipt"
+      ],
+      "scale_domains": [
+        "tile",
+        "die",
+        "package",
+        "board",
+        "rack",
+        "facility"
+      ],
+      "shape_notation": "local compute + each new scale seam adds movement + synchronization + refresh + fault tax",
+      "upstream_pylon_ids": [
+        "composition-fabric",
+        "complete-system-envelope",
+        "causal-custody-braid"
+      ],
+      "witness_record_ids": [
+        "src-chimes",
+        "oriole-prism",
+        "ucie-3",
+        "intel-loihi2-hala-point"
+      ]
+    },
+    {
+      "authority_location": "The signoff and measurement chain owns materialization evidence; compilers, PDKs, foundries, packages, and test services are replaceable stages.",
+      "category_ids": [
+        "eda_fabrication",
+        "prototyping_fabrication",
+        "photonic_eda",
+        "hardware_compiler",
+        "mixed_signal_modeling",
+        "neuromorphic"
+      ],
+      "design_consequences": [
+        "Preserve source, model, RTL, netlist, layout, PDK, signoff, fabrication, package, and test identities.",
+        "Retain failed-run evidence and process deviations.",
+        "Require measured structures to map back to source and workload intent.",
+        "Maintain at least two viable materialization routes where possible."
+      ],
+      "design_plane": "materialization",
+      "failure_modes": [
+        "GDS without source or PDK identity",
+        "fabrication success without test structure",
+        "package omitted from signoff",
+        "failed shuttle evidence discarded"
+      ],
+      "forbidden_collapse": "Do not collapse generated RTL, signoff, fabrication, package, and measured silicon into one tape-out milestone.",
+      "invariant": "A design becomes a physical candidate through a staged, replayable funnel whose every transformation and failed attempt remains attributable.",
+      "matched_gap_ids": [
+        "compiler_lowering",
+        "fabrication_signoff",
+        "packaging_assembly",
+        "model_hardware_fidelity",
+        "reliability_endurance"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "Materialization funnel",
+      "pylon_class": "domain",
+      "pylon_id": "materialization-funnel",
+      "proof_transaction": "Rebuild one source design through two tool or PDK routes, fabricate or emulate a test structure, and bind signoff plus measured output back to the same accepted artifact identity.",
+      "required_surfaces": [
+        "source and generated artifacts",
+        "tool and PDK manifests",
+        "DRC LVS extraction timing",
+        "fabrication and package identity",
+        "test and measurement receipt"
+      ],
+      "scale_domains": [
+        "source",
+        "RTL or model",
+        "layout",
+        "wafer",
+        "package",
+        "board"
+      ],
+      "shape_notation": "semantics/source -> generated implementation -> signoff -> fabrication -> package -> test -> measured receipt",
+      "upstream_pylon_ids": [
+        "semantic-ir-lowering-sandwich",
+        "model-fidelity-staircase",
+        "provenance-succession-chain"
+      ],
+      "witness_record_ids": [
+        "openroad-openlane",
+        "ihp-sg13g2-open-pdk",
+        "openebl-photonics",
+        "openspike-open-silicon"
+      ]
+    },
+    {
+      "authority_location": "The submission package and returned raw artifacts remain under programme custody; the remote facility controls only the declared execution venue.",
+      "category_ids": [
+        "open_system_testbed",
+        "prototyping_fabrication",
+        "research_program",
+        "benchmark_measurement",
+        "neuromorphic"
+      ],
+      "design_consequences": [
+        "Package workload, configuration, expected output, fallback, and measurement requirements before submission.",
+        "Record queue, facility, hardware, firmware, and access identities.",
+        "Require raw returned artifacts and failed-run evidence.",
+        "Maintain an exit and migration route to another venue."
+      ],
+      "design_plane": "venue",
+      "failure_modes": [
+        "remote run represented only by dashboard result",
+        "queue and hardware identity missing",
+        "facility preprocessing hidden",
+        "programme cancellation strands evidence"
+      ],
+      "forbidden_collapse": "Do not collapse a submission, queue, facility execution, returned summary, and independent acceptance into one remote-job identifier.",
+      "invariant": "A remote venue is a replaceable execution envelope whose submission, queue, hardware, raw output, and exit conditions are separately receipted.",
+      "matched_gap_ids": [
+        "access_licensing",
+        "workload_identity",
+        "measurement_reproducibility",
+        "independent_validation",
+        "time_synchronization"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "Remote venue envelope",
+      "pylon_class": "domain",
+      "pylon_id": "remote-venue-envelope",
+      "proof_transaction": "Submit one immutable package to two venues, reconstruct each run from returned raw artifacts, and migrate after intentional denial or venue removal without changing acceptance.",
+      "required_surfaces": [
+        "submission bundle",
+        "queue and facility identity",
+        "hardware and firmware manifest",
+        "returned raw artifacts",
+        "migration and exit plan"
+      ],
+      "scale_domains": [
+        "remote device",
+        "shared testbed",
+        "fabrication service",
+        "national facility",
+        "funded programme"
+      ],
+      "shape_notation": "sealed submission -> queue/facility envelope -> raw returned artifacts -> local replay -> acceptance or migration",
+      "upstream_pylon_ids": [
+        "bounded-transition-spine",
+        "authority-outside-provider",
+        "provenance-succession-chain",
+        "negative-space-refusal-ledger"
+      ],
+      "witness_record_ids": [
+        "ebrains-brainscales2",
+        "thor-neuromorphic-commons",
+        "natcast-nstc-ppf",
+        "aria-scaling-inference-lab"
+      ]
+    },
+    {
+      "authority_location": "The progress and energy trace receipts own recovery comparison; checkpoint, commit, reversible-history, retry, and cartridge strategies are peers.",
+      "category_ids": [
+        "intermittent_energy",
+        "reversible_computing",
+        "thermodynamic_computing",
+        "benchmark_measurement",
+        "physical_reservoir"
+      ],
+      "design_consequences": [
+        "Bind progress, commit state, failure schedule, and energy trace.",
+        "Compare checkpoint, task-atomic, reversible-history, retry, and substrate strategies under the same trace.",
+        "Account for lost work, storage, sensing, reset, and recovery energy.",
+        "Require the accepted result after every admissible interruption schedule."
+      ],
+      "design_plane": "resilience",
+      "failure_modes": [
+        "progress inferred from elapsed time",
+        "retry energy omitted",
+        "failure schedule differs between strategies",
+        "checkpoint state lacks exact restoration semantics"
+      ],
+      "forbidden_collapse": "Do not collapse completed work, retained progress, commit state, retries, and energy availability into one uptime percentage.",
+      "invariant": "Recovery strategies are comparable only under identical work, failure, state, and energy traces with explicit lost-work and restoration receipts.",
+      "matched_gap_ids": [
+        "state_reset",
+        "harvested_recovered_energy",
+        "reliability_endurance",
+        "time_synchronization",
+        "software_fallback"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "Intermittent commit and recovery",
+      "pylon_class": "domain",
+      "pylon_id": "intermittent-commit-recovery",
+      "proof_transaction": "Replay one accepted workload and failure schedule across checkpoint, task-atomic, reversible-history, retry, and cartridge execution, then compare retained progress and complete energy.",
+      "required_surfaces": [
+        "failure and energy trace",
+        "progress state",
+        "commit boundaries",
+        "retry and lost-work ledger",
+        "restoration proof"
+      ],
+      "scale_domains": [
+        "instruction region",
+        "thread",
+        "task",
+        "device",
+        "energy-harvesting system"
+      ],
+      "shape_notation": "work + state + failure/energy trace -> commit/retry/reverse strategy -> restored accepted result + lost-work receipt",
+      "upstream_pylon_ids": [
+        "lifecycle-refusal-state-machine",
+        "causal-custody-braid",
+        "evp-pareto-frontier"
+      ],
+      "witness_record_ids": [
+        "immortal-threads-intermittent",
+        "protean-shepherd-nova",
+        "vaire-arc-evp",
+        "normal-cn101-carnot"
+      ]
+    },
+    {
+      "authority_location": "The registry and completion programme own the map from public signal to system gap, first transaction, lane, and receipt. The external actor remains a source of commodity artifacts.",
+      "category_ids": [
+        "research_program",
+        "open_system_testbed",
+        "verification_provenance",
+        "chiplet_interconnect",
+        "prototyping_fabrication",
+        "neuromorphic"
+      ],
+      "design_consequences": [
+        "Pin every public source and reusable artifact before interpretation.",
+        "Map each actor to explicit system gaps rather than market categories alone.",
+        "Generate a bounded first transaction and required receipt for every record.",
+        "Preserve programme failure, access loss, and supersession as intake evidence."
+      ],
+      "design_plane": "dispatch",
+      "failure_modes": [
+        "watchlist without transactions",
+        "press release treated as completion",
+        "category label hides system seam",
+        "programme cancellation deletes prior map"
+      ],
+      "forbidden_collapse": "Do not collapse discovery, interpretation, dependency selection, execution, and qualification into an ecosystem recommendation.",
+      "invariant": "Every public signal is converted into a pinned commodity record, named completion gap, bounded first transaction, execution lane, and required receipt.",
+      "matched_gap_ids": [
+        "governance_durability",
+        "access_licensing",
+        "independent_validation",
+        "workload_identity"
+      ],
+      "minimum_gap_matches": 2,
+      "name": "Registry-gap transaction dispatch",
+      "pylon_class": "domain",
+      "pylon_id": "registry-gap-transaction-dispatch",
+      "proof_transaction": "Remove an actor or programme from the registry, regenerate the completion plan, and prove that its system gaps and receipts remain covered by substitute records and lanes.",
+      "required_surfaces": [
+        "pinned source",
+        "commodity asset",
+        "gap map",
+        "first transaction",
+        "completion lane",
+        "required receipt"
+      ],
+      "scale_domains": [
+        "repository",
+        "company",
+        "community",
+        "standard",
+        "facility",
+        "programme"
+      ],
+      "shape_notation": "public signal -> pinned identity -> reusable asset + system gap -> first transaction -> lane -> receipt -> substitution",
+      "upstream_pylon_ids": [
+        "authority-outside-provider",
+        "negative-space-refusal-ledger",
+        "provenance-succession-chain"
+      ],
+      "witness_record_ids": [
+        "open-neuromorphic-research-registry",
+        "ocp-open-chiplet-economy",
+        "microelectronics-commons",
+        "smart-usa-terminated"
+      ]
+    }
+  ],
+  "schema_version": "ahead.congruent-shape-pylon-catalog/v0.1"
+}
