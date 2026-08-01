@@ -161,7 +161,7 @@
           "const": "ahead_physical_compute_elaboration_witness"
         },
         "elaboration_witness_value": {
-          "const": 2703141630
+          "const": 2703149822
         },
         "entry_api": {
           "const": "testchipip.soc.SubsystemInjectorKey"
