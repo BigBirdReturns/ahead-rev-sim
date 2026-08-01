@@ -165,12 +165,13 @@ def run_reservoir_assay(
     compute_gain = substrate_accuracy - baseline_accuracy
     response_margin = float(substrate.get("separation_margin", 0))
 
-    if not blockers and substrate_accuracy < contract.minimum_test_accuracy:
-        blockers.append("TASK_ACCURACY_BELOW_THRESHOLD")
-    if not blockers and compute_gain < contract.minimum_compute_gain:
-        blockers.append("COMPUTE_GAIN_BELOW_THRESHOLD")
-    if not blockers and response_margin < contract.minimum_response_margin:
-        blockers.append("RESPONSE_SEPARATION_BELOW_THRESHOLD")
+    if not blockers:
+        if substrate_accuracy < contract.minimum_test_accuracy:
+            blockers.append("TASK_ACCURACY_BELOW_THRESHOLD")
+        if compute_gain < contract.minimum_compute_gain:
+            blockers.append("COMPUTE_GAIN_BELOW_THRESHOLD")
+        if response_margin < contract.minimum_response_margin:
+            blockers.append("RESPONSE_SEPARATION_BELOW_THRESHOLD")
 
     quality_pass = not blockers
     all_measured = bool(ordered) and all(
