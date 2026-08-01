@@ -1,0 +1,257 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "IBM Research",
+      "category": "in_memory_analog",
+      "commodity_assets": [
+        {
+          "asset_kind": "analog_codesign_simulator",
+          "ingest_modes": [
+            "vendor",
+            "fallback"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/IBM/aihwkit"
+        },
+        {
+          "asset_kind": "device_and_noise_models",
+          "ingest_modes": [
+            "ingest",
+            "adapt"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/IBM/aihwkit"
+        }
+      ],
+      "completion_questions": [
+        "Which device model and converter assumptions dominate quality?",
+        "Which training, programming, refresh, and digital work remain outside the array?"
+      ],
+      "id": "ibm-aihwkit",
+      "ingestion_policy": {
+        "actions": [
+          "pin device and converter models",
+          "map training and inference quality to accepted results",
+          "separate simulated device energy from complete system receipts"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Run one FAMBS matrix workload through AIHWKit with explicit device, DAC, ADC, drift, programming, and digital fallback parameters.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes analog device, training, inference, noise, and hardware-aware simulation code.",
+          "title": "AIHWKit GitHub",
+          "url": "https://github.com/IBM/aihwkit"
+        }
+      ],
+      "project": "AIHWKit analog hardware-aware training and inference simulator",
+      "public_stage": "active_open_source_analog_codesign_toolkit",
+      "system_gaps": [
+        "accepted_result",
+        "workload_identity",
+        "model_hardware_fidelity",
+        "calibration_environment",
+        "precision_conversion",
+        "readout_training",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "SynSense and Rockpool community",
+      "category": "neuromorphic",
+      "commodity_assets": [
+        {
+          "asset_kind": "cpu_and_simulator_fallback",
+          "ingest_modes": [
+            "vendor",
+            "fallback"
+          ],
+          "license": "AGPL-or-component-specific",
+          "locator": "https://github.com/synsense/rockpool"
+        },
+        {
+          "asset_kind": "commercial_neuromorphic_target",
+          "ingest_modes": [
+            "cartridge",
+            "benchmark"
+          ],
+          "license": "commercial",
+          "locator": "https://www.synsense.ai/products/xylo"
+        }
+      ],
+      "completion_questions": [
+        "Which model transforms and quantization steps occur before deployment?",
+        "What complete board and sensor energy accompany one accepted task?"
+      ],
+      "id": "synsense-rockpool-xylo",
+      "ingestion_policy": {
+        "actions": [
+          "bind Rockpool graph and quantization identity",
+          "compare simulator and device output",
+          "measure sensor front end host and board boundary"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a Rockpool-to-NIR-to-Xylo conformance fixture with identical event input, state reset, quantization, output, and fallback receipts.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes training, simulation, deployment, and hardware interfaces for SynSense devices.",
+          "title": "Rockpool GitHub",
+          "url": "https://github.com/synsense/rockpool"
+        },
+        {
+          "kind": "official_product",
+          "public_completion_signal": "Publishes ultra-low-power neuromorphic processor targets and use cases.",
+          "title": "Xylo product family",
+          "url": "https://www.synsense.ai/products/xylo"
+        }
+      ],
+      "project": "Rockpool framework and Xylo neuromorphic processors",
+      "public_stage": "open_framework_with_commercial_hardware_backends",
+      "system_gaps": [
+        "accepted_result",
+        "workload_identity",
+        "compiler_lowering",
+        "model_hardware_fidelity",
+        "precision_conversion",
+        "state_reset",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "software_fallback"
+      ]
+    },
+    {
+      "actor": "UT San Antonio and NSF THOR community",
+      "category": "open_system_testbed",
+      "commodity_assets": [
+        {
+          "asset_kind": "heterogeneous_remote_testbed",
+          "ingest_modes": [
+            "qualify",
+            "benchmark"
+          ],
+          "license": "programme_access",
+          "locator": "https://www.neuromorphiccommons.com/"
+        },
+        {
+          "asset_kind": "cross_platform_training_material",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "public_web",
+          "locator": "https://www.neuromorphiccommons.com/"
+        }
+      ],
+      "completion_questions": [
+        "What submission and telemetry package survives hardware replacement?",
+        "Can outside users reconstruct system power, queue, software, and output identity?"
+      ],
+      "id": "thor-neuromorphic-commons",
+      "ingestion_policy": {
+        "actions": [
+          "shape portable cartridge submissions for THOR",
+          "preserve queue hardware and software identity",
+          "compare heterogeneous backends under one NIR and receipt contract"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Prepare a THOR job bundle that runs one immutable NIR workload across at least two hosted systems and a software fallback.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_platform",
+          "public_completion_signal": "Publishes the hardware-access, software, community, and tutorial roadmap for the national hub.",
+          "title": "THOR",
+          "url": "https://www.neuromorphiccommons.com/"
+        },
+        {
+          "kind": "official_launch",
+          "public_completion_signal": "Describes public queue access and heterogeneous large-scale neuromorphic infrastructure.",
+          "title": "UT San Antonio THOR launch",
+          "url": "https://news.utsa.edu/2026/02/ut-san-antonio-to-launch-nations-first-open-access-neuromorphic-computing-hub/"
+        }
+      ],
+      "project": "THOR Neuromorphic Commons",
+      "public_stage": "launched_open_access_heterogeneous_neuromorphic_hub",
+      "system_gaps": [
+        "accepted_result",
+        "workload_identity",
+        "host_interface",
+        "software_fallback",
+        "measurement_reproducibility",
+        "independent_validation",
+        "access_licensing",
+        "governance_durability",
+        "time_synchronization"
+      ]
+    },
+    {
+      "actor": "OpenSpike community",
+      "category": "neuromorphic",
+      "commodity_assets": [
+        {
+          "asset_kind": "open_neuromorphic_rtl",
+          "ingest_modes": [
+            "vendor",
+            "adapt"
+          ],
+          "license": "GPL-3.0",
+          "locator": "https://github.com/sfmth/OpenSpike"
+        },
+        {
+          "asset_kind": "measured_chip_claims",
+          "ingest_modes": [
+            "benchmark"
+          ],
+          "license": "research_publication",
+          "locator": "https://github.com/sfmth/OpenSpike"
+        }
+      ],
+      "completion_questions": [
+        "Which source revision produced the measured die?",
+        "Which board, memory, host, and sensor work is absent from the core metric?"
+      ],
+      "id": "openspike-open-silicon",
+      "ingestion_policy": {
+        "actions": [
+          "pin RTL software and chip revision",
+          "reproduce digital flow and workload",
+          "separate core throughput from board and host power"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Rebuild the OpenSpike control and accelerator path through our open verification and implementation flow, then bind silicon measurements to exact workload identity.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes RTL, software, architecture details, and tape-out claims for a reprogrammable SNN accelerator.",
+          "title": "OpenSpike GitHub",
+          "url": "https://github.com/sfmth/OpenSpike"
+        }
+      ],
+      "project": "OpenSpike open-source spiking neural network accelerator",
+      "public_stage": "open_source_taped_out_research_accelerator",
+      "system_gaps": [
+        "accepted_result",
+        "workload_identity",
+        "host_interface",
+        "compiler_lowering",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "fabrication_signoff",
+        "independent_validation",
+        "reliability_endurance"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "neuromorphic_b"
+}

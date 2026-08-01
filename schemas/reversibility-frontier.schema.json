@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/reversibility-frontier.schema.json",
+  "title": "ahead-rev-sim reversibility frontier artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "generated_by",
+    "source",
+    "accepted_output_contract",
+    "architecture_profile",
+    "operations",
+    "regions",
+    "frontier",
+    "summary",
+    "qualification",
+    "claim_boundary",
+    "control_question",
+    "artifact_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "ahead.reversibility-frontier/v0.1"},
+    "artifact_type": {"const": "reversibility_frontier"},
+    "generated_by": {"type": "string"},
+    "source": {
+      "type": "object",
+      "required": ["name", "source_sha256", "normalized_program_sha256", "instruction_encoding"],
+      "properties": {
+        "name": {"type": "string"},
+        "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "normalized_program_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "instruction_encoding": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "accepted_output_contract": {"type": ["object", "null"]},
+    "architecture_profile": {"type": "object"},
+    "operations": {"type": "array", "items": {"type": "object"}},
+    "regions": {"type": "array", "items": {"type": "object"}},
+    "frontier": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "summary": {"type": "object"},
+    "qualification": {
+      "type": "object",
+      "required": ["status", "blockers", "physical_claim_allowed"],
+      "properties": {
+        "status": {"enum": ["modeled_candidate", "refused"]},
+        "blockers": {"type": "array", "items": {"type": "string"}},
+        "physical_claim_allowed": {"const": false}
+      }
+    },
+    "claim_boundary": {"type": "string"},
+    "control_question": {"type": "string"},
+    "artifact_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

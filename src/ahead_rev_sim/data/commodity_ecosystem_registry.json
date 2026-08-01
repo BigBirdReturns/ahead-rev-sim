@@ -1,0 +1,242 @@
+{
+  "artifact_type": "commodity_ecosystem_registry_manifest",
+  "as_of": "2026-07-31",
+  "doctrine": {
+    "admission_rule": "A public artifact is useful when it can be pinned to an identity, mapped to an accepted workload or system gap, and consumed without transferring control of the workload, fallback, evidence, or receipt contract.",
+    "control_question": "What can we ingest now, what completion evidence is missing, and how do we make the actor compete behind our contract rather than become our dependency?",
+    "dependency_mode": "commodity_only",
+    "exit_rule": "Any commodity may be removed or replaced while preserving workload identity, accepted output, fallback execution, and historical evidence.",
+    "statement": "External actors, projects, code, hardware, testbeds, papers, standards, programmes, and fabrication routes are inputs to be pinned, wrapped, benchmarked, substituted, and independently qualified. No external actor receives architectural sovereignty."
+  },
+  "gap_taxonomy": [
+    {
+      "claim_blocked": "useful_work",
+      "control_question": "What exact result, tolerance, quality rule, and accepted work unit define success?",
+      "gap_id": "accepted_result"
+    },
+    {
+      "claim_blocked": "comparability",
+      "control_question": "Which source, configuration, inputs, and build artifacts identify the workload without silent denominator changes?",
+      "gap_id": "workload_identity"
+    },
+    {
+      "claim_blocked": "system_integration",
+      "control_question": "How does a host discover, configure, invoke, isolate, and recover the device or service?",
+      "gap_id": "host_interface"
+    },
+    {
+      "claim_blocked": "executability",
+      "control_question": "How are workload semantics lowered without losing state, path, precision, or acceptance contracts?",
+      "gap_id": "compiler_lowering"
+    },
+    {
+      "claim_blocked": "replay",
+      "control_question": "What state exists, what reset is promised, and how is entry state restored or statistically re-established?",
+      "gap_id": "state_reset"
+    },
+    {
+      "claim_blocked": "reproducibility",
+      "control_question": "Is behavior exact, trace-replayable, or distributional, and who retains entropy and stochastic-path custody?",
+      "gap_id": "determinism_entropy"
+    },
+    {
+      "claim_blocked": "physical_validity",
+      "control_question": "Which calibration, drift, process, voltage, temperature, geometry, and environmental conditions bind the result?",
+      "gap_id": "calibration_environment"
+    },
+    {
+      "claim_blocked": "system_performance",
+      "control_question": "What memory hierarchy, transfer path, conversion, coherency, and serialization cost surrounds the primitive?",
+      "gap_id": "data_movement"
+    },
+    {
+      "claim_blocked": "energy_advantage",
+      "control_question": "What complete measurement boundary includes host, memory, conversion, control, cooling, sensing, and readout energy?",
+      "gap_id": "full_system_energy"
+    },
+    {
+      "claim_blocked": "net_energy_advantage",
+      "control_question": "What energy was supplied, recovered, or harvested, where did it cross the boundary, and what remained net after acquisition?",
+      "gap_id": "harvested_recovered_energy"
+    },
+    {
+      "claim_blocked": "evp_advantage",
+      "control_question": "What latency, throughput, thermal state, cooling burden, and occupied volume accompany the accepted result?",
+      "gap_id": "timing_thermal_volume"
+    },
+    {
+      "claim_blocked": "commodity_substitution",
+      "control_question": "Can the workload run through a public reference fallback when the physical implementation is absent or refused?",
+      "gap_id": "software_fallback"
+    },
+    {
+      "claim_blocked": "qualification",
+      "control_question": "Can an external acceptor reconstruct the claim from pinned artifacts, replay materials, and measured receipts?",
+      "gap_id": "independent_validation"
+    },
+    {
+      "claim_blocked": "silicon_feasibility",
+      "control_question": "Which models, libraries, DRC, LVS, extraction, timing, reliability, and manufacturing evidence close the design?",
+      "gap_id": "fabrication_signoff"
+    },
+    {
+      "claim_blocked": "scale_out",
+      "control_question": "How do state, synchronization, communication, refresh, and failure behavior scale beyond the demonstrated tile?",
+      "gap_id": "scaling_interconnect"
+    },
+    {
+      "claim_blocked": "model_transfer",
+      "control_question": "Which measured device behavior replaces the simulator, and where do model and hardware diverge?",
+      "gap_id": "model_hardware_fidelity"
+    },
+    {
+      "claim_blocked": "measurement_claim",
+      "control_question": "Which instruments, sampling windows, clock domains, uncertainty budgets, and procedures reproduce the measurement?",
+      "gap_id": "measurement_reproducibility"
+    },
+    {
+      "claim_blocked": "durability",
+      "control_question": "Who maintains the public contract, fixtures, compatibility surface, and archival evidence after a vendor or grant changes direction?",
+      "gap_id": "governance_durability"
+    },
+    {
+      "claim_blocked": "task_fidelity",
+      "control_question": "How is an accepted task encoded into the substrate without preprocessing or mapping work disappearing from the receipt?",
+      "gap_id": "task_encoding"
+    },
+    {
+      "claim_blocked": "readout_validity",
+      "control_question": "What readout, training, adaptation, and validation work turns physical state into an accepted result?",
+      "gap_id": "readout_training"
+    },
+    {
+      "claim_blocked": "numeric_fidelity",
+      "control_question": "Which quantization, DAC, ADC, encoding, conversion, and tolerance costs preserve accepted quality?",
+      "gap_id": "precision_conversion"
+    },
+    {
+      "claim_blocked": "operational_durability",
+      "control_question": "What wear, retention, aging, fault, recovery, and lifetime evidence makes the implementation durable?",
+      "gap_id": "reliability_endurance"
+    },
+    {
+      "claim_blocked": "package_completion",
+      "control_question": "Which die, package, board, optical, electrical, thermal, and assembly interfaces complete the deployable system?",
+      "gap_id": "packaging_assembly"
+    },
+    {
+      "claim_blocked": "trust_boundary",
+      "control_question": "How are identity, measurement, isolation, authorization, attestation, and fault containment preserved across replaceable components?",
+      "gap_id": "security_isolation"
+    },
+    {
+      "claim_blocked": "reproducible_access",
+      "control_question": "What public access, licensing, queue, export, data, and artifact terms permit independent reproduction?",
+      "gap_id": "access_licensing"
+    },
+    {
+      "claim_blocked": "temporal_custody",
+      "control_question": "How are events, samples, clocks, traces, power, and accepted output aligned to the same execution interval?",
+      "gap_id": "time_synchronization"
+    }
+  ],
+  "record_count": 73,
+  "schema_version": "ahead.commodity-ecosystem-registry/v0.1",
+  "shards": [
+    {
+      "record_count": 4,
+      "resource": "commodity_records_frontier_a.json",
+      "shard_id": "frontier_a"
+    },
+    {
+      "record_count": 3,
+      "resource": "commodity_records_frontier_b.json",
+      "shard_id": "frontier_b"
+    },
+    {
+      "record_count": 3,
+      "resource": "commodity_records_systems_a.json",
+      "shard_id": "systems_a"
+    },
+    {
+      "record_count": 3,
+      "resource": "commodity_records_systems_b.json",
+      "shard_id": "systems_b"
+    },
+    {
+      "record_count": 2,
+      "resource": "commodity_records_systems_c.json",
+      "shard_id": "systems_c"
+    },
+    {
+      "record_count": 4,
+      "resource": "commodity_records_measurement_a.json",
+        "shard_id": "measurement_a"
+    },
+    {
+      "record_count": 3,
+      "resource": "commodity_records_measurement_b.json",
+       "shard_id": "measurement_b"
+    },
+    {
+      "record_count": 3,
+      "resource": "commodity_records_fabrication_a.json",
+      "shard_id": "fabrication_a"
+    },
+    {
+      "record_count": 3,
+      "resource": "commodity_records_fabrication_b.json",
+       "shard_id": "fabrication_b"
+    },
+    {
+      "record_count": 5,
+      "resource": "commodity_records_neuromorphic_a.json",
+      "shard_id": "neuromorphic_a"
+    },
+    {
+      "record_count": 4,
+      "resource": "commodity_records_neuromorphic_b.json",
+       "shard_id": "neuromorphic_b"
+    },
+    {
+      "record_count": 5,
+      "resource": "commodity_records_photonics_a.json",
+      "shard_id": "photonics_a"
+    },
+    {
+      "record_count": 4,
+      "resource": "commodity_records_photonics_b.json",
+      "shard_id": "photonics_b"
+    },
+    {
+      "record_count": 8,
+      "resource": "commodity_records_chiplets_security.json",
+      "shard_id": "chiplets_security"
+    },
+    {
+      "record_count": 4,
+      "resource": "commodity_records_compilers_verification.json",
+       "shard_id": "compilers_verification"
+    },
+    {
+      "record_count": 4,
+      "resource": "commodity_records_models_multiphysics.json",
+      "shard_id": "models_multiphysics"
+    },
+    {
+      "record_count": 4,
+      "resource": "commodity_records_bio_intermittent.json",
+      "shard_id": "bio_intermittent"
+    },
+    {
+      "record_count": 3,
+      "resource": "commodity_records_programmes_provenance_a.json",
+      "shard_id": "programmes_provenance_a"
+    },
+    {
+      "record_count": 4,
+      "resource": "commodity_records_programmes_provenance_b.json",
+      "shard_id": "programmes_provenance_b"
+    }
+  ]
+}

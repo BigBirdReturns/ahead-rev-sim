@@ -1,0 +1,132 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "Semiconductor Research Corporation and DARPA JUMP 2.0",
+      "category": "research_program",
+      "commodity_assets": [
+        {
+          "asset_kind": "device_models",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "mixed_research_outputs",
+          "locator": "https://www.src.org/program/jump2/supreme/"
+        },
+        {
+          "asset_kind": "materials_measurements",
+          "ingest_modes": [
+            "monitor"
+          ],
+          "license": "mixed_research_outputs",
+          "locator": "https://www.src.org/program/jump2/supreme/"
+        }
+      ],
+      "completion_questions": [
+        "Which application receipt translates a material property into system-level gain?",
+        "Which compact model, thermal state, variability, and metrology uncertainty survive into architecture simulation?"
+      ],
+      "id": "src-supreme",
+      "ingestion_policy": {
+        "actions": [
+          "ingest compact models and measured device behavior",
+          "emit workload-derived break-even targets back to device research",
+          "preserve thermal and metrology evidence"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Generate device-level target envelopes from SVK and PCK workload receipts rather than abstract operation counts.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "program",
+          "public_completion_signal": "Explicitly requires application-level benchmarking feedback to guide materials and device research.",
+          "title": "SUPREME",
+          "url": "https://www.src.org/program/jump2/supreme/"
+        }
+      ],
+      "project": "SUPREME materials and devices",
+      "public_stage": "active_materials_to_system_research",
+      "system_gaps": [
+        "model_hardware_fidelity",
+        "calibration_environment",
+        "fabrication_signoff",
+        "timing_thermal_volume",
+        "accepted_result",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "AheadComputing",
+      "category": "riscv_host",
+      "commodity_assets": [
+        {
+          "asset_kind": "future_core_ip",
+          "ingest_modes": [
+            "host"
+          ],
+          "license": "commercial",
+          "locator": "https://www.aheadcomputing.com/"
+        },
+        {
+          "asset_kind": "riscv_ecosystem_signals",
+          "ingest_modes": [
+            "monitor"
+          ],
+          "license": "public_web",
+          "locator": "https://www.aheadcomputing.com/news"
+        }
+      ],
+      "completion_questions": [
+        "Which ISA, privilege, coherency, memory, interrupt, firmware, and RAS surfaces will be public?",
+        "Which benchmark sources, compiler builds, and system configurations support the performance claims?",
+        "How does the core expose and schedule non-digital physical-compute cartridges without becoming their dependency?"
+      ],
+      "id": "ahead-high-performance-riscv",
+      "ingestion_policy": {
+        "actions": [
+          "treat future cores as conventional host and control-plane candidates",
+          "extract public microarchitecture and platform contracts",
+          "compare host latency and memory behavior against open cores"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Define an Ahead-compatible host profile whose only authority is measured workload, memory, latency, and reliability receipts.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "home",
+          "public_completion_signal": "Describes a clean-sheet big-core RISC-V architecture with a massive out-of-order engine and server-grade reliability.",
+          "title": "AheadComputing",
+          "url": "https://www.aheadcomputing.com/"
+        },
+        {
+          "kind": "press_release",
+          "public_completion_signal": "Names ecosystem collaborators and says the first product is in active development.",
+          "title": "Additional Seed2 financing",
+          "url": "https://www.aheadcomputing.com/press-releases/aheadcomputing-inc-raises-additional-30m-seed2-round-to-reimagine-cpu-architecture----pr-newswire"
+        },
+        {
+          "kind": "strategy",
+          "public_completion_signal": "Treats RISC-V as the open host architecture for a broad AI ecosystem.",
+          "title": "Why Ahead chose RISC-V",
+          "url": "https://www.aheadcomputing.com/blog/why-we-chose-risc-v-to-win"
+        }
+      ],
+      "project": "High-performance open-standard RISC-V cores",
+      "public_stage": "first_product_in_active_development",
+      "system_gaps": [
+        "host_interface",
+        "workload_identity",
+        "accepted_result",
+        "data_movement",
+        "timing_thermal_volume",
+        "full_system_energy",
+        "fabrication_signoff",
+        "independent_validation"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "systems_c"
+}

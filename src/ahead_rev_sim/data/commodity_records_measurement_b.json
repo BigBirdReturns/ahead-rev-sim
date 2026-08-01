@@ -1,0 +1,198 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "Protean and Shepherd Nova communities",
+      "category": "intermittent_energy",
+      "commodity_assets": [
+        {
+          "asset_kind": "battery_free_runtime",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "research_code",
+          "locator": "https://protean.systems/"
+        },
+        {
+          "asset_kind": "harvester_and_sensor_modules",
+          "ingest_modes": [
+            "cartridge"
+          ],
+          "license": "open_hardware_research",
+          "locator": "https://protean.systems/"
+        },
+        {
+          "asset_kind": "energy_trace_testbed",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "research_testbed",
+          "locator": "https://nes-lab.github.io/shepherd-nova/index.html"
+        }
+      ],
+      "completion_questions": [
+        "How much accepted work is completed per harvested joule across cold starts, retries, sensing, storage, and communication?",
+        "Which state survives interruption, and how does degraded output remain inside the accepted quality contract?"
+      ],
+      "id": "protean-shepherd-nova",
+      "ingestion_policy": {
+        "actions": [
+          "treat energy availability as execution context, not compute credit",
+          "reuse tiered degradation and intermittence-safe execution",
+          "replay identical harvesting traces across cartridges",
+          "measure acquisition and work per accepted result"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Run one accepted workload under repeatable Shepherd energy traces with Protean-style tier selection and our receipt boundary.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "protean",
+          "public_completion_signal": "Combines plug-and-play harvesters, sensing, heterogeneous compute, adaptive runtime, and code generation.",
+          "title": "Protean",
+          "url": "https://protean.systems/"
+        },
+        {
+          "kind": "shepherd",
+          "public_completion_signal": "Replays energy environments and measures voltage and current at high temporal resolution.",
+          "title": "Shepherd Nova",
+          "url": "https://nes-lab.github.io/shepherd-nova/index.html"
+        }
+      ],
+      "project": "Battery-free adaptive execution and repeatable harvesting testbeds",
+      "public_stage": "open_research_platforms_and_remote_testbed",
+      "system_gaps": [
+        "accepted_result",
+        "state_reset",
+        "workload_identity",
+        "harvested_recovered_energy",
+        "full_system_energy",
+        "measurement_reproducibility",
+        "software_fallback",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "Lava neuromorphic software community",
+      "category": "neuromorphic",
+      "commodity_assets": [
+        {
+          "asset_kind": "process_model",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "BSD-3-Clause-and-subproject-specific",
+          "locator": "https://github.com/lava-nc/lava"
+        },
+        {
+          "asset_kind": "cpu_backend",
+          "ingest_modes": [
+            "fallback"
+          ],
+          "license": "open_source",
+          "locator": "https://github.com/lava-nc/lava"
+        },
+        {
+          "asset_kind": "neuromorphic_examples",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "mixed",
+          "locator": "https://github.com/lava-nc/lava"
+        }
+      ],
+      "completion_questions": [
+        "Which backend remains publicly reproducible if vendor hardware support ends?",
+        "How are system power, host preprocessing, event timing, and accepted task quality preserved across backends?"
+      ],
+      "id": "lava",
+      "ingestion_policy": {
+        "actions": [
+          "harvest process and message semantics",
+          "never depend on a proprietary backend",
+          "map public backends to cartridge fallback and receipts",
+          "record maintenance and archive status"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Crosswalk Lava process ports and execution phases to physical-compute channels and determinism contracts.",
+        "priority": 3
+      },
+      "official_sources": [
+        {
+          "kind": "repository",
+          "public_completion_signal": "Defines a platform-agnostic process abstraction with CPU and neuromorphic backends.",
+          "title": "Lava GitHub",
+          "url": "https://github.com/lava-nc/lava"
+        }
+      ],
+      "project": "Lava process model and heterogeneous backends",
+      "public_stage": "open_source_framework_with_backend_governance_risk",
+      "system_gaps": [
+        "software_fallback",
+        "governance_durability",
+        "accepted_result",
+        "host_interface",
+        "full_system_energy",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "Applied Brain Research and Nengo community",
+      "category": "neuromorphic",
+      "commodity_assets": [
+        {
+          "asset_kind": "model_and_simulator",
+          "ingest_modes": [
+            "vendor"
+          ],
+          "license": "GPL-2.0",
+          "locator": "https://github.com/nengo/nengo"
+        },
+        {
+          "asset_kind": "backend_pattern",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "mixed",
+          "locator": "https://www.nengo.ai/"
+        }
+      ],
+      "completion_questions": [
+        "Which model semantics survive backend replacement exactly, approximately, or only statistically?",
+        "What host and preprocessing work is omitted from backend efficiency claims?"
+      ],
+      "id": "nengo",
+      "ingestion_policy": {
+        "actions": [
+          "harvest backend substitution and model portability patterns",
+          "bind each backend to accepted-output and energy receipts",
+          "reuse workloads without inheriting framework sovereignty"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a Nengo workload adapter that emits identical model identity to CPU, simulator, and physical cartridges.",
+        "priority": 3
+      },
+      "official_sources": [
+        {
+          "kind": "home",
+          "public_completion_signal": "Provides neural models and extensible simulator and hardware backends.",
+          "title": "Nengo",
+          "url": "https://www.nengo.ai/"
+        }
+      ],
+      "project": "Nengo neural simulation and hardware backend ecosystem",
+      "public_stage": "open_source_extensible_neural_framework",
+      "system_gaps": [
+        "accepted_result",
+        "host_interface",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "governance_durability",
+        "independent_validation"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "measurement_b"
+}

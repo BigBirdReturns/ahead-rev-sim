@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/fambs-svk-lowering.schema.json",
+  "title": "ahead-rev-sim FAMBS SVK reversible lowering artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "sha1": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "result_hex": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16}$"
+    },
+    "strategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy_id",
+        "dot_strategy",
+        "dot_span",
+        "sink_strategy",
+        "sink_span",
+        "output_result",
+        "output_match",
+        "dot_state_restored",
+        "sink_state_restored",
+        "entry_state_restored",
+        "peak_support_bits",
+        "accepted_output_bits_excluded_from_peak",
+        "total_semantic_operations",
+        "operation_delta_vs_optimized_conventional",
+        "history_bits_written",
+        "checkpoint_copy_operations",
+        "erasure_bits",
+        "minimum_recovery_fraction_zero_support",
+        "maximum_support_energy_units_at_80pct_recovery",
+        "evidence_class",
+        "pareto_nondominated"
+      ],
+      "properties": {
+        "strategy_id": {"type": "string", "minLength": 1},
+        "dot_strategy": {"enum": ["linear", "pebble"]},
+        "dot_span": {"type": ["integer", "null"], "minimum": 1},
+        "sink_strategy": {"enum": ["linear", "pebble"]},
+        "sink_span": {"type": ["integer", "null"], "minimum": 1},
+        "output_result": {"$ref": "#/$defs/result_hex"},
+        "output_match": {"type": "boolean"},
+        "dot_state_restored": {"type": "boolean"},
+        "sink_state_restored": {"type": "boolean"},
+        "entry_state_restored": {"type": "boolean"},
+        "peak_support_bits": {"type": "integer", "minimum": 0},
+        "accepted_output_bits_excluded_from_peak": {"type": "integer", "minimum": 0},
+        "total_semantic_operations": {"type": "integer", "minimum": 0},
+        "operation_delta_vs_optimized_conventional": {"type": "integer"},
+        "history_bits_written": {"type": "integer", "minimum": 0},
+        "checkpoint_copy_operations": {"type": "integer", "minimum": 0},
+        "erasure_bits": {"type": "integer", "minimum": 0},
+        "minimum_recovery_fraction_zero_support": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "maximum_support_energy_units_at_80pct_recovery": {"type": "number"},
+        "evidence_class": {"type": "string", "minLength": 1},
+        "pareto_nondominated": {"const": true}
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "generated_by",
+    "source",
+    "accepted_output_contract",
+    "numeric_contract",
+    "source_reference",
+    "parity_baseline",
+    "diagnostic_source_lowering",
+    "frontier",
+    "physical_handoff",
+    "qualification",
+    "claim_boundary",
+    "control_question",
+    "artifact_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "ahead.fambs-svk-lowering/v0.1"},
+    "artifact_type": {"const": "fambs_structured_reversible_lowering"},
+    "generated_by": {"type": "string", "minLength": 1},
+    "source": {
+      "type": "object",
+      "required": ["repository", "commit", "path", "git_blob_sha1", "configuration"],
+      "properties": {
+        "repository": {"type": "string", "minLength": 1},
+        "commit": {"$ref": "#/$defs/sha1"},
+        "path": {"type": "string", "minLength": 1},
+        "git_blob_sha1": {"$ref": "#/$defs/sha1"},
+        "configuration": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "accepted_output_contract": {
+      "type": "object",
+      "required": [
+        "schema",
+        "suite_version",
+        "contract_id",
+        "bench",
+        "notes",
+        "iters",
+        "result",
+        "result_kind"
+      ],
+      "properties": {
+        "result": {"$ref": "#/$defs/result_hex"}
+      },
+      "additionalProperties": true
+    },
+    "numeric_contract": {"type": "object"},
+    "source_reference": {
+      "type": "object",
+      "required": [
+        "result",
+        "accepted_output_match",
+        "dot_result",
+        "dot_float",
+        "sink_float"
+      ],
+      "properties": {
+        "result": {"$ref": "#/$defs/result_hex"},
+        "accepted_output_match": {"type": "boolean"},
+        "dot_result": {"type": "string", "pattern": "^[0-9a-f]{8}$"},
+        "dot_float": {"type": "number"},
+        "sink_float": {"type": "number"}
+      },
+      "additionalProperties": false
+    },
+    "parity_baseline": {"type": "object"},
+    "diagnostic_source_lowering": {"type": "object"},
+    "frontier": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/strategy"}
+    },
+    "physical_handoff": {
+      "type": "object",
+      "required": [
+        "portable_binding",
+        "optional_riscv_extension",
+        "operator_classes",
+        "operand_channels",
+        "result_contract",
+        "fallback",
+        "required_measurements"
+      ],
+      "properties": {
+        "portable_binding": {"const": "physical-compute-mmio/v1"},
+        "optional_riscv_extension": {"const": "Xphys"}
+      },
+      "additionalProperties": true
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blockers",
+        "accepted_output_match",
+        "entry_state_restored",
+        "riscv_codegen_qualified",
+        "target_result_qualified",
+        "physical_claim_allowed",
+        "energy_claim_allowed"
+      ],
+      "properties": {
+        "status": {"enum": ["semantic_lowering_proved", "refused"]},
+        "blockers": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        },
+        "accepted_output_match": {"type": "boolean"},
+        "entry_state_restored": {"type": "boolean"},
+        "riscv_codegen_qualified": {"const": false},
+        "target_result_qualified": {"const": false},
+        "physical_claim_allowed": {"const": false},
+        "energy_claim_allowed": {"const": false}
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 1},
+    "control_question": {"type": "string", "minLength": 1},
+    "artifact_sha256": {"$ref": "#/$defs/sha256"}
+  }
+}

@@ -39,6 +39,7 @@ dev = [
     "pytest-cov>=4.0",
     "mypy>=1.0",
     "ruff>=0.1.0",
+    "jsonschema>=4.0",
 ]
 
 [project.scripts]
@@ -46,6 +47,25 @@ ahead-rev-sim = "ahead_rev_sim.cli:main"
 ahead-rev-debug = "ahead_rev_sim.debugger:main"
 ahead-rev-history = "ahead_rev_sim.examples.analyze_history:main"
 ahead-rev-memory = "ahead_rev_sim.examples.run_memory:main"
+ahead-rev-frontier = "ahead_rev_sim.frontier_cli:main"
+ahead-rev-prove = "ahead_rev_sim.proof_cli:main"
+ahead-rev-substrate = "ahead_rev_sim.substrate_cli:main"
+ahead-rev-fambs = "ahead_rev_sim.fambs_cli:main"
+ahead-rev-svk = "ahead_rev_sim.svk_cli:main"
+ahead-rev-pck = "ahead_rev_sim.pck_cli:main"
+ahead-rev-commodities = "ahead_rev_sim.commodity_cli:main"
+ahead-rev-fanout = "ahead_rev_sim.fanout_cli:main"
+ahead-rev-pylons = "ahead_rev_sim.pylons_cli:main"
+ahead-rev-wave = "ahead_rev_sim.pylon_wave_cli:main"
+ahead-rev-scale-seam = "ahead_rev_sim.scale_seam_cli:main"
+ahead-rev-venue = "ahead_rev_sim.remote_venue_cli:main"
+ahead-rev-causal = "ahead_rev_sim.causal_custody_cli:main"
+ahead-rev-mmio = "ahead_rev_sim.mmio_cli:main"
+ahead-rev-chipyard = "ahead_rev_sim.chipyard_cli:main"
+ahead-rev-riscv-target-proof = "ahead_rev_sim.riscv_target_cli:main"
+ahead-rev-hitch = "ahead_rev_sim.hitch_cli:main"
+ahead-rev-consist-proof = "ahead_rev_sim.consist_execution_cli:main"
+ahead-rev-evp = "ahead_rev_sim.evp_cli:main"
 
 [project.urls]
 Homepage = "https://github.com/BigBirdReturns/ahead-rev-sim"
@@ -59,6 +79,9 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+ahead_rev_sim = ["data/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

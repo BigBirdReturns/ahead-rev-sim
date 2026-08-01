@@ -1,0 +1,52 @@
+{
+  "artifact_type": "riscv_target_model_execution_proof",
+  "artifacts": {
+    "abi_sha256": "f8a90e60f5b16d275df9ecabbc4fc9856a4551858583361ce9fd3cab3c75ae06",
+    "binary_bytes": 556152,
+    "binary_sha256": "97961a23f303625648e830aec74bf47bc9923b6f7b0b307eb1ae80fd94ad66ff",
+    "expected_trace_sha256": "5473031b2eb61989113b77ec20a6ee76da323040d7019db4421a2a1f7a3b1eee",
+    "trace_sha256": "5473031b2eb61989113b77ec20a6ee76da323040d7019db4421a2a1f7a3b1eee"
+  },
+  "claim_boundary": "The proof establishes that a statically linked RV64GC binary executed under qemu-riscv64, consumed the generated MMIO header, reproduced the accepted admission and refusal trace, and matched an independent C device model. It does not establish Chipyard elaboration, RTL execution, physical substrate work, energy, timing, thermal closure, occupied volume, or silicon.",
+  "observations": {
+    "checks": {
+      "ambiguous_command_refused": true,
+      "identity": true,
+      "load_completed": true,
+      "portable_binding": true,
+      "reset_completed": true,
+      "result_pass": true,
+      "software_fallback_capability": true,
+      "target_isa": true
+    },
+    "line_count": 6
+  },
+  "optional_riscv_extension": "Xphys",
+  "portable_binding": "physical-compute-mmio/v1",
+  "proof_sha256": "f0c12ea525dd236a3ee841e2a28ccc3fb50ac5d8656abcef3118b5559543a651",
+  "qualification": {
+    "accepted": true,
+    "blockers": [
+      "CHIPYARD_ELABORATION_UNRUN",
+      "CHIPYARD_RTL_SIMULATION_UNRUN",
+      "PHYSICAL_SUBSTRATE_UNMEASURED",
+      "PHYSICAL_ENERGY_UNMEASURED",
+      "TIMING_THERMAL_VOLUME_UNMEASURED"
+    ],
+    "physical_claim_allowed": false,
+    "status": "riscv_target_model_execution_proved"
+  },
+  "schema_version": "ahead.riscv-target-proof/v0.1",
+  "target": {
+    "abi": "lp64d",
+    "execution_environment": "qemu-riscv64-user",
+    "isa": "rv64gc",
+    "test_class": "mmio_client_and_independent_device_model"
+  },
+  "toolchain": {
+    "compiler": "riscv64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "emulator": "qemu-riscv64 version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.17)",
+    "readelf_class": "ELF64",
+    "readelf_machine": "RISC-V"
+  }
+}

@@ -1,0 +1,324 @@
+{
+  "$defs": {
+    "counts": {
+      "additionalProperties": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "type": "object"
+    },
+    "front": {
+      "additionalProperties": false,
+      "properties": {
+        "blocker_frequency": {
+          "$ref": "#/$defs/counts"
+        },
+        "front_id": {
+          "enum": [
+            "scale_seam",
+            "remote_venue",
+            "causal_custody"
+          ]
+        },
+        "mission": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "primary_pylon_ids": {
+          "$ref": "#/$defs/ids"
+        },
+        "priority_one_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "projected_gap_ids": {
+          "$ref": "#/$defs/strings"
+        },
+        "projected_pylon_ids": {
+          "$ref": "#/$defs/ids"
+        },
+        "promotion_ready": {
+          "type": "boolean"
+        },
+        "promotion_receipts": {
+          "$ref": "#/$defs/strings"
+        },
+        "record_count": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "front_id",
+        "mission",
+        "record_count",
+        "priority_one_count",
+        "primary_pylon_ids",
+        "projected_pylon_ids",
+        "projected_gap_ids",
+        "promotion_receipts",
+        "blocker_frequency",
+        "promotion_ready"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[a-z0-9][a-z0-9-]+$",
+      "type": "string"
+    },
+    "ids": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "sha": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "transaction": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "commodity_locators": {
+          "items": {
+            "pattern": "^https://",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "completion_questions": {
+          "$ref": "#/$defs/strings"
+        },
+        "first_transaction": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "front": {
+          "enum": [
+            "scale_seam",
+            "remote_venue",
+            "causal_custody"
+          ]
+        },
+        "gap_ids": {
+          "$ref": "#/$defs/strings"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "priority": {
+          "maximum": 5,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "project": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "promotion_blockers": {
+          "items": {
+            "pattern": "^[A-Z0-9_]+$",
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "promotion_state": {
+          "enum": [
+            "candidate",
+            "intake_ready",
+            "promoted"
+          ]
+        },
+        "pylon_ids": {
+          "$ref": "#/$defs/ids"
+        },
+        "required_receipts": {
+          "$ref": "#/$defs/strings"
+        },
+        "source_urls": {
+          "items": {
+            "pattern": "^https://",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "actor",
+        "project",
+        "front",
+        "priority",
+        "promotion_state",
+        "pylon_ids",
+        "gap_ids",
+        "first_transaction",
+        "required_receipts",
+        "promotion_blockers",
+        "completion_questions",
+        "source_urls",
+        "commodity_locators"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/pylon-fanout-report.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {
+      "const": "pylon_fanout_report"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "front_readiness": {
+      "items": {
+        "$ref": "#/$defs/front"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "pylon_catalog_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "registry_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "report_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "schema_version": {
+      "const": "ahead.pylon-fanout-report/v0.1"
+    },
+    "selection": {
+      "additionalProperties": false,
+      "properties": {
+        "front_ids": {
+          "items": {
+            "enum": [
+              "scale_seam",
+              "remote_venue",
+              "causal_custody"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "priority_max": {
+          "maximum": 5,
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "front_ids",
+        "priority_max"
+      ],
+      "type": "object"
+    },
+    "summary": {
+      "additionalProperties": false,
+      "properties": {
+        "all_records_commodity_only": {
+          "const": true
+        },
+        "asset_frequency": {
+          "$ref": "#/$defs/counts"
+        },
+        "existing_registry_collision_count": {
+          "const": 0
+        },
+        "front_counts": {
+          "$ref": "#/$defs/counts"
+        },
+        "gap_frequency": {
+          "$ref": "#/$defs/counts"
+        },
+        "priority_counts": {
+          "$ref": "#/$defs/counts"
+        },
+        "promotion_ready_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "promotion_state_counts": {
+          "$ref": "#/$defs/counts"
+        },
+        "pylon_frequency": {
+          "$ref": "#/$defs/counts"
+        },
+        "record_count": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "record_count",
+        "front_counts",
+        "priority_counts",
+        "promotion_state_counts",
+        "pylon_frequency",
+        "gap_frequency",
+        "asset_frequency",
+        "promotion_ready_count",
+        "existing_registry_collision_count",
+        "all_records_commodity_only"
+      ],
+      "type": "object"
+    },
+    "transactions": {
+      "items": {
+        "$ref": "#/$defs/transaction"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "wave_id": {
+      "$ref": "#/$defs/id"
+    },
+    "wave_sha256": {
+      "$ref": "#/$defs/sha"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "wave_id",
+    "wave_sha256",
+    "registry_sha256",
+    "pylon_catalog_sha256",
+    "selection",
+    "summary",
+    "front_readiness",
+    "transactions",
+    "claim_boundary",
+    "control_question",
+    "report_sha256"
+  ],
+  "title": "ahead-rev-sim pylon fan-out report",
+  "type": "object"
+}

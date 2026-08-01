@@ -1,0 +1,248 @@
+{
+  "$defs": {
+    "artifact": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "role": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "role",
+        "sha256",
+        "size_bytes"
+      ],
+      "type": "object"
+    },
+    "sha": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "shaOrNull": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/sha"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/remote-venue-receipt.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accepted_output_sha256": {
+      "$ref": "#/$defs/shaOrNull"
+    },
+    "accepted_work_allowed": {
+      "type": "boolean"
+    },
+    "artifact_type": {
+      "const": "remote_venue_receipt"
+    },
+    "blockers": {
+      "$ref": "#/$defs/strings"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "elapsed_seconds": {
+      "exclusiveMinimum": 0,
+      "type": "number"
+    },
+    "ended_ns": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "expected_output_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "local_acceptance": {
+      "enum": [
+        "accepted",
+        "refused"
+      ]
+    },
+    "logs_sha256": {
+      "$ref": "#/$defs/shaOrNull"
+    },
+    "manifests": {
+      "additionalProperties": false,
+      "properties": {
+        "environment_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "firmware_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "hardware_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "software_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        }
+      },
+      "required": [
+        "hardware_sha256",
+        "firmware_sha256",
+        "software_sha256",
+        "environment_sha256"
+      ],
+      "type": "object"
+    },
+    "migration_eligible": {
+      "const": true
+    },
+    "missing_return_artifacts": {
+      "$ref": "#/$defs/strings"
+    },
+    "output_matches": {
+      "type": "boolean"
+    },
+    "provider_receipt_sha256": {
+      "$ref": "#/$defs/shaOrNull"
+    },
+    "raw_artifacts": {
+      "items": {
+        "$ref": "#/$defs/artifact"
+      },
+      "type": "array"
+    },
+    "receipt_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "required_return_artifacts": {
+      "$ref": "#/$defs/strings"
+    },
+    "schema_version": {
+      "const": "ahead.remote-venue-receipt/v0.1"
+    },
+    "service_completed": {
+      "type": "boolean"
+    },
+    "started_ns": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "submission_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "submission_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "terminal_state": {
+      "enum": [
+        "completed",
+        "refused",
+        "faulted",
+        "cancelled"
+      ]
+    },
+    "unexpected_return_artifacts": {
+      "$ref": "#/$defs/strings"
+    },
+    "venue": {
+      "additionalProperties": false,
+      "properties": {
+        "job_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "queue_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "service_api": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "service_version": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "venue_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "venue_type": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "venue_id",
+        "venue_type",
+        "service_api",
+        "service_version",
+        "queue_id",
+        "job_id"
+      ],
+      "type": "object"
+    },
+    "workload_contract_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "submission_sha256",
+    "submission_id",
+    "workload_contract_id",
+    "expected_output_sha256",
+    "venue",
+    "terminal_state",
+    "service_completed",
+    "started_ns",
+    "ended_ns",
+    "elapsed_seconds",
+    "manifests",
+    "raw_artifacts",
+    "required_return_artifacts",
+    "missing_return_artifacts",
+    "unexpected_return_artifacts",
+    "accepted_output_sha256",
+    "output_matches",
+    "logs_sha256",
+    "provider_receipt_sha256",
+    "local_acceptance",
+    "accepted_work_allowed",
+    "migration_eligible",
+    "blockers",
+    "claim_boundary",
+    "control_question",
+    "receipt_sha256"
+  ],
+  "title": "ahead-rev-sim remote venue receipt",
+  "type": "object"
+}

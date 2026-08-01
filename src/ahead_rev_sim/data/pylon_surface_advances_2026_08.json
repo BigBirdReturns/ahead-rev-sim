@@ -1,0 +1,109 @@
+{
+  "advances": [
+    {
+      "evidence_tier": "software_reference",
+      "new_state": "contract_implemented",
+      "new_surface_refs": [
+        "repo://src/ahead_rev_sim/scale_seam.py",
+        "repo://src/ahead_rev_sim/scale_seam_cli.py",
+        "repo://schemas/scale-seam-receipt.schema.json",
+        "repo://examples/scale_seam/reference-model.json",
+        "repo://tests/test_scale_seam.py",
+        "repo://.github/workflows/scale-venue-reference.yml"
+      ],
+      "prior_state": "mapped_open",
+      "proof_transaction": "Execute one accepted workload across an adjacent scale chain, attribute movement, synchronization, retry, latency, energy, occupied allocation, utilization, and failure domains to each seam, and preserve complete-system EVP refusal.",
+      "pylon_id": "scale-seam-communication-tax",
+      "qualified_invariants": [
+        "adjacent scale domains form an explicit contiguous chain",
+        "every seam has normalized movement, coordination, latency, energy, volume, utilization, and failure fields",
+        "dominant seams and cumulative tax are deterministic and sealed",
+        "reference, simulated, and measured evidence remain distinct",
+        "scale comparison cannot authorize complete-system advantage"
+      ],
+      "remaining_blockers": [
+        "MEASURED_SCALE_TRACE_MISSING",
+        "CROSS_MODEL_DIVERGENCE_MISSING",
+        "CHIPYARD_RTL_EXECUTION_MISSING",
+        "INCREMENTAL_EVP_MEASUREMENT_MISSING",
+        "FAILURE_DOMAIN_SCALE_PROOF_MISSING"
+      ]
+    },
+    {
+      "evidence_tier": "software_reference",
+      "new_state": "contract_implemented",
+      "new_surface_refs": [
+        "repo://src/ahead_rev_sim/remote_venue.py",
+        "repo://src/ahead_rev_sim/remote_venue_cli.py",
+        "repo://schemas/remote-venue-submission.schema.json",
+        "repo://schemas/remote-venue-receipt.schema.json",
+        "repo://schemas/remote-venue-comparison.schema.json",
+        "repo://examples/remote_venue/reference-submission-source.json",
+        "repo://examples/remote_venue/reference-return-a.json",
+        "repo://examples/remote_venue/reference-return-b.json",
+        "repo://tests/test_remote_venue.py",
+        "repo://.github/workflows/scale-venue-reference.yml"
+      ],
+      "prior_state": "mapped_open",
+      "proof_transaction": "Seal one venue-neutral workload packet, verify raw returns and accepted output locally at two distinct reference venues, and prove venue substitution without transferring acceptance authority.",
+      "pylon_id": "remote-venue-envelope",
+      "qualified_invariants": [
+        "submission identity is stable across venue replacement",
+        "provider authority is execution_only and service completion is not acceptance",
+        "raw returned artifacts, manifests, logs, and provider receipt gate local acceptance",
+        "cancelled, faulted, refused, completed-but-wrong, and completed-and-accepted states remain distinct",
+        "two digest-identical locally accepted venue returns prove bounded substitution"
+      ],
+      "remaining_blockers": [
+        "EXTERNAL_VENUE_ACKNOWLEDGEMENT_MISSING",
+        "WES_OR_TES_ADAPTER_MISSING",
+        "RO_CRATE_AUDIT_PACKAGE_MISSING",
+        "RAW_RETURN_FROM_REAL_FACILITY_MISSING",
+        "VENUE_MIGRATION_AFTER_DENIAL_MISSING"
+      ]
+    },
+    {
+      "evidence_tier": "software_reference",
+      "new_state": "contract_implemented",
+      "new_surface_refs": [
+        "repo://src/ahead_rev_sim/causal_custody.py",
+        "repo://src/ahead_rev_sim/causal_custody_cli.py",
+        "repo://schemas/causal-custody-receipt.schema.json",
+        "repo://examples/causal_custody/reference-model.json",
+        "repo://tests/test_causal_custody.py",
+        "repo://docs/causal_custody_braid.md",
+        "repo://.github/workflows/causal-custody.yml"
+      ],
+      "prior_state": "partial_contract",
+      "proof_transaction": "Map workload, device, calibration, environment, power, thermal, and accepted-output events from two clock domains into one bounded interval, resolve explicit causal edges under uncertainty, and retain separate reference and measured evidence tiers.",
+      "pylon_id": "causal-custody-braid",
+      "qualified_invariants": [
+        "reference, simulated, and measured clock evidence remain distinct",
+        "local timestamps, mappings, rate corrections, and uncertainty produce one common interval",
+        "causal order is proven from non-overlapping uncertainty bounds rather than display order",
+        "calibration and environment precede work and power observations bracket the work interval",
+        "accepted output, trace manifests, determinism class, entropy custody, and blockers are sealed together",
+        "causal custody cannot authorize physical-compute or complete-system EVP claims"
+      ],
+      "remaining_blockers": [
+        "OPENTELEMETRY_SEMANTIC_PROFILE_MISSING",
+        "PERFETTO_TRACE_ADAPTER_MISSING",
+        "PTP_OR_WHITE_RABBIT_MEASUREMENT_MISSING",
+        "PHYSICAL_ENTROPY_TRACE_MISSING",
+        "MEASURED_INSTRUMENT_INTERVAL_MISSING",
+        "INDEPENDENT_CAUSAL_RECONSTRUCTION_MISSING"
+      ]
+    }
+  ],
+  "artifact_type": "pylon_surface_advance",
+  "as_of": "2026-08-01",
+  "claim_boundary": "The advances close deterministic software-reference contracts for scale seams, remote venues, and causal custody. They do not establish measured scale behavior, external venue participation, physical execution, complete-system EVP advantage, or independent physical acceptance.",
+  "control_question": "Can measured models, actual RTL, synchronized instruments, physical entropy, and external venues replace the reference implementations without changing the pylon invariants, accepted work, fallback, refusal, receipts, or historical custody?",
+  "effective_state_counts": {
+    "contract_implemented": 12,
+    "mapped_open": 0,
+    "partial_contract": 7
+  },
+  "prior_projection_ref": "repo://src/ahead_rev_sim/data/congruent_shape_surface_projection.json",
+  "schema_version": "ahead.pylon-surface-advance/v0.1"
+}

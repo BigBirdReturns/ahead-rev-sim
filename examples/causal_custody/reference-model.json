@@ -1,0 +1,195 @@
+{
+  "causal_edges": [
+    {
+      "from_event_id": "calibration-a",
+      "relation": "calibration_precedes_work",
+      "to_event_id": "workload-start"
+    },
+    {
+      "from_event_id": "environment-a",
+      "relation": "environment_precedes_work",
+      "to_event_id": "workload-start"
+    },
+    {
+      "from_event_id": "power-pre",
+      "relation": "power_brackets_work_start",
+      "to_event_id": "workload-start"
+    },
+    {
+      "from_event_id": "workload-start",
+      "relation": "work_precedes_completion",
+      "to_event_id": "workload-end"
+    },
+    {
+      "from_event_id": "workload-end",
+      "relation": "completion_precedes_acceptance",
+      "to_event_id": "accepted-output"
+    }
+  ],
+  "clocks": [
+    {
+      "calibration_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "clock_id": "host-clock",
+      "clock_kind": "monotonic_raw",
+      "environment_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "evidence_class": "reference_model",
+      "instrument_ref": null,
+      "mapping": {
+        "offset_ns": 0,
+        "rate_ppb": 0,
+        "uncertainty_ns": 0
+      }
+    },
+    {
+      "calibration_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "clock_id": "instrument-clock",
+      "clock_kind": "reference_instrument",
+      "environment_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "evidence_class": "reference_model",
+      "instrument_ref": null,
+      "mapping": {
+        "offset_ns": 100,
+        "rate_ppb": 0,
+        "uncertainty_ns": 5
+      }
+    }
+  ],
+  "determinism": {
+    "determinism_class": "exact",
+    "entropy_trace_sha256": null,
+    "stochastic_path_sha256": null
+  },
+  "events": [
+    {
+      "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "clock_id": "instrument-clock",
+      "event_id": "calibration-a",
+      "event_kind": "calibration_applied",
+      "local_timestamp_ns": 700,
+      "sequence": 0,
+      "source_role": "calibration",
+      "value_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "clock_id": "instrument-clock",
+      "event_id": "environment-a",
+      "event_kind": "environment_sample",
+      "local_timestamp_ns": 750,
+      "sequence": 1,
+      "source_role": "environment",
+      "value_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "artifact_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "clock_id": "instrument-clock",
+      "event_id": "power-pre",
+      "event_kind": "power_sample",
+      "local_timestamp_ns": 800,
+      "sequence": 2,
+      "source_role": "power",
+      "value_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    {
+      "artifact_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "clock_id": "host-clock",
+      "event_id": "workload-start",
+      "event_kind": "workload_start",
+      "local_timestamp_ns": 1000,
+      "sequence": 0,
+      "source_role": "workload",
+      "value_sha256": null
+    },
+    {
+      "artifact_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "clock_id": "host-clock",
+      "event_id": "command-dispatched",
+      "event_kind": "command_dispatched",
+      "local_timestamp_ns": 1100,
+      "sequence": 1,
+      "source_role": "host",
+      "value_sha256": null
+    },
+    {
+      "artifact_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "clock_id": "instrument-clock",
+      "event_id": "power-mid",
+      "event_kind": "power_sample",
+      "local_timestamp_ns": 1400,
+      "sequence": 3,
+      "source_role": "power",
+      "value_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    {
+      "artifact_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "clock_id": "host-clock",
+      "event_id": "workload-end",
+      "event_kind": "workload_end",
+      "local_timestamp_ns": 2000,
+      "sequence": 2,
+      "source_role": "workload",
+      "value_sha256": null
+    },
+    {
+      "artifact_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "clock_id": "instrument-clock",
+      "event_id": "power-post",
+      "event_kind": "power_sample",
+      "local_timestamp_ns": 2000,
+      "sequence": 4,
+      "source_role": "power",
+      "value_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    {
+      "artifact_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "clock_id": "instrument-clock",
+      "event_id": "thermal-post",
+      "event_kind": "thermal_sample",
+      "local_timestamp_ns": 2050,
+      "sequence": 5,
+      "source_role": "thermal",
+      "value_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+    {
+      "artifact_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "clock_id": "host-clock",
+      "event_id": "accepted-output",
+      "event_kind": "accepted_output",
+      "local_timestamp_ns": 2200,
+      "sequence": 3,
+      "source_role": "acceptor",
+      "value_sha256": "9999999999999999999999999999999999999999999999999999999999999999"
+    }
+  ],
+  "interval": {
+    "end_ns": 2300,
+    "reference_clock_id": "host-clock",
+    "start_ns": 700
+  },
+  "required_event_kinds": [
+    "accepted_output",
+    "calibration_applied",
+    "environment_sample",
+    "power_sample",
+    "thermal_sample",
+    "workload_end",
+    "workload_start"
+  ],
+  "trace_manifests": {
+    "calibration_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "environment_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "execution_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "power_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "telemetry_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "thermal_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "workload": {
+    "accepted": true,
+    "accepted_output_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+    "accepted_work_unit": "accepted physical-compute transaction",
+    "accepted_work_units": 1,
+    "artifact_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "contract_id": "physical-compute/causal-reference-v1",
+    "quality_rule": "exact accepted-output digest"
+  }
+}

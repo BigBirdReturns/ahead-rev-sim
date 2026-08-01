@@ -1,0 +1,183 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "OpenFASoC community",
+      "category": "eda_fabrication",
+      "commodity_assets": [
+        {
+          "asset_kind": "analog_generators",
+          "ingest_modes": [
+            "vendor"
+          ],
+          "license": "Apache-2.0-and-components",
+          "locator": "https://github.com/idea-fasoc/OpenFASOC"
+        },
+        {
+          "asset_kind": "temperature_and_power_generators",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "open_source",
+          "locator": "https://github.com/idea-fasoc/OpenFASOC"
+        }
+      ],
+      "completion_questions": [
+        "Can generator parameters produce a stable descriptor, calibration artifact, fallback model, and silicon receipt?",
+        "Which analog blocks are reusable for power clocks, bias, readout, or stochastic sampling?"
+      ],
+      "id": "openfasoc",
+      "ingestion_policy": {
+        "actions": [
+          "reuse generator methodology for calibration and readout blocks",
+          "emit physical descriptors from generator parameters",
+          "route generated measurements into cartridge receipts"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Wrap one OpenFASoC sensor generator as a calibrated context channel behind physical-compute-mmio/v1.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "repository",
+          "public_completion_signal": "Develops open, customizable cell-based analog generators and SoC synthesis flows.",
+          "title": "OpenFASoC",
+          "url": "https://github.com/idea-fasoc/OpenFASOC"
+        }
+      ],
+      "project": "Open analog and mixed-signal SoC generation",
+      "public_stage": "open_source_analog_generator_research",
+      "system_gaps": [
+        "fabrication_signoff",
+        "calibration_environment",
+        "model_hardware_fidelity",
+        "full_system_energy",
+        "measurement_reproducibility"
+      ]
+    },
+    {
+      "actor": "Tiny Tapeout and wafer.space",
+      "category": "eda_fabrication",
+      "commodity_assets": [
+        {
+          "asset_kind": "mpw_shuttle",
+          "ingest_modes": [
+            "fabricate"
+          ],
+          "license": "submission_terms",
+          "locator": "https://tinytapeout.com/"
+        },
+        {
+          "asset_kind": "gf180mcu_manufacturing",
+          "ingest_modes": [
+            "fabricate"
+          ],
+          "license": "commercial_service",
+          "locator": "https://wafer.space/"
+        },
+        {
+          "asset_kind": "community_templates",
+          "ingest_modes": [
+            "vendor"
+          ],
+          "license": "open_source",
+          "locator": "https://github.com/TinyTapeout"
+        }
+      ],
+      "completion_questions": [
+        "Which smallest test macro can close a physical operator receipt rather than merely blink or oscillate?",
+        "How are package, board, instruments, calibration, and failed dies preserved in the evidence bundle?"
+      ],
+      "id": "tiny-tapeout-wafer-space",
+      "ingestion_policy": {
+        "actions": [
+          "use shuttles for small control, sampler, oscillator, and measurement macros",
+          "archive GDS and shuttle identity",
+          "design every chip as a cartridge implementation, not a platform dependency"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Prepare a minimal measured stochastic or relaxation cartridge test macro with on-chip calibration and external receipt hooks.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "tiny_tapeout",
+          "public_completion_signal": "Provides templates, community support, and open shuttles for real silicon.",
+          "title": "Tiny Tapeout",
+          "url": "https://tinytapeout.com/"
+        },
+        {
+          "kind": "wafer_space",
+          "public_completion_signal": "Offers budget GF180MCU manufacturing and public shuttle timelines.",
+          "title": "wafer.space",
+          "url": "https://wafer.space/"
+        }
+      ],
+      "project": "Commodity open-silicon shuttles",
+      "public_stage": "active_low_cost_fabrication",
+      "system_gaps": [
+        "fabrication_signoff",
+        "measurement_reproducibility",
+        "calibration_environment",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "SkyWater, Google, and open silicon community",
+      "category": "eda_fabrication",
+      "commodity_assets": [
+        {
+          "asset_kind": "cmos_pdk",
+          "ingest_modes": [
+            "vendor"
+          ],
+          "license": "Apache-2.0-and-PDK-specific",
+          "locator": "https://github.com/google/skywater-pdk"
+        },
+        {
+          "asset_kind": "test_chip_ecosystem",
+          "ingest_modes": [
+            "fabricate"
+          ],
+          "license": "mixed",
+          "locator": "https://tinytapeout.com/"
+        }
+      ],
+      "completion_questions": [
+        "Which control-plane blocks are portable across SKY130, GF180MCU, and SG13G2?",
+        "Which measured test-chip results close gaps in the open PDK?"
+      ],
+      "id": "skywater-sky130-open-pdk",
+      "ingestion_policy": {
+        "actions": [
+          "use for digital control and simple mixed-signal test structures",
+          "preserve preview warning",
+          "cross-check open models against measured shuttle silicon"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Build the standard MMIO control plane and calibration sequencer in SKY130 as a portable reference.",
+        "priority": 3
+      },
+      "official_sources": [
+        {
+          "kind": "status",
+          "public_completion_signal": "States that the open release is an experimental preview suitable for test chips and initial verification, not production.",
+          "title": "SKY130 status",
+          "url": "https://skywater-pdk.readthedocs.io/en/main/status.html"
+        }
+      ],
+      "project": "SKY130 open PDK",
+      "public_stage": "experimental_preview_with_test_silicon_usage",
+      "system_gaps": [
+        "fabrication_signoff",
+        "model_hardware_fidelity",
+        "calibration_environment",
+        "independent_validation"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "fabrication_b"
+}

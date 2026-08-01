@@ -1,0 +1,63 @@
+{
+  "abi_sha256": "f8a90e60f5b16d275df9ecabbc4fc9856a4551858583361ce9fd3cab3c75ae06",
+  "artifact_type": "physical_compute_consist",
+  "cartridge": {
+    "actor": "ahead-rev-sim",
+    "hitch_id": "ahead-rev-loopback-reference-cartridge-v0",
+    "hitch_sha256": "44e51ea2b76c9dd966e48159cb4c74087a80bd05b7340214e1e040ca849efcc9",
+    "project": "Virtual loopback physical-compute cartridge"
+  },
+  "claim_boundary": "The consist establishes whether a host and cartridge can couple behind physical-compute-mmio/v1 while remaining independently replaceable. An integration offer reserves a compatible surface but does not assert actor participation, implementation readiness, target execution, physical work, energy advantage, timing, thermal closure, occupied volume, or silicon.",
+  "consist_sha256": "156f63aa119540472c2aeb6f0a2d28e11dc4eaecad344a728d9291a60cb620f3",
+  "execution_admission": "accepted",
+  "execution_blockers": [],
+  "hitchable": true,
+  "host": {
+    "actor": "ahead-rev-sim",
+    "hitch_id": "ahead-rev-rv64gc-reference-host-v0",
+    "hitch_sha256": "f6e0744418c71a6de827adfae585c4ba2ad144f9c14118ff97edaf6db08b0da0",
+    "project": "RV64GC MMIO target-model host"
+  },
+  "interface_state": "compatible",
+  "negotiated_capabilities": [
+    "exact",
+    "software_fallback"
+  ],
+  "negotiated_commands": [
+    "capture",
+    "evolve",
+    "load",
+    "read",
+    "reset"
+  ],
+  "physical_claim_blockers": [
+    "HOST_PHYSICAL_REALIZATION_ABSENT",
+    "CARTRIDGE_PHYSICAL_REALIZATION_ABSENT"
+  ],
+  "physical_compute_claim_allowed": false,
+  "physical_energy_claim_allowed": false,
+  "portable_binding": "physical-compute-mmio/v1",
+  "qualification_state": "execution_admitted",
+  "schema_version": "ahead.physical-compute-consist/v0.1",
+  "substitution_contract": {
+    "cartridge_replaceable": true,
+    "dependency_mode": "commodity_only",
+    "host_replaceable": true,
+    "provider_may_change": [
+      "implementation",
+      "microarchitecture",
+      "physical_substrate",
+      "packaging",
+      "internal_compiler"
+    ],
+    "provider_may_not_change": [
+      "portable_binding",
+      "accepted_work",
+      "refusal_semantics",
+      "software_fallback",
+      "receipt_schema",
+      "evidence_boundary"
+    ],
+    "software_fallback_required": true
+  }
+}

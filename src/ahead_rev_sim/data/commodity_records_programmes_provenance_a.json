@@ -1,0 +1,194 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "Open PDKs and LibreLane communities",
+      "category": "eda_fabrication",
+      "commodity_assets": [
+        {
+          "asset_kind": "pdk_distribution_layer",
+          "ingest_modes": [
+            "vendor"
+          ],
+          "license": "Apache-2.0-and-components",
+          "locator": "https://github.com/RTimothyEdwards/open_pdks"
+        },
+        {
+          "asset_kind": "modular_rtl_to_gds_flow",
+          "ingest_modes": [
+            "vendor",
+            "qualify"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/efabless/openlane2"
+        }
+      ],
+      "completion_questions": [
+        "Can the same RTL and constraints reproduce across installed PDK revisions?",
+        "Which flow or PDK differences change timing, power, area, or signoff?"
+      ],
+      "id": "open-pdks-librelane",
+      "ingestion_policy": {
+        "actions": [
+          "pin PDK sources and installed views",
+          "route generated control blocks through modular steps",
+          "preserve every report and tool identity"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create one reproducible build recipe for the cartridge control plane across SKY130 and GF180MCU with per-PDK divergence receipts.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_open_pdks",
+          "public_completion_signal": "Publishes scripts and normalized installations for open foundry PDKs.",
+          "title": "open_pdks",
+          "url": "https://github.com/RTimothyEdwards/open_pdks"
+        },
+        {
+          "kind": "official_librelane",
+          "public_completion_signal": "Publishes a modular RTL-to-GDS infrastructure and reproducible flow.",
+          "title": "LibreLane/OpenLane 2",
+          "url": "https://github.com/efabless/openlane2"
+        }
+      ],
+      "project": "open_pdks packaging and LibreLane implementation flow",
+      "public_stage": "active_open_pdk_distribution_and_successor_flow",
+      "system_gaps": [
+        "fabrication_signoff",
+        "governance_durability",
+        "model_hardware_fidelity",
+        "measurement_reproducibility",
+        "workload_identity",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "Natcast and NSTC",
+      "category": "prototyping_fabrication",
+      "commodity_assets": [
+        {
+          "asset_kind": "advanced_prototyping_access",
+          "ingest_modes": [
+            "fabricate",
+            "qualify"
+          ],
+          "license": "programme_terms",
+          "locator": "https://www.nist.gov/news-events/news/2025/01/biden-harris-administration-announces-arizona-state-university-research"
+        },
+        {
+          "asset_kind": "advanced_packaging_pilot",
+          "ingest_modes": [
+            "fabricate",
+            "qualify"
+          ],
+          "license": "programme_terms",
+          "locator": "https://www.nist.gov/news-events/news/2025/01/us-department-commerce-announces-14-billion-final-awards-support-next"
+        }
+      ],
+      "completion_questions": [
+        "Which access and IP terms permit independent publication?",
+        "What process, package, metrology, and failed-run artifacts will users receive?"
+      ],
+      "id": "natcast-nstc-ppf",
+      "ingestion_policy": {
+        "actions": [
+          "monitor access rules and capability releases",
+          "prepare substrate-neutral test-vehicle requirements",
+          "bind facility process package and metrology identity"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Produce a facility-neutral test-vehicle package for control, sampler, photonic, and chiplet cartridges that can enter the PPF when access opens.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_award",
+          "public_completion_signal": "Publishes the Natcast award, planned capabilities, and complete advanced-packaging facility boundary.",
+          "title": "PPF advanced packaging award",
+          "url": "https://www.nist.gov/news-events/news/2025/01/us-department-commerce-announces-14-billion-final-awards-support-next"
+        },
+        {
+          "kind": "official_site_selection",
+          "public_completion_signal": "Publishes the planned 300 mm prototyping and advanced packaging facility and access mission.",
+          "title": "PPF site selection",
+          "url": "https://www.nist.gov/news-events/news/2025/01/biden-harris-administration-announces-arizona-state-university-research"
+        }
+      ],
+      "project": "NSTC Prototyping and NAPMP Advanced Packaging Piloting Facility",
+      "public_stage": "funded_national_prototyping_and_packaging_infrastructure",
+      "system_gaps": [
+        "fabrication_signoff",
+        "packaging_assembly",
+        "access_licensing",
+        "measurement_reproducibility",
+        "independent_validation",
+        "governance_durability",
+        "reliability_endurance"
+      ]
+    },
+    {
+      "actor": "SMART USA Institute and SRC",
+      "category": "research_program",
+      "commodity_assets": [
+        {
+          "asset_kind": "program_failure_and_transition_evidence",
+          "ingest_modes": [
+            "ingest",
+            "monitor"
+          ],
+          "license": "public_record",
+          "locator": "https://www.src.org/about/smart-usa-institute/"
+        },
+        {
+          "asset_kind": "archived_manufacturing_roadmap",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "archive_terms",
+          "locator": "https://smart-us.org/"
+        }
+      ],
+      "completion_questions": [
+        "Which promised capabilities and artifacts survived termination?",
+        "Can every dependency be replaced without erasing prior evidence or acceptance state?"
+      ],
+      "id": "smart-usa-terminated",
+      "ingestion_policy": {
+        "actions": [
+          "preserve the cancellation as governance evidence",
+          "identify stranded public artifacts and promised facilities",
+          "test exit rules for programme-dependent workflows"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Run a registry failure drill proving that every SMART USA-dependent plan can migrate to surviving facilities without changing workload or receipts.",
+        "priority": 3
+      },
+      "official_sources": [
+        {
+          "kind": "official_termination",
+          "public_completion_signal": "States that the institute was cancelled and operations would cease, superseding earlier launch material.",
+          "title": "SMART USA operations termination",
+          "url": "https://www.src.org/about/smart-usa-institute/"
+        },
+        {
+          "kind": "official_archive",
+          "public_completion_signal": "Preserves the prior program scope and ecosystem claims.",
+          "title": "SMART USA archive",
+          "url": "https://smart-us.org/"
+        }
+      ],
+      "project": "SMART USA semiconductor manufacturing institute",
+      "public_stage": "terminated_program_governance_failure_case",
+      "system_gaps": [
+        "governance_durability",
+        "access_licensing",
+        "independent_validation",
+        "fabrication_signoff",
+        "software_fallback"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "programmes_provenance_a"
+}

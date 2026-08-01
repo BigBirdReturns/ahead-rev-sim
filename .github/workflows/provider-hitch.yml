@@ -1,0 +1,133 @@
+name: Provider Hitch Surface
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  provider-hitches:
+    name: Ahead and Vaire coupler qualification
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install ahead-rev-sim
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Generate reserved Ahead plus Vaire consist
+        run: |
+          mkdir -p artifacts/provider-hitch
+          ahead-rev-hitch \
+            --host examples/hitches/aheadcomputing-riscv-host.offer.json \
+            --cartridge examples/hitches/vaire-reversible-cartridge.offer.json \
+            --out artifacts/provider-hitch/ahead-vaire.reserved-consist.json \
+            --format json \
+            > artifacts/provider-hitch/ahead-vaire.stdout.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          payload = json.loads(
+              Path("artifacts/provider-hitch/ahead-vaire.reserved-consist.json")
+              .read_text(encoding="utf-8")
+          )
+          assert payload["interface_state"] == "compatible"
+          assert payload["hitchable"] is True
+          assert payload["qualification_state"] == "hitchable_unqualified"
+          assert payload["execution_admission"] == "refused"
+          assert payload["physical_compute_claim_allowed"] is False
+          assert "HOST_SUBMISSION_ABSENT" in payload["execution_blockers"]
+          assert "CARTRIDGE_SUBMISSION_ABSENT" in payload["execution_blockers"]
+          PY
+
+      - name: Generate admitted reference consist
+        run: |
+          ahead-rev-hitch \
+            --host examples/hitches/reference-rv64gc-host.hitch.json \
+            --cartridge examples/hitches/reference-loopback-cartridge.hitch.json \
+            --out artifacts/provider-hitch/reference.consist.json \
+            --require-admitted
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          payload = json.loads(
+              Path("artifacts/provider-hitch/reference.consist.json")
+              .read_text(encoding="utf-8")
+          )
+          assert payload["execution_admission"] == "accepted"
+          assert payload["execution_blockers"] == []
+          assert payload["physical_compute_claim_allowed"] is False
+          PY
+
+      - name: Generate EVP reference receipt and preserve refusal
+        run: |
+          ahead-rev-evp \
+            examples/evp/reference-model.json \
+            --out artifacts/provider-hitch/reference-model.evp.json \
+            --quiet
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          payload = json.loads(
+              Path("artifacts/provider-hitch/reference-model.evp.json")
+              .read_text(encoding="utf-8")
+          )
+          qualification = payload["qualification"]
+          assert qualification["status"] == "modeled_evp_vector"
+          assert qualification["measured_evp_vector_allowed"] is False
+          assert qualification["complete_system_measurement_allowed"] is False
+          assert qualification["advantage_claim_allowed"] is False
+          assert payload["comparison"] is None
+          assert payload["provenance"]["supplier_chain"][0]["actor"] == "AheadComputing"
+          assert payload["provenance"]["supplier_chain"][1]["actor"] == "Vaire Computing"
+          assert "COMPLETE_SYSTEM_BOUNDARY_NOT_DECLARED" in qualification["blockers"]
+          assert "BASELINE_MISSING_FOR_ADVANTAGE" in qualification["blockers"]
+          PY
+
+      - name: Assemble provider hitch kit
+        run: |
+          mkdir -p artifacts/provider-hitch/kit/examples
+          mkdir -p artifacts/provider-hitch/kit/schemas
+          cp \
+            docs/provider_hitch_surface.md \
+            docs/evp_receipt.md \
+            artifacts/provider-hitch/kit/
+          cp \
+            examples/hitches/aheadcomputing-riscv-host.offer.json \
+            examples/hitches/vaire-reversible-cartridge.offer.json \
+            examples/hitches/reference-rv64gc-host.hitch.json \
+            examples/hitches/reference-loopback-cartridge.hitch.json \
+            examples/hitches/reference-loopback-substrate.json \
+            examples/hitches/reference-riscv-target-proof.json \
+            examples/hitches/reference-consist-execution-proof.json \
+            examples/evp/reference-model.json \
+            artifacts/provider-hitch/kit/examples/
+          cp \
+            schemas/physical-compute-provider-hitch.schema.json \
+            schemas/physical-compute-consist.schema.json \
+            schemas/physical-compute-consist-execution-proof.schema.json \
+            schemas/evp-receipt.schema.json \
+            artifacts/provider-hitch/kit/schemas/
+
+      - name: Upload provider hitch evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: provider-hitch-${{ github.sha }}
+          path: artifacts/provider-hitch
+          if-no-files-found: error
+          retention-days: 30

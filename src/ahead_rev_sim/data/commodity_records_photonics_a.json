@@ -1,0 +1,348 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "Lightmatter",
+      "category": "photonic_interconnect",
+      "commodity_assets": [
+        {
+          "asset_kind": "photonic_fabric_target",
+          "ingest_modes": [
+            "cartridge",
+            "benchmark",
+            "monitor"
+          ],
+          "license": "commercial",
+          "locator": "https://lightmatter.co/products/passage/"
+        },
+        {
+          "asset_kind": "packaging_and_fiber_interface_claims",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "public_web",
+          "locator": "https://lightmatter.co/products/passage/"
+        }
+      ],
+      "completion_questions": [
+        "Which power figures include lasers and electrical interfaces?",
+        "What traffic, distance, utilization, BER, and retry contract defines useful transfer?"
+      ],
+      "id": "lightmatter-passage",
+      "ingestion_policy": {
+        "actions": [
+          "model photonic fabric as a data-movement cartridge",
+          "retain laser optical electrical and packaging boundaries",
+          "compare against electrical interconnect under identical traffic"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a Passage profile that includes laser source, SerDes, modulation, fiber attach, switching, package, host protocol, and accepted traffic pattern.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_product",
+          "public_completion_signal": "Publishes optical interconnect bandwidth, power, packaging, and sampling targets.",
+          "title": "Passage",
+          "url": "https://lightmatter.co/products/passage/"
+        },
+        {
+          "kind": "official_platform",
+          "public_completion_signal": "Describes system-level photonic and electronic integration targets.",
+          "title": "Lightmatter compute platform",
+          "url": "https://lightmatter.co/products/envise/"
+        }
+      ],
+      "project": "Passage photonic interconnect and M-series superchip platform",
+      "public_stage": "commercial_sampling_and_product_roadmap",
+      "system_gaps": [
+        "accepted_result",
+        "workload_identity",
+        "host_interface",
+        "data_movement",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "packaging_assembly",
+        "precision_conversion",
+        "reliability_endurance",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "Ayar Labs",
+      "category": "photonic_interconnect",
+      "commodity_assets": [
+        {
+          "asset_kind": "optical_io_chiplet_target",
+          "ingest_modes": [
+            "cartridge",
+            "benchmark",
+            "monitor"
+          ],
+          "license": "commercial",
+          "locator": "https://ayarlabs.com/technology/"
+        },
+        {
+          "asset_kind": "external_laser_architecture",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "public_web",
+          "locator": "https://ayarlabs.com/technology/"
+        }
+      ],
+      "completion_questions": [
+        "Which component supplies and controls the light?",
+        "How are BER, repair, aging, coupling loss, and package yield represented?"
+      ],
+      "id": "ayar-labs-teraphy",
+      "ingestion_policy": {
+        "actions": [
+          "map optical IO into chiplet and package receipts",
+          "account for laser fibers SerDes control and cooling",
+          "compare identical traffic against UCIe and electrical links"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Define a TeraPHY cartridge and package descriptor that exposes every optical and electrical boundary needed for a full transfer receipt.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_product",
+          "public_completion_signal": "Describes optical I/O chiplets, external light source, and package integration.",
+          "title": "Ayar Labs technology",
+          "url": "https://ayarlabs.com/technology/"
+        },
+        {
+          "kind": "official_news",
+          "public_completion_signal": "Publishes demonstration, ecosystem, and commercialization updates.",
+          "title": "Ayar Labs news",
+          "url": "https://ayarlabs.com/news/"
+        }
+      ],
+      "project": "TeraPHY optical I/O chiplets and SuperNova light source",
+      "public_stage": "commercial_optical_io_chiplet_platform",
+      "system_gaps": [
+        "host_interface",
+        "data_movement",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "packaging_assembly",
+        "precision_conversion",
+        "reliability_endurance",
+        "fabrication_signoff",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "Oriole Networks",
+      "category": "photonic_interconnect",
+      "commodity_assets": [
+        {
+          "asset_kind": "photonic_network_target",
+          "ingest_modes": [
+            "cartridge",
+            "monitor"
+          ],
+          "license": "commercial_research",
+          "locator": "https://www.oriole.network/"
+        },
+        {
+          "asset_kind": "rack_integration_signal",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "programme_public",
+          "locator": "https://aria.org.uk/opportunity-spaces/nature-computes-better/scaling-compute/funded-projects"
+        }
+      ],
+      "completion_questions": [
+        "What topology and routing behavior is available to workloads?",
+        "Which rack components and optical losses enter the claimed advantage?"
+      ],
+      "id": "oriole-prism",
+      "ingestion_policy": {
+        "actions": [
+          "model network topology and control plane",
+          "bind rack traffic and workload to physical fabric",
+          "measure laser switch electrical and cooling boundaries"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create an Oriole rack-fabric receipt that separates useful delivered traffic from optical generation, switching, protocol, retry, and host costs.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_home",
+          "public_completion_signal": "Describes a photonic networking platform intended to connect AI accelerators.",
+          "title": "Oriole Networks",
+          "url": "https://www.oriole.network/"
+        },
+        {
+          "kind": "official_aria",
+          "public_completion_signal": "Places Oriole photonics inside a complete rack-scale integration programme.",
+          "title": "ARIA funded projects",
+          "url": "https://aria.org.uk/opportunity-spaces/nature-computes-better/scaling-compute/funded-projects"
+        }
+      ],
+      "project": "PRISM photonic network and AI interconnect platform",
+      "public_stage": "funded_system_development_and_testbed_integration",
+      "system_gaps": [
+        "accepted_result",
+        "host_interface",
+        "data_movement",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "scaling_interconnect",
+        "packaging_assembly",
+        "reliability_endurance",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "AIM Photonics",
+      "category": "photonic_eda",
+      "commodity_assets": [
+        {
+          "asset_kind": "foundry_photonic_pdk",
+          "ingest_modes": [
+            "vendor",
+            "fabricate"
+          ],
+          "license": "access_terms_apply",
+          "locator": "https://www.aimphotonics.com/pdk"
+        },
+        {
+          "asset_kind": "fabrication_packaging_test_services",
+          "ingest_modes": [
+            "fabricate",
+            "qualify"
+          ],
+          "license": "programme_access",
+          "locator": "https://www.aimphotonics.com/"
+        }
+      ],
+      "completion_questions": [
+        "Which PDK views and models are publicly reproducible?",
+        "What package and metrology path converts a layout into a qualified cartridge?"
+      ],
+      "id": "aim-photonics-pdk",
+      "ingestion_policy": {
+        "actions": [
+          "map PDK revision and access terms",
+          "capture compact models and design rules",
+          "bind fabrication packaging and test identity"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a photonic PDK receipt that binds component models, layout, process revision, package, test setup, and measured S-parameters.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_pdk",
+          "public_completion_signal": "Publishes PDK access and design enablement for silicon photonics.",
+          "title": "AIM Photonics PDK",
+          "url": "https://www.aimphotonics.com/pdk"
+        },
+        {
+          "kind": "official_home",
+          "public_completion_signal": "Provides fabrication, packaging, testing, and workforce infrastructure.",
+          "title": "AIM Photonics",
+          "url": "https://www.aimphotonics.com/"
+        }
+      ],
+      "project": "AIM Photonics process design kits and MPW ecosystem",
+      "public_stage": "active_foundry_pdk_and_mpwa_ecosystem",
+      "system_gaps": [
+        "fabrication_signoff",
+        "model_hardware_fidelity",
+        "calibration_environment",
+        "packaging_assembly",
+        "measurement_reproducibility",
+        "access_licensing",
+        "governance_durability"
+      ]
+    },
+    {
+      "actor": "GDSFactory community",
+      "category": "photonic_eda",
+      "commodity_assets": [
+        {
+          "asset_kind": "layout_and_pdk_framework",
+          "ingest_modes": [
+            "vendor",
+            "adapt"
+          ],
+          "license": "MIT",
+          "locator": "https://github.com/gdsfactory/gdsfactory"
+        },
+        {
+          "asset_kind": "photonic_circuit_fallback",
+          "ingest_modes": [
+            "fallback",
+            "benchmark"
+          ],
+          "license": "MIT",
+          "locator": "https://github.com/flaport/sax"
+        },
+        {
+          "asset_kind": "solver_adapter",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "project_specific",
+          "locator": "https://gdsfactory.github.io/gsim/"
+        }
+      ],
+      "completion_questions": [
+        "Which compact model and solver produced each result?",
+        "How are layout extraction, process variation, and measured S-parameters reconciled?"
+      ],
+      "id": "gdsfactory-sax-gsim",
+      "ingestion_policy": {
+        "actions": [
+          "pin PDK layout netlist and compact model identity",
+          "use SAX as circuit fallback",
+          "bind EM simulation and fabricated measurement divergence"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Translate one photonic interconnect cartridge from GDSFactory layout through SAX and gsim into a sealed model-to-measurement receipt.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_gdsfactory",
+          "public_completion_signal": "Publishes code-driven layout, PDK, extraction, simulation, and test data workflows.",
+          "title": "GDSFactory",
+          "url": "https://gdsfactory.github.io/gdsfactory/"
+        },
+        {
+          "kind": "official_sax",
+          "public_completion_signal": "Publishes differentiable S-parameter circuit simulation and optimization.",
+          "title": "SAX",
+          "url": "https://gdsfactory.github.io/sax/"
+        },
+        {
+          "kind": "official_gsim",
+          "public_completion_signal": "Connects layout to multiple electromagnetic solvers.",
+          "title": "gsim",
+          "url": "https://gdsfactory.github.io/gsim/"
+        }
+      ],
+      "project": "GDSFactory, SAX, and gsim photonic design and simulation stack",
+      "public_stage": "active_open_source_end_to_end_design_stack",
+      "system_gaps": [
+        "workload_identity",
+        "model_hardware_fidelity",
+        "compiler_lowering",
+        "fabrication_signoff",
+        "calibration_environment",
+        "precision_conversion",
+        "measurement_reproducibility",
+        "governance_durability"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "photonics_a"
+}

@@ -1,0 +1,301 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/commodity-ecosystem-registry.schema.json",
+  "title": "ahead-rev-sim commodity ecosystem registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "as_of",
+    "doctrine",
+    "gap_taxonomy",
+    "records"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ahead.commodity-ecosystem-registry/v0.1"
+    },
+    "artifact_type": {
+      "const": "commodity_ecosystem_registry"
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date"
+    },
+    "doctrine": {
+      "$ref": "#/$defs/doctrine"
+    },
+    "gap_taxonomy": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "$ref": "#/$defs/gap"
+      }
+    },
+    "records": {
+      "type": "array",
+      "minItems": 20,
+      "items": {
+        "$ref": "#/$defs/record"
+      }
+    }
+  },
+  "$defs": {
+    "doctrine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dependency_mode",
+        "statement",
+        "admission_rule",
+        "exit_rule",
+        "control_question"
+      ],
+      "properties": {
+        "dependency_mode": {
+          "const": "commodity_only"
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "admission_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "exit_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "control_question": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "gap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gap_id",
+        "control_question",
+        "claim_blocked"
+      ],
+      "properties": {
+        "gap_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "control_question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "claim_blocked": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "url",
+        "title",
+        "public_completion_signal"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "public_completion_signal": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_kind",
+        "locator",
+        "license",
+        "ingest_modes"
+      ],
+      "properties": {
+        "asset_kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "locator": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ingest_modes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "monitor",
+              "benchmark",
+              "adapt",
+              "host",
+              "cartridge",
+              "vendor",
+              "ingest",
+              "qualify",
+              "fabricate",
+              "fallback"
+            ]
+          }
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dependency_mode",
+        "priority",
+        "actions",
+        "first_transaction"
+      ],
+      "properties": {
+        "dependency_mode": {
+          "const": "commodity_only"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "actions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "first_transaction": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "actor",
+        "project",
+        "category",
+        "public_stage",
+        "official_sources",
+        "commodity_assets",
+        "ingestion_policy",
+        "system_gaps",
+        "completion_questions"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]+$"
+        },
+        "actor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "project": {
+          "type": "string",
+          "minLength": 1
+        },
+        "category": {
+          "enum": [
+            "reversible_computing",
+            "riscv_host",
+            "thermodynamic_computing",
+            "software_baseline",
+            "open_system_testbed",
+            "research_program",
+            "soc_integration",
+            "eda_fabrication",
+            "benchmark_measurement",
+            "physical_reservoir",
+            "in_memory_analog",
+            "neuromorphic",
+            "probabilistic_computing",
+            "oscillator_ising",
+            "intermittent_energy",
+            "photonic_interconnect",
+            "photonic_eda",
+            "chiplet_interconnect",
+            "hardware_compiler",
+            "mixed_signal_modeling",
+            "multiphysics_modeling",
+            "biological_computing",
+            "verification_provenance",
+            "silicon_security",
+            "prototyping_fabrication"
+          ]
+        },
+        "public_stage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "official_sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/source"
+          }
+        },
+        "commodity_assets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/asset"
+          }
+        },
+        "ingestion_policy": {
+          "$ref": "#/$defs/policy"
+        },
+        "system_gaps": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          }
+        },
+        "completion_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

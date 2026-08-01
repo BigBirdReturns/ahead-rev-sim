@@ -1,0 +1,78 @@
+{
+  "channels": [
+    {
+      "calibration_required": true,
+      "channel_id": "world_trajectory_q16",
+      "direction": "input",
+      "dtype": "int32",
+      "physical_quantity": "measured_environment_trajectory",
+      "roles": [
+        "operand",
+        "dynamics"
+      ],
+      "sample_period_ns": null,
+      "unit": "q16"
+    },
+    {
+      "calibration_required": false,
+      "channel_id": "environment_context",
+      "direction": "internal",
+      "dtype": "int32",
+      "physical_quantity": "environment_state",
+      "roles": [
+        "context"
+      ],
+      "sample_period_ns": null,
+      "unit": "manifest"
+    },
+    {
+      "calibration_required": false,
+      "channel_id": "reservoir_readout_q16",
+      "direction": "output",
+      "dtype": "int32",
+      "physical_quantity": "trained_readout",
+      "roles": [
+        "result"
+      ],
+      "sample_period_ns": null,
+      "unit": "q16"
+    },
+    {
+      "calibration_required": false,
+      "channel_id": "sensor_readout_supply",
+      "direction": "internal",
+      "dtype": "int32",
+      "physical_quantity": "acquisition_and_readout_energy",
+      "roles": [
+        "energy"
+      ],
+      "sample_period_ns": null,
+      "unit": "joule"
+    }
+  ],
+  "coupling_mode": "observe_only",
+  "determinism": "distributional",
+  "dynamics_class": "reservoir",
+  "energy_contract": {
+    "evidence_class": "reference_model",
+    "instrument_ref": null,
+    "measurement_boundary": "unmeasured",
+    "recovered_or_harvested_joules": null,
+    "source_class": "external",
+    "supplied_joules": null
+  },
+  "environment_boundary": "declared field, observation window, sensors, and readout",
+  "fallback_model_id": "recorded-trajectory-replay/v1",
+  "operator_class": "harvested_world_reservoir",
+  "optional_riscv_extension": "Xphys",
+  "parameters": {
+    "capability": "unproven",
+    "readout": "external_trained_linear"
+  },
+  "portable_binding": "physical-compute-mmio/v1",
+  "realization_class": "harvested_environment",
+  "reset_contract": "none",
+  "schema_version": "ahead.physical-substrate/v0.1",
+  "state_words": 0,
+  "substrate_id": "harvested-world-reservoir-contract-v1"
+}

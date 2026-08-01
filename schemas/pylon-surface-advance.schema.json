@@ -1,0 +1,155 @@
+{
+  "$defs": {
+    "blockers": {
+      "items": {
+        "pattern": "^[A-Z0-9_]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "id": {
+      "pattern": "^[a-z0-9][a-z0-9-]+$",
+      "type": "string"
+    },
+    "repoRefs": {
+      "items": {
+        "pattern": "^repo://",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/pylon-surface-advance.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "advances": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_tier": {
+            "enum": [
+              "software_reference",
+              "target_observed",
+              "measured",
+              "independently_validated"
+            ]
+          },
+          "new_state": {
+            "enum": [
+              "contract_implemented",
+              "partial_contract",
+              "mapped_open"
+            ]
+          },
+          "new_surface_refs": {
+            "$ref": "#/$defs/repoRefs"
+          },
+          "prior_state": {
+            "enum": [
+              "contract_implemented",
+              "partial_contract",
+              "mapped_open"
+            ]
+          },
+          "proof_transaction": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "pylon_id": {
+            "$ref": "#/$defs/id"
+          },
+          "qualified_invariants": {
+            "$ref": "#/$defs/strings"
+          },
+          "remaining_blockers": {
+            "$ref": "#/$defs/blockers"
+          }
+        },
+        "required": [
+          "pylon_id",
+          "prior_state",
+          "new_state",
+          "evidence_tier",
+          "new_surface_refs",
+          "qualified_invariants",
+          "remaining_blockers",
+          "proof_transaction"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "artifact_type": {
+      "const": "pylon_surface_advance"
+    },
+    "as_of": {
+      "format": "date",
+      "type": "string"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "effective_state_counts": {
+      "additionalProperties": false,
+      "properties": {
+        "contract_implemented": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "mapped_open": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "partial_contract": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "contract_implemented",
+        "partial_contract",
+        "mapped_open"
+      ],
+      "type": "object"
+    },
+    "prior_projection_ref": {
+      "pattern": "^repo://",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "ahead.pylon-surface-advance/v0.1"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "as_of",
+    "prior_projection_ref",
+    "advances",
+    "effective_state_counts",
+    "claim_boundary",
+    "control_question"
+  ],
+  "title": "ahead-rev-sim pylon surface advance",
+  "type": "object"
+}

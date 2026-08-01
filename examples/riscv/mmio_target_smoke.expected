@@ -1,0 +1,6 @@
+abi=physical-compute-mmio/v1 isa=rv64gc
+identity=41504859 capabilities=00000009
+ambiguous status=00000009 result=refused
+reset status=00000025 result=done receipt=valid
+load status=00000025 result=done receipt=valid descriptor=0000000010001000 input=0000000010002000
+result=pass

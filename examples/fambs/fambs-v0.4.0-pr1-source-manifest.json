@@ -1,0 +1,574 @@
+{
+  "schema_version": "ahead.fambs-source-manifest/v0.1",
+  "source": {
+    "repository": "BigBirdReturns/future-ai-microbench-suite",
+    "commit": "69498d4eebec9bed6f9c6793f13f9e20e89a866b",
+    "status": "proposed_pull_request",
+    "pull_request": 1,
+    "suite": "Future AI Microbench Suite",
+    "version": "0.4.0",
+    "config_path": "config/bench_config.json",
+    "config_git_blob_sha1": "a4476552ff84a84778e1c3ddff8619d3a1b3fcea",
+    "harness_path": "src/harness.c",
+    "harness_git_blob_sha1": "a1ab43bfdbce8137a95ee69dab0e8e2039db83ec",
+    "common_header_path": "include/bench_common.h",
+    "common_header_git_blob_sha1": "0a6ffa85457d56aa93f3bea9ba6073e241119789",
+    "accepted_output_path": "contracts/fambs-v0.4.0-accepted-output.json",
+    "accepted_output_git_blob_sha1": "f11eeb6fb34516b611fc5c5151ae467df0b00d0c"
+  },
+  "expected_workload_ids": [
+    "SVK",
+    "MGT",
+    "MAK",
+    "MRK",
+    "PCK",
+    "MBW",
+    "MAL"
+  ],
+  "config": {
+    "suite": "Future AI Microbench Suite",
+    "version": "0.4.0",
+    "SVK": {
+      "enabled": true,
+      "vector_length": 2048,
+      "nnz": 128,
+      "iterations": 1000
+    },
+    "MGT": {
+      "enabled": true,
+      "nodes": 512,
+      "edges": 2048,
+      "iterations": 64
+    },
+    "MAK": {
+      "enabled": true,
+      "tokens": 8,
+      "dim": 32,
+      "iterations": 256
+    },
+    "MRK": {
+      "enabled": true,
+      "db_size": 256,
+      "dim": 32,
+      "topk": 3,
+      "iterations": 256
+    },
+    "PCK": {
+      "enabled": true,
+      "depth": 128,
+      "iterations": 256
+    },
+    "MBW": {
+      "enabled": true,
+      "size_bytes": 262144,
+      "iterations": 32
+    },
+    "MAL": {
+      "enabled": true,
+      "iterations": 64
+    }
+  },
+  "workloads": [
+    {
+      "bench_id": "SVK",
+      "name": "Sparse Vector Kernel",
+      "source_path": "src/svk_sparse_vec.c",
+      "source_git_blob_sha1": "cc581df1181f6eeaa8592d22189c4c42b222bb80",
+      "workload_class": "structured_arithmetic_with_indexed_memory",
+      "config": {
+        "vector_length": 2048,
+        "nnz": 128,
+        "iterations": 1000
+      },
+      "emission": {
+        "standalone_rows": 1,
+        "notes": ["sparse_vector_dot"]
+      },
+      "required_semantic_capabilities": [
+        "indexed_load",
+        "floating_point_multiply",
+        "floating_point_accumulate",
+        "rounding_custody",
+        "loop_path_custody"
+      ],
+      "accepted_output_contract": {
+        "contract_id": "fambs-v0.4.0-default",
+        "rows": [
+          {
+            "notes": "sparse_vector_dot",
+            "iters": 1000,
+            "result": "000000004700158d",
+            "result_kind": "f32_bits"
+          }
+        ]
+      },
+      "gaps": [
+        "RISC_V_TARGET_RESULT_PARITY_UNQUALIFIED",
+        "PHYSICAL_ENERGY_UNMEASURED"
+      ]
+    },
+    {
+      "bench_id": "MGT",
+      "name": "Micro Graph Traversal",
+      "source_path": "src/mgt_micro_graph.c",
+      "source_git_blob_sha1": "813ae5fffde7bf169de4b1351de22500feeb9cbb",
+      "workload_class": "memory_irregular_control",
+      "config": {
+        "nodes": 512,
+        "edges": 2048,
+        "iterations": 64
+      },
+      "emission": {
+        "standalone_rows": 1,
+        "notes": ["micro_graph_bfs"]
+      },
+      "required_semantic_capabilities": [
+        "indexed_load",
+        "indexed_store",
+        "queue_mutation",
+        "comparison_path_custody",
+        "data_dependent_loop"
+      ],
+      "accepted_output_contract": {
+        "contract_id": "fambs-v0.4.0-default",
+        "rows": [
+          {
+            "notes": "micro_graph_bfs",
+            "iters": 64,
+            "result": "0000000000008000",
+            "result_kind": "u32_sum"
+          }
+        ]
+      },
+      "gaps": [
+        "RISC_V_TARGET_RESULT_PARITY_UNQUALIFIED",
+        "PHYSICAL_ENERGY_UNMEASURED"
+      ]
+    },
+    {
+      "bench_id": "MAK",
+      "name": "Micro Attention Kernel",
+      "source_path": "src/mak_micro_attention.c",
+      "source_git_blob_sha1": "ad4e678edbc39a555c419b45f6d9a290bac700be",
+      "workload_class": "structured_reduction_transcendental",
+      "config": {
+        "tokens": 8,
+        "dim": 32,
+        "iterations": 256
+      },
+      "emission": {
+        "standalone_rows": 1,
+        "notes": ["micro_attention"]
+      },
+      "required_semantic_capabilities": [
+        "floating_point_multiply",
+        "floating_point_accumulate",
+        "max_reduction",
+        "expf_semantics",
+        "division_semantics",
+        "rounding_custody"
+      ],
+      "accepted_output_contract": {
+        "contract_id": "fambs-v0.4.0-default",
+        "rows": [
+          {
+            "notes": "micro_attention",
+            "iters": 256,
+            "result": "0000000000060f8d",
+            "result_kind": "f32_q1e4"
+          }
+        ]
+      },
+      "gaps": [
+        "RISC_V_TARGET_RESULT_PARITY_UNQUALIFIED",
+        "TARGET_LIBM_PARITY_UNQUALIFIED",
+        "PHYSICAL_ENERGY_UNMEASURED"
+      ]
+    },
+    {
+      "bench_id": "MRK",
+      "name": "Micro Retrieval Kernel",
+      "source_path": "src/mrk_micro_retrieval.c",
+      "source_git_blob_sha1": "a71403af6c43a99bd6386f2b0b06393e0bd4cbf2",
+      "workload_class": "structured_reduction_branchy_ranking",
+      "config": {
+        "db_size": 256,
+        "dim": 32,
+        "topk": 3,
+        "iterations": 256
+      },
+      "emission": {
+        "standalone_rows": 1,
+        "notes": ["micro_retrieval_topk"]
+      },
+      "required_semantic_capabilities": [
+        "floating_point_dot_product",
+        "comparison_path_custody",
+        "ranked_insert_mutation",
+        "loop_path_custody"
+      ],
+      "accepted_output_contract": {
+        "contract_id": "fambs-v0.4.0-default",
+        "rows": [
+          {
+            "notes": "micro_retrieval_topk",
+            "iters": 256,
+            "result": "94c54bd23e4e55b9",
+            "result_kind": "topk_index_fnv1a64"
+          }
+        ]
+      },
+      "gaps": [
+        "RISC_V_TARGET_RESULT_PARITY_UNQUALIFIED",
+        "PHYSICAL_ENERGY_UNMEASURED"
+      ]
+    },
+    {
+      "bench_id": "PCK",
+      "name": "Pointer Chase Kernel",
+      "source_path": "src/pck_pointer_chase.c",
+      "source_git_blob_sha1": "fc75ef688c0dd81c17d3f647d0328797a3378d76",
+      "workload_class": "memory_irregular_data_dependent_control",
+      "config": {
+        "depth": 128,
+        "iterations": 256
+      },
+      "emission": {
+        "standalone_rows": 1,
+        "notes": ["pointer_chase"]
+      },
+      "required_semantic_capabilities": [
+        "dynamic_address",
+        "indexed_load",
+        "parity_test",
+        "comparison_path_custody",
+        "modular_accumulate"
+      ],
+      "accepted_output_contract": {
+        "contract_id": "fambs-v0.4.0-default",
+        "rows": [
+          {
+            "notes": "pointer_chase",
+            "iters": 256,
+            "result": "0000000006de4698",
+            "result_kind": "i32_sum_bits"
+          }
+        ]
+      },
+      "gaps": [
+        "RISC_V_TARGET_RESULT_PARITY_UNQUALIFIED",
+        "PHYSICAL_ENERGY_UNMEASURED"
+      ]
+    },
+    {
+      "bench_id": "MBW",
+      "name": "Memory Bandwidth Kernel",
+      "source_path": "src/mbw_bandwidth.c",
+      "source_git_blob_sha1": "1628d4ff0207b0120d365ed714c7adcf0d5fd353",
+      "workload_class": "memory_stream_multi_mode",
+      "config": {
+        "size_bytes": 262144,
+        "iterations": 32
+      },
+      "emission": {
+        "standalone_rows": 3,
+        "notes": [
+          "sequential",
+          "random",
+          "strided_64B"
+        ]
+      },
+      "required_semantic_capabilities": [
+        "bulk_sequential_load",
+        "indexed_load",
+        "strided_load",
+        "mode_specific_result_custody"
+      ],
+      "accepted_output_contract": {
+        "contract_id": "fambs-v0.4.0-default",
+        "rows": [
+          {
+            "notes": "sequential",
+            "iters": 2097152,
+            "result": "00000000ff500000",
+            "result_kind": "u32_sum"
+          },
+          {
+            "notes": "random",
+            "iters": 2097152,
+            "result": "00000000ff500000",
+            "result_kind": "u32_sum"
+          },
+          {
+            "notes": "strided_64B",
+            "iters": 131072,
+            "result": "00000000fef60000",
+            "result_kind": "u32_sum"
+          }
+        ]
+      },
+      "gaps": [
+        "RISC_V_TARGET_RESULT_PARITY_UNQUALIFIED",
+        "PHYSICAL_ENERGY_UNMEASURED"
+      ]
+    },
+    {
+      "bench_id": "MAL",
+      "name": "Micro Autonomy Loop",
+      "source_path": "src/mal_micro_autonomy.c",
+      "source_git_blob_sha1": "eebd643c80f6f117f1af5d79fee4086c1a11232b",
+      "workload_class": "composite_multi_kernel",
+      "config": {
+        "iterations": 64,
+        "children": {
+          "SVK": {
+            "iterations": 100,
+            "vector_length": 1024,
+            "nnz": 64
+          },
+          "MGT": {
+            "iterations": 8,
+            "nodes": 256,
+            "edges": 1024
+          },
+          "MRK": {
+            "iterations": 16,
+            "db_size": 128,
+            "dim": 32,
+            "topk": 3
+          },
+          "MAK": {
+            "iterations": 8,
+            "tokens": 8,
+            "dim": 32
+          }
+        }
+      },
+      "emission": {
+        "standalone_rows": 1,
+        "notes": ["micro_autonomy_loop"]
+      },
+      "required_semantic_capabilities": [
+        "call_boundary",
+        "composite_result_custody",
+        "nested_observation_suppression",
+        "cross_kernel_state_custody"
+      ],
+      "accepted_output_contract": {
+        "contract_id": "fambs-v0.4.0-default",
+        "rows": [
+          {
+            "notes": "micro_autonomy_loop",
+            "iters": 64,
+            "result": "da291590ff6769a5",
+            "result_kind": "child_result_fnv1a64"
+          }
+        ]
+      },
+      "gaps": [
+        "RISC_V_TARGET_RESULT_PARITY_UNQUALIFIED",
+        "PHYSICAL_ENERGY_UNMEASURED"
+      ]
+    }
+  ],
+  "source_emission_model": {
+    "expected_total_rows": 9,
+    "expected_bench_counts": {
+      "SVK": 1,
+      "MGT": 1,
+      "MAK": 1,
+      "MRK": 1,
+      "PCK": 1,
+      "MBW": 3,
+      "MAL": 1
+    },
+    "nested_expansions": [],
+    "timed_region_contamination": []
+  },
+  "result_contract": {
+    "schema": "fambs.result/v1",
+    "suite_version": "0.4.0",
+    "contract_id": "fambs-v0.4.0-default",
+    "clock_policy": "one_nonempty_clock_kind_per_stream",
+    "rows": [
+      {
+        "bench": "SVK",
+        "notes": "sparse_vector_dot",
+        "iters": 1000,
+        "result": "000000004700158d",
+        "result_kind": "f32_bits"
+      },
+      {
+        "bench": "MGT",
+        "notes": "micro_graph_bfs",
+        "iters": 64,
+        "result": "0000000000008000",
+        "result_kind": "u32_sum"
+      },
+      {
+        "bench": "MAK",
+        "notes": "micro_attention",
+        "iters": 256,
+        "result": "0000000000060f8d",
+        "result_kind": "f32_q1e4"
+      },
+      {
+        "bench": "MRK",
+        "notes": "micro_retrieval_topk",
+        "iters": 256,
+        "result": "94c54bd23e4e55b9",
+        "result_kind": "topk_index_fnv1a64"
+      },
+      {
+        "bench": "PCK",
+        "notes": "pointer_chase",
+        "iters": 256,
+        "result": "0000000006de4698",
+        "result_kind": "i32_sum_bits"
+      },
+      {
+        "bench": "MBW",
+        "notes": "sequential",
+        "iters": 2097152,
+        "result": "00000000ff500000",
+        "result_kind": "u32_sum"
+      },
+      {
+        "bench": "MBW",
+        "notes": "random",
+        "iters": 2097152,
+        "result": "00000000ff500000",
+        "result_kind": "u32_sum"
+      },
+      {
+        "bench": "MBW",
+        "notes": "strided_64B",
+        "iters": 131072,
+        "result": "00000000fef60000",
+        "result_kind": "u32_sum"
+      },
+      {
+        "bench": "MAL",
+        "notes": "micro_autonomy_loop",
+        "iters": 64,
+        "result": "da291590ff6769a5",
+        "result_kind": "child_result_fnv1a64"
+      }
+    ]
+  },
+  "reference_results": {
+    "path": "docs/reference-results.md",
+    "git_blob_sha1": "27840db64db8d56ba100ba912c102576c8971cc6",
+    "timing_semantics": "not_measured",
+    "rows": [
+      {
+        "schema": "fambs.result/v1",
+        "suite_version": "0.4.0",
+        "contract_id": "fambs-v0.4.0-default",
+        "bench": "SVK",
+        "cycles": 0,
+        "iters": 1000,
+        "notes": "sparse_vector_dot",
+        "result": "000000004700158d",
+        "result_kind": "f32_bits",
+        "accepted": true
+      },
+      {
+        "schema": "fambs.result/v1",
+        "suite_version": "0.4.0",
+        "contract_id": "fambs-v0.4.0-default",
+        "bench": "MGT",
+        "cycles": 0,
+        "iters": 64,
+        "notes": "micro_graph_bfs",
+        "result": "0000000000008000",
+        "result_kind": "u32_sum",
+        "accepted": true
+      },
+      {
+        "schema": "fambs.result/v1",
+        "suite_version": "0.4.0",
+        "contract_id": "fambs-v0.4.0-default",
+        "bench": "MAK",
+        "cycles": 0,
+        "iters": 256,
+        "notes": "micro_attention",
+        "result": "0000000000060f8d",
+        "result_kind": "f32_q1e4",
+        "accepted": true
+      },
+      {
+        "schema": "fambs.result/v1",
+        "suite_version": "0.4.0",
+        "contract_id": "fambs-v0.4.0-default",
+        "bench": "MRK",
+        "cycles": 0,
+        "iters": 256,
+        "notes": "micro_retrieval_topk",
+        "result": "94c54bd23e4e55b9",
+        "result_kind": "topk_index_fnv1a64",
+        "accepted": true
+      },
+      {
+        "schema": "fambs.result/v1",
+        "suite_version": "0.4.0",
+        "contract_id": "fambs-v0.4.0-default",
+        "bench": "PCK",
+        "cycles": 0,
+        "iters": 256,
+        "notes": "pointer_chase",
+        "result": "0000000006de4698",
+        "result_kind": "i32_sum_bits",
+        "accepted": true
+      },
+      {
+        "schema": "fambs.result/v1",
+        "suite_version": "0.4.0",
+        "contract_id": "fambs-v0.4.0-default",
+        "bench": "MBW",
+        "cycles": 0,
+        "iters": 2097152,
+        "notes": "sequential",
+        "result": "00000000ff500000",
+        "result_kind": "u32_sum",
+        "accepted": true
+      },
+      {
+        "schema": "fambs.result/v1",
+        "suite_version": "0.4.0",
+        "contract_id": "fambs-v0.4.0-default",
+        "bench": "MBW",
+        "cycles": 0,
+        "iters": 2097152,
+        "notes": "random",
+        "result": "00000000ff500000",
+        "result_kind": "u32_sum",
+        "accepted": true
+      },
+      {
+        "schema": "fambs.result/v1",
+        "suite_version": "0.4.0",
+        "contract_id": "fambs-v0.4.0-default",
+        "bench": "MBW",
+        "cycles": 0,
+        "iters": 131072,
+        "notes": "strided_64B",
+        "result": "00000000fef60000",
+        "result_kind": "u32_sum",
+        "accepted": true
+      },
+      {
+        "schema": "fambs.result/v1",
+        "suite_version": "0.4.0",
+        "contract_id": "fambs-v0.4.0-default",
+        "bench": "MAL",
+        "cycles": 0,
+        "iters": 64,
+        "notes": "micro_autonomy_loop",
+        "result": "da291590ff6769a5",
+        "result_kind": "child_result_fnv1a64",
+        "accepted": true
+      }
+    ]
+  }
+}

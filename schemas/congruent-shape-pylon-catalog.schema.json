@@ -1,0 +1,193 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z0-9][a-z0-9-]+$",
+      "type": "string"
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/congruent-shape-pylon-catalog.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {
+      "const": "congruent_shape_pylon_catalog"
+    },
+    "as_of": {
+      "format": "date",
+      "type": "string"
+    },
+    "doctrine": {
+      "additionalProperties": false,
+      "properties": {
+        "admission_rule": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "control_question": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "shape_definition": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "statement": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "statement",
+        "shape_definition",
+        "admission_rule",
+        "control_question"
+      ],
+      "type": "object"
+    },
+    "minimum_domain_pylons_per_record": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "minimum_foundation_pylons_per_record": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "pylons": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "authority_location": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "category_ids": {
+            "items": {
+              "pattern": "^[a-z0-9_]+$",
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "design_consequences": {
+            "$ref": "#/$defs/strings"
+          },
+          "design_plane": {
+            "pattern": "^[a-z0-9_]+$",
+            "type": "string"
+          },
+          "failure_modes": {
+            "$ref": "#/$defs/strings"
+          },
+          "forbidden_collapse": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "invariant": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "matched_gap_ids": {
+            "items": {
+              "pattern": "^[a-z0-9_]+$",
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "minimum_gap_matches": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "proof_transaction": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "pylon_class": {
+            "enum": [
+              "foundation",
+              "domain"
+            ]
+          },
+          "pylon_id": {
+            "$ref": "#/$defs/id"
+          },
+          "required_surfaces": {
+            "$ref": "#/$defs/strings"
+          },
+          "scale_domains": {
+            "$ref": "#/$defs/strings"
+          },
+          "shape_notation": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "upstream_pylon_ids": {
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "witness_record_ids": {
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "minItems": 2,
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "pylon_id",
+          "name",
+          "pylon_class",
+          "design_plane",
+          "shape_notation",
+          "invariant",
+          "authority_location",
+          "forbidden_collapse",
+          "matched_gap_ids",
+          "category_ids",
+          "minimum_gap_matches",
+          "scale_domains",
+          "required_surfaces",
+          "failure_modes",
+          "design_consequences",
+          "proof_transaction",
+          "witness_record_ids",
+          "upstream_pylon_ids"
+        ],
+        "type": "object"
+      },
+      "minItems": 6,
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "ahead.congruent-shape-pylon-catalog/v0.1"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "as_of",
+    "doctrine",
+    "minimum_foundation_pylons_per_record",
+    "minimum_domain_pylons_per_record",
+    "pylons"
+  ],
+  "title": "ahead-rev-sim congruent-shape pylon catalog",
+  "type": "object"
+}

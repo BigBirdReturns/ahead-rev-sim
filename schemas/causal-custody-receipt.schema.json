@@ -1,0 +1,493 @@
+{
+  "$defs": {
+    "evidence": {
+      "enum": [
+        "reference_model",
+        "simulated",
+        "measured"
+      ]
+    },
+    "nonnegative": {
+      "minimum": 0,
+      "type": "number"
+    },
+    "sha": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "shaOrNull": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/sha"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/causal-custody-receipt.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {
+      "const": "causal_custody_receipt"
+    },
+    "causal_edges": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "edge_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "from_event_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minimum_separation_ns": {
+            "type": "number"
+          },
+          "relation": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "resolved": {
+            "type": "boolean"
+          },
+          "to_event_id": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "edge_id",
+          "from_event_id",
+          "to_event_id",
+          "relation",
+          "resolved",
+          "minimum_separation_ns"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "clocks": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "calibration_sha256": {
+            "$ref": "#/$defs/shaOrNull"
+          },
+          "clock_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "clock_kind": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "environment_sha256": {
+            "$ref": "#/$defs/shaOrNull"
+          },
+          "evidence_class": {
+            "$ref": "#/$defs/evidence"
+          },
+          "instrument_ref": {
+            "oneOf": [
+              {
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapping": {
+            "additionalProperties": false,
+            "properties": {
+              "offset_ns": {
+                "type": "integer"
+              },
+              "rate_ppb": {
+                "type": "number"
+              },
+              "uncertainty_ns": {
+                "$ref": "#/$defs/nonnegative"
+              }
+            },
+            "required": [
+              "offset_ns",
+              "rate_ppb",
+              "uncertainty_ns"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "clock_id",
+          "clock_kind",
+          "evidence_class",
+          "instrument_ref",
+          "calibration_sha256",
+          "environment_sha256",
+          "mapping"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "determinism": {
+      "additionalProperties": false,
+      "properties": {
+        "determinism_class": {
+          "enum": [
+            "exact",
+            "replay_with_trace",
+            "distributional"
+          ]
+        },
+        "entropy_trace_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "stochastic_path_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        }
+      },
+      "required": [
+        "determinism_class",
+        "entropy_trace_sha256",
+        "stochastic_path_sha256"
+      ],
+      "type": "object"
+    },
+    "events": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "artifact_sha256": {
+            "$ref": "#/$defs/shaOrNull"
+          },
+          "clock_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "event_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "event_kind": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "global_timestamp_ns": {
+            "type": "integer"
+          },
+          "local_timestamp_ns": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "lower_bound_ns": {
+            "type": "number"
+          },
+          "sequence": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "source_role": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "upper_bound_ns": {
+            "type": "number"
+          },
+          "value_sha256": {
+            "$ref": "#/$defs/shaOrNull"
+          }
+        },
+        "required": [
+          "event_id",
+          "event_kind",
+          "source_role",
+          "clock_id",
+          "local_timestamp_ns",
+          "sequence",
+          "artifact_sha256",
+          "value_sha256",
+          "global_timestamp_ns",
+          "lower_bound_ns",
+          "upper_bound_ns"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "interval": {
+      "additionalProperties": false,
+      "properties": {
+        "duration_seconds": {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        "end_ns": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "reference_clock_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "start_ns": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "reference_clock_id",
+        "start_ns",
+        "end_ns",
+        "duration_seconds"
+      ],
+      "type": "object"
+    },
+    "qualification": {
+      "additionalProperties": false,
+      "properties": {
+        "blockers": {
+          "$ref": "#/$defs/strings"
+        },
+        "complete_system_advantage_claim_allowed": {
+          "const": false
+        },
+        "measured_causal_custody_allowed": {
+          "type": "boolean"
+        },
+        "physical_compute_claim_allowed": {
+          "const": false
+        },
+        "reference_causal_custody_allowed": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "refused",
+            "reference_causal_custody",
+            "measured_causal_custody"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "reference_causal_custody_allowed",
+        "measured_causal_custody_allowed",
+        "physical_compute_claim_allowed",
+        "complete_system_advantage_claim_allowed",
+        "blockers"
+      ],
+      "type": "object"
+    },
+    "receipt_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "required_event_kinds": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/strings"
+        },
+        {
+          "minItems": 1
+        }
+      ]
+    },
+    "schema_version": {
+      "const": "ahead.causal-custody-receipt/v0.1"
+    },
+    "summary": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted_output_matches": {
+          "type": "boolean"
+        },
+        "calibration_precedes_work": {
+          "type": "boolean"
+        },
+        "causal_edge_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "clock_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "duplicate_singleton_event_kinds": {
+          "$ref": "#/$defs/strings"
+        },
+        "environment_precedes_work": {
+          "type": "boolean"
+        },
+        "event_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "event_kind_counts": {
+          "additionalProperties": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "type": "object"
+        },
+        "maximum_clock_uncertainty_ns": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "missing_event_kinds": {
+          "$ref": "#/$defs/strings"
+        },
+        "power_covers_work_interval": {
+          "type": "boolean"
+        },
+        "resolved_causal_edge_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "source_role_counts": {
+          "additionalProperties": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "type": "object"
+        },
+        "unresolved_causal_edge_ids": {
+          "$ref": "#/$defs/strings"
+        }
+      },
+      "required": [
+        "clock_count",
+        "event_count",
+        "causal_edge_count",
+        "resolved_causal_edge_count",
+        "unresolved_causal_edge_ids",
+        "event_kind_counts",
+        "source_role_counts",
+        "missing_event_kinds",
+        "duplicate_singleton_event_kinds",
+        "maximum_clock_uncertainty_ns",
+        "power_covers_work_interval",
+        "calibration_precedes_work",
+        "environment_precedes_work",
+        "accepted_output_matches"
+      ],
+      "type": "object"
+    },
+    "trace_manifests": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "environment_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "execution_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "power_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "telemetry_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "thermal_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        }
+      },
+      "required": [
+        "execution_sha256",
+        "telemetry_sha256",
+        "power_sha256",
+        "thermal_sha256",
+        "environment_sha256",
+        "calibration_sha256"
+      ],
+      "type": "object"
+    },
+    "workload": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {
+          "type": "boolean"
+        },
+        "accepted_output_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "accepted_work_unit": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "accepted_work_units": {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        "artifact_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "contract_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "quality_rule": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "contract_id",
+        "artifact_sha256",
+        "accepted_output_sha256",
+        "accepted_work_unit",
+        "accepted_work_units",
+        "quality_rule",
+        "accepted"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "workload",
+    "determinism",
+    "interval",
+    "clocks",
+    "required_event_kinds",
+    "events",
+    "causal_edges",
+    "trace_manifests",
+    "summary",
+    "qualification",
+    "claim_boundary",
+    "control_question",
+    "receipt_sha256"
+  ],
+  "title": "ahead-rev-sim causal-custody receipt",
+  "type": "object"
+}

@@ -1,0 +1,324 @@
+{
+  "$defs": {
+    "asset": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_kind": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "ingest_modes": {
+          "items": {
+            "enum": [
+              "monitor",
+              "benchmark",
+              "adapt",
+              "host",
+              "cartridge",
+              "vendor",
+              "ingest",
+              "qualify",
+              "fabricate",
+              "fallback"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "license": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "locator": {
+          "$ref": "#/$defs/url"
+        }
+      },
+      "required": [
+        "asset_kind",
+        "locator",
+        "license",
+        "ingest_modes"
+      ],
+      "type": "object"
+    },
+    "doctrine": {
+      "additionalProperties": false,
+      "properties": {
+        "admission_rule": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "control_question": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "dependency_mode": {
+          "const": "commodity_only"
+        },
+        "promotion_rule": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "statement": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "dependency_mode",
+        "statement",
+        "admission_rule",
+        "promotion_rule",
+        "control_question"
+      ],
+      "type": "object"
+    },
+    "front": {
+      "additionalProperties": false,
+      "properties": {
+        "front_id": {
+          "enum": [
+            "scale_seam",
+            "remote_venue",
+            "causal_custody"
+          ]
+        },
+        "mission": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "primary_pylon_ids": {
+          "$ref": "#/$defs/ids"
+        },
+        "promotion_receipts": {
+          "$ref": "#/$defs/strings"
+        }
+      },
+      "required": [
+        "front_id",
+        "mission",
+        "primary_pylon_ids",
+        "promotion_receipts"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[a-z0-9][a-z0-9-]+$",
+      "type": "string"
+    },
+    "ids": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "record": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "commodity_assets": {
+          "items": {
+            "$ref": "#/$defs/asset"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "completion_questions": {
+          "$ref": "#/$defs/strings"
+        },
+        "dependency_mode": {
+          "const": "commodity_only"
+        },
+        "first_transaction": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "front": {
+          "enum": [
+            "scale_seam",
+            "remote_venue",
+            "causal_custody"
+          ]
+        },
+        "gap_ids": {
+          "items": {
+            "pattern": "^[a-z0-9_]+$",
+            "type": "string"
+          },
+          "minItems": 2,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "official_sources": {
+          "items": {
+            "$ref": "#/$defs/source"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "priority": {
+          "maximum": 5,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "project": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "promotion_blockers": {
+          "items": {
+            "$ref": "#/$defs/token"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "promotion_state": {
+          "enum": [
+            "candidate",
+            "intake_ready",
+            "promoted"
+          ]
+        },
+        "public_stage": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "pylon_ids": {
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 2,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "required_receipts": {
+          "$ref": "#/$defs/strings"
+        }
+      },
+      "required": [
+        "id",
+        "actor",
+        "project",
+        "front",
+        "public_stage",
+        "official_sources",
+        "commodity_assets",
+        "pylon_ids",
+        "gap_ids",
+        "first_transaction",
+        "required_receipts",
+        "promotion_state",
+        "promotion_blockers",
+        "dependency_mode",
+        "completion_questions",
+        "priority"
+      ],
+      "type": "object"
+    },
+    "source": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "public_completion_signal": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "title": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "url": {
+          "$ref": "#/$defs/url"
+        }
+      },
+      "required": [
+        "kind",
+        "url",
+        "title",
+        "public_completion_signal"
+      ],
+      "type": "object"
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "token": {
+      "pattern": "^[A-Z0-9_]+$",
+      "type": "string"
+    },
+    "url": {
+      "pattern": "^https://",
+      "type": "string"
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/pylon-fanout-wave.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {
+      "const": "pylon_fanout_wave"
+    },
+    "as_of": {
+      "format": "date",
+      "type": "string"
+    },
+    "doctrine": {
+      "$ref": "#/$defs/doctrine"
+    },
+    "fronts": {
+      "items": {
+        "$ref": "#/$defs/front"
+      },
+      "minItems": 3,
+      "type": "array"
+    },
+    "record_count": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "records": {
+      "items": {
+        "$ref": "#/$defs/record"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "ahead.pylon-fanout-wave/v0.1"
+    },
+    "wave_id": {
+      "pattern": "^[a-z0-9][a-z0-9-]+$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "wave_id",
+    "as_of",
+    "doctrine",
+    "fronts",
+    "record_count",
+    "records"
+  ],
+  "title": "ahead-rev-sim pylon fan-out wave",
+  "type": "object"
+}

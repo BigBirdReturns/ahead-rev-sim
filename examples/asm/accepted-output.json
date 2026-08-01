@@ -1,0 +1,6 @@
+{
+  "contract_id": "mixed-frontier-v0",
+  "result": "program reaches HALT with r4 equal to memory[64]",
+  "quality_rule": "exact 32-bit equality",
+  "accepted_work_unit": "one completed deterministic program"
+}

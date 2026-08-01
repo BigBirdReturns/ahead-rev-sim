@@ -1,0 +1,187 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "Tampere University OpenASIP community",
+      "category": "soc_integration",
+      "commodity_assets": [
+        {
+          "asset_kind": "retargetable_compiler",
+          "ingest_modes": [
+            "vendor"
+          ],
+          "license": "GPL-and-component-specific",
+          "locator": "https://github.com/cpc/openasip"
+        },
+        {
+          "asset_kind": "function_unit_generator",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "open_source",
+          "locator": "https://openasip.org/"
+        },
+        {
+          "asset_kind": "riscv_custom_instruction_flow",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "open_source",
+          "locator": "https://openasip.org/release_2_0.html"
+        }
+      ],
+      "completion_questions": [
+        "Which custom instruction reduces measured system overhead enough to justify a non-standard toolchain?",
+        "How does generated RTL retain reset, entropy, calibration, and evidence semantics?"
+      ],
+      "id": "openasip",
+      "ingestion_policy": {
+        "actions": [
+          "derive Xphys candidates from measured MMIO bottlenecks",
+          "generate reversible and physical operator function units",
+          "preserve standard fallback and semantic receipts"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Lower one proven reversible primitive and one cartridge queue operation through OpenASIP, then compare against MMIO.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "home",
+          "public_completion_signal": "Provides a complete retargetable flow from high-level programs to RTL and binaries, including RISC-V instruction-set co-design.",
+          "title": "OpenASIP",
+          "url": "https://openasip.org/"
+        },
+        {
+          "kind": "riscv_release",
+          "public_completion_signal": "Documents custom instructions, LLVM lowering, and function-unit generation.",
+          "title": "OpenASIP RISC-V co-design",
+          "url": "https://openasip.org/release_2_0.html"
+        }
+      ],
+      "project": "OpenASIP retargetable accelerator and RISC-V instruction co-design",
+      "public_stage": "open_source_release_2_2",
+      "system_gaps": [
+        "compiler_lowering",
+        "host_interface",
+        "fabrication_signoff",
+        "model_hardware_fidelity",
+        "workload_identity",
+        "accepted_result"
+      ]
+    },
+    {
+      "actor": "Semiconductor Research Corporation and DARPA JUMP 2.0",
+      "category": "research_program",
+      "commodity_assets": [
+        {
+          "asset_kind": "heterogeneous_integration_research",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "mixed_research_outputs",
+          "locator": "https://www.src.org/program/jump2/chimes/"
+        },
+        {
+          "asset_kind": "thermal_reliability_measurements",
+          "ingest_modes": [
+            "monitor"
+          ],
+          "license": "mixed_research_outputs",
+          "locator": "https://www.src.org/program/jump2/chimes/"
+        }
+      ],
+      "completion_questions": [
+        "Which package interface permits the physical cartridge to be replaced without reauthoring the workload?",
+        "What interconnect, cooling, reliability, and occupied-volume costs erase primitive-level gains?"
+      ],
+      "id": "src-chimes",
+      "ingestion_policy": {
+        "actions": [
+          "map cartridge geometry and interfaces into heterogeneous packages",
+          "ingest thermal reliability and interconnect models",
+          "compare package alternatives in EVP receipts"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Add package, interconnect, and thermal fields to physical-cartridge handoff without binding to one integration stack.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "program",
+          "public_completion_signal": "Uses system metrics to drive technology and requires portability and scalability across applications and platforms.",
+          "title": "CHIMES",
+          "url": "https://www.src.org/program/jump2/chimes/"
+        }
+      ],
+      "project": "CHIMES heterogeneous integration",
+      "public_stage": "active_heterogeneous_integration_research",
+      "system_gaps": [
+        "scaling_interconnect",
+        "timing_thermal_volume",
+        "fabrication_signoff",
+        "calibration_environment",
+        "full_system_energy",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "Semiconductor Research Corporation and DARPA JUMP 2.0",
+      "category": "research_program",
+      "commodity_assets": [
+        {
+          "asset_kind": "near_data_architecture_research",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "mixed_research_outputs",
+          "locator": "https://www.src.org/program/jump2/prism/"
+        },
+        {
+          "asset_kind": "future_benchmarks",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "mixed_research_outputs",
+          "locator": "https://www.src.org/program/jump2/prism/"
+        }
+      ],
+      "completion_questions": [
+        "Where do state history, ancilla, entropy traces, and accepted outputs live across CXL and computational memory?",
+        "What end-to-end benchmark separates useful near-data work from avoided movement claims?"
+      ],
+      "id": "src-prism",
+      "ingestion_policy": {
+        "actions": [
+          "ingest public near-data interfaces and benchmarks",
+          "map history and ancilla pressure into memory placement",
+          "treat CXL and computational memory as replaceable transport commodities"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Add a data-movement pressure adapter linking reversibility frontier state to PRISM memory and near-data locations.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "program",
+          "public_completion_signal": "Seeks adaptive hardware and software prisms, near-data processing, CXL integration, and new benchmarks.",
+          "title": "PRISM",
+          "url": "https://www.src.org/program/jump2/prism/"
+        }
+      ],
+      "project": "PRISM intelligent storage and memory",
+      "public_stage": "active_cross_layer_research",
+      "system_gaps": [
+        "data_movement",
+        "host_interface",
+        "workload_identity",
+        "accepted_result",
+        "timing_thermal_volume",
+        "full_system_energy",
+        "independent_validation"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "systems_b"
+}

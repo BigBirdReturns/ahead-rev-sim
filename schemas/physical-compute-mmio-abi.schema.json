@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/physical-compute-mmio-abi.schema.json",
+  "title": "ahead-rev-sim physical compute MMIO ABI",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "portable_binding",
+    "optional_riscv_extension",
+    "byte_order",
+    "word_bytes",
+    "aperture_bytes",
+    "registers",
+    "command_bits",
+    "status_bits",
+    "capability_bits",
+    "command_pointer_requirements",
+    "invariants",
+    "claim_boundary",
+    "abi_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ahead.physical-compute-mmio-abi/v0.1"
+    },
+    "artifact_type": {
+      "const": "physical_compute_mmio_abi"
+    },
+    "portable_binding": {
+      "const": "physical-compute-mmio/v1"
+    },
+    "optional_riscv_extension": {
+      "const": "Xphys"
+    },
+    "byte_order": {
+      "const": "little"
+    },
+    "word_bytes": {
+      "const": 4
+    },
+    "aperture_bytes": {
+      "type": "integer",
+      "minimum": 52
+    },
+    "registers": {
+      "type": "array",
+      "minItems": 13,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "offset",
+          "offset_hex",
+          "width_bits",
+          "access",
+          "reset",
+          "semantics"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]+$"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "offset_hex": {
+            "type": "string",
+            "pattern": "^0x[0-9A-F]{2,3}$"
+          },
+          "width_bits": {
+            "const": 32
+          },
+          "access": {
+            "enum": [
+              "ro",
+              "rw",
+              "wo"
+            ]
+          },
+          "reset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "semantics": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "command_bits": {
+      "$ref": "#/$defs/bit_map"
+    },
+    "status_bits": {
+      "$ref": "#/$defs/bit_map"
+    },
+    "capability_bits": {
+      "$ref": "#/$defs/bit_map"
+    },
+    "command_pointer_requirements": {
+      "type": "object",
+      "minProperties": 5,
+      "additionalProperties": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": {
+          "enum": [
+            "descriptor_ptr",
+            "input_queue_ptr",
+            "output_queue_ptr",
+            "receipt_ptr"
+          ]
+        }
+      }
+    },
+    "invariants": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "claim_boundary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "abi_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "$defs": {
+    "bit_map": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 31
+      }
+    }
+  }
+}

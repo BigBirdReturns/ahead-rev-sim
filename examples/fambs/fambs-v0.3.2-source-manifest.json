@@ -1,0 +1,367 @@
+{
+  "schema_version": "ahead.fambs-source-manifest/v0.1",
+  "source": {
+    "repository": "BigBirdReturns/future-ai-microbench-suite",
+    "commit": "a57c72d46c601fa253b8bc1acda5c37b31f8264e",
+    "suite": "Future AI Microbench Suite",
+    "version": "0.3.2",
+    "config_path": "config/bench_config.json",
+    "config_git_blob_sha1": "830111dcb4b7f813b696cdd48b63fa7523b84609",
+    "harness_path": "src/harness.c",
+    "harness_git_blob_sha1": "71025dfb63ef51c5315e91b62d7b3ca8c7403e0d",
+    "common_header_path": "include/bench_common.h",
+    "common_header_git_blob_sha1": "881be8118118cd9f4a2f7ede600bf050f92f0d47"
+  },
+  "expected_workload_ids": [
+    "SVK",
+    "MGT",
+    "MAK",
+    "MRK",
+    "PCK",
+    "MBW",
+    "MAL"
+  ],
+  "config": {
+    "suite": "Future AI Microbench Suite",
+    "version": "0.3.2",
+    "SVK": {
+      "enabled": true,
+      "vector_length": 2048,
+      "nnz": 128,
+      "iterations": 1000
+    },
+    "MGT": {
+      "enabled": true,
+      "nodes": 512,
+      "edges": 2048,
+      "iterations": 64
+    },
+    "MAK": {
+      "enabled": true,
+      "tokens": 8,
+      "dim": 32,
+      "iterations": 256
+    },
+    "MRK": {
+      "enabled": true,
+      "db_size": 256,
+      "dim": 32,
+      "topk": 3,
+      "iterations": 256
+    },
+    "PCK": {
+      "enabled": true,
+      "depth": 128,
+      "iterations": 256
+    },
+    "MBW": {
+      "enabled": true,
+      "size_bytes": 262144,
+      "iterations": 32
+    },
+    "MAL": {
+      "enabled": true,
+      "iterations": 64
+    }
+  },
+  "workloads": [
+    {
+      "bench_id": "SVK",
+      "name": "Sparse Vector Kernel",
+      "source_path": "src/svk_sparse_vec.c",
+      "source_git_blob_sha1": "69470856de1c03789698a1600d02e1189950b9c1",
+      "workload_class": "structured_arithmetic_with_indexed_memory",
+      "config": {
+        "vector_length": 2048,
+        "nnz": 128,
+        "iterations": 1000
+      },
+      "emission": {
+        "standalone_rows": 1,
+        "notes": ["sparse_vector_dot"]
+      },
+      "required_semantic_capabilities": [
+        "indexed_load",
+        "floating_point_multiply",
+        "floating_point_accumulate",
+        "loop_path_custody"
+      ],
+      "accepted_output_contract": null,
+      "gaps": [
+        "OUTPUT_DIGEST_ABSENT",
+        "SELF_CHECK_PLACEHOLDER"
+      ]
+    },
+    {
+      "bench_id": "MGT",
+      "name": "Micro Graph Traversal",
+      "source_path": "src/mgt_micro_graph.c",
+      "source_git_blob_sha1": "abfbcef9111e55815ac94e66d4650a5645db8409",
+      "workload_class": "memory_irregular_control",
+      "config": {
+        "nodes": 512,
+        "edges": 2048,
+        "iterations": 64
+      },
+      "emission": {
+        "standalone_rows": 1,
+        "notes": ["micro_graph_bfs"]
+      },
+      "required_semantic_capabilities": [
+        "indexed_load",
+        "indexed_store",
+        "queue_mutation",
+        "comparison_path_custody",
+        "data_dependent_loop"
+      ],
+      "accepted_output_contract": null,
+      "gaps": [
+        "OUTPUT_DIGEST_ABSENT",
+        "SELF_CHECK_PLACEHOLDER"
+      ]
+    },
+    {
+      "bench_id": "MAK",
+      "name": "Micro Attention Kernel",
+      "source_path": "src/mak_micro_attention.c",
+      "source_git_blob_sha1": "9ac7db5880996d5aa4415d20d88fca8c36e03dae",
+      "workload_class": "structured_reduction_transcendental",
+      "config": {
+        "tokens": 8,
+        "dim": 32,
+        "iterations": 256
+      },
+      "emission": {
+        "standalone_rows": 1,
+        "notes": ["micro_attention"]
+      },
+      "required_semantic_capabilities": [
+        "floating_point_multiply",
+        "floating_point_accumulate",
+        "max_reduction",
+        "expf_semantics",
+        "division_semantics",
+        "rounding_custody"
+      ],
+      "accepted_output_contract": null,
+      "gaps": [
+        "OUTPUT_DIGEST_ABSENT",
+        "SELF_CHECK_PLACEHOLDER",
+        "NUMERIC_TOLERANCE_UNBOUND"
+      ]
+    },
+    {
+      "bench_id": "MRK",
+      "name": "Micro Retrieval Kernel",
+      "source_path": "src/mrk_micro_retrieval.c",
+      "source_git_blob_sha1": "9124d965104271e8f8c5538b2f601f068a3686e7",
+      "workload_class": "structured_reduction_branchy_ranking",
+      "config": {
+        "db_size": 256,
+        "dim": 32,
+        "topk": 3,
+        "iterations": 256
+      },
+      "emission": {
+        "standalone_rows": 1,
+        "notes": ["micro_retrieval_topk"]
+      },
+      "required_semantic_capabilities": [
+        "floating_point_dot_product",
+        "comparison_path_custody",
+        "ranked_insert_mutation",
+        "loop_path_custody"
+      ],
+      "accepted_output_contract": null,
+      "gaps": [
+        "OUTPUT_DIGEST_ABSENT",
+        "SELF_CHECK_PLACEHOLDER",
+        "TIE_BREAK_RULE_UNBOUND"
+      ]
+    },
+    {
+      "bench_id": "PCK",
+      "name": "Pointer Chase Kernel",
+      "source_path": "src/pck_pointer_chase.c",
+      "source_git_blob_sha1": "4a0b50d9ce87fb6c301f9b0a43848919a25e1975",
+      "workload_class": "memory_irregular_data_dependent_control",
+      "config": {
+        "depth": 128,
+        "iterations": 256
+      },
+      "emission": {
+        "standalone_rows": 1,
+        "notes": ["pointer_chase"]
+      },
+      "required_semantic_capabilities": [
+        "dynamic_address",
+        "indexed_load",
+        "parity_test",
+        "comparison_path_custody",
+        "modular_accumulate"
+      ],
+      "accepted_output_contract": null,
+      "gaps": [
+        "OUTPUT_DIGEST_ABSENT",
+        "SELF_CHECK_PLACEHOLDER"
+      ]
+    },
+    {
+      "bench_id": "MBW",
+      "name": "Memory Bandwidth Kernel",
+      "source_path": "src/mbw_bandwidth.c",
+      "source_git_blob_sha1": "48ae21c7739d65f5e0dda2cada9f792c8913793f",
+      "workload_class": "memory_stream_multi_mode",
+      "config": {
+        "size_bytes": 262144,
+        "iterations": 32
+      },
+      "emission": {
+        "standalone_rows": 3,
+        "notes": [
+          "sequential",
+          "random",
+          "strided_64B"
+        ]
+      },
+      "required_semantic_capabilities": [
+        "bulk_sequential_load",
+        "indexed_load",
+        "strided_load",
+        "mode_specific_result_custody"
+      ],
+      "accepted_output_contract": null,
+      "gaps": [
+        "OUTPUT_DIGEST_ABSENT",
+        "SELF_CHECK_PLACEHOLDER",
+        "THREE_RESULT_ROWS_PER_INVOCATION",
+        "REFERENCE_NOTES_DO_NOT_MATCH_SOURCE"
+      ]
+    },
+    {
+      "bench_id": "MAL",
+      "name": "Micro Autonomy Loop",
+      "source_path": "src/mal_micro_autonomy.c",
+      "source_git_blob_sha1": "d90e5c7f13e56599a0986545070d3a6587fd9148",
+      "workload_class": "composite_multi_kernel",
+      "config": {
+        "iterations": 64,
+        "children": {
+          "SVK": {
+            "iterations": 100,
+            "vector_length": 1024,
+            "nnz": 64
+          },
+          "MGT": {
+            "iterations": 8,
+            "nodes": 256,
+            "edges": 1024
+          },
+          "MRK": {
+            "iterations": 16,
+            "db_size": 128,
+            "dim": 32,
+            "topk": 3
+          },
+          "MAK": {
+            "iterations": 8,
+            "tokens": 8,
+            "dim": 32
+          }
+        }
+      },
+      "emission": {
+        "standalone_rows": 1,
+        "notes": ["micro_autonomy_loop"]
+      },
+      "required_semantic_capabilities": [
+        "call_boundary",
+        "composite_result_custody",
+        "nested_observation_suppression",
+        "cross_kernel_state_custody"
+      ],
+      "accepted_output_contract": null,
+      "gaps": [
+        "OUTPUT_DIGEST_ABSENT",
+        "SELF_CHECK_PLACEHOLDER",
+        "NESTED_BENCHMARK_RESULTS_EMITTED",
+        "TIMED_REGION_INCLUDES_CHILD_REPORTING"
+      ]
+    }
+  ],
+  "source_emission_model": {
+    "expected_total_rows": 265,
+    "expected_bench_counts": {
+      "SVK": 65,
+      "MGT": 65,
+      "MAK": 65,
+      "MRK": 65,
+      "PCK": 1,
+      "MBW": 3,
+      "MAL": 1
+    },
+    "nested_expansions": [
+      {
+        "parent": "MAL",
+        "iterations": 64,
+        "children": {
+          "SVK": 1,
+          "MGT": 1,
+          "MRK": 1,
+          "MAK": 1
+        }
+      }
+    ],
+    "timed_region_contamination": [
+      "MAL_TIMED_REGION_INCLUDES_CHILD_COMPUTE_AND_REPORTING"
+    ]
+  },
+  "reference_results": {
+    "path": "docs/reference-results.md",
+    "git_blob_sha1": "da7afc1405f0a3d85c9cefee14e2f52efe79ed85",
+    "rows": [
+      {
+        "bench": "SVK",
+        "cycles": 842110,
+        "iters": 1000,
+        "notes": "sparse_vector_dot"
+      },
+      {
+        "bench": "MGT",
+        "cycles": 299331,
+        "iters": 64,
+        "notes": "micro_graph_bfs"
+      },
+      {
+        "bench": "MAK",
+        "cycles": 560912,
+        "iters": 256,
+        "notes": "micro_attention"
+      },
+      {
+        "bench": "MRK",
+        "cycles": 410556,
+        "iters": 256,
+        "notes": "micro_retrieval_topk"
+      },
+      {
+        "bench": "PCK",
+        "cycles": 215774,
+        "iters": 256,
+        "notes": "pointer_chase"
+      },
+      {
+        "bench": "MBW",
+        "cycles": 601233,
+        "iters": 32,
+        "notes": "bandwidth_mix"
+      },
+      {
+        "bench": "MAL",
+        "cycles": 1902212,
+        "iters": 64,
+        "notes": "micro_autonomy_loop"
+      }
+    ]
+  }
+}

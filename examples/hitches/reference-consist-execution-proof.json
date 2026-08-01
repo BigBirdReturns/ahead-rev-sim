@@ -1,0 +1,63 @@
+{
+  "abi_sha256": "f8a90e60f5b16d275df9ecabbc4fc9856a4551858583361ce9fd3cab3c75ae06",
+  "artifact_type": "physical_compute_consist_execution_proof",
+  "claim_boundary": "The proof binds one execution-admitted host and cartridge consist to the accepted RV64GC target-model trace. It proves that the ordinary MMIO transaction, admission, refusal, reset, pointer, fallback, and receipt semantics survive an independently compiled RISC-V client and software device model. It does not establish Chipyard RTL execution, a physical substrate transformation, recovered or harvested energy, timing, thermal closure, occupied volume, fabrication, or provider qualification.",
+  "consist": {
+    "cartridge_hitch_id": "ahead-rev-loopback-reference-cartridge-v0",
+    "cartridge_hitch_sha256": "44e51ea2b76c9dd966e48159cb4c74087a80bd05b7340214e1e040ca849efcc9",
+    "consist_sha256": "156f63aa119540472c2aeb6f0a2d28e11dc4eaecad344a728d9291a60cb620f3",
+    "host_hitch_id": "ahead-rev-rv64gc-reference-host-v0",
+    "host_hitch_sha256": "f6e0744418c71a6de827adfae585c4ba2ad144f9c14118ff97edaf6db08b0da0"
+  },
+  "evidence_bindings": {
+    "cartridge_accepted_output_receipt_sha256": "f0c12ea525dd236a3ee841e2a28ccc3fb50ac5d8656abcef3118b5559543a651",
+    "cartridge_reset_state_receipt_sha256": "f0c12ea525dd236a3ee841e2a28ccc3fb50ac5d8656abcef3118b5559543a651",
+    "host_accepted_target_trace_sha256": "5473031b2eb61989113b77ec20a6ee76da323040d7019db4421a2a1f7a3b1eee",
+    "host_reset_refusal_receipt_sha256": "f0c12ea525dd236a3ee841e2a28ccc3fb50ac5d8656abcef3118b5559543a651"
+  },
+  "observations": {
+    "checks": {
+      "ambiguous_command_refused": true,
+      "identity": true,
+      "load_completed": true,
+      "portable_binding": true,
+      "reset_completed": true,
+      "result_pass": true,
+      "software_fallback_capability": true,
+      "target_isa": true
+    },
+    "line_count": 6
+  },
+  "portable_binding": "physical-compute-mmio/v1",
+  "proof_sha256": "41dd5042d1380b25e7bb68f380c6cff61671832acfaa2b96b7f807d8520d40eb",
+  "qualification": {
+    "accepted": true,
+    "blockers": [
+      "HOST_PHYSICAL_REALIZATION_ABSENT",
+      "CARTRIDGE_PHYSICAL_REALIZATION_ABSENT",
+      "CHIPYARD_ELABORATION_UNRUN",
+      "CHIPYARD_RTL_SIMULATION_UNRUN",
+      "PHYSICAL_SUBSTRATE_UNMEASURED",
+      "PHYSICAL_ENERGY_UNMEASURED",
+      "TIMING_THERMAL_VOLUME_UNMEASURED"
+    ],
+    "execution_admitted": true,
+    "interface_compatible": true,
+    "physical_compute_claim_allowed": false,
+    "physical_energy_claim_allowed": false,
+    "status": "reference_consist_execution_proved"
+  },
+  "schema_version": "ahead.physical-compute-consist-execution-proof/v0.1",
+  "target": {
+    "abi": "lp64d",
+    "execution_environment": "qemu-riscv64-user",
+    "isa": "rv64gc",
+    "test_class": "mmio_client_and_independent_device_model"
+  },
+  "target_proof": {
+    "binary_sha256": "97961a23f303625648e830aec74bf47bc9923b6f7b0b307eb1ae80fd94ad66ff",
+    "expected_trace_sha256": "5473031b2eb61989113b77ec20a6ee76da323040d7019db4421a2a1f7a3b1eee",
+    "proof_sha256": "f0c12ea525dd236a3ee841e2a28ccc3fb50ac5d8656abcef3118b5559543a651",
+    "trace_sha256": "5473031b2eb61989113b77ec20a6ee76da323040d7019db4421a2a1f7a3b1eee"
+  }
+}

@@ -1,0 +1,279 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "MLCommons Power Working Group",
+      "category": "benchmark_measurement",
+      "commodity_assets": [
+        {
+          "asset_kind": "power_methodology",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "Apache-2.0-and-project-specific",
+          "locator": "https://github.com/mlcommons/power-dev"
+        },
+        {
+          "asset_kind": "approved_instrument_practice",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "public_standard",
+          "locator": "https://mlcommons.org/working-groups/benchmarks/power/"
+        },
+        {
+          "asset_kind": "submission_format",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "public_standard",
+          "locator": "https://mlcommons.org/benchmarks/inference-datacenter/"
+        }
+      ],
+      "completion_questions": [
+        "How should wall-power practice extend to bidirectional energy flow, ambient harvesting, batteries, and short stochastic experiments?",
+        "Which uncertainty and synchronization rules bind power to a distributional accepted result?"
+      ],
+      "id": "mlcommons-power",
+      "ingestion_policy": {
+        "actions": [
+          "reuse full-system wall-power discipline",
+          "extend it with recovered or harvested energy, volume, environment, and entropy custody",
+          "bind power only to accepted workload windows"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Map MLPerf Power fields into EVP receipts and add the physical-cartridge fields MLPerf does not carry.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "working_group",
+          "public_completion_signal": "Develops approved instruments, formats, and power measurement methods.",
+          "title": "MLCommons Power",
+          "url": "https://mlcommons.org/working-groups/benchmarks/power/"
+        },
+        {
+          "kind": "benchmark",
+          "public_completion_signal": "Measures average AC power for the complete system during the accompanying workload and rejects unrelated TDP claims.",
+          "title": "MLPerf Inference power",
+          "url": "https://mlcommons.org/benchmarks/inference-datacenter/"
+        }
+      ],
+      "project": "MLPerf Power",
+      "public_stage": "active_standardized_full_system_power_benchmark",
+      "system_gaps": [
+        "accepted_result",
+        "measurement_reproducibility",
+        "harvested_recovered_energy",
+        "timing_thermal_volume",
+        "calibration_environment"
+      ]
+    },
+    {
+      "actor": "NeuroBench community",
+      "category": "benchmark_measurement",
+      "commodity_assets": [
+        {
+          "asset_kind": "benchmark_harness",
+          "ingest_modes": [
+            "vendor"
+          ],
+          "license": "BSD-3-Clause",
+          "locator": "https://github.com/NeuroBench/neurobench"
+        },
+        {
+          "asset_kind": "algorithm_track",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "open_source",
+          "locator": "https://neurobench.ai/"
+        },
+        {
+          "asset_kind": "system_track",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "community_standard",
+          "locator": "https://neurobench.ai/"
+        }
+      ],
+      "completion_questions": [
+        "How are event timing, stochasticity, sensor front ends, and host preprocessing included in system results?",
+        "Can the same task admit neuromorphic, thermodynamic, reservoir, and conventional implementations under one accepted output?"
+      ],
+      "id": "neurobench",
+      "ingestion_policy": {
+        "actions": [
+          "reuse correctness and system-track separation",
+          "add raw-stimulus baseline and physical-compute gain",
+          "emit cartridge receipts alongside NeuroBench metrics"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Adapt one chaotic forecasting or event-stream benchmark to compare raw stimulus, digital fallback, and physical substrate response.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "home",
+          "public_completion_signal": "Pairs algorithm correctness with deployment-aware system timing and efficiency.",
+          "title": "NeuroBench",
+          "url": "https://neurobench.ai/"
+        },
+        {
+          "kind": "repository",
+          "public_completion_signal": "Publishes the benchmark harness, datasets, metrics, and baseline results.",
+          "title": "NeuroBench GitHub",
+          "url": "https://github.com/NeuroBench/neurobench"
+        }
+      ],
+      "project": "Neuromorphic algorithm and system benchmarks",
+      "public_stage": "open_source_community_benchmark",
+      "system_gaps": [
+        "full_system_energy",
+        "measurement_reproducibility",
+        "calibration_environment",
+        "determinism_entropy",
+        "timing_thermal_volume",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "Sandia National Laboratories",
+      "category": "in_memory_analog",
+      "commodity_assets": [
+        {
+          "asset_kind": "python_simulator",
+          "ingest_modes": [
+            "vendor"
+          ],
+          "license": "BSD-3-Clause",
+          "locator": "https://github.com/sandialabs/cross-sim"
+        },
+        {
+          "asset_kind": "device_nonideality_models",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "BSD-3-Clause",
+          "locator": "https://github.com/sandialabs/cross-sim"
+        },
+        {
+          "asset_kind": "application_accuracy_adapters",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "BSD-3-Clause",
+          "locator": "https://github.com/sandialabs/cross-sim"
+        }
+      ],
+      "completion_questions": [
+        "What DAC, ADC, programming, refresh, memory movement, host, and control cost surrounds the crossbar?",
+        "Which measured lookup tables and silicon results replace synthetic nonideality distributions?"
+      ],
+      "id": "crosssim",
+      "ingestion_policy": {
+        "actions": [
+          "use as analog accuracy fallback",
+          "map device and ADC nonidealities to calibration and fidelity fields",
+          "supply the missing energy area speed and host receipts independently"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Run one FAMBS matrix workload through CrossSim and bind quality loss to an explicit accepted-output contract.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "home",
+          "public_completion_signal": "Models analog crossbar nonidealities and explicitly does not model energy, area, or speed.",
+          "title": "CrossSim",
+          "url": "https://cross-sim.sandia.gov/"
+        },
+        {
+          "kind": "repository",
+          "public_completion_signal": "Publishes a NumPy-like and neural-network-compatible analog crossbar simulator.",
+          "title": "CrossSim GitHub",
+          "url": "https://github.com/sandialabs/cross-sim"
+        }
+      ],
+      "project": "CrossSim analog in-memory computing simulator",
+      "public_stage": "open_source_accuracy_and_codesign_simulator",
+      "system_gaps": [
+        "full_system_energy",
+        "timing_thermal_volume",
+        "host_interface",
+        "data_movement",
+        "model_hardware_fidelity",
+        "calibration_environment",
+        "independent_validation"
+      ]
+    },
+    {
+      "actor": "OpenPRC researchers and physical reservoir computing community",
+      "category": "physical_reservoir",
+      "commodity_assets": [
+        {
+          "asset_kind": "trajectory_schema",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "open_source_claimed_repository_to_pin",
+          "locator": "https://arxiv.org/abs/2604.07423"
+        },
+        {
+          "asset_kind": "physics_to_task_pipeline",
+          "ingest_modes": [
+            "ingest"
+          ],
+          "license": "open_source_claimed_repository_to_pin",
+          "locator": "https://arxiv.org/abs/2604.07423"
+        },
+        {
+          "asset_kind": "vision_ingestion",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "open_source_claimed_repository_to_pin",
+          "locator": "https://arxiv.org/abs/2604.07423"
+        }
+      ],
+      "completion_questions": [
+        "Where is the canonical repository, schema version, and compatibility policy?",
+        "How are sensing energy, experimental drift, raw-stimulus baseline, and complete-system advantage represented?",
+        "Which external physics engines and physical experiments reproduce the same task receipt?"
+      ],
+      "id": "openprc",
+      "ingestion_policy": {
+        "actions": [
+          "locate and pin the public repository",
+          "bridge HDF5 trajectories to our cartridge frames",
+          "reuse task and capacity analysis while retaining stricter energy and claim boundaries"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Implement an OpenPRC trajectory adapter that emits our calibration, environment, fallback, and compute-gain receipts.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "paper",
+          "public_completion_signal": "Identifies fragmented PRC workflows and proposes one schema-driven path for simulation and experimental trajectories.",
+          "title": "OpenPRC",
+          "url": "https://arxiv.org/abs/2604.07423"
+        }
+      ],
+      "project": "OpenPRC physics-to-task evaluation framework",
+      "public_stage": "open_source_framework_preprint",
+      "system_gaps": [
+        "host_interface",
+        "accepted_result",
+        "calibration_environment",
+        "model_hardware_fidelity",
+        "full_system_energy",
+        "measurement_reproducibility",
+        "governance_durability"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "measurement_a"
+}

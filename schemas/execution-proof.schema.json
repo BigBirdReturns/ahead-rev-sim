@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/execution-proof.schema.json",
+  "title": "ahead-rev-sim history-complete execution proof",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "generated_by",
+    "source",
+    "fixture",
+    "execution",
+    "accepted_output",
+    "restoration",
+    "qualification",
+    "claim_boundary",
+    "control_question",
+    "proof_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "ahead.execution-proof/v0.1"},
+    "artifact_type": {"const": "history_complete_execution_proof"},
+    "generated_by": {"type": "string"},
+    "source": {
+      "type": "object",
+      "required": ["name", "source_sha256", "normalized_program_sha256"],
+      "properties": {
+        "name": {"type": "string"},
+        "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "normalized_program_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      },
+      "additionalProperties": false
+    },
+    "fixture": {"type": "object"},
+    "execution": {
+      "type": "object",
+      "required": [
+        "steps_forward",
+        "steps_reversed",
+        "halted",
+        "initial_state_sha256",
+        "final_state_sha256",
+        "restored_state_sha256",
+        "trace_sha256",
+        "history_records_peak",
+        "history_payload_bits_peak",
+        "history_payload_bits_by_opcode",
+        "legacy_normalized_forward_energy_units",
+        "energy_evidence_class"
+      ],
+      "properties": {
+        "steps_forward": {"type": "integer", "minimum": 0},
+        "steps_reversed": {"type": "integer", "minimum": 0},
+        "halted": {"type": "boolean"},
+        "initial_state_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "final_state_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "restored_state_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "trace_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "history_records_peak": {"type": "integer", "minimum": 0},
+        "history_payload_bits_peak": {"type": "integer", "minimum": 0},
+        "history_payload_bits_by_opcode": {"type": "object"},
+        "legacy_normalized_forward_energy_units": {"type": "number", "minimum": 0},
+        "energy_evidence_class": {"const": "normalized_uncalibrated_model"}
+      },
+      "additionalProperties": false
+    },
+    "accepted_output": {"type": "object"},
+    "restoration": {"type": "object"},
+    "qualification": {
+      "type": "object",
+      "required": ["status", "blockers", "physical_claim_allowed"],
+      "properties": {
+        "status": {"enum": ["semantic_execution_proved", "refused"]},
+        "blockers": {"type": "array", "items": {"type": "string"}},
+        "physical_claim_allowed": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "claim_boundary": {"type": "string"},
+    "control_question": {"type": "string"},
+    "proof_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

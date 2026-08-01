@@ -1,0 +1,84 @@
+{
+  "abi_sha256": "f8a90e60f5b16d275df9ecabbc4fc9856a4551858583361ce9fd3cab3c75ae06",
+  "artifact_type": "physical_compute_consist",
+  "cartridge": {
+    "actor": "Vaire Computing",
+    "hitch_id": "vaire-reversible-cartridge-offer-v0",
+    "hitch_sha256": "583ae529a06579677794a237187c32e58f63d77321c6833f152cd60938c60fee",
+    "project": "Adiabatic reversible computing, Ice River, and EVP"
+  },
+  "claim_boundary": "The consist establishes whether a host and cartridge can couple behind physical-compute-mmio/v1 while remaining independently replaceable. An integration offer reserves a compatible surface but does not assert actor participation, implementation readiness, target execution, physical work, energy advantage, timing, thermal closure, occupied volume, or silicon.",
+  "consist_sha256": "e1b48050df1f73b1c01b240ebcc0251b8356a6da311a9472a1188d36cb8aa578",
+  "execution_admission": "refused",
+  "execution_blockers": [
+    "HOST_SUBMISSION_ABSENT",
+    "HOST_COMMAND_CAPTURE_UNDECLARED",
+    "HOST_COMMAND_EVOLVE_UNDECLARED",
+    "HOST_COMMAND_LOAD_UNDECLARED",
+    "HOST_COMMAND_READ_UNDECLARED",
+    "HOST_COMMAND_RESET_UNDECLARED",
+    "HOST_CAPABILITY_SOFTWARE_FALLBACK_UNDECLARED",
+    "CARTRIDGE_SUBMISSION_ABSENT",
+    "CARTRIDGE_COMMAND_CAPTURE_UNDECLARED",
+    "CARTRIDGE_COMMAND_EVOLVE_UNDECLARED",
+    "CARTRIDGE_COMMAND_LOAD_UNDECLARED",
+    "CARTRIDGE_COMMAND_READ_UNDECLARED",
+    "CARTRIDGE_COMMAND_RESET_UNDECLARED",
+    "CARTRIDGE_CAPABILITY_SOFTWARE_FALLBACK_UNDECLARED",
+    "CARTRIDGE_DETERMINISM_CAPABILITY_UNDECLARED",
+    "HOST_RISCV_IMPLEMENTATION_MISSING",
+    "HOST_MMIO_DRIVER_MISSING",
+    "HOST_ACCEPTED_TARGET_TRACE_MISSING",
+    "HOST_RESET_REFUSAL_RECEIPT_MISSING",
+    "HOST_TOOLCHAIN_RECEIPT_MISSING",
+    "CARTRIDGE_SUBSTRATE_DESCRIPTOR_MISSING",
+    "CARTRIDGE_SOFTWARE_FALLBACK_MISSING",
+    "CARTRIDGE_DEVICE_INTERFACE_MISSING",
+    "CARTRIDGE_ACCEPTED_OUTPUT_RECEIPT_MISSING",
+    "CARTRIDGE_RESET_STATE_RECEIPT_MISSING"
+  ],
+  "hitchable": true,
+  "host": {
+    "actor": "AheadComputing",
+    "hitch_id": "aheadcomputing-riscv-host-offer-v0",
+    "hitch_sha256": "0ce18be3989f1aff8838d436eae8609875ff27a6b7adf80f5b2296a7b7f2d645",
+    "project": "High-performance open-standard RISC-V cores"
+  },
+  "interface_state": "compatible",
+  "negotiated_capabilities": [],
+  "negotiated_commands": [],
+  "physical_claim_blockers": [
+    "HOST_FULL_SYSTEM_ENERGY_RECEIPT_MISSING",
+    "HOST_TIMING_THERMAL_VOLUME_RECEIPT_MISSING",
+    "HOST_INDEPENDENT_VALIDATION_RECEIPT_MISSING",
+    "CARTRIDGE_COMPLETE_SYSTEM_ENERGY_RECEIPT_MISSING",
+    "CARTRIDGE_TIMING_THERMAL_VOLUME_RECEIPT_MISSING",
+    "CARTRIDGE_INDEPENDENT_VALIDATION_RECEIPT_MISSING"
+  ],
+  "physical_compute_claim_allowed": false,
+  "physical_energy_claim_allowed": false,
+  "portable_binding": "physical-compute-mmio/v1",
+  "qualification_state": "hitchable_unqualified",
+  "schema_version": "ahead.physical-compute-consist/v0.1",
+  "substitution_contract": {
+    "cartridge_replaceable": true,
+    "dependency_mode": "commodity_only",
+    "host_replaceable": true,
+    "provider_may_change": [
+      "implementation",
+      "microarchitecture",
+      "physical_substrate",
+      "packaging",
+      "internal_compiler"
+    ],
+    "provider_may_not_change": [
+      "portable_binding",
+      "accepted_work",
+      "refusal_semantics",
+      "software_fallback",
+      "receipt_schema",
+      "evidence_boundary"
+    ],
+    "software_fallback_required": true
+  }
+}

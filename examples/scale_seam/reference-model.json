@@ -1,0 +1,107 @@
+{
+  "baseline": null,
+  "model": {
+    "clock_ref": "reference-scale-clock-v1",
+    "configuration_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "environment_manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "evidence_class": "reference_model",
+    "instrument_refs": [],
+    "model_id": "scale-seam-reference-v1",
+    "model_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "topology_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "uncertainty_fraction": 0
+  },
+  "seams": [
+    {
+      "energy_joules": 1,
+      "failure_domains": [
+        "tile-controller"
+      ],
+      "from_scale": "operation",
+      "incremental_occupied_mm3": 10,
+      "latency_seconds": 0.01,
+      "message_count": 10,
+      "retries": 0,
+      "seam_id": "operation-to-tile",
+      "synchronization_events": 2,
+      "to_scale": "tile",
+      "traffic_bytes": 1000,
+      "utilization_fraction": 0.8
+    },
+    {
+      "energy_joules": 2,
+      "failure_domains": [
+        "die-link"
+      ],
+      "from_scale": "tile",
+      "incremental_occupied_mm3": 20,
+      "latency_seconds": 0.02,
+      "message_count": 20,
+      "retries": 1,
+      "seam_id": "tile-to-die",
+      "synchronization_events": 4,
+      "to_scale": "die",
+      "traffic_bytes": 2000,
+      "utilization_fraction": 0.7
+    },
+    {
+      "energy_joules": 4,
+      "failure_domains": [
+        "package-link"
+      ],
+      "from_scale": "die",
+      "incremental_occupied_mm3": 40,
+      "latency_seconds": 0.04,
+      "message_count": 40,
+      "retries": 1,
+      "seam_id": "die-to-package",
+      "synchronization_events": 8,
+      "to_scale": "package",
+      "traffic_bytes": 4000,
+      "utilization_fraction": 0.6
+    },
+    {
+      "energy_joules": 8,
+      "failure_domains": [
+        "board-link"
+      ],
+      "from_scale": "package",
+      "incremental_occupied_mm3": 80,
+      "latency_seconds": 0.08,
+      "message_count": 80,
+      "retries": 2,
+      "seam_id": "package-to-board",
+      "synchronization_events": 16,
+      "to_scale": "board",
+      "traffic_bytes": 8000,
+      "utilization_fraction": 0.5
+    },
+    {
+      "energy_joules": 16,
+      "failure_domains": [
+        "rack-fabric"
+      ],
+      "from_scale": "board",
+      "incremental_occupied_mm3": 160,
+      "latency_seconds": 0.16,
+      "message_count": 160,
+      "retries": 4,
+      "seam_id": "board-to-rack",
+      "synchronization_events": 32,
+      "to_scale": "rack",
+      "traffic_bytes": 16000,
+      "utilization_fraction": 0.4
+    }
+  ],
+  "workload": {
+    "accepted": true,
+    "accepted_work_unit": "accepted sparse-vector dot product",
+    "accepted_work_units": 100,
+    "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "contract_id": "fambs-svk/scale-reference-v1",
+    "quality_rule": "exact semantic result",
+    "result": {
+      "digest": "reference-result"
+    }
+  }
+}

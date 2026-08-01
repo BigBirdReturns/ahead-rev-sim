@@ -1,0 +1,139 @@
+{
+  "actor": "ahead-rev-sim",
+  "actor_acknowledged": false,
+  "artifact_type": "physical_compute_provider_hitch",
+  "artifacts": [
+    {
+      "digest": {
+        "algorithm": "git-sha1",
+        "scope": "git_blob",
+        "value": "27ebdd193685a6dabfa0076b705992d8f7baad43"
+      },
+      "evidence_class": "source",
+      "locator": "repo://examples/riscv/mmio_target_smoke.c",
+      "required_for": "execution",
+      "slot": "riscv_implementation",
+      "status": "present"
+    },
+    {
+      "digest": {
+        "algorithm": "git-sha1",
+        "scope": "git_blob",
+        "value": "0c919711aa385ac625e6b84adb4ed9367674955e"
+      },
+      "evidence_class": "source",
+      "locator": "repo://src/ahead_rev_sim/mmio_abi.py",
+      "required_for": "execution",
+      "slot": "mmio_driver",
+      "status": "present"
+    },
+    {
+      "digest": {
+        "algorithm": "sha256",
+        "scope": "content",
+        "value": "5473031b2eb61989113b77ec20a6ee76da323040d7019db4421a2a1f7a3b1eee"
+      },
+      "evidence_class": "target_observed",
+      "locator": "repo://examples/riscv/mmio_target_smoke.expected",
+      "required_for": "execution",
+      "slot": "accepted_target_trace",
+      "status": "present"
+    },
+    {
+      "digest": {
+        "algorithm": "sha256",
+        "scope": "artifact_seal",
+        "value": "f0c12ea525dd236a3ee841e2a28ccc3fb50ac5d8656abcef3118b5559543a651"
+      },
+      "evidence_class": "target_observed",
+      "locator": "workflow://riscv-target-proof/f0c12ea525dd236a3ee841e2a28ccc3fb50ac5d8656abcef3118b5559543a651",
+      "required_for": "execution",
+      "slot": "reset_refusal_receipt",
+      "status": "present"
+    },
+    {
+      "digest": {
+        "algorithm": "git-sha1",
+        "scope": "git_blob",
+        "value": "5262af12558b6ba0f207e37422c2a031ad4181a2"
+      },
+      "evidence_class": "source",
+      "locator": "repo://.github/workflows/riscv-target.yml",
+      "required_for": "execution",
+      "slot": "toolchain_receipt",
+      "status": "present"
+    },
+    {
+      "digest": null,
+      "evidence_class": "simulated",
+      "locator": null,
+      "required_for": "physical_claim",
+      "slot": "full_system_energy_receipt",
+      "status": "not_applicable"
+    },
+    {
+      "digest": null,
+      "evidence_class": "simulated",
+      "locator": null,
+      "required_for": "physical_claim",
+      "slot": "timing_thermal_volume_receipt",
+      "status": "not_applicable"
+    },
+    {
+      "digest": null,
+      "evidence_class": "simulated",
+      "locator": null,
+      "required_for": "physical_claim",
+      "slot": "independent_validation_receipt",
+      "status": "not_applicable"
+    }
+  ],
+  "claim_boundary": "This internal virtual-reference host proves the ordinary RV64GC client and independent software-device transaction. It grants no physical, energy, timing, thermal, volume, fabrication, or commercial-host claim.",
+  "commodity_record_id": "internal-rv64gc-reference-host",
+  "dependency_mode": "commodity_only",
+  "hitch_id": "ahead-rev-rv64gc-reference-host-v0",
+  "hitch_sha256": "f6e0744418c71a6de827adfae585c4ba2ad144f9c14118ff97edaf6db08b0da0",
+  "interface": {
+    "abi_sha256": "f8a90e60f5b16d275df9ecabbc4fc9856a4551858583361ce9fd3cab3c75ae06",
+    "any_of_capabilities": [],
+    "byte_order": "little",
+    "declared_capabilities": [
+      "exact",
+      "software_fallback"
+    ],
+    "declared_commands": [
+      "reset",
+      "load",
+      "evolve",
+      "read",
+      "capture"
+    ],
+    "optional_riscv_extension": "Xphys",
+    "portable_binding": "physical-compute-mmio/v1",
+    "required_capabilities": [
+      "software_fallback"
+    ],
+    "required_commands": [
+      "reset",
+      "load",
+      "evolve",
+      "read",
+      "capture"
+    ],
+    "word_bytes": 4,
+    "xphys_policy": "evidence_only"
+  },
+  "issuer": "ahead-rev-sim",
+  "manifest_kind": "reference",
+  "project": "RV64GC MMIO target-model host",
+  "public_sources": [
+    {
+      "completion_signal": "Builds and executes the accepted lifecycle as an RV64GC binary.",
+      "title": "ahead-rev-sim RV64GC target workflow",
+      "url": "https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/riscv-target.yml"
+    }
+  ],
+  "realization_class": "virtual_reference",
+  "role": "host",
+  "schema_version": "ahead.physical-compute-provider-hitch/v0.1"
+}

@@ -1,0 +1,271 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "U.S. Department of Defense Microelectronics Commons",
+      "category": "prototyping_fabrication",
+      "commodity_assets": [
+        {
+          "asset_kind": "regional_prototyping_hubs",
+          "ingest_modes": [
+            "fabricate",
+            "qualify"
+          ],
+          "license": "programme_access",
+          "locator": "https://microelectronicscommons.org/"
+        },
+        {
+          "asset_kind": "project_and_capability_map",
+          "ingest_modes": [
+            "monitor",
+            "ingest"
+          ],
+          "license": "public_web",
+          "locator": "https://microelectronicscommons.org/hub-project-awards/"
+        }
+      ],
+      "completion_questions": [
+        "Which hub can close which physical receipt today?",
+        "What access, IP, schedule, package, and data terms permit independent reproduction?"
+      ],
+      "id": "microelectronics-commons",
+      "ingestion_policy": {
+        "actions": [
+          "map hub capabilities and access terms",
+          "prepare portable test vehicles and receipts",
+          "retain programme and facility substitution"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a Microelectronics Commons capability adapter that maps each hub to cartridge process, package, test, and evidence requirements.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_home",
+          "public_completion_signal": "Publishes regional hubs, prototyping mission, and lab-to-fab programme structure.",
+          "title": "Microelectronics Commons",
+          "url": "https://microelectronicscommmons.org/"
+        },
+        {
+          "kind": "official_awards",
+          "public_completion_signal": "Publishes current project and technology-area awards.",
+          "title": "Microelectronics Commons awards",
+          "url": "https://microelectronicscommons.org/hub-project-awards/"
+        }
+      ],
+      "project": "Microelectronics Commons hubs and lab-to-fab prototyping",
+      "public_stage": "active_multi_hub_prototyping_program",
+      "system_gaps": [
+        "fabrication_signoff",
+        "packaging_assembly",
+        "access_licensing",
+        "measurement_reproducibility",
+        "independent_validation",
+        "governance_durability"
+      ]
+    },
+    {
+      "actor": "MLCommons",
+      "category": "verification_provenance",
+      "commodity_assets": [
+        {
+          "asset_kind": "benchmark_automation_framework",
+          "ingest_modes": [
+            "vendor",
+            "adapt"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/mlcommons/mlperf-automations"
+        },
+        {
+          "asset_kind": "reproducible_submission_workflows",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://github.com/mlcommons/mlperf-automations"
+        }
+      ],
+      "completion_questions": [
+        "Can one workflow reconstruct software, hardware, input, measurement, and output identity?",
+        "Which cached or external artifacts remain outside the submission?"
+      ],
+      "id": "mlcommons-mlcflow",
+      "ingestion_policy": {
+        "actions": [
+          "wrap workloads fallbacks cartridges and instruments as actions",
+          "preserve cache tool and dependency identity",
+          "emit artifact-only rerun packages"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Implement ahead workload, substrate, and EVP actions in MLCFlow so a third party can rerun the complete comparison without our orchestration service.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_release",
+          "public_completion_signal": "Publishes a stable modular automation framework for reproducible MLPerf workflows.",
+          "title": "MLFFlow documentation",
+          "url": "https://docs.mlcommons.org/mlcflow/"
+        },
+        {
+          "kind": "official_repository",
+          "public_completion_signal": "Publishes reusable automation scripts, cache, dependencies, and submission workflows.",
+          "title": "MLPerf automations GitHub",
+          "url": "https://github.com/mlcomons/mlperf-automations"
+        }
+      ],
+      "project": "MLCFlow and MLPerf automation",
+      "public_stage": "stable_open_benchmark_automation_standard",
+      "system_gaps": [
+        "workload_identity",
+        "software_fallback",
+        "measurement_reproducibility",
+        "governance_durability",
+        "independent_validation",
+        "access_licensing"
+      ]
+    },
+    {
+      "actor": "Reproducible Builds, SLSA, and in-toto communities",
+      "category": "verification_provenance",
+      "commodity_assets": [
+        {
+          "asset_kind": "build_reproducibility_practice",
+          "ingest_modes": [
+            "adapt",
+            "qualify"
+          ],
+          "license": "public_standard",
+          "locator": "https://reproducible-builds.org/"
+        },
+        {
+          "asset_kind": "signed_provenance_formats",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "CC-BY-4.0",
+          "locator": "https://slsa.dev/spec/v1.2/"
+        },
+        {
+          "asset_kind": "supply_chain_attestation",
+          "ingest_modes": [
+            "vendor",
+            "qualify"
+          ],
+          "license": "Apache-2.0",
+          "locator": "https://in-toto.io/"
+        }
+      ],
+      "completion_questions": [
+        "Which binary, model, layout, or report cannot yet be reproduced?",
+        "Who signs each transformation and how is supersession handled?"
+      ],
+      "id": "reproducible-builds-slsa-in-toto",
+      "ingestion_policy": {
+        "actions": [
+          "bind source build tools PDK models and generated artifacts",
+          "sign transformation and measurement steps",
+          "require independent binary and layout reproduction where possible"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Emit SLSA and in-toto provenance for one workload-to-GDS-to-measurement train and attempt an independent reproducible rebuild.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_reproducible_builds",
+          "public_completion_signal": "Publishes methods and ecosystem reports for independently reproducing binary artifacts.",
+          "title": "Reproducible Builds",
+          "url": "https://reproducible-builds.org/"
+        },
+        {
+          "kind": "official_slsa",
+          "public_completion_signal": "Publishes current build provenance and supply-chain levels.",
+          "title": "SLSA provenance specification",
+          "url": "https://slsa.dev/spec/v1.2/"
+        },
+        {
+          "kind": "official_in_toto",
+          "public_completion_signal": "Publishes signed software supply-chain layout and link metadata.",
+          "title": "in-toto",
+          "url": "https://in-toto.io/"
+        }
+      ],
+      "project": "Build reproducibility and supply-chain provenance standards",
+      "public_stage": "active_open_provenance_and_reproducibility_standards",
+      "system_gaps": [
+        "workload_identity",
+        "governance_durability",
+        "independent_validation",
+        "fabrication_signoff",
+        "security_isolation",
+        "measurement_reproducibility"
+      ]
+    },
+    {
+      "actor": "SPEC Power Committee",
+      "category": "benchmark_measurement",
+      "commodity_assets": [
+        {
+          "asset_kind": "instrument_daemon",
+          "ingest_modes": [
+            "adapt",
+            "qualify"
+          ],
+          "license": "SPEC_terms",
+          "locator": "https://www.spec.org/power/docs/SPECpower-Measurement_Setup_Guide.pdf"
+        },
+        {
+          "asset_kind": "approved_instrument_interface",
+          "ingest_modes": [
+            "qualify"
+          ],
+          "license": "SPEC_terms",
+          "locator": "https://www.spec.org/power_ssj2008/docs/SPECpower-Device_List.html"
+        }
+      ],
+      "completion_questions": [
+        "How are power samples synchronized to accepted output?",
+        "Which instruments and protocols support bidirectional, battery, or harvested energy flows?"
+      ],
+      "id": "spec-ptdaemon",
+      "ingestion_policy": {
+        "actions": [
+          "adapt PTDaemon streams into EVP intervals",
+          "synchronize workload output power temperature and clocks",
+          "extend for bidirectional and harvested energy"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a PTDaemon-to-EVP adapter with instrument identity, uncertainty, clock synchronization, accepted window, and raw trace custody.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_product",
+          "public_completion_signal": "Publishes supported power and temperature measurement devices and PTDaemon practice.",
+          "title": "SPEC approved power devices",
+          "url": "https://www.spec.org/power_ssj2008/docs/SPECpower-Device_List.html"
+        },
+        {
+          "kind": "official_committee",
+          "public_completion_signal": "Maintains power benchmarking and measurement infrastructure.",
+          "title": "SPEC Power Committee",
+          "url": "https://www.spec.org/power/"
+        }
+      ],
+      "project": "SPEC PTDaemon power and temperature measurement interface",
+      "public_stage": "active_standardized_measurement_daemon",
+      "system_gaps": [
+        "measurement_reproducibility",
+        "time_synchronization",
+        "calibration_environment",
+        "full_system_energy",
+        "harvested_recovered_energy",
+        "independent_validation"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "programmes_provenance_b"
+}

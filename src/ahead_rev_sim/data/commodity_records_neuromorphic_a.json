@@ -1,0 +1,332 @@
+{
+  "artifact_type": "commodity_ecosystem_record_shard",
+  "records": [
+    {
+      "actor": "Intel Labs",
+      "category": "neuromorphic",
+      "commodity_assets": [
+        {
+          "asset_kind": "large_scale_neuromorphic_target",
+          "ingest_modes": [
+            "benchmark",
+            "monitor"
+          ],
+          "license": "public_web",
+          "locator": "https://newsroom.intel.com/artificial-intelligence/intel-builds-worlds-largest-neuromorphic-system-to-enable-more-sustainable-ai"
+        },
+        {
+          "asset_kind": "published_system_boundary_clues",
+          "ingest_modes": [
+            "adapt"
+          ],
+          "license": "public_web",
+          "locator": "https://newsroom.intel.com/artificial-intelligence/intel-builds-worlds-largest-neuromorphic-system-to-enable-more-sustainable-ai"
+        }
+      ],
+      "completion_questions": [
+        "Which benchmark mapping and preprocessing are included in the reported efficiency?",
+        "Which host, x86, memory, networking, and cooling costs surround one accepted result?"
+      ],
+      "id": "intel-loihi2-hala-point",
+      "ingestion_policy": {
+        "actions": [
+          "extract complete chassis and ancillary compute boundary",
+          "map event and dense workloads to accepted-output contracts",
+          "compare claimed efficiency against identical host-inclusive baselines"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a Hala Point system profile that accounts for all 1,152 neuromorphic chips, ancillary processors, host work, sparsity assumptions, chassis power, and accepted task quality.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_announcement",
+          "public_completion_signal": "Publishes the chip count, chassis scale, ancillary x86 count, maximum power, bandwidth, and benchmark caveats for a research prototype.",
+          "title": "Hala Point announcement",
+          "url": "https://newsroom.intel.com/artificial-intelligence/intel-builds-worlds-largest-neuromorphic-system-to-enable-more-sustainable-ai"
+        }
+      ],
+      "project": "Loihi 2 and Hala Point",
+      "public_stage": "large_scale_research_prototype",
+      "system_gaps": [
+        "accepted_result",
+        "workload_identity",
+        "host_interface",
+        "data_movement",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "software_fallback",
+        "independent_validation",
+        "task_encoding",
+        "time_synchronization"
+      ]
+    },
+    {
+      "actor": "EBRAINS and Heidelberg Electronic Vision(s)",
+      "category": "open_system_testbed",
+      "commodity_assets": [
+        {
+          "asset_kind": "remote_physical_testbed",
+          "ingest_modes": [
+            "qualify",
+            "benchmark"
+          ],
+          "license": "infrastructure_access",
+          "locator": "https://www.ebrains.eu/tools/brainscales"
+        },
+        {
+          "asset_kind": "hardware_software_stack",
+          "ingest_modes": [
+            "adapt",
+            "fallback"
+          ],
+          "license": "mixed_open_source",
+          "locator": "https://github.com/electronicvisions"
+        }
+      ],
+      "completion_questions": [
+        "What physical calibration and time acceleration bind each run?",
+        "What energy, queue, host, and readout costs are visible to an external user?"
+      ],
+      "id": "ebrains-brainscales2",
+      "ingestion_policy": {
+        "actions": [
+          "package a queue-safe remote execution adapter",
+          "bind calibration and accelerated-time semantics",
+          "retain software fallback and exact artifact custody"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Run one NIR-bound task through BrainScaleS-2 and its public software backend with identical input, output, calibration, and timing receipts.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_access",
+          "public_completion_signal": "Provides remote access to accelerated analog and mixed-signal neuromorphic hardware.",
+          "title": "BrainScaleS access",
+          "url": "https://www.ebrains.eu/tools/brainscales"
+        },
+        {
+          "kind": "official_tutorial",
+          "public_completion_signal": "Demonstrates browser-mediated access to the physical system.",
+          "title": "BrainScaleS online tutorial",
+          "url": "https://ebrains.eu/news-and-events/events/2024/hands-on-brainscales-tutorial-at-the-european-institute-for"
+        }
+      ],
+      "project": "BrainScaleS-2 remote physical-model neuromorphic system",
+      "public_stage": "active_remote_access_research_infrastructure",
+      "system_gaps": [
+        "accepted_result",
+        "host_interface",
+        "state_reset",
+        "determinism_entropy",
+        "calibration_environment",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "software_fallback",
+        "independent_validation",
+        "access_licensing",
+        "time_synchronization"
+      ]
+    },
+    {
+      "actor": "EBRAINS and SpiNNaker community",
+      "category": "open_system_testbed",
+      "commodity_assets": [
+        {
+          "asset_kind": "remote_manycore_target",
+          "ingest_modes": [
+            "qualify",
+            "benchmark"
+          ],
+          "license": "infrastructure_access",
+          "locator": "https://www.ebrains.eu/tools/spinnaker"
+        },
+        {
+          "asset_kind": "software_stack",
+          "ingest_modes": [
+            "adapt",
+            "fallback"
+          ],
+          "license": "mixed_open_source",
+          "locator": "https://github.com/SpiNNakerManchester"
+        }
+      ],
+      "completion_questions": [
+        "Which placement and routing artifacts are required to reconstruct a run?",
+        "Which system energy and latency lie outside the neuromorphic cores?"
+      ],
+      "id": "ebrains-spinnaker",
+      "ingestion_policy": {
+        "actions": [
+          "bind placement routing and simulation fallback",
+          "account for host and network execution",
+          "compare event timing and accepted result across backends"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Create a SpiNNaker cartridge profile whose workload identity includes graph placement, routing, timestep, host preprocessing, and queue execution.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_access",
+          "public_completion_signal": "Provides remote access and tooling for SpiNNaker neuromorphic systems.",
+          "title": "SpiNNaker access",
+          "url": "https://www.ebrains.eu/tools/spinnaker"
+        },
+        {
+          "kind": "official_support",
+          "public_completion_signal": "Maintains public support channels for SpiNNaker and BrainScaleS.",
+          "title": "EBRAINS neuromorphic support",
+          "url": "https://wiki.ebrains.eu/bin/view/Collabs/neuromorphic/Help%20%20Contact/"
+        }
+      ],
+      "project": "SpiNNaker remote many-core neuromorphic platform",
+      "public_stage": "active_remote_access_research_infrastructure",
+      "system_gaps": [
+        "accepted_result",
+        "workload_identity",
+        "host_interface",
+        "data_movement",
+        "full_system_energy",
+        "timing_thermal_volume",
+        "software_fallback",
+        "independent_validation",
+        "task_encoding",
+        "time_synchronization",
+        "access_licensing"
+      ]
+    },
+    {
+      "actor": "Open Neuromorphic community",
+      "category": "verification_provenance",
+      "commodity_assets": [
+        {
+          "asset_kind": "community_review_process",
+          "ingest_modes": [
+            "qualify",
+            "monitor"
+          ],
+          "license": "public_community_process",
+          "locator": "https://open-neuromorphic.org/neuromorphic-computing/research/papers/"
+        },
+        {
+          "asset_kind": "project_discovery_index",
+          "ingest_modes": [
+            "ingest",
+            "monitor"
+          ],
+          "license": "public_web",
+          "locator": "https://open-neuromorphic.org/neuromorphic-computing/software/"
+        }
+      ],
+      "completion_questions": [
+        "Which review findings are machine-readable and reproducible?",
+        "How are approved resources archived when maintainers or backends disappear?"
+      ],
+      "id": "open-neuromorphic-research-registry",
+      "ingestion_policy": {
+        "actions": [
+          "ingest approved resources as discovery signals",
+          "retain review criteria and certificate identity",
+          "separate community approval from system qualification"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Map Open Neuromorphic review criteria to our evidence tiers and ingest every approved implementation as a replaceable candidate record.",
+        "priority": 2
+      },
+      "official_sources": [
+        {
+          "kind": "official_registry",
+          "public_completion_signal": "Publishes community review criteria and approved open neuromorphic resources.",
+          "title": "Open Neuromorphic Research Registry",
+          "url": "https://open-neuromorphic.org/neuromorphic-computing/research/papers/"
+        },
+        {
+          "kind": "official_software_guide",
+          "public_completion_signal": "Curates open hardware and software resources and outstanding contribution needs.",
+          "title": "Open Neuromorphic software guide",
+          "url": "https://open-neuromorphic.org/neuromorphic-computing/software/"
+        }
+      ],
+      "project": "Community review registry and collaboration network",
+      "public_stage": "active_peer_review_and_resource_registry",
+      "system_gaps": [
+        "workload_identity",
+        "accepted_result",
+        "independent_validation",
+        "governance_durability",
+        "software_fallback",
+        "access_licensing"
+      ]
+    },
+    {
+      "actor": "NIR and Synfire communities",
+      "category": "hardware_compiler",
+      "commodity_assets": [
+        {
+          "asset_kind": "neuromorphic_ir",
+          "ingest_modes": [
+            "vendor",
+            "adapt"
+          ],
+          "license": "BSD-or-project-specific",
+          "locator": "https://github.com/neuromorphs/NIR"
+        },
+        {
+          "asset_kind": "model_registry",
+          "ingest_modes": [
+            "ingest",
+            "qualify"
+          ],
+          "license": "public_service_terms",
+          "locator": "https://synfire.dev/"
+        }
+      ],
+      "completion_questions": [
+        "Which continuous-time semantics survive each backend discretization?",
+        "Can one immutable model produce comparable accepted output across five hardware platforms?"
+      ],
+      "id": "neuromorphic-nir-synfire",
+      "ingestion_policy": {
+        "actions": [
+          "import NIR graph and NIRData identity",
+          "preserve continuous-time and discretization assumptions",
+          "bind model registry checksums to backend receipts"
+        ],
+        "dependency_mode": "commodity_only",
+        "first_transaction": "Add an NIR-to-physical-cartridge adapter that records graph identity, discretization, event data, backend mapping, and first numerical divergence.",
+        "priority": 1
+      },
+      "official_sources": [
+        {
+          "kind": "official_spec",
+          "public_completion_signal": "Defines continuous-time neuromorphic primitives intended to decouple models from hardware.",
+          "title": "NIR",
+          "url": "https://neuroir.org/"
+        },
+        {
+          "kind": "official_registry",
+          "public_completion_signal": "Provides immutable model artifacts, checksums, semantic versions, and hardware-target metadata.",
+          "title": "Synfire model registry",
+          "url": "https://synfire.dev/"
+        }
+      ],
+      "project": "Neuromorphic Intermediate Representation and model registry",
+      "public_stage": "active_open_interchange_standard_and_registry",
+      "system_gaps": [
+        "accepted_result",
+        "workload_identity",
+        "compiler_lowering",
+        "model_hardware_fidelity",
+        "precision_conversion",
+        "task_encoding",
+        "time_synchronization",
+        "governance_durability",
+        "access_licensing"
+      ]
+    }
+  ],
+  "schema_version": "ahead.commodity-ecosystem-record-shard/v0.1",
+  "shard_id": "neuromorphic_a"
+}

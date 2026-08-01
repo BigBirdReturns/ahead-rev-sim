@@ -1,0 +1,142 @@
+name: Congruent Shape Pylons
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  pylon-atlas:
+    name: Commodity congruence and design-pylon qualification
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install ahead-rev-sim
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Generate complete congruent-shape atlas
+        run: |
+          mkdir -p artifacts/congruent-shapes
+          ahead-rev-pylons \
+            --out artifacts/congruent-shapes/congruent-shape-atlas.json \
+            --format text \
+            --require-complete \
+            > artifacts/congruent-shapes/congruent-shape-atlas.txt
+
+      - name: Validate catalog, atlas, and architecture projection schemas
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+
+          pairs = (
+              (
+                  "src/ahead_rev_sim/data/congruent_shape_pylons.json",
+                  "schemas/congruent-shape-pylon-catalog.schema.json",
+              ),
+              (
+                  "artifacts/congruent-shapes/congruent-shape-atlas.json",
+                  "schemas/congruent-shape-atlas.schema.json",
+              ),
+              (
+                  "src/ahead_rev_sim/data/congruent_shape_surface_projection.json",
+                  "schemas/congruent-shape-surface-projection.schema.json",
+              ),
+          )
+          for artifact_path, schema_path in pairs:
+              artifact = json.loads(Path(artifact_path).read_text(encoding="utf-8"))
+              schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
+              Draft202012Validator.check_schema(schema)
+              Draft202012Validator(schema).validate(artifact)
+          PY
+
+      - name: Enforce complete registry, gap, and surface projection
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          atlas = json.loads(
+              Path("artifacts/congruent-shapes/congruent-shape-atlas.json")
+              .read_text(encoding="utf-8")
+          )
+          catalog = json.loads(
+              Path("src/ahead_rev_sim/data/congruent_shape_pylons.json")
+              .read_text(encoding="utf-8")
+          )
+          projection = json.loads(
+              Path("src/ahead_rev_sim/data/congruent_shape_surface_projection.json")
+              .read_text(encoding="utf-8")
+          )
+          summary = atlas["summary"]
+          assert summary["record_count"] == 73
+          assert summary["registry_record_count"] == 73
+          assert summary["pylon_count"] == 19
+          assert summary["foundation_pylon_count"] == 4
+          assert summary["domain_pylon_count"] == 15
+          assert summary["ecosystem_category_count"] == 25
+          assert summary["registry_gap_count"] == 26
+          assert summary["selected_gap_count"] == 26
+          assert summary["all_selected_records_covered"] is True
+          assert summary["selected_gap_coverage_complete"] is True
+          assert summary["minimum_foundation_pylons_per_record"] == 4
+          assert summary["minimum_domain_pylons_per_record"] >= 2
+          assert summary["cross_domain_witness_pair_count"] >= 19
+          assert len(atlas["atlas_sha256"]) == 64
+          for coverage in atlas["pylon_coverage"]:
+              assert coverage["cross_domain_witness_pairs"]
+
+          catalog_ids = {item["pylon_id"] for item in catalog["pylons"]}
+          projection_ids = [item["pylon_id"] for item in projection["entries"]]
+          assert len(projection_ids) == 19
+          assert len(set(projection_ids)) == 19
+          assert set(projection_ids) == catalog_ids
+          for entry in projection["entries"]:
+              assert entry["implemented_invariants"]
+              assert entry["open_invariants"]
+              assert entry["next_design_transaction"]
+              for reference in entry["current_surface_refs"]:
+                  path = Path(reference.removeprefix("repo://"))
+                  assert path.is_file(), (entry["pylon_id"], path)
+          PY
+
+      - name: Assemble pylon design kit
+        run: |
+          mkdir -p artifacts/congruent-shapes/kit/data
+          mkdir -p artifacts/congruent-shapes/kit/schemas
+          cp \
+            docs/congruent_shape_pylons.md \
+            docs/pylon_architecture_projection.md \
+            artifacts/congruent-shapes/kit/
+          cp \
+            src/ahead_rev_sim/data/congruent_shape_pylons.json \
+            src/ahead_rev_sim/data/congruent_shape_surface_projection.json \
+            artifacts/congruent-shapes/congruent-shape-atlas.json \
+            artifacts/congruent-shapes/kit/data/
+          cp \
+            schemas/congruent-shape-pylon-catalog.schema.json \
+            schemas/congruent-shape-atlas.schema.json \
+            schemas/congruent-shape-surface-projection.schema.json \
+            artifacts/congruent-shapes/kit/schemas/
+
+      - name: Upload pylon evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: congruent-shape-pylons-${{ github.sha }}
+          path: artifacts/congruent-shapes
+          if-no-files-found: error
+          retention-days: 30

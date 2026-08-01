@@ -65,6 +65,20 @@ class Machine:
         if not 0 <= reg < self.num_regs:
             raise ValueError(f"Register index out of range: r{reg} (num_regs={self.num_regs})")
 
+    @staticmethod
+    def _reject_collapsing_alias(instr: Instruction, rd: int, rs1: int) -> None:
+        """Reject operand aliases that make a nominally reversible opcode many-to-one."""
+        if rd != rs1:
+            return
+        if instr.op == OpCode.RXOR:
+            raise ValueError(
+                f"RXOR requires rd != rs1; x XOR x collapses the word to zero: {instr!r}"
+            )
+        if instr.op == OpCode.RMODADD:
+            raise ValueError(
+                f"RMODADD requires rd != rs1; doubling mod 2^32 is not bijective: {instr!r}"
+            )
+
     def step(self) -> None:
         if self.halted:
             return
@@ -133,6 +147,7 @@ class Machine:
                 raise ValueError(f"RXOR missing source register: {instr!r}")
             self._validate_reg_index(rd)
             self._validate_reg_index(rs1)
+            self._reject_collapsing_alias(instr, rd, rs1)
             self.registers[rd] = self.registers[rd] ^ self.registers[rs1]
             return None
 
@@ -141,6 +156,7 @@ class Machine:
                 raise ValueError(f"RMODADD missing source register: {instr!r}")
             self._validate_reg_index(rd)
             self._validate_reg_index(rs1)
+            self._reject_collapsing_alias(instr, rd, rs1)
             self.registers[rd] = (self.registers[rd] + self.registers[rs1]) & 0xFFFFFFFF
             return None
 
@@ -180,6 +196,7 @@ class Machine:
                 raise ValueError(f"Undo RXOR missing source register: {instr!r}")
             self._validate_reg_index(rd)
             self._validate_reg_index(rs1)
+            self._reject_collapsing_alias(instr, rd, rs1)
             self.registers[rd] = self.registers[rd] ^ self.registers[rs1]
             return
 
@@ -188,6 +205,7 @@ class Machine:
                 raise ValueError(f"Undo RMODADD missing source register: {instr!r}")
             self._validate_reg_index(rd)
             self._validate_reg_index(rs1)
+            self._reject_collapsing_alias(instr, rd, rs1)
             self.registers[rd] = (self.registers[rd] - self.registers[rs1]) & 0xFFFFFFFF
             return
 

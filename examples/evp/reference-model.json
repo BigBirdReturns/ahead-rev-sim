@@ -1,0 +1,89 @@
+{
+  "baseline": null,
+  "boundary": {
+    "allocation_rule": "reference-model allocation",
+    "boundary_id": "reference-cartridge-only-v1",
+    "claim_scope": "component",
+    "concurrency": 1,
+    "excluded_components": [
+      "host",
+      "memory",
+      "interconnect",
+      "conversion",
+      "sensing and readout",
+      "cooling"
+    ],
+    "included_components": [
+      "reference cartridge model"
+    ],
+    "measurement_end_ns": 1000000000,
+    "measurement_start_ns": 0
+  },
+  "energy": {
+    "ambient_harvested_joules": 0,
+    "breakdown_joules": {
+      "reference cartridge model": 1
+    },
+    "evidence_class": "reference_model",
+    "external_supply_joules": 1,
+    "instrument_refs": [],
+    "measurement_overhead_joules": 0,
+    "recovered_joules": 0,
+    "signal_coupled_joules": 0,
+    "uncertainty_fraction": 0
+  },
+  "performance": {
+    "clock_kind": "reference_step",
+    "clock_ref": "reference-model-clock-v1",
+    "elapsed_seconds": 1,
+    "evidence_class": "reference_model",
+    "instrument_refs": [],
+    "latency_seconds": 0.01,
+    "p95_latency_seconds": null,
+    "uncertainty_fraction": 0
+  },
+  "provenance": {
+    "calibration_manifest_sha256": null,
+    "compiler_artifact_sha256": null,
+    "environment_manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "host_proof_sha256": null,
+    "implementation_class": "software reference cartridge",
+    "implementation_id": "ahead-vaire-hitch-reference-model-v1",
+    "measurement_manifest_sha256": null,
+    "substrate_receipt_sha256": null,
+    "supplier_chain": [
+      {
+        "actor": "AheadComputing",
+        "artifact_sha256": null,
+        "component_role": "optional RISC-V host candidate",
+        "implementation_id": "ahead-host-unqualified"
+      },
+      {
+        "actor": "Vaire Computing",
+        "artifact_sha256": null,
+        "component_role": "optional reversible cartridge candidate",
+        "implementation_id": "vaire-cartridge-unqualified"
+      }
+    ]
+  },
+  "volume": {
+    "allocation_rule": "reference model placeholder",
+    "components_mm3": {
+      "reference cartridge model": 100
+    },
+    "evidence_class": "reference_model",
+    "instrument_refs": [],
+    "uncertainty_fraction": 0
+  },
+  "workload": {
+    "accepted": true,
+    "accepted_work_unit": "accepted reversible region",
+    "accepted_work_units": 1,
+    "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "contract_id": "reference-reversible-region-v1",
+    "quality_rule": "exact reference output",
+    "result": {
+      "status": "reference-only"
+    }
+  }
+}

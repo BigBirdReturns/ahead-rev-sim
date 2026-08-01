@@ -1,0 +1,507 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z0-9][a-z0-9-]+$",
+      "type": "string"
+    },
+    "sha": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "witness": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "category": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "project": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "record_id": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "record_id",
+        "actor",
+        "project",
+        "category"
+      ],
+      "type": "object"
+    },
+    "match": {
+      "additionalProperties": false,
+      "properties": {
+        "category_match": {
+          "type": "boolean"
+        },
+        "matched_gap_ids": {
+          "$ref": "#/$defs/strings"
+        },
+        "pylon_id": {
+          "$ref": "#/$defs/id"
+        },
+        "reasons": {
+          "$ref": "#/$defs/strings"
+        },
+        "score": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "strength": {
+          "enum": [
+            "strong",
+            "fallback_overlap"
+          ]
+        },
+        "witness_match": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "pylon_id",
+        "score",
+        "strength",
+        "matched_gap_ids",
+        "category_match",
+        "witness_match",
+        "reasons"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/congruent-shape-atlas.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {
+      "const": "congruent_shape_atlas"
+    },
+    "atlas_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "catalog_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "category_to_pylon_ids": {
+      "additionalProperties": {
+        "items": {
+          "$ref": "#/$defs/id"
+        },
+        "type": "array",
+        "uniqueItems": true
+      },
+      "type": "object"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "design_spine": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "gap_to_pylon_ids": {
+      "additionalProperties": {
+        "items": {
+          "$ref": "#/$defs/id"
+        },
+        "minItems": 1,
+        "type": "array",
+        "uniqueItems": true
+      },
+      "type": "object"
+    },
+    "pylon_coverage": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "authority_location": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "category_count": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "category_ids": {
+            "$ref": "#/$defs/strings"
+          },
+          "cross_domain_witness_pairs": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "congruence_basis": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "left": {
+                  "$ref": "#/$defs/witness"
+                },
+                "pylon_gap_overlap_ids": {
+                  "$ref": "#/$defs/strings"
+                },
+                "right": {
+                  "$ref": "#/$defs/witness"
+                },
+                "shared_system_gap_ids": {
+                  "$ref": "#/$defs/strings"
+                }
+              },
+              "required": [
+                "left",
+                "right",
+                "shared_system_gap_ids",
+                "pylon_gap_overlap_ids",
+                "congruence_basis"
+              ],
+              "type": "object"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "design_consequences": {
+            "$ref": "#/$defs/strings"
+          },
+          "design_plane": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "forbidden_collapse": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "invariant": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "observed_gap_ids": {
+            "$ref": "#/$defs/strings"
+          },
+          "proof_transaction": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "pylon_class": {
+            "enum": [
+              "foundation",
+              "domain"
+            ]
+          },
+          "pylon_id": {
+            "$ref": "#/$defs/id"
+          },
+          "record_count": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "record_ids": {
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "shape_notation": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "upstream_pylon_ids": {
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "pylon_id",
+          "name",
+          "pylon_class",
+          "design_plane",
+          "record_count",
+          "record_ids",
+          "category_count",
+          "category_ids",
+          "observed_gap_ids",
+          "cross_domain_witness_pairs",
+          "shape_notation",
+          "invariant",
+          "authority_location",
+          "forbidden_collapse",
+          "design_consequences",
+          "proof_transaction",
+          "upstream_pylon_ids"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "pylon_edges": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "edge_kind": {
+            "const": "design_dependency"
+          },
+          "from_pylon_id": {
+            "$ref": "#/$defs/id"
+          },
+          "to_pylon_id": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "required": [
+          "from_pylon_id",
+          "to_pylon_id",
+          "edge_kind"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "record_projections": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "actor": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "category": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "design_control_question": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "domain_pylon_ids": {
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "minItems": 2,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "foundation_pylon_ids": {
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "minItems": 4,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "matches": {
+            "items": {
+              "$ref": "#/$defs/match"
+            },
+            "minItems": 2,
+            "type": "array"
+          },
+          "primary_domain_pylon_ids": {
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "minItems": 2,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "priority": {
+            "maximum": 5,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "project": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "record_id": {
+            "$ref": "#/$defs/id"
+          },
+          "system_gap_ids": {
+            "$ref": "#/$defs/strings"
+          }
+        },
+        "required": [
+          "record_id",
+          "actor",
+          "project",
+          "category",
+          "priority",
+          "system_gap_ids",
+          "foundation_pylon_ids",
+          "domain_pylon_ids",
+          "primary_domain_pylon_ids",
+          "matches",
+          "design_control_question"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "registry_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "schema_version": {
+      "const": "ahead.congruent-shape-atlas/v0.1"
+    },
+    "selection": {
+      "additionalProperties": false,
+      "properties": {
+        "category_ids": {
+          "$ref": "#/$defs/strings"
+        },
+        "priority_max": {
+          "maximum": 5,
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "priority_max",
+        "category_ids"
+      ],
+      "type": "object"
+    },
+    "summary": {
+      "additionalProperties": false,
+      "properties": {
+        "all_selected_records_covered": {
+          "const": true
+        },
+        "cross_domain_witness_pair_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "design_plane_counts": {
+          "additionalProperties": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "type": "object"
+        },
+        "domain_pylon_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "ecosystem_category_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "foundation_pylon_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "maximum_domain_pylons_per_record": {
+          "minimum": 2,
+          "type": "integer"
+        },
+        "minimum_domain_pylons_per_record": {
+          "minimum": 2,
+          "type": "integer"
+        },
+        "minimum_foundation_pylons_per_record": {
+          "minimum": 4,
+          "type": "integer"
+        },
+        "pylon_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "record_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "records_by_primary_pylon": {
+          "additionalProperties": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "type": "object"
+        },
+        "registry_gap_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "registry_record_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "selected_gap_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "selected_gap_coverage_complete": {
+          "const": true
+        }
+      },
+      "required": [
+        "record_count",
+        "registry_record_count",
+        "pylon_count",
+        "foundation_pylon_count",
+        "domain_pylon_count",
+        "design_plane_counts",
+        "ecosystem_category_count",
+        "registry_gap_count",
+        "selected_gap_count",
+        "selected_gap_coverage_complete",
+        "minimum_foundation_pylons_per_record",
+        "minimum_domain_pylons_per_record",
+        "maximum_domain_pylons_per_record",
+        "cross_domain_witness_pair_count",
+        "records_by_primary_pylon",
+        "all_selected_records_covered"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "registry_sha256",
+    "catalog_sha256",
+    "selection",
+    "summary",
+    "design_spine",
+    "pylon_edges",
+    "pylon_coverage",
+    "record_projections",
+    "gap_to_pylon_ids",
+    "category_to_pylon_ids",
+    "claim_boundary",
+    "control_question",
+    "atlas_sha256"
+  ],
+  "title": "ahead-rev-sim congruent-shape pylon atlas",
+  "type": "object"
+}

@@ -1,0 +1,400 @@
+{
+  "artifact_type": "congruent_shape_surface_projection",
+  "as_of": "2026-08-01",
+  "entries": [
+    {
+      "control_question": "Can a candidate be replayed from the same frozen base and accepted without trusting the worker that produced it?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/frontier_exec.py",
+        "repo://src/ahead_rev_sim/execution_proof.py",
+        "repo://src/ahead_rev_sim/consist_execution.py"
+      ],
+      "implemented_invariants": [
+        "accepted output is separate from execution completion",
+        "candidate state and restoration proofs are sealed",
+        "first divergence is preserved"
+      ],
+      "implementation_state": "contract_implemented",
+      "next_design_transaction": "Package the full physical transaction for artifact-only replay by an external acceptor without repository access.",
+      "open_invariants": [
+        "artifact-only external replay across a measured physical run"
+      ],
+      "pylon_id": "bounded-transition-spine"
+    },
+    {
+      "control_question": "Can a provider be removed without changing workload identity, acceptance, fallback, publication, or historical custody?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/provider_hitch.py",
+        "repo://src/ahead_rev_sim/commodity_registry.py",
+        "repo://schemas/physical-compute-provider-hitch.schema.json"
+      ],
+      "implemented_invariants": [
+        "provider manifests cannot claim architectural authority",
+        "offers and acknowledged submissions are separate states",
+        "dependency mode is commodity_only"
+      ],
+      "implementation_state": "contract_implemented",
+      "next_design_transaction": "Ingest the first acknowledged external host or cartridge submission and replace one reference endpoint without changing acceptance.",
+      "open_invariants": [
+        "acknowledged external provider substitution"
+      ],
+      "pylon_id": "authority-outside-provider"
+    },
+    {
+      "control_question": "Does every ambiguous, missing, refused, faulted, unmeasured, and accepted condition retain a distinct terminal receipt?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/physical_runtime.py",
+        "repo://src/ahead_rev_sim/provider_hitch.py",
+        "repo://src/ahead_rev_sim/evp.py"
+      ],
+      "implemented_invariants": [
+        "MMIO ambiguity refuses closed",
+        "provider and EVP blockers are explicit",
+        "physical claims remain false when evidence is absent"
+      ],
+      "implementation_state": "contract_implemented",
+      "next_design_transaction": "Exercise facility denial, fabrication failure, instrument dropout, and physical drift as distinct negative-space fixtures.",
+      "open_invariants": [
+        "institutional and physical failure fixtures beyond software refusal"
+      ],
+      "pylon_id": "negative-space-refusal-ledger"
+    },
+    {
+      "control_question": "Can source, build, execution, measurement, acceptance, and supersession be reconstructed after the original actor disappears?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/commodity_registry.py",
+        "repo://src/ahead_rev_sim/riscv_target.py",
+        "repo://src/ahead_rev_sim/consist_execution.py",
+        "repo://src/ahead_rev_sim/congruent_shapes.py"
+      ],
+      "implemented_invariants": [
+        "registry, workload, target, consist, EVP, and pylon artifacts are SHA-256 sealed",
+        "source and public artifact identities are retained",
+        "programme failure remains a registry record"
+      ],
+      "implementation_state": "partial_contract",
+      "next_design_transaction": "Emit an in-toto or equivalent source-to-GDS-to-measurement succession chain and reconstruct it from an isolated audit bundle.",
+      "open_invariants": [
+        "signed transformation chain",
+        "artifact-only reconstruction after tool and facility removal"
+      ],
+      "pylon_id": "provenance-succession-chain"
+    },
+    {
+      "control_question": "Can two substrate implementations preserve descriptor, lifecycle, state, fallback, and receipt behavior behind one binding?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/physical_descriptor.py",
+        "repo://src/ahead_rev_sim/physical_runtime.py",
+        "repo://src/ahead_rev_sim/mmio_abi.py",
+        "repo://src/ahead_rev_sim/provider_hitch.py"
+      ],
+      "implemented_invariants": [
+        "physical-compute-mmio/v1 is the portable floor",
+        "descriptor and capability surfaces are typed",
+        "software fallback is mandatory",
+        "Xphys cannot change evidence or acceptance"
+      ],
+      "implementation_state": "contract_implemented",
+      "next_design_transaction": "Replace the loopback reference with an RC or thermal physical cartridge while preserving the exact host transaction.",
+      "open_invariants": [
+        "measured physical cartridge substitution"
+      ],
+      "pylon_id": "self-describing-cartridge"
+    },
+    {
+      "control_question": "Does every physical candidate retain a public reference twin under identical accepted work?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/physical_cartridges.py",
+        "repo://src/ahead_rev_sim/physical_assay.py",
+        "repo://src/ahead_rev_sim/provider_hitch.py"
+      ],
+      "implemented_invariants": [
+        "reference RC and thermal cartridges execute through the shared runtime",
+        "physical assay compares raw and transformed trajectories",
+        "provider hitches require software fallback"
+      ],
+      "implementation_state": "contract_implemented",
+      "next_design_transaction": "Run one measured physical cartridge and its software twin under the same accepted workload and emit first model-to-device divergence.",
+      "open_invariants": [
+        "live measured twin comparison"
+      ],
+      "pylon_id": "reference-twin-substitution"
+    },
+    {
+      "control_question": "Are command, busy, reset, refusal, fault, receipt, and accepted-output states mutually explicit across implementations?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/mmio_abi.py",
+        "repo://src/ahead_rev_sim/physical_runtime.py",
+        "repo://src/ahead_rev_sim/riscv_target.py",
+        "repo://tests/test_mmio_abi.py"
+      ],
+      "implemented_invariants": [
+        "complete reset, load, evolve, read, and capture surface",
+        "ambiguous commands refuse",
+        "done, refused, and fault outcomes are exclusive",
+        "reset and receipt behavior are tested"
+      ],
+      "implementation_state": "contract_implemented",
+      "next_design_transaction": "Execute the same lifecycle in Chipyard RTL and the first physical cartridge, including timeout and resolver fault paths.",
+      "open_invariants": [
+        "RTL lifecycle execution",
+        "physical timeout and fault containment"
+      ],
+      "pylon_id": "lifecycle-refusal-state-machine"
+    },
+    {
+      "control_question": "Are state, entropy, environment, calibration, clocks, power, and accepted output aligned to the same causal interval?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/physical_signal.py",
+        "repo://src/ahead_rev_sim/physical_receipt.py",
+        "repo://src/ahead_rev_sim/evp.py"
+      ],
+      "implemented_invariants": [
+        "exact, trace-replay, and distributional determinism are separate",
+        "entropy traces and environment digests are first-class",
+        "EVP binds calibration, environment, instruments, and time"
+      ],
+      "implementation_state": "partial_contract",
+      "next_design_transaction": "Join instrument clocks, physical entropy, environment, calibration, power, and accepted output in one measured execution trace.",
+      "open_invariants": [
+        "measured multi-clock synchronization",
+        "physical entropy custody"
+      ],
+      "pylon_id": "causal-custody-braid"
+    },
+    {
+      "control_question": "Can accepted semantics survive portable representation, target lowering, and execution across two backends?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/semantics.py",
+        "repo://src/ahead_rev_sim/frontier.py",
+        "repo://src/ahead_rev_sim/fambs_svk_lowering.py",
+        "repo://src/ahead_rev_sim/fambs_pck_lowering.py",
+        "repo://src/ahead_rev_sim/chipyard_integration.py"
+      ],
+      "implemented_invariants": [
+        "instruction information effects precede lowering",
+        "structured and memory-irregular semantic lowerings exist",
+        "target artifacts remain bound to accepted output"
+      ],
+      "implementation_state": "partial_contract",
+      "next_design_transaction": "Lower one composite FAMBS workload through CIRCT or Calyx and Chipyard, then prove source, IR, RTL, and target parity.",
+      "open_invariants": [
+        "composite workload lowering",
+        "independent hardware-IR backend parity",
+        "executed Chipyard RTL"
+      ],
+      "pylon_id": "semantic-ir-lowering-sandwich"
+    },
+    {
+      "control_question": "Which measured behavior replaces each model tier, and where does the first fidelity divergence occur?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/physical_assay.py",
+        "repo://src/ahead_rev_sim/physical_receipt.py",
+        "repo://src/ahead_rev_sim/evp.py",
+        "repo://docs/physical_compute_substrates.md"
+      ],
+      "implemented_invariants": [
+        "reference, simulated, and measured evidence classes are distinct",
+        "model-only execution cannot make physical claims",
+        "held-out assay retains source and response separation"
+      ],
+      "implementation_state": "partial_contract",
+      "next_design_transaction": "Execute an ideal, nonideal, calibrated, and measured RC or stochastic-device staircase with first-divergence receipts.",
+      "open_invariants": [
+        "calibrated target-observed tier",
+        "measured replacement map",
+        "independent physical validation"
+      ],
+      "pylon_id": "model-fidelity-staircase"
+    },
+    {
+      "control_question": "Does the physical response improve held-out accepted work beyond raw sensing after readout and acquisition costs are included?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/physical_assay.py",
+        "repo://tests/test_physical_assay.py",
+        "repo://docs/reservoir_assay.md"
+      ],
+      "implemented_invariants": [
+        "raw stimulus and substrate response use the same readout",
+        "held-out compute gain is explicit",
+        "software fallback cannot become a physical-compute claim"
+      ],
+      "implementation_state": "contract_implemented",
+      "next_design_transaction": "Acquire measured nonfallback episodes from an environmental, RC, oscillator, or stochastic substrate and repeat the held-out assay with full acquisition cost.",
+      "open_invariants": [
+        "measured nonfallback compute gain",
+        "physical readout and training energy"
+      ],
+      "pylon_id": "compute-vs-sensing-separation"
+    },
+    {
+      "control_question": "Does the receipt include every component required to deliver the accepted result?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/evp.py",
+        "repo://schemas/evp-receipt.schema.json",
+        "repo://docs/evp_receipt.md"
+      ],
+      "implemented_invariants": [
+        "component, subsystem, and complete-system scopes are distinct",
+        "boundary exclusions block complete-system qualification",
+        "energy, volume, and time share the accepted-work interval"
+      ],
+      "implementation_state": "partial_contract",
+      "next_design_transaction": "Measure host, memory, cartridge, interconnect, conversion, sensing, readout, package, and cooling for one accepted workload.",
+      "open_invariants": [
+        "closed measured complete-system boundary"
+      ],
+      "pylon_id": "complete-system-envelope"
+    },
+    {
+      "control_question": "For the same accepted work, boundary, and environment, does the candidate Pareto-dominate a sealed baseline?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/evp.py",
+        "repo://src/ahead_rev_sim/evp_cli.py",
+        "repo://schemas/evp-receipt.schema.json",
+        "repo://tests/test_evp.py"
+      ],
+      "implemented_invariants": [
+        "EVP is a vector rather than a scalar score",
+        "energy origins and returns remain separate",
+        "baseline comparability and Pareto admission are enforced"
+      ],
+      "implementation_state": "contract_implemented",
+      "next_design_transaction": "Produce the first measured candidate and sealed baseline for identical accepted work, complete boundary, and environment.",
+      "open_invariants": [
+        "measured complete-system EVP candidate",
+        "independently reconstructed baseline comparison"
+      ],
+      "pylon_id": "evp-pareto-frontier"
+    },
+    {
+      "control_question": "Can endpoints and transports be replaced independently while preserving lifecycle, opaque state, errors, and transfer receipts?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/mmio_abi.py",
+        "repo://src/ahead_rev_sim/provider_hitch.py",
+        "repo://src/ahead_rev_sim/chipyard_integration.py",
+        "repo://docs/provider_hitch_surface.md"
+      ],
+      "implemented_invariants": [
+        "host and cartridge are separately replaceable",
+        "opaque pointer fields and stable MMIO remain the portability floor",
+        "provider hitches preserve refusal and fallback authority"
+      ],
+      "implementation_state": "partial_contract",
+      "next_design_transaction": "Execute the generated bridge and cartridge link in Chipyard RTL, then substitute one host and one physical endpoint independently.",
+      "open_invariants": [
+        "executed RTL composition",
+        "measured transport and package cost",
+        "external endpoint substitution"
+      ],
+      "pylon_id": "composition-fabric"
+    },
+    {
+      "control_question": "Which communication, synchronization, refresh, utilization, and failure cost appears at each new scale seam?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/commodity_program.py",
+        "repo://src/ahead_rev_sim/congruent_shapes.py",
+        "repo://docs/congruent_shape_pylons.md"
+      ],
+      "implemented_invariants": [
+        "scale seams are represented as distinct registry gaps and pylons",
+        "chiplet, photonic, neuromorphic, and rack witnesses share one design constraint"
+      ],
+      "implementation_state": "mapped_open",
+      "next_design_transaction": "Build a tile-to-die-to-package-to-rack traffic and EVP model for one accepted workload and measure each incremental seam.",
+      "open_invariants": [
+        "executable multiscale topology",
+        "incremental scale-seam EVP receipts",
+        "failure-domain scaling proof"
+      ],
+      "pylon_id": "scale-seam-communication-tax"
+    },
+    {
+      "control_question": "Can source intent be reconstructed through generated implementation, signoff, fabrication, package, test, and measurement?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/chipyard_integration.py",
+        "repo://src/ahead_rev_sim/commodity_program.py",
+        "repo://docs/chipyard_physical_compute_integration.md"
+      ],
+      "implemented_invariants": [
+        "Chipyard integration is source-bound and sealed",
+        "open PDK, EDA, fabrication, package, and test actors are mapped as commodities",
+        "fabrication claims remain blocked"
+      ],
+      "implementation_state": "partial_contract",
+      "next_design_transaction": "Elaborate and execute the Chipyard candidate, then route the control and first substrate test macro through an open PDK and measurable shuttle path.",
+      "open_invariants": [
+        "Chipyard elaboration and RTL execution",
+        "DRC LVS extraction and timing",
+        "fabricated test structure",
+        "package and measured silicon"
+      ],
+      "pylon_id": "materialization-funnel"
+    },
+    {
+      "control_question": "Can an immutable submission move between venues and be reconstructed from returned raw artifacts?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/commodity_program.py",
+        "repo://src/ahead_rev_sim/data/commodity_completion_program.json",
+        "repo://docs/commodity_completion_program.md"
+      ],
+      "implemented_invariants": [
+        "remote testbeds, fabrication facilities, and programmes are mapped to bounded transactions",
+        "access, queue, raw artifacts, and programme failure are explicit registry gaps"
+      ],
+      "implementation_state": "mapped_open",
+      "next_design_transaction": "Create the first portable submission bundle for two remote compute or fabrication venues and require raw-return replay plus migration after denial.",
+      "open_invariants": [
+        "executable remote submission adapter",
+        "queue and facility receipt",
+        "returned raw artifact replay",
+        "venue migration proof"
+      ],
+      "pylon_id": "remote-venue-envelope"
+    },
+    {
+      "control_question": "Which recovery strategy preserves the most accepted work under the same state, failure, and energy trace?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/frontier_cost.py",
+        "repo://src/ahead_rev_sim/frontier_exec.py",
+        "repo://src/ahead_rev_sim/evp.py",
+        "repo://src/ahead_rev_sim/data/commodity_completion_program.json"
+      ],
+      "implemented_invariants": [
+        "history, uncompute, commit, and runtime break-even strategies are explicit",
+        "harvested and recovered energy are separate EVP inputs",
+        "intermittent runtimes are mapped into a dedicated completion lane"
+      ],
+      "implementation_state": "partial_contract",
+      "next_design_transaction": "Replay one workload under a pinned energy and failure trace across checkpoint, task-atomic, reversible-history, retry, and cartridge strategies.",
+      "open_invariants": [
+        "executable intermittent strategy comparison",
+        "lost-work and storage-energy receipt",
+        "measured harvested-energy execution"
+      ],
+      "pylon_id": "intermittent-commit-recovery"
+    },
+    {
+      "control_question": "Does every public signal become a pinned gap, bounded transaction, lane, receipt, and substitution route?",
+      "current_surface_refs": [
+        "repo://src/ahead_rev_sim/commodity_registry.py",
+        "repo://src/ahead_rev_sim/commodity_program.py",
+        "repo://src/ahead_rev_sim/fanout_cli.py",
+        "repo://src/ahead_rev_sim/congruent_shapes.py"
+      ],
+      "implemented_invariants": [
+        "73 records resolve to official sources, assets, gaps, first transactions, and receipts",
+        "12 completion lanes cover the registry",
+        "19 pylons project every record and all 26 gaps"
+      ],
+      "implementation_state": "contract_implemented",
+      "next_design_transaction": "Make pylon projection mandatory for every newly admitted commodity record and require substitute coverage before a record or programme is retired.",
+      "open_invariants": [
+        "automatic admission gate for future registry edits",
+        "substitute-coverage proof on record retirement"
+      ],
+      "pylon_id": "registry-gap-transaction-dispatch"
+    }
+  ],
+  "schema_version": "ahead.congruent-shape-surface-projection/v0.1"
+}

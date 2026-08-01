@@ -1,0 +1,343 @@
+{
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/physical-compute-provider-hitch.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actor": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "actor_acknowledged": {
+      "type": "boolean"
+    },
+    "artifact_type": {
+      "const": "physical_compute_provider_hitch"
+    },
+    "artifacts": {
+      "items": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "properties": {
+                "digest": {
+                  "type": "null"
+                },
+                "locator": {
+                  "type": "null"
+                }
+              }
+            },
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "present"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "digest": {
+                  "type": "object"
+                },
+                "locator": {
+                  "pattern": "^(https://|repo://|workflow://|artifact://)",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "digest": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "algorithm": {
+                    "enum": [
+                      "sha256",
+                      "git-sha1"
+                    ]
+                  },
+                  "scope": {
+                    "enum": [
+                      "content",
+                      "git_blob",
+                      "artifact_seal"
+                    ],
+                    "type": "string"
+                  },
+                  "value": {
+                    "pattern": "^[0-9a-f]{40}([0-9a-f]{24})?$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "algorithm",
+                  "value",
+                  "scope"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "evidence_class": {
+            "enum": [
+              "public_signal",
+              "source",
+              "simulated",
+              "target_observed",
+              "measured",
+              "independently_validated"
+            ]
+          },
+          "locator": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "required_for": {
+            "enum": [
+              "execution",
+              "physical_claim",
+              "optional"
+            ]
+          },
+          "slot": {
+            "pattern": "^[a-z0-9_]+$",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "missing",
+              "present",
+              "not_applicable"
+            ]
+          }
+        },
+        "required": [
+          "slot",
+          "required_for",
+          "status",
+          "locator",
+          "digest",
+          "evidence_class"
+        ],
+        "type": "object"
+      },
+      "minItems": 8,
+      "type": "array"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "commodity_record_id": {
+      "pattern": "^[a-z0-9][a-z0-9-]+$",
+      "type": "string"
+    },
+    "dependency_mode": {
+      "const": "commodity_only"
+    },
+    "hitch_id": {
+      "pattern": "^[a-z0-9][a-z0-9-]+$",
+      "type": "string"
+    },
+    "hitch_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "interface": {
+      "additionalProperties": false,
+      "properties": {
+        "abi_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "any_of_capabilities": {
+          "items": {
+            "enum": [
+              "exact",
+              "trace_replay",
+              "distributional",
+              "software_fallback",
+              "measured_energy",
+              "xphys_acceleration"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "byte_order": {
+          "const": "little"
+        },
+        "declared_capabilities": {
+          "items": {
+            "enum": [
+              "exact",
+              "trace_replay",
+              "distributional",
+              "software_fallback",
+              "measured_energy",
+              "xphys_acceleration"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "declared_commands": {
+          "items": {
+            "enum": [
+              "reset",
+              "load",
+              "evolve",
+              "read",
+              "capture"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "optional_riscv_extension": {
+          "const": "Xphys"
+        },
+        "portable_binding": {
+          "const": "physical-compute-mmio/v1"
+        },
+        "required_capabilities": {
+          "items": {
+            "enum": [
+              "exact",
+              "trace_replay",
+              "distributional",
+              "software_fallback",
+              "measured_energy",
+              "xphys_acceleration"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "required_commands": {
+          "items": {
+            "enum": [
+              "reset",
+              "load",
+              "evolve",
+              "read",
+              "capture"
+            ]
+          },
+          "maxItems": 5,
+          "minItems": 5,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "word_bytes": {
+          "const": 4
+        },
+        "xphys_policy": {
+          "const": "evidence_only"
+        }
+      },
+      "required": [
+        "portable_binding",
+        "abi_sha256",
+        "byte_order",
+        "word_bytes",
+        "required_commands",
+        "declared_commands",
+        "required_capabilities",
+        "declared_capabilities",
+        "any_of_capabilities",
+        "optional_riscv_extension",
+        "xphys_policy"
+      ],
+      "type": "object"
+    },
+    "issuer": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "manifest_kind": {
+      "enum": [
+        "offer",
+        "reference",
+        "submission"
+      ]
+    },
+    "project": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "public_sources": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "completion_signal": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "url": {
+            "pattern": "^https://",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "url",
+          "completion_signal"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "realization_class": {
+      "enum": [
+        "physical",
+        "virtual_reference"
+      ]
+    },
+    "role": {
+      "enum": [
+        "host",
+        "cartridge"
+      ]
+    },
+    "schema_version": {
+      "const": "ahead.physical-compute-provider-hitch/v0.1"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "hitch_id",
+    "manifest_kind",
+    "issuer",
+    "actor",
+    "actor_acknowledged",
+    "project",
+    "commodity_record_id",
+    "role",
+    "realization_class",
+    "dependency_mode",
+    "interface",
+    "public_sources",
+    "artifacts",
+    "claim_boundary",
+    "hitch_sha256"
+  ],
+  "title": "ahead-rev-sim physical-compute provider hitch",
+  "type": "object"
+}

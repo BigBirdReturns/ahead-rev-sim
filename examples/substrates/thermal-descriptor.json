@@ -1,0 +1,89 @@
+{
+  "channels": [
+    {
+      "calibration_required": true,
+      "channel_id": "probability_threshold_u32",
+      "direction": "input",
+      "dtype": "int32",
+      "physical_quantity": "programmed_energy_bias_threshold",
+      "roles": [
+        "operand"
+      ],
+      "sample_period_ns": null,
+      "unit": "u32"
+    },
+    {
+      "calibration_required": false,
+      "channel_id": "thermal_fluctuation",
+      "direction": "internal",
+      "dtype": "int32",
+      "physical_quantity": "stochastic_fluctuation",
+      "roles": [
+        "dynamics",
+        "context"
+      ],
+      "sample_period_ns": null,
+      "unit": "u32"
+    },
+    {
+      "calibration_required": false,
+      "channel_id": "sampled_bit",
+      "direction": "output",
+      "dtype": "int32",
+      "physical_quantity": "stochastic_bit",
+      "roles": [
+        "result"
+      ],
+      "sample_period_ns": null,
+      "unit": "bit"
+    },
+    {
+      "calibration_required": false,
+      "channel_id": "ambient_heat_bath",
+      "direction": "internal",
+      "dtype": "int32",
+      "physical_quantity": "thermal_environment",
+      "roles": [
+        "context"
+      ],
+      "sample_period_ns": null,
+      "unit": "kelvin"
+    },
+    {
+      "calibration_required": false,
+      "channel_id": "bias_supply",
+      "direction": "internal",
+      "dtype": "int32",
+      "physical_quantity": "device_energy_supply",
+      "roles": [
+        "energy"
+      ],
+      "sample_period_ns": null,
+      "unit": "joule"
+    }
+  ],
+  "coupling_mode": "stimulate_and_observe",
+  "determinism": "replay_with_trace",
+  "dynamics_class": "thermodynamic_stochastic",
+  "energy_contract": {
+    "evidence_class": "reference_model",
+    "instrument_ref": null,
+    "measurement_boundary": "unmeasured",
+    "recovered_or_harvested_joules": null,
+    "source_class": "external",
+    "supplied_joules": null
+  },
+  "environment_boundary": "biased device, heat bath, sampler, and readout",
+  "fallback_model_id": "thermal-sampler-trace-replay/v1",
+  "operator_class": "thermodynamic_bit_sampler_u32",
+  "optional_riscv_extension": "Xphys",
+  "parameters": {
+    "entropy_word_bits": 32
+  },
+  "portable_binding": "physical-compute-mmio/v1",
+  "realization_class": "designed_device",
+  "reset_contract": "statistical",
+  "schema_version": "ahead.physical-substrate/v0.1",
+  "state_words": 1,
+  "substrate_id": "thermal-bit-sampler-reference-v1"
+}

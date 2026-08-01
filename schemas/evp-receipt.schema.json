@@ -1,0 +1,580 @@
+{
+  "$defs": {
+    "evidence": {
+      "enum": [
+        "reference_model",
+        "simulated",
+        "measured"
+      ]
+    },
+    "nonnegative": {
+      "minimum": 0,
+      "type": "number"
+    },
+    "positive": {
+      "exclusiveMinimum": 0,
+      "type": "number"
+    },
+    "sha": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "shaOrNull": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/sha"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/evp-receipt.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {
+      "const": "energy_volume_performance_receipt"
+    },
+    "baseline": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "boundary_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "claim_scope": {
+              "enum": [
+                "component",
+                "subsystem",
+                "complete_system"
+              ]
+            },
+            "environment_manifest_sha256": {
+              "$ref": "#/$defs/sha"
+            },
+            "latency_seconds": {
+              "$ref": "#/$defs/positive"
+            },
+            "net_physical_joules_per_accepted_work_unit": {
+              "$ref": "#/$defs/nonnegative"
+            },
+            "occupied_mm3": {
+              "$ref": "#/$defs/positive"
+            },
+            "receipt_sha256": {
+              "$ref": "#/$defs/sha"
+            },
+            "throughput_accepted_work_units_per_second": {
+              "$ref": "#/$defs/positive"
+            },
+            "workload_contract_id": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "receipt_sha256",
+            "workload_contract_id",
+            "boundary_id",
+            "claim_scope",
+            "environment_manifest_sha256",
+            "net_physical_joules_per_accepted_work_unit",
+            "occupied_mm3",
+            "throughput_accepted_work_units_per_second",
+            "latency_seconds"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "boundary": {
+      "additionalProperties": false,
+      "properties": {
+        "allocation_rule": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "boundary_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "claim_scope": {
+          "enum": [
+            "component",
+            "subsystem",
+            "complete_system"
+          ]
+        },
+        "concurrency": {
+          "$ref": "#/$defs/positive"
+        },
+        "excluded_components": {
+          "$ref": "#/$defs/strings"
+        },
+        "included_components": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/strings"
+            },
+            {
+              "minItems": 1
+            }
+          ]
+        },
+        "measurement_end_ns": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "measurement_start_ns": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "boundary_id",
+        "claim_scope",
+        "included_components",
+        "excluded_components",
+        "allocation_rule",
+        "measurement_start_ns",
+        "measurement_end_ns",
+        "concurrency"
+      ],
+      "type": "object"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "comparison": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "baseline_receipt_sha256": {
+              "$ref": "#/$defs/sha"
+            },
+            "comparable": {
+              "type": "boolean"
+            },
+            "energy_ratio": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/nonnegative"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "latency_ratio": {
+              "$ref": "#/$defs/nonnegative"
+            },
+            "pareto_dominates_baseline": {
+              "type": "boolean"
+            },
+            "scalar_score_allowed": {
+              "const": false
+            },
+            "throughput_ratio": {
+              "$ref": "#/$defs/nonnegative"
+            },
+            "volume_ratio": {
+              "$ref": "#/$defs/nonnegative"
+            }
+          },
+          "required": [
+            "baseline_receipt_sha256",
+            "comparable",
+            "energy_ratio",
+            "volume_ratio",
+            "throughput_ratio",
+            "latency_ratio",
+            "pareto_dominates_baseline",
+            "scalar_score_allowed"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "energy": {
+      "additionalProperties": false,
+      "properties": {
+        "ambient_harvested_joules": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "breakdown_error_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "breakdown_joules": {
+          "additionalProperties": {
+            "$ref": "#/$defs/nonnegative"
+          },
+          "type": "object"
+        },
+        "breakdown_total_joules": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "evidence_class": {
+          "$ref": "#/$defs/evidence"
+        },
+        "external_supply_joules": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "gross_physical_input_joules": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "instrument_refs": {
+          "$ref": "#/$defs/strings"
+        },
+        "instrumented_total_joules": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "measurement_overhead_joules": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "net_external_joules": {
+          "type": "number"
+        },
+        "net_external_joules_per_accepted_work_unit": {
+          "type": "number"
+        },
+        "net_physical_joules": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "net_physical_joules_per_accepted_work_unit": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "recovered_joules": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "signal_coupled_joules": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "uncertainty_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "evidence_class",
+        "instrument_refs",
+        "uncertainty_fraction",
+        "external_supply_joules",
+        "ambient_harvested_joules",
+        "signal_coupled_joules",
+        "recovered_joules",
+        "measurement_overhead_joules",
+        "breakdown_joules",
+        "breakdown_total_joules",
+        "breakdown_error_fraction",
+        "gross_physical_input_joules",
+        "net_physical_joules",
+        "net_external_joules",
+        "instrumented_total_joules",
+        "net_physical_joules_per_accepted_work_unit",
+        "net_external_joules_per_accepted_work_unit"
+      ],
+      "type": "object"
+    },
+    "performance": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary_interval_seconds": {
+          "$ref": "#/$defs/positive"
+        },
+        "clock_kind": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "clock_ref": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "elapsed_seconds": {
+          "$ref": "#/$defs/positive"
+        },
+        "evidence_class": {
+          "$ref": "#/$defs/evidence"
+        },
+        "instrument_refs": {
+          "$ref": "#/$defs/strings"
+        },
+        "interval_error_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "latency_seconds": {
+          "$ref": "#/$defs/positive"
+        },
+        "p95_latency_seconds": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/positive"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "throughput_accepted_work_units_per_second": {
+          "$ref": "#/$defs/positive"
+        },
+        "uncertainty_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "evidence_class",
+        "instrument_refs",
+        "uncertainty_fraction",
+        "clock_kind",
+        "clock_ref",
+        "elapsed_seconds",
+        "boundary_interval_seconds",
+        "interval_error_fraction",
+        "latency_seconds",
+        "p95_latency_seconds",
+        "throughput_accepted_work_units_per_second"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration_manifest_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "compiler_artifact_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "environment_manifest_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "host_proof_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "implementation_class": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "implementation_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "measurement_manifest_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "substrate_receipt_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "supplier_chain": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "actor": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "artifact_sha256": {
+                "$ref": "#/$defs/shaOrNull"
+              },
+              "component_role": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "implementation_id": {
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "actor",
+              "component_role",
+              "implementation_id",
+              "artifact_sha256"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "implementation_id",
+        "implementation_class",
+        "substrate_receipt_sha256",
+        "host_proof_sha256",
+        "compiler_artifact_sha256",
+        "measurement_manifest_sha256",
+        "environment_manifest_sha256",
+        "calibration_manifest_sha256",
+        "supplier_chain"
+      ],
+      "type": "object"
+    },
+    "qualification": {
+      "additionalProperties": false,
+      "properties": {
+        "advantage_claim_allowed": {
+          "type": "boolean"
+        },
+        "blockers": {
+          "$ref": "#/$defs/strings"
+        },
+        "complete_system_measurement_allowed": {
+          "type": "boolean"
+        },
+        "measured_evp_vector_allowed": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "refused",
+            "modeled_evp_vector",
+            "measured_evp_vector"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "measured_evp_vector_allowed",
+        "complete_system_measurement_allowed",
+        "advantage_claim_allowed",
+        "blockers"
+      ],
+      "type": "object"
+    },
+    "receipt_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "schema_version": {
+      "const": "ahead.evp-receipt/v0.1"
+    },
+    "volume": {
+      "additionalProperties": false,
+      "properties": {
+        "allocation_rule": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "components_mm3": {
+          "additionalProperties": {
+            "$ref": "#/$defs/nonnegative"
+          },
+          "minProperties": 1,
+          "type": "object"
+        },
+        "evidence_class": {
+          "$ref": "#/$defs/evidence"
+        },
+        "instrument_refs": {
+          "$ref": "#/$defs/strings"
+        },
+        "mm3_per_concurrent_work_unit": {
+          "$ref": "#/$defs/positive"
+        },
+        "occupied_mm3": {
+          "$ref": "#/$defs/positive"
+        },
+        "uncertainty_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "evidence_class",
+        "instrument_refs",
+        "uncertainty_fraction",
+        "allocation_rule",
+        "components_mm3",
+        "occupied_mm3",
+        "mm3_per_concurrent_work_unit"
+      ],
+      "type": "object"
+    },
+    "workload": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {
+          "type": "boolean"
+        },
+        "accepted_work_unit": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "accepted_work_units": {
+          "$ref": "#/$defs/positive"
+        },
+        "artifact_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "contract_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "quality_rule": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "result": {}
+      },
+      "required": [
+        "contract_id",
+        "artifact_sha256",
+        "accepted_work_unit",
+        "accepted_work_units",
+        "result",
+        "quality_rule",
+        "accepted"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "workload",
+    "boundary",
+    "energy",
+    "volume",
+    "performance",
+    "provenance",
+    "baseline",
+    "comparison",
+    "qualification",
+    "claim_boundary",
+    "control_question",
+    "receipt_sha256"
+  ],
+  "title": "ahead-rev-sim Energy, Volume, and Performance receipt",
+  "type": "object"
+}

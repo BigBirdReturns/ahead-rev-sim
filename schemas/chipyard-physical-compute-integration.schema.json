@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/chipyard-physical-compute-integration.schema.json",
+  "title": "ahead-rev-sim Chipyard physical-compute integration manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "portable_binding",
+    "base_address",
+    "chipyard_source_contract",
+    "abi_sha256",
+    "generated_artifacts",
+    "qualification",
+    "claim_boundary",
+    "manifest_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ahead.chipyard-physical-compute-integration/v0.1"
+    },
+    "artifact_type": {
+      "const": "chipyard_physical_compute_integration"
+    },
+    "portable_binding": {
+      "const": "physical-compute-mmio/v1"
+    },
+    "base_address": {
+      "type": "integer",
+      "minimum": 0,
+      "multipleOf": 4096
+    },
+    "chipyard_source_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "ref",
+        "path",
+        "blob_sha",
+        "url",
+        "api_patterns"
+      ],
+      "properties": {
+        "repository": {
+          "const": "ucb-bar/chipyard"
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "const": "generators/chipyard/src/main/scala/example/GCD.scala"
+        },
+        "blob_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https://github.com/ucb-bar/chipyard/blob/"
+        },
+        "api_patterns": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "abi_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "generated_artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "PhysicalCompute.scala",
+        "physical_compute_smoke.c"
+      ],
+      "properties": {
+        "PhysicalCompute.scala": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "physical_compute_smoke.c": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "physical_claim_allowed",
+        "blockers"
+      ],
+      "properties": {
+        "status": {
+          "const": "source_generated_unqualified"
+        },
+        "physical_claim_allowed": {
+          "const": false
+        },
+        "blockers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]+$"
+          }
+        }
+      }
+    },
+    "claim_boundary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "manifest_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

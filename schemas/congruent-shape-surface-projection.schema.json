@@ -1,0 +1,92 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z0-9][a-z0-9-]+$",
+      "type": "string"
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/congruent-shape-surface-projection.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {
+      "const": "congruent_shape_surface_projection"
+    },
+    "as_of": {
+      "format": "date",
+      "type": "string"
+    },
+    "entries": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "control_question": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "current_surface_refs": {
+            "items": {
+              "pattern": "^repo://",
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "implemented_invariants": {
+            "$ref": "#/$defs/strings"
+          },
+          "implementation_state": {
+            "enum": [
+              "contract_implemented",
+              "partial_contract",
+              "mapped_open"
+            ]
+          },
+          "next_design_transaction": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "open_invariants": {
+            "$ref": "#/$defs/strings"
+          },
+          "pylon_id": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "required": [
+          "pylon_id",
+          "implementation_state",
+          "current_surface_refs",
+          "implemented_invariants",
+          "open_invariants",
+          "next_design_transaction",
+          "control_question"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "ahead.congruent-shape-surface-projection/v0.1"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "as_of",
+    "entries"
+  ],
+  "title": "ahead-rev-sim congruent-shape architecture surface projection",
+  "type": "object"
+}

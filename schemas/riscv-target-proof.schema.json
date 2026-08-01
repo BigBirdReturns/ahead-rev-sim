@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/riscv-target-proof.schema.json",
+  "title": "ahead-rev-sim RISC-V target execution proof",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "portable_binding",
+    "optional_riscv_extension",
+    "target",
+    "toolchain",
+    "artifacts",
+    "observations",
+    "qualification",
+    "claim_boundary",
+    "proof_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ahead.riscv-target-proof/v0.1"
+    },
+    "artifact_type": {
+      "const": "riscv_target_model_execution_proof"
+    },
+    "portable_binding": {
+      "const": "physical-compute-mmio/v1"
+    },
+    "optional_riscv_extension": {
+      "const": "Xphys"
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "isa",
+        "abi",
+        "execution_environment",
+        "test_class"
+      ],
+      "properties": {
+        "isa": {
+          "const": "rv64gc"
+        },
+        "abi": {
+          "const": "lp64d"
+        },
+        "execution_environment": {
+          "const": "qemu-riscv64-user"
+        },
+        "test_class": {
+          "const": "mmio_client_and_independent_device_model"
+        }
+      }
+    },
+    "toolchain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compiler",
+        "emulator",
+        "readelf_machine",
+        "readelf_class"
+      ],
+      "properties": {
+        "compiler": {
+          "type": "string",
+          "minLength": 1
+        },
+        "emulator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "readelf_machine": {
+          "const": "RISC-V"
+        },
+        "readelf_class": {
+          "const": "ELF64"
+        }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "abi_sha256",
+        "binary_sha256",
+        "binary_bytes",
+        "trace_sha256",
+        "expected_trace_sha256"
+      ],
+      "properties": {
+        "abi_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "binary_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "binary_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "trace_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "expected_trace_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "line_count",
+        "checks"
+      ],
+      "properties": {
+        "line_count": {
+          "type": "integer",
+          "minimum": 6
+        },
+        "checks": {
+          "type": "object",
+          "additionalProperties": {
+            "const": true
+          },
+          "minProperties": 8
+        }
+      }
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "accepted",
+        "physical_claim_allowed",
+        "blockers"
+      ],
+      "properties": {
+        "status": {
+          "const": "riscv_target_model_execution_proved"
+        },
+        "accepted": {
+          "const": true
+        },
+        "physical_claim_allowed": {
+          "const": false
+        },
+        "blockers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]+$"
+          }
+        }
+      }
+    },
+    "claim_boundary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proof_sha256": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

@@ -1,0 +1,303 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/fambs-pck-lowering.schema.json",
+  "title": "ahead-rev-sim FAMBS PCK reversible lowering artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "sha1": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "result_hex": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16}$"
+    },
+    "strategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy_id",
+        "retained_final_states",
+        "output_result",
+        "output_match",
+        "entry_state_restored",
+        "pool_state_restored",
+        "path_history_bits",
+        "retained_state_bits",
+        "peak_reversible_state_bits",
+        "total_semantic_operations",
+        "operation_delta_vs_conventional",
+        "erasure_bits",
+        "minimum_recovery_fraction_zero_support",
+        "maximum_support_energy_units_at_80pct_recovery",
+        "evidence_class",
+        "pareto_nondominated"
+      ],
+      "properties": {
+        "strategy_id": {"type": "string", "minLength": 1},
+        "retained_final_states": {"type": "integer", "minimum": 0},
+        "output_result": {"$ref": "#/$defs/result_hex"},
+        "output_match": {"type": "boolean"},
+        "entry_state_restored": {"type": "boolean"},
+        "pool_state_restored": {"type": "boolean"},
+        "path_history_bits": {"type": "integer", "minimum": 0},
+        "retained_state_bits": {"type": "integer", "minimum": 0},
+        "peak_reversible_state_bits": {"type": "integer", "minimum": 0},
+        "total_semantic_operations": {"type": "integer", "minimum": 0},
+        "operation_delta_vs_conventional": {"type": "integer"},
+        "erasure_bits": {"type": "integer", "minimum": 0},
+        "minimum_recovery_fraction_zero_support": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "maximum_support_energy_units_at_80pct_recovery": {"type": "number"},
+        "evidence_class": {"type": "string", "minLength": 1},
+        "pareto_nondominated": {"const": true}
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "generated_by",
+    "source",
+    "accepted_output_contract",
+    "numeric_contract",
+    "initialization_proof",
+    "control_map_proof",
+    "source_reference",
+    "parity_baseline",
+    "frontier",
+    "architecture_consequences",
+    "physical_handoff",
+    "qualification",
+    "claim_boundary",
+    "control_question",
+    "artifact_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "ahead.fambs-pck-lowering/v0.1"},
+    "artifact_type": {"const": "fambs_memory_irregular_reversible_lowering"},
+    "generated_by": {"type": "string", "minLength": 1},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit", "path", "git_blob_sha1", "configuration"],
+      "properties": {
+        "repository": {"type": "string", "minLength": 1},
+        "commit": {"$ref": "#/$defs/sha1"},
+        "path": {"type": "string", "minLength": 1},
+        "git_blob_sha1": {"$ref": "#/$defs/sha1"},
+        "configuration": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["pool_size", "depth", "iterations"],
+          "properties": {
+            "pool_size": {"type": "integer", "minimum": 1},
+            "depth": {"type": "integer", "minimum": 1},
+            "iterations": {"type": "integer", "minimum": 1}
+          }
+        }
+      }
+    },
+    "accepted_output_contract": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "schema",
+        "suite_version",
+        "contract_id",
+        "bench",
+        "notes",
+        "iters",
+        "result",
+        "result_kind"
+      ],
+      "properties": {
+        "result": {"$ref": "#/$defs/result_hex"}
+      }
+    },
+    "numeric_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "index_bits",
+        "accumulator_bits",
+        "accumulator_semantics",
+        "default_max_chase_result",
+        "default_sink_within_signed_int32"
+      ],
+      "properties": {
+        "index_bits": {"type": "integer", "minimum": 1},
+        "accumulator_bits": {"type": "integer", "minimum": 1},
+        "accumulator_semantics": {"type": "string", "minLength": 1},
+        "default_max_chase_result": {"type": "integer", "minimum": 0},
+        "default_sink_within_signed_int32": {"type": "boolean"}
+      }
+    },
+    "initialization_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lcg_multiplier",
+        "lcg_increment",
+        "lcg_multiplier_inverse",
+        "final_seed",
+        "seed_restored",
+        "order_restored",
+        "payload_recomputable_into_clean_target",
+        "next_recomputable_into_clean_target",
+        "history_bits"
+      ],
+      "properties": {
+        "lcg_multiplier": {"type": "integer", "minimum": 0},
+        "lcg_increment": {"type": "integer", "minimum": 0},
+        "lcg_multiplier_inverse": {"type": "integer", "minimum": 0},
+        "final_seed": {"type": "integer", "minimum": 0},
+        "seed_restored": {"type": "boolean"},
+        "order_restored": {"type": "boolean"},
+        "payload_recomputable_into_clean_target": {"type": "boolean"},
+        "next_recomputable_into_clean_target": {"type": "boolean"},
+        "history_bits": {"type": "integer", "minimum": 0}
+      }
+    },
+    "control_map_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "domain_states",
+        "unique_outputs",
+        "odd_branch_domain",
+        "even_branch_domain",
+        "odd_branch_image",
+        "even_branch_image",
+        "branch_image_intersection",
+        "combined_map_bijective",
+        "inverse_table_complete",
+        "sampled_accumulator_round_trip",
+        "path_history_bits_per_step",
+        "explanation"
+      ],
+      "properties": {
+        "domain_states": {"type": "integer", "minimum": 1},
+        "unique_outputs": {"type": "integer", "minimum": 0},
+        "odd_branch_domain": {"type": "integer", "minimum": 0},
+        "even_branch_domain": {"type": "integer", "minimum": 0},
+        "odd_branch_image": {"type": "integer", "minimum": 0},
+        "even_branch_image": {"type": "integer", "minimum": 0},
+        "branch_image_intersection": {"type": "integer", "minimum": 0},
+        "combined_map_bijective": {"type": "boolean"},
+        "inverse_table_complete": {"type": "boolean"},
+        "sampled_accumulator_round_trip": {"type": "boolean"},
+        "path_history_bits_per_step": {"type": "integer", "minimum": 0},
+        "explanation": {"type": "string", "minLength": 1}
+      }
+    },
+    "source_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result",
+        "accepted_output_match",
+        "chase_round_trips",
+        "minimum_chase_result",
+        "maximum_chase_result",
+        "chase_result_count"
+      ],
+      "properties": {
+        "result": {"$ref": "#/$defs/result_hex"},
+        "accepted_output_match": {"type": "boolean"},
+        "chase_round_trips": {"type": "boolean"},
+        "minimum_chase_result": {"type": "integer", "minimum": 0},
+        "maximum_chase_result": {"type": "integer", "minimum": 0},
+        "chase_result_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "parity_baseline": {
+      "type": "object",
+      "required": [
+        "baseline_id",
+        "semantic_operations",
+        "initialization_operations",
+        "chase_operations",
+        "sink_operations",
+        "step_operation_model",
+        "evidence_class"
+      ],
+      "additionalProperties": true
+    },
+    "frontier": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/strategy"}
+    },
+    "architecture_consequences": {
+      "type": "object",
+      "required": [
+        "control_class",
+        "branch_history_required",
+        "prior_index_log_required",
+        "inverse_mechanism",
+        "compiler_rule",
+        "suggested_riscv_support"
+      ],
+      "additionalProperties": true
+    },
+    "physical_handoff": {
+      "type": "object",
+      "required": [
+        "portable_binding",
+        "optional_riscv_extension",
+        "operator_classes",
+        "operand_channels",
+        "result_contract",
+        "fallback",
+        "required_measurements"
+      ],
+      "properties": {
+        "portable_binding": {"const": "physical-compute-mmio/v1"},
+        "optional_riscv_extension": {"const": "Xphys"}
+      },
+      "additionalProperties": true
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blockers",
+        "accepted_output_match",
+        "entry_state_restored",
+        "path_history_eliminated",
+        "riscv_codegen_qualified",
+        "target_result_qualified",
+        "physical_claim_allowed",
+        "energy_claim_allowed"
+      ],
+      "properties": {
+        "status": {"enum": ["semantic_lowering_proved", "refused"]},
+        "blockers": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        },
+        "accepted_output_match": {"type": "boolean"},
+        "entry_state_restored": {"type": "boolean"},
+        "path_history_eliminated": {"type": "boolean"},
+        "riscv_codegen_qualified": {"const": false},
+        "target_result_qualified": {"const": false},
+        "physical_claim_allowed": {"const": false},
+        "energy_claim_allowed": {"const": false}
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 1},
+    "control_question": {"type": "string", "minLength": 1},
+    "artifact_sha256": {"$ref": "#/$defs/sha256"}
+  }
+}

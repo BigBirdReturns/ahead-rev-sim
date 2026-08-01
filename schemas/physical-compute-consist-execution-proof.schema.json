@@ -1,0 +1,221 @@
+{
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/physical-compute-consist-execution-proof.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "abi_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "artifact_type": {
+      "const": "physical_compute_consist_execution_proof"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "consist": {
+      "additionalProperties": false,
+      "properties": {
+        "cartridge_hitch_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "cartridge_hitch_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "consist_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "host_hitch_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "host_hitch_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "consist_sha256",
+        "host_hitch_id",
+        "host_hitch_sha256",
+        "cartridge_hitch_id",
+        "cartridge_hitch_sha256"
+      ],
+      "type": "object"
+    },
+    "evidence_bindings": {
+      "additionalProperties": false,
+      "properties": {
+        "cartridge_accepted_output_receipt_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "cartridge_reset_state_receipt_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "host_accepted_target_trace_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "host_reset_refusal_receipt_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "host_accepted_target_trace_sha256",
+        "host_reset_refusal_receipt_sha256",
+        "cartridge_accepted_output_receipt_sha256",
+        "cartridge_reset_state_receipt_sha256"
+      ],
+      "type": "object"
+    },
+    "observations": {
+      "additionalProperties": false,
+      "properties": {
+        "checks": {
+          "additionalProperties": {
+            "const": true
+          },
+          "minProperties": 1,
+          "type": "object"
+        },
+        "line_count": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "line_count",
+        "checks"
+      ],
+      "type": "object"
+    },
+    "portable_binding": {
+      "const": "physical-compute-mmio/v1"
+    },
+    "proof_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "qualification": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {
+          "const": true
+        },
+        "blockers": {
+          "items": {
+            "pattern": "^[A-Z0-9_]+$",
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "execution_admitted": {
+          "const": true
+        },
+        "interface_compatible": {
+          "const": true
+        },
+        "physical_compute_claim_allowed": {
+          "const": false
+        },
+        "physical_energy_claim_allowed": {
+          "const": false
+        },
+        "status": {
+          "const": "reference_consist_execution_proved"
+        }
+      },
+      "required": [
+        "status",
+        "accepted",
+        "interface_compatible",
+        "execution_admitted",
+        "physical_compute_claim_allowed",
+        "physical_energy_claim_allowed",
+        "blockers"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "ahead.physical-compute-consist-execution-proof/v0.1"
+    },
+    "target": {
+      "additionalProperties": false,
+      "properties": {
+        "abi": {
+          "const": "lp64d"
+        },
+        "execution_environment": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "isa": {
+          "const": "rv64gc"
+        },
+        "test_class": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "isa",
+        "abi",
+        "execution_environment",
+        "test_class"
+      ],
+      "type": "object"
+    },
+    "target_proof": {
+      "additionalProperties": false,
+      "properties": {
+        "binary_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "expected_trace_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "proof_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "trace_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "proof_sha256",
+        "binary_sha256",
+        "trace_sha256",
+        "expected_trace_sha256"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "portable_binding",
+    "abi_sha256",
+    "consist",
+    "target_proof",
+    "evidence_bindings",
+    "target",
+    "observations",
+    "qualification",
+    "claim_boundary",
+    "proof_sha256"
+  ],
+  "title": "ahead-rev-sim physical-compute consist execution proof",
+  "type": "object"
+}
