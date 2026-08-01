@@ -1,9 +1,10 @@
-"""Deterministic intake and source-shape reconciliation for FAMBS.
+"""Deterministic intake and result-contract validation for FAMBS.
 
-The importer binds the Future AI Microbench Suite to a pinned Git commit and
-keeps workload identity, source emission shape, reference prose, observed
-result streams, and accepted-output custody separate.  A cycle row is evidence
-that a benchmark reported, not evidence that a useful result was accepted.
+The importer binds a Future AI Microbench Suite source tree to one Git commit
+and keeps source identity, source-emission shape, reference prose, observed
+result streams, and accepted-output custody separate. A timing row proves that
+a benchmark reported. It becomes accepted work only after the row matches a
+versioned semantic result contract.
 """
 
 from __future__ import annotations
@@ -18,11 +19,12 @@ import re
 from typing import Any, Mapping, Sequence
 
 FAMBS_SOURCE_MANIFEST_SCHEMA_VERSION = "ahead.fambs-source-manifest/v0.1"
-FAMBS_IMPORT_SCHEMA_VERSION = "ahead.fambs-import/v0.1"
+FAMBS_IMPORT_SCHEMA_VERSION = "ahead.fambs-import/v0.2"
 FAMBS_IMPORT_ARTIFACT_TYPE = "fambs_workload_intake"
 
 _SHA1_RE = re.compile(r"^[0-9a-f]{40}$")
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+_RESULT_RE = re.compile(r"^[0-9a-f]{16}$")
 
 
 def canonical_json(value: Any) -> str:
@@ -39,6 +41,13 @@ class FambsResultRow:
     cycles: int
     iters: int
     notes: str
+    schema: str | None = None
+    suite_version: str | None = None
+    contract_id: str | None = None
+    clock_kind: str | None = None
+    result: str | None = None
+    result_kind: str | None = None
+    accepted: bool | None = None
 
     @classmethod
     def from_mapping(cls, value: Mapping[str, Any]) -> "FambsResultRow":
@@ -55,10 +64,66 @@ class FambsResultRow:
             raise ValueError("result row bench must be non-empty")
         if cycles < 0 or iters < 0:
             raise ValueError("result row cycles and iters must be non-negative")
-        return cls(bench=bench, cycles=cycles, iters=iters, notes=notes)
+
+        optional_strings: dict[str, str | None] = {}
+        for field_name in (
+            "schema",
+            "suite_version",
+            "contract_id",
+            "clock_kind",
+            "result",
+            "result_kind",
+        ):
+            raw = value.get(field_name)
+            if raw is None:
+                optional_strings[field_name] = None
+            elif not isinstance(raw, str) or not raw:
+                raise ValueError(f"result row {field_name} must be a non-empty string")
+            else:
+                optional_strings[field_name] = raw
+
+        result = optional_strings["result"]
+        if result is not None and _RESULT_RE.fullmatch(result) is None:
+            raise ValueError("result row result must be 16 lowercase hexadecimal characters")
+
+        accepted_raw = value.get("accepted")
+        if accepted_raw is not None and not isinstance(accepted_raw, bool):
+            raise ValueError("result row accepted must be boolean when present")
+
+        return cls(
+            bench=bench,
+            cycles=cycles,
+            iters=iters,
+            notes=notes,
+            schema=optional_strings["schema"],
+            suite_version=optional_strings["suite_version"],
+            contract_id=optional_strings["contract_id"],
+            clock_kind=optional_strings["clock_kind"],
+            result=result,
+            result_kind=optional_strings["result_kind"],
+            accepted=accepted_raw,
+        )
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        payload: dict[str, Any] = {
+            "bench": self.bench,
+            "cycles": self.cycles,
+            "iters": self.iters,
+            "notes": self.notes,
+        }
+        for field_name in (
+            "schema",
+            "suite_version",
+            "contract_id",
+            "clock_kind",
+            "result",
+            "result_kind",
+            "accepted",
+        ):
+            item = getattr(self, field_name)
+            if item is not None:
+                payload[field_name] = item
+        return payload
 
 
 @dataclass
@@ -70,6 +135,7 @@ class FambsImportArtifact:
     config: dict[str, Any]
     workloads: list[dict[str, Any]]
     source_emission: dict[str, Any]
+    result_contract: dict[str, Any] | None
     reference_results: dict[str, Any]
     observed_result_stream: dict[str, Any]
     coverage: dict[str, Any]
@@ -103,6 +169,62 @@ def load_manifest(source: str | Path | Mapping[str, Any]) -> dict[str, Any]:
     return manifest
 
 
+def _expected_standalone_identities(manifest: Mapping[str, Any]) -> list[tuple[str, str]]:
+    identities: list[tuple[str, str]] = []
+    for record in manifest["workloads"]:
+        bench_id = str(record["bench_id"])
+        emission = record["emission"]
+        standalone_rows = int(emission["standalone_rows"])
+        notes = [str(note) for note in emission.get("notes", [])]
+        if standalone_rows != len(notes):
+            raise ValueError(
+                f"workload {bench_id} standalone_rows must equal the number of emitted notes"
+            )
+        identities.extend((bench_id, note) for note in notes)
+    return identities
+
+
+def _validate_result_contract(
+    contract: Mapping[str, Any],
+    manifest: Mapping[str, Any],
+) -> None:
+    for field_name in ("schema", "suite_version", "contract_id"):
+        value = contract.get(field_name)
+        if not isinstance(value, str) or not value:
+            raise ValueError(f"result_contract.{field_name} must be a non-empty string")
+
+    rows = contract.get("rows")
+    if not isinstance(rows, list) or not rows:
+        raise ValueError("result_contract.rows must be a non-empty array")
+
+    expected_identities = _expected_standalone_identities(manifest)
+    if len(rows) != len(expected_identities):
+        raise ValueError("result_contract row count does not match standalone source emission")
+
+    observed_identities: list[tuple[str, str]] = []
+    for index, row in enumerate(rows):
+        if not isinstance(row, Mapping):
+            raise ValueError(f"result_contract row {index} must be an object")
+        for field_name in ("bench", "notes", "iters", "result", "result_kind"):
+            if field_name not in row:
+                raise ValueError(f"result_contract row {index} missing {field_name}")
+        bench = str(row["bench"])
+        notes = str(row["notes"])
+        iters = int(row["iters"])
+        result = str(row["result"])
+        result_kind = str(row["result_kind"])
+        if not bench or not result_kind or iters < 0:
+            raise ValueError(f"result_contract row {index} contains an invalid identity")
+        if _RESULT_RE.fullmatch(result) is None:
+            raise ValueError(
+                f"result_contract row {index} result must be 16 lowercase hexadecimal characters"
+            )
+        observed_identities.append((bench, notes))
+
+    if observed_identities != expected_identities:
+        raise ValueError("result_contract row order or emitted note identity does not match source")
+
+
 def _validate_manifest(manifest: Mapping[str, Any]) -> None:
     if manifest.get("schema_version") != FAMBS_SOURCE_MANIFEST_SCHEMA_VERSION:
         raise ValueError("unsupported FAMBS source manifest schema")
@@ -111,7 +233,7 @@ def _validate_manifest(manifest: Mapping[str, Any]) -> None:
     if not isinstance(source, Mapping):
         raise ValueError("manifest source must be an object")
     commit = str(source.get("commit", ""))
-    if not _SHA1_RE.fullmatch(commit):
+    if _SHA1_RE.fullmatch(commit) is None:
         raise ValueError("manifest source.commit must be a lowercase Git SHA-1")
 
     config = manifest.get("config")
@@ -133,7 +255,7 @@ def _validate_manifest(manifest: Mapping[str, Any]) -> None:
             raise ValueError("workload bench_id must be non-empty")
         ids.append(bench_id)
         blob_sha = str(record.get("source_git_blob_sha1", ""))
-        if not _SHA1_RE.fullmatch(blob_sha):
+        if _SHA1_RE.fullmatch(blob_sha) is None:
             raise ValueError(f"workload {bench_id} source_git_blob_sha1 is invalid")
         if not record.get("source_path") or not record.get("workload_class"):
             raise ValueError(f"workload {bench_id} is missing source_path or workload_class")
@@ -155,6 +277,12 @@ def _validate_manifest(manifest: Mapping[str, Any]) -> None:
     }
     if declared_counts != derived["expected_bench_counts"]:
         raise ValueError("declared source emission bench counts do not match derived counts")
+
+    result_contract = manifest.get("result_contract")
+    if result_contract is not None:
+        if not isinstance(result_contract, Mapping):
+            raise ValueError("result_contract must be an object when present")
+        _validate_result_contract(result_contract, manifest)
 
 
 def parse_jsonl(text: str) -> tuple[list[FambsResultRow], list[dict[str, Any]]]:
@@ -225,13 +353,48 @@ def derive_source_emission(manifest: Mapping[str, Any]) -> dict[str, Any]:
 def _rows_summary(rows: Sequence[FambsResultRow]) -> dict[str, Any]:
     counts = Counter(row.bench for row in rows)
     notes: dict[str, list[str]] = defaultdict(list)
+    clock_kinds: set[str] = set()
+    result_identities: list[dict[str, Any]] = []
+    accepted_rows = 0
+    rich_rows = 0
     for row in rows:
         if row.notes not in notes[row.bench]:
             notes[row.bench].append(row.notes)
+        if row.clock_kind is not None:
+            clock_kinds.add(row.clock_kind)
+        if row.result is not None:
+            result_identities.append(
+                {
+                    "bench": row.bench,
+                    "notes": row.notes,
+                    "iters": row.iters,
+                    "result": row.result,
+                    "result_kind": row.result_kind,
+                }
+            )
+        if row.accepted is True:
+            accepted_rows += 1
+        if all(
+            item is not None
+            for item in (
+                row.schema,
+                row.suite_version,
+                row.contract_id,
+                row.clock_kind,
+                row.result,
+                row.result_kind,
+                row.accepted,
+            )
+        ):
+            rich_rows += 1
     return {
         "row_count": len(rows),
         "bench_counts": dict(sorted(counts.items())),
         "notes_by_bench": {key: value for key, value in sorted(notes.items())},
+        "clock_kinds": sorted(clock_kinds),
+        "accepted_rows": accepted_rows,
+        "rich_rows": rich_rows,
+        "result_identities": result_identities,
         "stream_sha256": sha256_json([row.to_dict() for row in rows]),
     }
 
@@ -259,6 +422,111 @@ def _shape_blockers(
     return blockers
 
 
+def _result_contract_validation(
+    rows: Sequence[FambsResultRow],
+    contract: Mapping[str, Any] | None,
+    *,
+    prefix: str,
+    require_clock: bool,
+) -> tuple[dict[str, Any], list[str]]:
+    if contract is None:
+        return {
+            "bound": False,
+            "status": "unbound",
+            "qualified_rows": 0,
+            "expected_rows": 0,
+            "first_divergence": None,
+        }, []
+
+    expected_rows = contract["rows"]
+    blockers: list[str] = []
+    divergences: list[dict[str, Any]] = []
+    if len(rows) != len(expected_rows):
+        blockers.append(f"{prefix}_CONTRACT_ROW_COUNT_MISMATCH")
+
+    identity = {
+        "schema": contract["schema"],
+        "suite_version": contract["suite_version"],
+        "contract_id": contract["contract_id"],
+    }
+    qualified_rows = 0
+    for index, (row, expected) in enumerate(zip(rows, expected_rows)):
+        row_divergences: list[dict[str, Any]] = []
+        for field_name, expected_value in identity.items():
+            actual_value = getattr(row, field_name)
+            if actual_value != expected_value:
+                blockers.append(f"{prefix}_{field_name.upper()}_MISMATCH")
+                row_divergences.append(
+                    {
+                        "field": field_name,
+                        "expected": expected_value,
+                        "actual": actual_value,
+                    }
+                )
+
+        for field_name in ("bench", "notes", "iters"):
+            expected_value = expected[field_name]
+            actual_value = getattr(row, field_name)
+            if actual_value != expected_value:
+                blockers.append(f"{prefix}_IDENTITY_MISMATCH")
+                row_divergences.append(
+                    {
+                        "field": field_name,
+                        "expected": expected_value,
+                        "actual": actual_value,
+                    }
+                )
+
+        if row.result != expected["result"]:
+            blockers.append(f"{prefix}_VALUE_MISMATCH")
+            row_divergences.append(
+                {
+                    "field": "result",
+                    "expected": expected["result"],
+                    "actual": row.result,
+                }
+            )
+        if row.result_kind != expected["result_kind"]:
+            blockers.append(f"{prefix}_RESULT_KIND_MISMATCH")
+            row_divergences.append(
+                {
+                    "field": "result_kind",
+                    "expected": expected["result_kind"],
+                    "actual": row.result_kind,
+                }
+            )
+        if row.accepted is not True:
+            blockers.append(f"{prefix}_ROW_REJECTED")
+            row_divergences.append(
+                {"field": "accepted", "expected": True, "actual": row.accepted}
+            )
+        if require_clock and not row.clock_kind:
+            blockers.append(f"{prefix}_CLOCK_KIND_MISSING")
+            row_divergences.append(
+                {"field": "clock_kind", "expected": "non-empty", "actual": row.clock_kind}
+            )
+
+        if row_divergences:
+            divergences.append({"row": index, "divergences": row_divergences})
+        else:
+            qualified_rows += 1
+
+    if require_clock:
+        clock_kinds = {row.clock_kind for row in rows if row.clock_kind}
+        if len(clock_kinds) > 1:
+            blockers.append(f"{prefix}_CLOCK_KIND_MIXED")
+
+    blockers = list(dict.fromkeys(blockers))
+    return {
+        "bound": True,
+        "status": "pass" if not blockers else "fail",
+        "qualified_rows": qualified_rows,
+        "expected_rows": len(expected_rows),
+        "first_divergence": divergences[0] if divergences else None,
+        "divergence_count": len(divergences),
+    }, blockers
+
+
 def import_fambs(
     manifest_source: str | Path | Mapping[str, Any],
     *,
@@ -266,6 +534,9 @@ def import_fambs(
 ) -> FambsImportArtifact:
     manifest = load_manifest(manifest_source)
     source_emission = derive_source_emission(manifest)
+    result_contract_raw = manifest.get("result_contract")
+    result_contract = deepcopy(result_contract_raw) if result_contract_raw is not None else None
+
     reference_rows = _reference_rows(manifest)
     reference_summary = _rows_summary(reference_rows)
     reference_blockers = _shape_blockers(
@@ -290,16 +561,37 @@ def import_fambs(
     if reference_note_mismatches:
         reference_blockers.append("REFERENCE_RESULT_NOTES_DIVERGE")
 
+    reference_contract_validation, reference_contract_blockers = _result_contract_validation(
+        reference_rows,
+        result_contract,
+        prefix="REFERENCE_RESULT",
+        require_clock=False,
+    )
+    reference_blockers.extend(reference_contract_blockers)
+    reference_blockers = list(dict.fromkeys(reference_blockers))
+
     observed_rows: list[FambsResultRow] = []
     parse_errors: list[dict[str, Any]] = []
     observed_blockers: list[str] = []
     observed_summary: dict[str, Any]
+    observed_contract_validation: dict[str, Any]
     if result_stream_text is None:
+        observed_contract_validation = {
+            "bound": result_contract is not None,
+            "status": "not_observed",
+            "qualified_rows": 0,
+            "expected_rows": len(result_contract["rows"]) if result_contract else 0,
+            "first_divergence": None,
+        }
         observed_summary = {
             "provided": False,
             "row_count": 0,
             "bench_counts": {},
             "notes_by_bench": {},
+            "clock_kinds": [],
+            "accepted_rows": 0,
+            "rich_rows": 0,
+            "result_identities": [],
             "stream_sha256": None,
             "parse_errors": [],
             "shape_status": "not_provided",
@@ -321,9 +613,19 @@ def import_fambs(
                 prefix="OBSERVED_RESULT",
             )
         )
-        observed_summary["shape_status"] = (
-            "match" if not observed_blockers else "diverges"
+        observed_contract_validation, contract_blockers = _result_contract_validation(
+            observed_rows,
+            result_contract,
+            prefix="OBSERVED_RESULT",
+            require_clock=True,
         )
+        observed_blockers.extend(contract_blockers)
+        observed_blockers = list(dict.fromkeys(observed_blockers))
+        observed_summary["shape_status"] = "match" if not _shape_blockers(
+            expected=source_emission,
+            observed=observed_summary,
+            prefix="OBSERVED_RESULT",
+        ) else "diverges"
 
     workload_records = deepcopy(manifest["workloads"])
     missing_acceptance = [
@@ -348,6 +650,20 @@ def import_fambs(
         blockers.append("MAL_TIMED_REGION_INCLUDES_CHILD_REPORTING")
     blockers = list(dict.fromkeys(blockers))
 
+    result_contract_bound = result_contract is not None and not missing_acceptance
+    observed_result_qualified = (
+        result_stream_text is not None
+        and not blockers
+        and result_contract_bound
+        and observed_contract_validation["status"] == "pass"
+    )
+    if blockers:
+        status = "captured_blocked"
+    elif observed_result_qualified:
+        status = "captured_result_qualified"
+    else:
+        status = "captured_shape_closed"
+
     classes = Counter(str(record["workload_class"]) for record in workload_records)
     manifest_sha256 = sha256_json(manifest)
     source = {
@@ -366,17 +682,24 @@ def import_fambs(
             **source_emission,
             "declared_reference_shape": deepcopy(manifest["source_emission_model"]),
         },
+        result_contract=result_contract,
         reference_results={
             **reference_summary,
             "source_path": manifest["reference_results"]["path"],
             "source_git_blob_sha1": manifest["reference_results"]["git_blob_sha1"],
-            "shape_status": "match" if not reference_blockers else "diverges",
+            "shape_status": "match" if not _shape_blockers(
+                expected=source_emission,
+                observed=reference_summary,
+                prefix="REFERENCE_RESULT",
+            ) else "diverges",
             "unknown_benches": reference_unknown,
             "note_mismatches": reference_note_mismatches,
+            "result_contract_validation": reference_contract_validation,
             "blockers": reference_blockers,
         },
         observed_result_stream={
             **observed_summary,
+            "result_contract_validation": observed_contract_validation,
             "blockers": observed_blockers,
         },
         coverage={
@@ -391,21 +714,24 @@ def import_fambs(
             "placeholder_self_checks": placeholder_checks,
         },
         qualification={
-            "status": "captured_blocked" if blockers else "captured_shape_closed",
+            "status": status,
             "blockers": blockers,
+            "result_contract_bound": result_contract_bound,
+            "observed_result_qualified": observed_result_qualified,
             "performance_claim_allowed": False,
             "energy_claim_allowed": False,
-            "accepted_work_claim_allowed": not missing_acceptance,
+            "accepted_work_claim_allowed": observed_result_qualified,
         },
         claim_boundary=(
             "This artifact establishes pinned source and configuration custody, workload taxonomy, "
-            "source-emission shape, reference-result reconciliation, and optional observed-stream "
-            "shape. It does not establish accepted workload output, comparable performance, physical "
-            "energy, timing closure, or architecture advantage."
+            "source-emission shape, reference reconciliation, and a versioned result contract when "
+            "present. Accepted work is established only for an observed stream that matches that "
+            "contract. It does not establish comparable performance, physical energy, timing closure, "
+            "or architecture advantage."
         ),
         control_question=(
-            "Does the observed harness stream match the pinned source emission shape, and does every "
-            "benchmark bind a result digest or quality rule before cycles are compared?"
+            "Does the observed harness stream match the pinned source shape and every contracted "
+            "semantic result before timing, energy, or substrate performance is compared?"
         ),
     )
     artifact.seal()

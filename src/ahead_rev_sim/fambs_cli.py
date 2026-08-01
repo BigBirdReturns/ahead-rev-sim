@@ -11,7 +11,8 @@ def main(argv: list[str] | None = None) -> int:
         prog="ahead-rev-fambs",
         description=(
             "Bind a pinned Future AI Microbench Suite source manifest, reconcile its "
-            "expected result-stream shape, and emit a sealed intake artifact."
+            "source and reference row shape, validate observed semantic results when "
+            "present, and emit a sealed intake artifact."
         ),
     )
     parser.add_argument("manifest", help="Pinned FAMBS source-manifest JSON")
@@ -26,11 +27,7 @@ def main(argv: list[str] | None = None) -> int:
         result_text = Path(args.results).read_text(encoding="utf-8")
 
     artifact = import_fambs(args.manifest, result_stream_text=result_text)
-    output = (
-        Path(args.out)
-        if args.out
-        else Path(args.manifest).with_suffix(".intake.json")
-    )
+    output = Path(args.out) if args.out else Path(args.manifest).with_suffix(".intake.json")
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(artifact.to_json(), encoding="utf-8")
 
@@ -46,11 +43,19 @@ def main(argv: list[str] | None = None) -> int:
             f"{artifact.source_emission['expected_total_rows']} expected / "
             f"{artifact.reference_results['row_count']} reference"
         )
+        print(
+            "result contract: "
+            f"{'bound' if artifact.qualification['result_contract_bound'] else 'unbound'}"
+        )
+        print(
+            "observed result: "
+            f"{'qualified' if artifact.qualification['observed_result_qualified'] else 'not qualified'}"
+        )
         print(f"blockers: {len(artifact.qualification['blockers'])}")
         print(f"artifact sha256: {artifact.artifact_sha256}")
         print(f"wrote: {output}")
 
-    if args.require_qualified and artifact.qualification["blockers"]:
+    if args.require_qualified and not artifact.qualification["accepted_work_claim_allowed"]:
         return 2
     return 0
 

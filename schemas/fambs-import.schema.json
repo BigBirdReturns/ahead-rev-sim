@@ -4,6 +4,51 @@
   "title": "ahead-rev-sim FAMBS workload intake artifact",
   "type": "object",
   "additionalProperties": false,
+  "$defs": {
+    "sha1": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "result_hex": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16}$"
+    },
+    "contract_row": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["bench", "notes", "iters", "result", "result_kind"],
+      "properties": {
+        "bench": {"type": "string", "minLength": 1},
+        "notes": {"type": "string"},
+        "iters": {"type": "integer", "minimum": 0},
+        "result": {"$ref": "#/$defs/result_hex"},
+        "result_kind": {"type": "string", "minLength": 1}
+      }
+    },
+    "result_contract_validation": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "bound",
+        "status",
+        "qualified_rows",
+        "expected_rows",
+        "first_divergence"
+      ],
+      "properties": {
+        "bound": {"type": "boolean"},
+        "status": {"enum": ["unbound", "not_observed", "pass", "fail"]},
+        "qualified_rows": {"type": "integer", "minimum": 0},
+        "expected_rows": {"type": "integer", "minimum": 0},
+        "first_divergence": {"type": ["object", "null"]},
+        "divergence_count": {"type": "integer", "minimum": 0}
+      }
+    }
+  },
   "required": [
     "schema_version",
     "artifact_type",
@@ -12,6 +57,7 @@
     "config",
     "workloads",
     "source_emission",
+    "result_contract",
     "reference_results",
     "observed_result_stream",
     "coverage",
@@ -22,7 +68,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "ahead.fambs-import/v0.1"
+      "const": "ahead.fambs-import/v0.2"
     },
     "artifact_type": {
       "const": "fambs_workload_intake"
@@ -43,10 +89,10 @@
       ],
       "properties": {
         "repository": {"type": "string", "minLength": 1},
-        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "commit": {"$ref": "#/$defs/sha1"},
         "suite": {"type": "string", "minLength": 1},
         "version": {"type": "string", "minLength": 1},
-        "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "manifest_sha256": {"$ref": "#/$defs/sha256"},
         "source_custody": {"type": "string", "minLength": 1}
       },
       "additionalProperties": true
@@ -56,7 +102,7 @@
     },
     "workloads": {
       "type": "array",
-      "minItems": 7,
+      "minItems": 1,
       "items": {
         "type": "object",
         "required": [
@@ -73,8 +119,13 @@
         ],
         "properties": {
           "bench_id": {"type": "string", "minLength": 1},
-          "source_git_blob_sha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
-          "accepted_output_contract": {"type": ["object", "null"]}
+          "source_git_blob_sha1": {"$ref": "#/$defs/sha1"},
+          "accepted_output_contract": {"type": ["object", "null"]},
+          "gaps": {
+            "type": "array",
+            "items": {"type": "string"},
+            "uniqueItems": true
+          }
         },
         "additionalProperties": true
       }
@@ -90,13 +141,43 @@
         "declared_reference_shape"
       ],
       "properties": {
+        "top_level_order": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "standalone_rows": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 0}
+        },
+        "nested_expansions": {"type": "array"},
         "expected_total_rows": {"type": "integer", "minimum": 0},
         "expected_bench_counts": {
           "type": "object",
           "additionalProperties": {"type": "integer", "minimum": 0}
-        }
+        },
+        "declared_reference_shape": {"type": "object"}
       },
       "additionalProperties": true
+    },
+    "result_contract": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "required": ["schema", "suite_version", "contract_id", "rows"],
+          "properties": {
+            "schema": {"type": "string", "minLength": 1},
+            "suite_version": {"type": "string", "minLength": 1},
+            "contract_id": {"type": "string", "minLength": 1},
+            "rows": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"$ref": "#/$defs/contract_row"}
+            }
+          }
+        }
+      ]
     },
     "reference_results": {
       "type": "object",
@@ -104,18 +185,41 @@
         "row_count",
         "bench_counts",
         "notes_by_bench",
+        "clock_kinds",
+        "accepted_rows",
+        "rich_rows",
+        "result_identities",
         "stream_sha256",
         "source_path",
         "source_git_blob_sha1",
         "shape_status",
         "unknown_benches",
         "note_mismatches",
+        "result_contract_validation",
         "blockers"
       ],
       "properties": {
         "row_count": {"type": "integer", "minimum": 0},
-        "stream_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-        "shape_status": {"enum": ["match", "diverges"]}
+        "bench_counts": {"type": "object"},
+        "notes_by_bench": {"type": "object"},
+        "clock_kinds": {"type": "array", "items": {"type": "string"}},
+        "accepted_rows": {"type": "integer", "minimum": 0},
+        "rich_rows": {"type": "integer", "minimum": 0},
+        "result_identities": {"type": "array"},
+        "stream_sha256": {"$ref": "#/$defs/sha256"},
+        "source_path": {"type": "string", "minLength": 1},
+        "source_git_blob_sha1": {"$ref": "#/$defs/sha1"},
+        "shape_status": {"enum": ["match", "diverges"]},
+        "unknown_benches": {"type": "array", "items": {"type": "string"}},
+        "note_mismatches": {"type": "object"},
+        "result_contract_validation": {
+          "$ref": "#/$defs/result_contract_validation"
+        },
+        "blockers": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        }
       },
       "additionalProperties": true
     },
@@ -126,16 +230,41 @@
         "row_count",
         "bench_counts",
         "notes_by_bench",
+        "clock_kinds",
+        "accepted_rows",
+        "rich_rows",
+        "result_identities",
         "stream_sha256",
         "parse_errors",
         "shape_status",
+        "result_contract_validation",
         "blockers"
       ],
       "properties": {
         "provided": {"type": "boolean"},
         "row_count": {"type": "integer", "minimum": 0},
-        "stream_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
-        "shape_status": {"enum": ["not_provided", "match", "diverges"]}
+        "bench_counts": {"type": "object"},
+        "notes_by_bench": {"type": "object"},
+        "clock_kinds": {"type": "array", "items": {"type": "string"}},
+        "accepted_rows": {"type": "integer", "minimum": 0},
+        "rich_rows": {"type": "integer", "minimum": 0},
+        "result_identities": {"type": "array"},
+        "stream_sha256": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/sha256"}
+          ]
+        },
+        "parse_errors": {"type": "array"},
+        "shape_status": {"enum": ["not_provided", "match", "diverges"]},
+        "result_contract_validation": {
+          "$ref": "#/$defs/result_contract_validation"
+        },
+        "blockers": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        }
       },
       "additionalProperties": true
     },
@@ -149,6 +278,20 @@
         "missing_accepted_output_contracts",
         "placeholder_self_checks"
       ],
+      "properties": {
+        "expected_workloads": {"type": "integer", "minimum": 0},
+        "imported_workloads": {"type": "integer", "minimum": 0},
+        "all_expected_workloads_present": {"type": "boolean"},
+        "workload_classes": {"type": "object"},
+        "missing_accepted_output_contracts": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "placeholder_self_checks": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
       "additionalProperties": true
     },
     "qualification": {
@@ -157,17 +300,27 @@
       "required": [
         "status",
         "blockers",
+        "result_contract_bound",
+        "observed_result_qualified",
         "performance_claim_allowed",
         "energy_claim_allowed",
         "accepted_work_claim_allowed"
       ],
       "properties": {
-        "status": {"enum": ["captured_blocked", "captured_shape_closed"]},
+        "status": {
+          "enum": [
+            "captured_blocked",
+            "captured_shape_closed",
+            "captured_result_qualified"
+          ]
+        },
         "blockers": {
           "type": "array",
           "items": {"type": "string"},
           "uniqueItems": true
         },
+        "result_contract_bound": {"type": "boolean"},
+        "observed_result_qualified": {"type": "boolean"},
         "performance_claim_allowed": {"const": false},
         "energy_claim_allowed": {"const": false},
         "accepted_work_claim_allowed": {"type": "boolean"}
@@ -175,6 +328,6 @@
     },
     "claim_boundary": {"type": "string", "minLength": 1},
     "control_question": {"type": "string", "minLength": 1},
-    "artifact_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    "artifact_sha256": {"$ref": "#/$defs/sha256"}
   }
 }
