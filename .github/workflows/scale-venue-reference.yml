@@ -84,6 +84,10 @@ jobs:
                   "artifacts/scale-venue/venue-comparison.json",
                   "schemas/remote-venue-comparison.schema.json",
               ),
+              (
+                  "src/ahead_rev_sim/data/pylon_surface_advances_2026_08.json",
+                  "schemas/pylon-surface-advance.schema.json",
+              ),
           )
           for artifact_path, schema_path in fixtures:
               artifact = json.loads(Path(artifact_path).read_text(encoding="utf-8"))
@@ -109,16 +113,38 @@ jobs:
           assert comparison["output_consensus"] is True
           assert comparison["accepted_venue_count"] == 2
           assert comparison["refused_venue_count"] == 0
+
+          advance = json.loads(
+              Path("src/ahead_rev_sim/data/pylon_surface_advances_2026_08.json")
+              .read_text(encoding="utf-8")
+          )
+          assert advance["effective_state_counts"] == {
+              "contract_implemented": 11,
+              "partial_contract": 8,
+              "mapped_open": 0,
+          }
+          assert {item["pylon_id"] for item in advance["advances"]} == {
+              "scale-seam-communication-tax",
+              "remote-venue-envelope",
+          }
           PY
 
       - name: Run focused scale and venue tests
-        run: python -m pytest -q tests/test_scale_seam.py tests/test_remote_venue.py
+        run: |
+          python -m pytest -q \
+            tests/test_scale_seam.py \
+            tests/test_remote_venue.py \
+            tests/test_pylon_surface_advance.py
 
       - name: Assemble reference kit
         run: |
+          mkdir -p artifacts/scale-venue/kit/data
           mkdir -p artifacts/scale-venue/kit/examples
           mkdir -p artifacts/scale-venue/kit/schemas
           cp docs/scale_seam_and_remote_venue.md artifacts/scale-venue/kit/
+          cp \
+            src/ahead_rev_sim/data/pylon_surface_advances_2026_08.json \
+            artifacts/scale-venue/kit/data/
           cp \
             examples/scale_seam/reference-model.json \
             examples/remote_venue/reference-submission-source.json \
@@ -130,6 +156,7 @@ jobs:
             schemas/remote-venue-submission.schema.json \
             schemas/remote-venue-receipt.schema.json \
             schemas/remote-venue-comparison.schema.json \
+            schemas/pylon-surface-advance.schema.json \
             artifacts/scale-venue/kit/schemas/
 
       - name: Upload scale and venue evidence
