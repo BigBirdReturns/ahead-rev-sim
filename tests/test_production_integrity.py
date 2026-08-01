@@ -3,8 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 
 from ahead_rev_sim._version import __version__
-from scripts.release_preflight import build_release_manifest
-from scripts.repository_audit import audit_repository
+from ahead_rev_sim.release_preflight import build_release_manifest
+from ahead_rev_sim.repository_audit import audit_repository
 
 
 ROOT = Path(__file__).resolve().parents[1]
