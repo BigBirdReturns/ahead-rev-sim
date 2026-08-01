@@ -1,0 +1,98 @@
+{
+  "$defs": {
+    "sha": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/remote-venue-comparison.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accepted_venue_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "artifact_type": {
+      "const": "remote_venue_comparison"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "comparison_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "expected_output_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "output_consensus": {
+      "type": "boolean"
+    },
+    "receipt_sha256s": {
+      "items": {
+        "$ref": "#/$defs/sha"
+      },
+      "minItems": 2,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "refused_venue_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "schema_version": {
+      "const": "ahead.remote-venue-comparison/v0.1"
+    },
+    "submission_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "substitution_proved": {
+      "type": "boolean"
+    },
+    "venue_ids": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/strings"
+        },
+        {
+          "minItems": 2
+        }
+      ]
+    },
+    "workload_contract_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "submission_sha256",
+    "workload_contract_id",
+    "expected_output_sha256",
+    "venue_ids",
+    "receipt_sha256s",
+    "accepted_venue_count",
+    "refused_venue_count",
+    "output_consensus",
+    "substitution_proved",
+    "claim_boundary",
+    "control_question",
+    "comparison_sha256"
+  ],
+  "title": "ahead-rev-sim remote venue comparison",
+  "type": "object"
+}
