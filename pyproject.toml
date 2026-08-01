@@ -72,6 +72,7 @@ ahead-rev-scale-seam = "ahead_rev_sim.scale_seam_cli:main"
 ahead-rev-venue = "ahead_rev_sim.remote_venue_cli:main"
 ahead-rev-causal = "ahead_rev_sim.causal_custody_cli:main"
 ahead-rev-mmio = "ahead_rev_sim.mmio_cli:main"
+ahead-rev-rtl = "ahead_rev_sim.rtl_attachment_cli:main"
 ahead-rev-chipyard = "ahead_rev_sim.chipyard_cli:main"
 ahead-rev-riscv-target-proof = "ahead_rev_sim.riscv_target_cli:main"
 ahead-rev-hitch = "ahead_rev_sim.hitch_cli:main"
@@ -123,6 +124,8 @@ files = [
     "src/ahead_rev_sim/debugger_cli.py",
     "src/ahead_rev_sim/history_cli.py",
     "src/ahead_rev_sim/memory_cli.py",
+    "src/ahead_rev_sim/rtl_attachment.py",
+    "src/ahead_rev_sim/rtl_attachment_cli.py",
     "src/ahead_rev_sim/repository_audit.py",
     "src/ahead_rev_sim/release_preflight.py",
     "scripts",
