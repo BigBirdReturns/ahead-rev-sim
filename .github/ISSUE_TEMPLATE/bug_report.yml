@@ -1,0 +1,73 @@
+name: Bug report
+description: Report a deterministic software, receipt, packaging, or workflow defect
+title: "[bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Report the smallest reproducible transaction. Do not include credentials, restricted material, employer PDKs, private device data, or confidential artifacts.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: 0.9.0 or full commit SHA
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Affected surface
+      options:
+        - Core simulator
+        - Reversibility frontier
+        - Execution proof
+        - FAMBS intake or lowering
+        - Physical substrate
+        - MMIO or Chipyard generation
+        - Provider hitch or consist
+        - EVP
+        - Scale seam
+        - Remote venue
+        - Causal custody
+        - Commodity registry or pylons
+        - Packaging, CI, or release
+    validations:
+      required: true
+  - type: textarea
+    id: reproducer
+    attributes:
+      label: Minimal deterministic reproducer
+      description: Include the exact command, input fixture, and expected terminal state.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Receipts, blockers, and first divergence
+      description: Paste the smallest relevant hashes, blocker codes, or trace excerpt.
+    validations:
+      required: false
+  - type: checkboxes
+    id: boundary
+    attributes:
+      label: Public-material boundary
+      options:
+        - label: I have removed secrets, credentials, personal data, and restricted material.
+          required: true
+        - label: I am not treating service completion, compilation, or generated artifacts as accepted work without a verifier.
+          required: true

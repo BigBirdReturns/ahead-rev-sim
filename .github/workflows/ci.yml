@@ -6,24 +6,63 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
 jobs:
-  test:
-    name: Python ${{ matrix.python-version }}
+  quality:
+    name: Repository and static quality
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10", "3.11", "3.12"]
+    timeout-minutes: 20
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install package and quality dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Compile source, tests, and release scripts
+        run: python -m compileall -q src tests scripts
+
+      - name: Run Ruff
+        run: ruff check src tests scripts
+
+      - name: Run focused type checks
+        run: mypy
+
+      - name: Run repository production audit
+        run: python scripts/repository_audit.py
+
+  test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
@@ -32,7 +71,100 @@ jobs:
         run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
 
       - name: Compile source and tests
-        run: python -m compileall -q src tests
+        run: python -m compileall -q src tests scripts
 
       - name: Run conformance suite
         run: pytest -q
+
+  package:
+    name: Build and clean-wheel smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs:
+      - quality
+      - test
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install build dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Build wheel and source distribution
+        env:
+          SOURCE_DATE_EPOCH: "1767225600"
+        run: python -m build
+
+      - name: Validate package metadata
+        run: python -m twine check dist/*
+
+      - name: Generate release manifest and checksums
+        run: python scripts/release_preflight.py --dist dist
+
+      - name: Install wheel in a clean environment
+        run: |
+          python -m venv /tmp/ahead-rev-clean
+          /tmp/ahead-rev-clean/bin/python -m pip install --upgrade pip
+          /tmp/ahead-rev-clean/bin/python -m pip install dist/*.whl
+          /tmp/ahead-rev-clean/bin/ahead-rev-doctor --strict
+          /tmp/ahead-rev-clean/bin/ahead-rev-sim --version
+          for command in \
+            ahead-rev-sim ahead-rev-debug ahead-rev-history ahead-rev-memory \
+            ahead-rev-frontier ahead-rev-prove ahead-rev-substrate ahead-rev-fambs \
+            ahead-rev-svk ahead-rev-pck ahead-rev-commodities ahead-rev-fanout \
+            ahead-rev-pylons ahead-rev-wave ahead-rev-scale-seam ahead-rev-venue \
+            ahead-rev-causal ahead-rev-mmio ahead-rev-chipyard \
+            ahead-rev-riscv-target-proof ahead-rev-hitch ahead-rev-consist-proof \
+            ahead-rev-evp ahead-rev-doctor; do
+            /tmp/ahead-rev-clean/bin/$command --help >/dev/null
+          done
+
+      - name: Upload release-candidate distributions
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ahead-rev-sim-dist-${{ github.sha }}
+          path: |
+            dist/*.whl
+            dist/*.tar.gz
+            dist/SHA256SUMS
+            dist/release-manifest.json
+          if-no-files-found: error
+          retention-days: 30
+
+  windows-smoke:
+    name: Windows package and command smoke
+    runs-on: windows-latest
+    timeout-minutes: 25
+    needs:
+      - quality
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install package
+        run: python -m pip install --upgrade pip; python -m pip install -e ".[dev]"
+
+      - name: Run Windows production preflight
+        run: |
+          ahead-rev-doctor --strict
+          ahead-rev-sim --version
+          python scripts/repository_audit.py
+          pytest -q tests/test_doctor.py tests/test_provider_hitch.py tests/test_remote_venue.py

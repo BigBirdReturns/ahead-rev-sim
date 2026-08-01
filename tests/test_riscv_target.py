@@ -21,6 +21,10 @@ SOURCE = ROOT / "examples" / "riscv" / "mmio_target_smoke.c"
 EXPECTED = ROOT / "examples" / "riscv" / "mmio_target_smoke.expected"
 WORKFLOW = ROOT / ".github" / "workflows" / "riscv-target.yml"
 
+CHECKOUT_SHA = "3d3c42e5aac5ba805825da76410c181273ba90b1"
+SETUP_PYTHON_SHA = "a309ff8b426b58ec0e2a45f0f869d46889d02405"
+UPLOAD_ARTIFACT_SHA = "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"
+
 
 def _fixture_files(tmp_path: Path) -> tuple[Path, Path, Path]:
     binary = tmp_path / "mmio-target"
@@ -116,4 +120,10 @@ def test_target_proof_writer_and_workflow_close_actual_riscv_execution(tmp_path:
     assert "riscv64-linux-gnu-readelf" in workflow
     assert "diff -u" in workflow
     assert "ahead-rev-riscv-target-proof" in workflow
-    assert "actions/upload-artifact@v4" in workflow
+
+    assert f"actions/checkout@{CHECKOUT_SHA}" in workflow
+    assert f"actions/setup-python@{SETUP_PYTHON_SHA}" in workflow
+    assert f"actions/upload-artifact@{UPLOAD_ARTIFACT_SHA}" in workflow
+    assert "actions/upload-artifact@v4" not in workflow
+    assert "persist-credentials: false" in workflow
+    assert "timeout-minutes:" in workflow

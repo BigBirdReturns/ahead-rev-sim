@@ -6,6 +6,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: causal-custody-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -13,13 +17,16 @@ jobs:
   causal-custody:
     name: Multi-clock causal record qualification
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: "3.11"
           cache: pip
@@ -107,7 +114,7 @@ jobs:
             artifacts/causal-custody/kit/
 
       - name: Upload causal-custody evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: causal-custody-${{ github.sha }}
           path: artifacts/causal-custody

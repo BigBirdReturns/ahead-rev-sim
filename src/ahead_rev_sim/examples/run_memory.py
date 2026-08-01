@@ -1,11 +1,8 @@
-"""
-Reversible Memory Demo for ahead-rev-sim v0.8.
-
-Run with: ahead-rev-memory
-"""
+"""Reversible memory demonstration for the current ahead-rev-sim release."""
 
 from __future__ import annotations
 
+from ahead_rev_sim._version import __version__
 from ahead_rev_sim.machine import Machine
 from ahead_rev_sim.isa import Instruction, OpCode
 from ahead_rev_sim.history import HistoryBuffer, EntryType
@@ -82,15 +79,15 @@ def run_hot_cold_comparison() -> None:
     for i in range(10):
         old, _ = ctrl.cold_exchange(0x1000 + i * 4, reg_val)
         reg_val = old
-    s = ctrl.summary()
-    print(f"HOT requests:   {s['hot_requests']}")
-    print(f"COLD requests:  {s['cold_requests']}")
-    print(f"Total cycles:   {s['total_cycles']}")
+    summary = ctrl.summary()
+    print(f"HOT requests:   {summary['hot_requests']}")
+    print(f"COLD requests:  {summary['cold_requests']}")
+    print(f"Total cycles:   {summary['total_cycles']}")
     print()
 
 
 def main() -> None:
-    print("AHEAD-REV-SIM v0.8: Reversible Memory Demo")
+    print(f"AHEAD-REV-SIM {__version__}: Reversible Memory Demo")
     run_rexch_round_trip()
     run_history_cost_analysis()
     run_hot_cold_comparison()
