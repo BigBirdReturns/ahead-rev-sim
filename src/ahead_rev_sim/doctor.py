@@ -32,6 +32,7 @@ EXPECTED_CONSOLE_SCRIPTS = (
     "ahead-rev-venue",
     "ahead-rev-causal",
     "ahead-rev-mmio",
+    "ahead-rev-rtl",
     "ahead-rev-chipyard",
     "ahead-rev-riscv-target-proof",
     "ahead-rev-hitch",
@@ -62,6 +63,8 @@ REQUIRED_IMPORTS = (
     "ahead_rev_sim.debugger_cli",
     "ahead_rev_sim.history_cli",
     "ahead_rev_sim.memory_cli",
+    "ahead_rev_sim.rtl_attachment",
+    "ahead_rev_sim.rtl_attachment_cli",
 )
 
 SOURCE_GOVERNANCE_FILES = (
