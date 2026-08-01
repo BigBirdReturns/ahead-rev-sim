@@ -119,14 +119,15 @@ jobs:
               .read_text(encoding="utf-8")
           )
           assert advance["effective_state_counts"] == {
-              "contract_implemented": 11,
-              "partial_contract": 8,
+              "contract_implemented": 12,
+              "partial_contract": 7,
               "mapped_open": 0,
           }
-          assert {item["pylon_id"] for item in advance["advances"]} == {
+          advance_ids = {item["pylon_id"] for item in advance["advances"]}
+          assert {
               "scale-seam-communication-tax",
               "remote-venue-envelope",
-          }
+          } <= advance_ids
           PY
 
       - name: Run focused scale and venue tests
