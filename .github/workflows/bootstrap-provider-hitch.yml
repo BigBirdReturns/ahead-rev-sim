@@ -1,6 +1,7 @@
 name: Bootstrap Provider Hitch Train
 
 on:
+  pull_request:
   push:
     branches:
       - agent/v0.9-provider-hitch-staging
@@ -9,17 +10,19 @@ permissions:
   contents: write
 
 concurrency:
-  group: provider-hitch-bootstrap
+  group: provider-hitch-bootstrap-${{ github.event.pull_request.head.ref || github.ref_name }}
   cancel-in-progress: false
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      TARGET_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
     steps:
-      - name: Check out staging branch
+      - name: Check out target branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
 
       - name: Set up Python
@@ -51,11 +54,11 @@ jobs:
           pytest -q
           git diff --check
 
-      - name: Publish one qualified commit to staging
+      - name: Publish one qualified commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           git diff --cached --stat
           git commit -m "Add provider-neutral Ahead and Vaire hitch surface"
-          git push origin "HEAD:${{ github.ref_name }}"
+          git push origin "HEAD:${TARGET_BRANCH}"
