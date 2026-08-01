@@ -4,8 +4,8 @@ import argparse
 from pathlib import Path
 
 from ._version import __version__
-from .rtl_attachment import write_attachment_bundle, write_rtl_attachment_proof
 from .rtl_attachment_execution import build_rtl_attachment_proof_from_tools
+from .rtl_attachment_io import write_attachment_bundle, write_rtl_attachment_proof
 
 
 def main(argv: list[str] | None = None) -> int:
