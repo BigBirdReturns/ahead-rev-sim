@@ -120,6 +120,8 @@ files = [
     "src/ahead_rev_sim/_version.py",
     "src/ahead_rev_sim/doctor.py",
     "src/ahead_rev_sim/doctor_cli.py",
+    "src/ahead_rev_sim/repository_audit.py",
+    "src/ahead_rev_sim/release_preflight.py",
     "scripts",
 ]
 check_untyped_defs = true
@@ -140,3 +142,11 @@ select = ["E4", "E7", "E9", "F"]
 
 [tool.ruff.lint.per-file-ignores]
 "src/ahead_rev_sim/__init__.py" = ["F401"]
+"src/ahead_rev_sim/examples/analyze_history.py" = ["F401"]
+"src/ahead_rev_sim/examples/debug_demo.py" = ["F401"]
+"src/ahead_rev_sim/frontier.py" = ["F401"]
+"src/ahead_rev_sim/reversible_memory.py" = ["F541"]
+"tests/test_causal_custody.py" = ["F401"]
+"tests/test_consist_execution.py" = ["F401"]
+"tests/test_provider_hitch.py" = ["F401"]
+"tests/test_scale_seam.py" = ["F401"]
