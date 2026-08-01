@@ -136,8 +136,11 @@ def validate_chipyard_checkout(
 
     source_witnesses: dict[str, dict[str, Any]] = {}
     for relative, contract in sorted(CHIPYARD_SOURCE_WITNESSES.items()):
-        path = root / relative
-        payload = _read_nonempty(path, f"Chipyard source witness {relative}")
+        source_path = root / relative
+        payload = _read_nonempty(
+            source_path,
+            f"Chipyard source witness {relative}",
+        )
         observed_blob = git_blob_sha1(payload)
         if observed_blob != contract["blob_sha"]:
             raise ValueError(
@@ -156,19 +159,25 @@ def validate_chipyard_checkout(
         }
 
     submodule_records = parse_submodule_status(submodule_status)
-    for path in CRITICAL_SUBMODULE_PATHS:
-        record = submodule_records.get(path)
+    for submodule_path in CRITICAL_SUBMODULE_PATHS:
+        record = submodule_records.get(submodule_path)
         if record is None:
-            raise ValueError(f"critical Chipyard submodule is absent: {path}")
+            raise ValueError(
+                f"critical Chipyard submodule is absent: {submodule_path}"
+            )
         if record["state"] != "exact":
             raise ValueError(
-                f"critical Chipyard submodule is not at the pinned commit: {path}"
+                "critical Chipyard submodule is not at the pinned commit: "
+                f"{submodule_path}"
             )
 
     submodule_witnesses: dict[str, dict[str, Any]] = {}
     for relative, patterns in sorted(CHIPYARD_SUBMODULE_WITNESSES.items()):
-        path = root / relative
-        payload = _read_nonempty(path, f"Chipyard submodule witness {relative}")
+        witness_path = root / relative
+        payload = _read_nonempty(
+            witness_path,
+            f"Chipyard submodule witness {relative}",
+        )
         _validate_required_patterns(
             payload,
             list(patterns),
@@ -187,7 +196,8 @@ def validate_chipyard_checkout(
         "submodule_status_sha256": sha256_bytes(submodule_status.encode("utf-8")),
         "submodule_count": len(submodule_records),
         "critical_submodules": {
-            path: submodule_records[path] for path in CRITICAL_SUBMODULE_PATHS
+            submodule_path: submodule_records[submodule_path]
+            for submodule_path in CRITICAL_SUBMODULE_PATHS
         },
         "submodule_witnesses": submodule_witnesses,
         "scala_source": {
