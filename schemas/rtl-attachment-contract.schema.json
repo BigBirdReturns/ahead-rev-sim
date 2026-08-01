@@ -1,0 +1,117 @@
+{
+  "$defs": {
+    "sha": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/rtl-attachment-contract.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {
+      "const": "physical_compute_rtl_attachment_contract"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "command_surface": {
+      "const": [
+        "reset",
+        "load",
+        "evolve",
+        "read",
+        "capture"
+      ]
+    },
+    "contract_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "invariants": {
+      "$ref": "#/$defs/strings"
+    },
+    "link_id": {
+      "const": "physical-cartridge-link/v1"
+    },
+    "memory_request": {
+      "additionalProperties": false,
+      "properties": {
+        "address_authority": {
+          "const": "resolver_only"
+        },
+        "fields": {
+          "const": [
+            "valid",
+            "write",
+            "opaque_handle",
+            "write_data"
+          ]
+        },
+        "response_fields": {
+          "const": [
+            "valid",
+            "fault",
+            "read_data"
+          ]
+        }
+      },
+      "required": [
+        "fields",
+        "response_fields",
+        "address_authority"
+      ],
+      "type": "object"
+    },
+    "optional_riscv_extension": {
+      "const": "Xphys"
+    },
+    "portable_binding": {
+      "const": "physical-compute-mmio/v1"
+    },
+    "resolver_id": {
+      "const": "physical-cartridge-handle-resolver/v1"
+    },
+    "schema_version": {
+      "const": "ahead.rtl-attachment-contract/v0.1"
+    },
+    "terminal_surface": {
+      "const": [
+        "done",
+        "refused",
+        "fault",
+        "receipt_valid"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "portable_binding",
+    "optional_riscv_extension",
+    "link_id",
+    "resolver_id",
+    "command_surface",
+    "terminal_surface",
+    "memory_request",
+    "invariants",
+    "claim_boundary",
+    "control_question",
+    "contract_sha256"
+  ],
+  "title": "ahead-rev-sim provider-neutral RTL attachment contract",
+  "type": "object"
+}
