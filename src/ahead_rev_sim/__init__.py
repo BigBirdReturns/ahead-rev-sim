@@ -71,6 +71,23 @@ from .fambs_svk_lowering import (
     svk_dot,
     svk_source_result,
 )
+from .fambs_pck_lowering import (
+    PCK_EXPECTED_RESULT,
+    PCK_LOWERING_SCHEMA_VERSION,
+    PCKConfig,
+    PCKLoweringArtifact,
+    PCKPool,
+    PCKStrategyPoint,
+    analyze_pck,
+    initialize_pool,
+    pck_chase,
+    pck_inverse_step,
+    pck_reverse_chase,
+    pck_source_result,
+    pck_step,
+    prove_control_map,
+    prove_initialization_round_trip,
+)
 
 __all__ = [
     # Version
@@ -155,4 +172,20 @@ __all__ = [
     "prove_linear_round_trip",
     "prove_checkpoint_round_trip",
     "analyze_svk",
+    # FAMBS PCK lowering
+    "PCK_EXPECTED_RESULT",
+    "PCK_LOWERING_SCHEMA_VERSION",
+    "PCKConfig",
+    "PCKPool",
+    "PCKStrategyPoint",
+    "PCKLoweringArtifact",
+    "initialize_pool",
+    "prove_initialization_round_trip",
+    "prove_control_map",
+    "pck_step",
+    "pck_inverse_step",
+    "pck_chase",
+    "pck_reverse_chase",
+    "pck_source_result",
+    "analyze_pck",
 ]
