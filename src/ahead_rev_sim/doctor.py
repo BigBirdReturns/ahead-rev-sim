@@ -63,7 +63,10 @@ REQUIRED_IMPORTS = (
     "ahead_rev_sim.debugger_cli",
     "ahead_rev_sim.history_cli",
     "ahead_rev_sim.memory_cli",
+    "ahead_rev_sim.mmio_io",
     "ahead_rev_sim.rtl_attachment",
+    "ahead_rev_sim.rtl_attachment_execution",
+    "ahead_rev_sim.rtl_attachment_io",
     "ahead_rev_sim.rtl_attachment_cli",
 )
 
