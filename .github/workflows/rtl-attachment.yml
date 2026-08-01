@@ -102,7 +102,11 @@ jobs:
       - name: Execute and compare the accepted lifecycle trace
         run: |
           vvp artifacts/rtl-attachment/rtl-attachment.vvp \
-            | tee artifacts/rtl-attachment/rtl-attachment.trace
+            | tee artifacts/rtl-attachment/rtl-attachment.raw.trace
+          sed '/\$finish called at /d' \
+            artifacts/rtl-attachment/rtl-attachment.raw.trace \
+            > artifacts/rtl-attachment/rtl-attachment.trace
+          cat artifacts/rtl-attachment/rtl-attachment.trace
           diff -u \
             artifacts/rtl-attachment/rtl-attachment.expected \
             artifacts/rtl-attachment/rtl-attachment.trace
@@ -207,6 +211,7 @@ jobs:
             artifacts/rtl-attachment/rtl-attachment-manifest.json \
             artifacts/rtl-attachment/rtl-attachment-proof.json \
             artifacts/rtl-attachment/rtl-attachment.expected \
+            artifacts/rtl-attachment/rtl-attachment.raw.trace \
             artifacts/rtl-attachment/rtl-attachment.trace \
             artifacts/rtl-attachment/ahead_physical_compute_mmio_v1.sv \
             artifacts/rtl-attachment/ahead_reference_handle_resolver_v1.sv \
