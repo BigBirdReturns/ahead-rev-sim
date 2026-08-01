@@ -1,0 +1,141 @@
+name: Scale and Venue Reference Contracts
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  scale-and-venue:
+    name: Scale-seam and remote-venue qualification
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install ahead-rev-sim
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Generate scale-seam reference receipt
+        run: |
+          mkdir -p artifacts/scale-venue
+          ahead-rev-scale-seam \
+            examples/scale_seam/reference-model.json \
+            --out artifacts/scale-venue/scale-seam.json \
+            --quiet
+
+      - name: Execute portable remote-venue reference transaction
+        run: |
+          ahead-rev-venue seal \
+            examples/remote_venue/reference-submission-source.json \
+            --out artifacts/scale-venue/submission.json
+          ahead-rev-venue verify \
+            artifacts/scale-venue/submission.json \
+            examples/remote_venue/reference-return-a.json \
+            --out artifacts/scale-venue/venue-a.json \
+            --require-accepted
+          ahead-rev-venue verify \
+            artifacts/scale-venue/submission.json \
+            examples/remote_venue/reference-return-b.json \
+            --out artifacts/scale-venue/venue-b.json \
+            --require-accepted
+          ahead-rev-venue compare \
+            artifacts/scale-venue/venue-a.json \
+            artifacts/scale-venue/venue-b.json \
+            --out artifacts/scale-venue/venue-comparison.json \
+            --require-substitution
+
+      - name: Validate generated schemas and claim boundaries
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+
+          fixtures = (
+              (
+                  "artifacts/scale-venue/scale-seam.json",
+                  "schemas/scale-seam-receipt.schema.json",
+              ),
+              (
+                  "artifacts/scale-venue/submission.json",
+                  "schemas/remote-venue-submission.schema.json",
+              ),
+              (
+                  "artifacts/scale-venue/venue-a.json",
+                  "schemas/remote-venue-receipt.schema.json",
+              ),
+              (
+                  "artifacts/scale-venue/venue-b.json",
+                  "schemas/remote-venue-receipt.schema.json",
+              ),
+              (
+                  "artifacts/scale-venue/venue-comparison.json",
+                  "schemas/remote-venue-comparison.schema.json",
+              ),
+          )
+          for artifact_path, schema_path in fixtures:
+              artifact = json.loads(Path(artifact_path).read_text(encoding="utf-8"))
+              schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
+              Draft202012Validator.check_schema(schema)
+              Draft202012Validator(schema).validate(artifact)
+
+          scale = json.loads(
+              Path("artifacts/scale-venue/scale-seam.json").read_text(encoding="utf-8")
+          )
+          assert scale["qualification"]["status"] == "modeled_scale_seam"
+          assert scale["qualification"]["measured_scale_seam_allowed"] is False
+          assert scale["qualification"][
+              "complete_system_advantage_claim_allowed"
+          ] is False
+          assert scale["dominant_seams"]["energy"] == "board-to-rack"
+
+          comparison = json.loads(
+              Path("artifacts/scale-venue/venue-comparison.json")
+              .read_text(encoding="utf-8")
+          )
+          assert comparison["substitution_proved"] is True
+          assert comparison["output_consensus"] is True
+          assert comparison["accepted_venue_count"] == 2
+          assert comparison["refused_venue_count"] == 0
+          PY
+
+      - name: Run focused scale and venue tests
+        run: python -m pytest -q tests/test_scale_seam.py tests/test_remote_venue.py
+
+      - name: Assemble reference kit
+        run: |
+          mkdir -p artifacts/scale-venue/kit/examples
+          mkdir -p artifacts/scale-venue/kit/schemas
+          cp docs/scale_seam_and_remote_venue.md artifacts/scale-venue/kit/
+          cp \
+            examples/scale_seam/reference-model.json \
+            examples/remote_venue/reference-submission-source.json \
+            examples/remote_venue/reference-return-a.json \
+            examples/remote_venue/reference-return-b.json \
+            artifacts/scale-venue/kit/examples/
+          cp \
+            schemas/scale-seam-receipt.schema.json \
+            schemas/remote-venue-submission.schema.json \
+            schemas/remote-venue-receipt.schema.json \
+            schemas/remote-venue-comparison.schema.json \
+            artifacts/scale-venue/kit/schemas/
+
+      - name: Upload scale and venue evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: scale-venue-reference-${{ github.sha }}
+          path: artifacts/scale-venue
+          if-no-files-found: error
+          retention-days: 30
