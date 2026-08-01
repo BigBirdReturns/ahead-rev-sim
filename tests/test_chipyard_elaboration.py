@@ -26,7 +26,6 @@ from ahead_rev_sim.chipyard_subsystem import (
     CHIPYARD_SUBMODULE_WITNESSES,
     DEFAULT_BASE_ADDRESS,
     ELABORATION_WITNESS_NAME,
-    build_chipyard_manifest,
     render_chipyard_scala,
 )
 from ahead_rev_sim.mmio_abi import canonical_json
@@ -281,11 +280,12 @@ def test_workflow_pins_checkout_and_runs_real_chipyard_elaboration() -> None:
     workflow = WORKFLOW.read_text(encoding="utf-8")
     assert CHIPYARD_COMMIT in workflow
     assert "scripts/init-submodules-no-riscv-tools.sh" in workflow
+    assert "submodule.software/spec2026.update none" in workflow
     assert "build-setup.sh" in workflow
     assert "CONFIG=PhysicalComputeRocketConfig" in workflow
     assert "CONFIG_PACKAGE=chipyard.physicalcompute" in workflow
     assert " firrtl" in workflow
-    assert "ahead-rev-chipyard proof" in workflow
+    assert '"$pythonLocation/bin/ahead-rev-chipyard" proof' in workflow
     assert "chipyard-subsystem-elaboration-proof.schema.json" in workflow
     assert f"actions/checkout@{CHECKOUT_SHA}" in workflow
     assert f"actions/setup-python@{SETUP_PYTHON_SHA}" in workflow
