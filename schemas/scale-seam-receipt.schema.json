@@ -1,0 +1,523 @@
+{
+  "$defs": {
+    "nonnegative": {
+      "minimum": 0,
+      "type": "number"
+    },
+    "positive": {
+      "exclusiveMinimum": 0,
+      "type": "number"
+    },
+    "scale": {
+      "enum": [
+        "operation",
+        "tile",
+        "die",
+        "package",
+        "board",
+        "rack",
+        "facility"
+      ]
+    },
+    "sha": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "shaOrNull": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/sha"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/scale-seam-receipt.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {
+      "const": "scale_seam_receipt"
+    },
+    "baseline": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "energy_joules_per_accepted_work_unit": {
+              "$ref": "#/$defs/nonnegative"
+            },
+            "incremental_occupied_mm3": {
+              "$ref": "#/$defs/nonnegative"
+            },
+            "latency_seconds_per_accepted_work_unit": {
+              "$ref": "#/$defs/nonnegative"
+            },
+            "receipt_sha256": {
+              "$ref": "#/$defs/sha"
+            },
+            "topology_sha256": {
+              "$ref": "#/$defs/sha"
+            },
+            "traffic_bytes_per_accepted_work_unit": {
+              "$ref": "#/$defs/nonnegative"
+            },
+            "workload_contract_id": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "receipt_sha256",
+            "workload_contract_id",
+            "topology_sha256",
+            "latency_seconds_per_accepted_work_unit",
+            "energy_joules_per_accepted_work_unit",
+            "incremental_occupied_mm3",
+            "traffic_bytes_per_accepted_work_unit"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "comparison": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "baseline_receipt_sha256": {
+              "$ref": "#/$defs/sha"
+            },
+            "comparable": {
+              "type": "boolean"
+            },
+            "complete_system_advantage_claim_allowed": {
+              "const": false
+            },
+            "energy_ratio": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/nonnegative"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "incremental_volume_ratio": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/nonnegative"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "latency_ratio": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/nonnegative"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "traffic_ratio": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/nonnegative"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "baseline_receipt_sha256",
+            "comparable",
+            "latency_ratio",
+            "energy_ratio",
+            "incremental_volume_ratio",
+            "traffic_ratio",
+            "complete_system_advantage_claim_allowed"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "dominant_seams": {
+      "additionalProperties": false,
+      "properties": {
+        "energy": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "incremental_volume": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "latency": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "traffic": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "traffic",
+        "latency",
+        "energy",
+        "incremental_volume"
+      ],
+      "type": "object"
+    },
+    "model": {
+      "additionalProperties": false,
+      "properties": {
+        "clock_ref": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "configuration_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "environment_manifest_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "evidence_class": {
+          "enum": [
+            "reference_model",
+            "simulated",
+            "measured"
+          ]
+        },
+        "instrument_refs": {
+          "$ref": "#/$defs/strings"
+        },
+        "model_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "model_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "topology_sha256": {
+          "$ref": "#/$defs/shaOrNull"
+        },
+        "uncertainty_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_sha256",
+        "evidence_class",
+        "instrument_refs",
+        "uncertainty_fraction",
+        "topology_sha256",
+        "configuration_sha256",
+        "environment_manifest_sha256",
+        "clock_ref"
+      ],
+      "type": "object"
+    },
+    "qualification": {
+      "additionalProperties": false,
+      "properties": {
+        "blockers": {
+          "$ref": "#/$defs/strings"
+        },
+        "complete_system_advantage_claim_allowed": {
+          "const": false
+        },
+        "measured_scale_seam_allowed": {
+          "type": "boolean"
+        },
+        "modeled_scale_seam_allowed": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "refused",
+            "modeled_scale_seam",
+            "measured_scale_seam"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "modeled_scale_seam_allowed",
+        "measured_scale_seam_allowed",
+        "complete_system_advantage_claim_allowed",
+        "blockers"
+      ],
+      "type": "object"
+    },
+    "receipt_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "schema_version": {
+      "const": "ahead.scale-seam-receipt/v0.1"
+    },
+    "seams": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "energy_joules": {
+            "$ref": "#/$defs/nonnegative"
+          },
+          "energy_joules_per_accepted_work_unit": {
+            "$ref": "#/$defs/nonnegative"
+          },
+          "failure_domains": {
+            "$ref": "#/$defs/strings"
+          },
+          "from_scale": {
+            "$ref": "#/$defs/scale"
+          },
+          "incremental_occupied_mm3": {
+            "$ref": "#/$defs/nonnegative"
+          },
+          "latency_seconds": {
+            "$ref": "#/$defs/nonnegative"
+          },
+          "latency_seconds_per_accepted_work_unit": {
+            "$ref": "#/$defs/nonnegative"
+          },
+          "message_count": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "messages_per_accepted_work_unit": {
+            "$ref": "#/$defs/nonnegative"
+          },
+          "retries": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "retries_per_accepted_work_unit": {
+            "$ref": "#/$defs/nonnegative"
+          },
+          "seam_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "synchronization_events": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "synchronization_events_per_accepted_work_unit": {
+            "$ref": "#/$defs/nonnegative"
+          },
+          "to_scale": {
+            "$ref": "#/$defs/scale"
+          },
+          "traffic_bytes": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "traffic_bytes_per_accepted_work_unit": {
+            "$ref": "#/$defs/nonnegative"
+          },
+          "utilization_fraction": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          }
+        },
+        "required": [
+          "seam_id",
+          "from_scale",
+          "to_scale",
+          "traffic_bytes",
+          "message_count",
+          "synchronization_events",
+          "retries",
+          "latency_seconds",
+          "energy_joules",
+          "incremental_occupied_mm3",
+          "utilization_fraction",
+          "failure_domains",
+          "traffic_bytes_per_accepted_work_unit",
+          "messages_per_accepted_work_unit",
+          "synchronization_events_per_accepted_work_unit",
+          "retries_per_accepted_work_unit",
+          "latency_seconds_per_accepted_work_unit",
+          "energy_joules_per_accepted_work_unit"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "totals": {
+      "additionalProperties": false,
+      "properties": {
+        "energy_joules": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "energy_joules_per_accepted_work_unit": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "failure_domain_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "failure_domains": {
+          "$ref": "#/$defs/strings"
+        },
+        "incremental_occupied_mm3": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "latency_seconds": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "latency_seconds_per_accepted_work_unit": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "message_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "messages_per_accepted_work_unit": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "retries": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "retries_per_accepted_work_unit": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "synchronization_events": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "synchronization_events_per_accepted_work_unit": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "throughput_accepted_work_units_per_second": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/positive"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "traffic_bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "traffic_bytes_per_accepted_work_unit": {
+          "$ref": "#/$defs/nonnegative"
+        }
+      },
+      "required": [
+        "traffic_bytes",
+        "message_count",
+        "synchronization_events",
+        "retries",
+        "latency_seconds",
+        "energy_joules",
+        "incremental_occupied_mm3",
+        "failure_domain_count",
+        "failure_domains",
+        "traffic_bytes_per_accepted_work_unit",
+        "messages_per_accepted_work_unit",
+        "synchronization_events_per_accepted_work_unit",
+        "retries_per_accepted_work_unit",
+        "latency_seconds_per_accepted_work_unit",
+        "energy_joules_per_accepted_work_unit",
+        "throughput_accepted_work_units_per_second"
+      ],
+      "type": "object"
+    },
+    "workload": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {
+          "type": "boolean"
+        },
+        "accepted_work_unit": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "accepted_work_units": {
+          "$ref": "#/$defs/positive"
+        },
+        "artifact_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "contract_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "quality_rule": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "result": {}
+      },
+      "required": [
+        "contract_id",
+        "artifact_sha256",
+        "accepted_work_unit",
+        "accepted_work_units",
+        "quality_rule",
+        "accepted",
+        "result"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "workload",
+    "model",
+    "seams",
+    "totals",
+    "dominant_seams",
+    "baseline",
+    "comparison",
+    "qualification",
+    "claim_boundary",
+    "control_question",
+    "receipt_sha256"
+  ],
+  "title": "ahead-rev-sim scale-seam receipt",
+  "type": "object"
+}
