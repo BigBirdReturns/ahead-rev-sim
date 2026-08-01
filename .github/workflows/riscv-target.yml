@@ -1,0 +1,86 @@
+name: RISC-V Target Model
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  rv64gc-mmio:
+    name: RV64GC MMIO lifecycle
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install ahead-rev-sim
+        run: python -m pip install --upgrade pip && python -m pip install -e .
+
+      - name: Install RISC-V compiler and emulator
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            gcc-riscv64-linux-gnu \
+            qemu-user
+
+      - name: Generate portable MMIO header
+        run: |
+          mkdir -p artifacts/riscv-target
+          ahead-rev-mmio \
+            --format c-header \
+            --out artifacts/riscv-target/ahead_physical_compute_mmio_v1.h
+
+      - name: Build static RV64GC lifecycle binary
+        run: |
+          riscv64-linux-gnu-gcc \
+            -static \
+            -std=c11 \
+            -O2 \
+            -Wall \
+            -Wextra \
+            -Werror \
+            -march=rv64gc \
+            -mabi=lp64d \
+            -I artifacts/riscv-target \
+            examples/riscv/mmio_target_smoke.c \
+            -o artifacts/riscv-target/mmio_target_smoke.riscv64
+          riscv64-linux-gnu-readelf \
+            -h artifacts/riscv-target/mmio_target_smoke.riscv64 \
+            | tee artifacts/riscv-target/readelf.txt
+          grep -q "Class:.*ELF64" artifacts/riscv-target/readelf.txt
+          grep -q "Machine:.*RISC-V" artifacts/riscv-target/readelf.txt
+
+      - name: Execute accepted trace under qemu-riscv64
+        run: |
+          qemu-riscv64 artifacts/riscv-target/mmio_target_smoke.riscv64 \
+            | tee artifacts/riscv-target/mmio_target_smoke.trace
+          diff -u \
+            examples/riscv/mmio_target_smoke.expected \
+            artifacts/riscv-target/mmio_target_smoke.trace
+
+      - name: Seal RISC-V target proof
+        run: |
+          ahead-rev-riscv-target-proof \
+            --binary artifacts/riscv-target/mmio_target_smoke.riscv64 \
+            --trace artifacts/riscv-target/mmio_target_smoke.trace \
+            --expected examples/riscv/mmio_target_smoke.expected \
+            --out artifacts/riscv-target/riscv-target-proof.json
+
+      - name: Upload target evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: riscv-target-${{ github.sha }}
+          path: artifacts/riscv-target
+          if-no-files-found: error
+          retention-days: 30
