@@ -56,13 +56,17 @@ from .rtl_attachment import (
     RTL_ATTACHMENT_RESOLVER,
     build_attachment_contract,
     build_attachment_manifest,
-    build_rtl_attachment_proof,
-    build_rtl_attachment_proof_from_tools,
     parse_rtl_attachment_trace,
     render_cartridge_systemverilog,
     render_contract_json,
     render_resolver_systemverilog,
     render_testbench_systemverilog,
+)
+from .rtl_attachment_execution import (
+    build_rtl_attachment_proof,
+    build_rtl_attachment_proof_from_tools,
+)
+from .rtl_attachment_io import (
     write_attachment_bundle,
     write_rtl_attachment_proof,
 )
