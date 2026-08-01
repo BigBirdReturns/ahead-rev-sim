@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from .chipyard_subsystem import (
+    DEFAULT_BASE_ADDRESS,
     build_chipyard_manifest,
     render_baremetal_smoke,
     render_chipyard_scala,
@@ -21,7 +22,7 @@ def _write_utf8_lf(path: Path, content: str) -> None:
 def write_chipyard_bundle(
     output_dir: str | Path,
     *,
-    base_address: int,
+    base_address: int = DEFAULT_BASE_ADDRESS,
 ) -> dict[str, Path]:
     root = Path(output_dir)
     root.mkdir(parents=True, exist_ok=True)
