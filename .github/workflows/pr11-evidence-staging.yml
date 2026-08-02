@@ -31,14 +31,46 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          test "$(git rev-parse HEAD^)" = "26fcf1e47751c6a0b62b95fbef668daa15f1499c"
+          test "$(git rev-parse HEAD^)" = "2e662653604a6b760f05c89189ee793186210402"
           git merge-base --is-ancestor \
             19d45ab84b2d6955b894b601efb7a56ed553c996 HEAD
           mkdir -p /tmp/pr11-stage
-          base64 -d .staging/pr11-stage-payload.part0 \
-            > /tmp/pr11-stage/payload.tar.gz
-          base64 -d .staging/pr11-stage-payload.part1 \
-            >> /tmp/pr11-stage/payload.tar.gz
+          python - <<'PY'
+          import base64
+          from pathlib import Path
+
+          parts = (
+              Path(".staging/pr11-stage-payload.part0"),
+              Path(".staging/pr11-stage-payload.part1"),
+          )
+          encoded = "".join(
+              "".join(path.read_text(encoding="ascii").split())
+              for path in parts
+          )
+          alphabet = frozenset(
+              "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+              "abcdefghijklmnopqrstuvwxyz"
+              "0123456789+/="
+          )
+          invalid = [
+              (index, character)
+              for index, character in enumerate(encoded)
+              if character not in alphabet
+          ]
+          if invalid:
+              raise SystemExit(f"invalid base64 transport characters: {invalid[:8]}")
+          if "=" in encoded.rstrip("="):
+              raise SystemExit("base64 padding appears before the stream terminus")
+          encoded = encoded.rstrip("=")
+          encoded += "=" * (-len(encoded) % 4)
+          payload = base64.b64decode(encoded, validate=True)
+          destination = Path("/tmp/pr11-stage/payload.tar.gz")
+          destination.write_bytes(payload)
+          print(
+              f"reconstructed {len(payload)} bytes from "
+              f"{len(encoded)} normalized base64 characters"
+          )
+          PY
           printf '%s  %s\n' \
             '3bb0e7365a2846b86fe282a76566e2b48fb11598ab443ada8f407a55ca2f7bbd' \
             '/tmp/pr11-stage/payload.tar.gz' | sha256sum -c -
