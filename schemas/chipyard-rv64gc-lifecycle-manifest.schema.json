@@ -1,0 +1,177 @@
+{
+  "$defs": {
+    "artifact_record": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "sha256",
+        "bytes"
+      ],
+      "type": "object"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/chipyard-rv64gc-lifecycle-manifest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {
+      "const": "chipyard_rv64gc_lifecycle_bundle"
+    },
+    "chipyard": {
+      "additionalProperties": false,
+      "properties": {
+        "base_address": {
+          "minimum": 0,
+          "multipleOf": 4096,
+          "type": "integer"
+        },
+        "commit": {
+          "const": "e27c6561c0066c1f60bf4eb4885a38391c850ac0"
+        },
+        "config_class": {
+          "const": "PhysicalComputeRocketConfig"
+        },
+        "config_package": {
+          "const": "chipyard.physicalcompute"
+        },
+        "entry_api": {
+          "const": "testchipip.soc.SubsystemInjectorKey"
+        },
+        "integration_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "repository": {
+          "const": "ucb-bar/chipyard"
+        }
+      },
+      "required": [
+        "repository",
+        "commit",
+        "config_package",
+        "config_class",
+        "base_address",
+        "entry_api",
+        "integration_manifest_sha256"
+      ],
+      "type": "object"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "generated_artifacts": {
+      "additionalProperties": false,
+      "properties": {
+        "physical_compute_chipyard_lifecycle.c": {
+          "$ref": "#/$defs/artifact_record"
+        },
+        "physical_compute_chipyard_lifecycle.expected": {
+          "$ref": "#/$defs/artifact_record"
+        }
+      },
+      "required": [
+        "physical_compute_chipyard_lifecycle.c",
+        "physical_compute_chipyard_lifecycle.expected"
+      ],
+      "type": "object"
+    },
+    "manifest_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "portable_binding": {
+      "const": "physical-compute-mmio/v1"
+    },
+    "qualification": {
+      "additionalProperties": false,
+      "properties": {
+        "blockers": {
+          "const": [
+            "CHIPYARD_RTL_SIMULATION_UNRUN",
+            "RISC_V_BINARY_BUILD_UNRUN",
+            "TARGET_TRACE_UNOBSERVED",
+            "CHIPYARD_EXTERNAL_CARTRIDGE_BINDING_UNRUN",
+            "FPGA_OR_SILICON_EXECUTION_UNRUN",
+            "PHYSICAL_SUBSTRATE_UNMEASURED",
+            "PHYSICAL_ENERGY_UNMEASURED",
+            "TIMING_THERMAL_VOLUME_UNMEASURED",
+            "COMPLETE_SYSTEM_EVP_UNMEASURED",
+            "INDEPENDENT_PHYSICAL_ACCEPTANCE_MISSING"
+          ]
+        },
+        "chipyard_rtl_simulation_claim_allowed": {
+          "const": false
+        },
+        "physical_claim_allowed": {
+          "const": false
+        },
+        "status": {
+          "const": "chipyard_rv64gc_lifecycle_unexecuted"
+        }
+      },
+      "required": [
+        "status",
+        "chipyard_rtl_simulation_claim_allowed",
+        "physical_claim_allowed",
+        "blockers"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "ahead.chipyard-rv64gc-lifecycle-manifest/v0.1"
+    },
+    "target": {
+      "additionalProperties": false,
+      "properties": {
+        "abi": {
+          "const": "lp64d"
+        },
+        "execution_environment": {
+          "const": "chipyard-verilator-testharness"
+        },
+        "isa": {
+          "const": "rv64gc"
+        },
+        "loopback_fallback": {
+          "const": true
+        }
+      },
+      "required": [
+        "isa",
+        "abi",
+        "execution_environment",
+        "loopback_fallback"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "portable_binding",
+    "chipyard",
+    "target",
+    "generated_artifacts",
+    "qualification",
+    "claim_boundary",
+    "control_question",
+    "manifest_sha256"
+  ],
+  "title": "ahead-rev-sim Chipyard RV64GC lifecycle bundle",
+  "type": "object"
+}
