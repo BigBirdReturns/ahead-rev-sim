@@ -241,7 +241,9 @@ jobs:
             > artifacts/chipyard-subsystem/chisel-log-source-path.txt
 
       - name: Seal the pinned Chipyard elaboration proof
+        shell: bash
         run: |
+          set -Eeo pipefail
           FIRRTL_FILE="$(find artifacts/chipyard-subsystem \
             -maxdepth 1 -type f -name "*${CHIPYARD_CONFIG}*.fir" -print -quit)"
           ANNO_FILE="$(find artifacts/chipyard-subsystem \
@@ -260,7 +262,9 @@ jobs:
             --sbt-version-file artifacts/chipyard-subsystem/sbt-version.txt \
             --make-command "$MAKE_COMMAND" \
             --out artifacts/chipyard-subsystem/chipyard-subsystem-elaboration-proof.json \
-            | tee artifacts/chipyard-subsystem/proof.txt
+            2>&1 | tee artifacts/chipyard-subsystem/proof.txt
+          test -s artifacts/chipyard-subsystem/chipyard-subsystem-elaboration-proof.json
+          test -s artifacts/chipyard-subsystem/proof.txt
 
       - name: Validate the proof and retained blockers
         run: |
@@ -363,6 +367,7 @@ jobs:
           python -m pytest -q \
             tests/test_chipyard_integration.py \
             tests/test_chipyard_elaboration.py \
+            tests/test_chipyard_setup_witness.py \
             tests/test_chipyard_workflow_environment.py
 
       - name: Assemble the reconstructable subsystem kit
