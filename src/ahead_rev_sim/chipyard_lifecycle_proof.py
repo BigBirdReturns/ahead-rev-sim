@@ -247,9 +247,9 @@ def build_chipyard_lifecycle_proof(
         expected_trace_path,
         "Chipyard lifecycle expected trace",
     )
-    binary = _read_nonempty(binary_path, "Chipyard RV64GC binary")
-    simulator = _read_nonempty(simulator_path, "Chipyard Verilator simulator")
-    simulator_build_log = _read_nonempty(
+    _read_nonempty(binary_path, "Chipyard RV64GC binary")
+    _read_nonempty(simulator_path, "Chipyard Verilator simulator")
+    _read_nonempty(
         simulator_build_log_path,
         "Chipyard simulator build log",
     )
