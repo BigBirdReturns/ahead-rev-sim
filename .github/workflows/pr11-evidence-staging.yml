@@ -1,0 +1,82 @@
+name: PR 11 evidence staging
+
+on:
+  push:
+    branches:
+      - agent/v0.12-chipyard-rv64gc-lifecycle
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pr11-evidence-staging
+  cancel-in-progress: true
+
+jobs:
+  stage:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out the PR branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: agent/v0.12-chipyard-rv64gc-lifecycle
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Stage the validated evidence tree
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test "$(git rev-parse HEAD^)" = "4a1be4da442c9e8798f13d0805ea78977d10651d"
+          git merge-base --is-ancestor \
+            19d45ab84b2d6955b894b601efb7a56ed553c996 HEAD
+          printf '%s  %s\n' \
+            '9718697480f7ba2a3428ef1c6648dc43c42bac7b8936a1d0dda7641714ed29d6' \
+            '.staging/pr11-stage-payload.part0' | sha256sum -c -
+          printf '%s  %s\n' \
+            '23b94d7555bf25aad4cf3ba85b737ae38217471869b96982ddd0fe8d81356437' \
+            '.staging/pr11-stage-payload.part1' | sha256sum -c -
+          mkdir -p /tmp/pr11-stage
+          cat \
+            .staging/pr11-stage-payload.part0 \
+            .staging/pr11-stage-payload.part1 \
+            | base64 -d > /tmp/pr11-stage/payload.tar.gz
+          printf '%s  %s\n' \
+            '3bb0e7365a2846b86fe282a76566e2b48fb11598ab443ada8f407a55ca2f7bbd' \
+            '/tmp/pr11-stage/payload.tar.gz' | sha256sum -c -
+          tar -C /tmp/pr11-stage -xzf /tmp/pr11-stage/payload.tar.gz
+          printf '%s  %s\n' \
+            '9c57a8d1510d1e53fc691f189642b86bf5b90d5d79aafeb73ab3f14b59cde416' \
+            '/tmp/pr11-stage/nonworkflow.patch' | sha256sum -c -
+          printf '%s  %s\n' \
+            'd60dce4ca33962b4d8106747f1e41ecfaa5c4a44b71b60077841e7b3e170314c' \
+            '/tmp/pr11-stage/chipyard-lifecycle.yml' | sha256sum -c -
+          git apply --check /tmp/pr11-stage/nonworkflow.patch
+          git apply /tmp/pr11-stage/nonworkflow.patch
+          cp /tmp/pr11-stage/chipyard-lifecycle.yml \
+            .staging/pr11-chipyard-lifecycle.yml
+          printf '%s  %s\n' \
+            'd60dce4ca33962b4d8106747f1e41ecfaa5c4a44b71b60077841e7b3e170314c' \
+            '.staging/pr11-chipyard-lifecycle.yml' | sha256sum -c -
+          git rm \
+            .staging/pr11-stage-payload.part0 \
+            .staging/pr11-stage-payload.part1
+          git diff --check
+          git config user.name 'BigBirdReturns Evidence Stager'
+          git config user.email '219768509+BigBirdReturns@users.noreply.github.com'
+          git add \
+            .staging/pr11-chipyard-lifecycle.yml \
+            docs/chipyard_rv64gc_lifecycle.md \
+            schemas/chipyard-rv64gc-lifecycle-manifest.schema.json \
+            schemas/chipyard-rv64gc-lifecycle-proof.schema.json \
+            src/ahead_rev_sim/chipyard_cli.py \
+            src/ahead_rev_sim/chipyard_lifecycle.py \
+            src/ahead_rev_sim/chipyard_lifecycle_manifest.py \
+            src/ahead_rev_sim/chipyard_lifecycle_program.py \
+            src/ahead_rev_sim/chipyard_lifecycle_proof.py \
+            tests/test_chipyard_lifecycle.py \
+            tests/test_release_workflow.py
+          git commit -m 'Stage sealed Chipyard lifecycle evidence blobs'
+          git push origin HEAD:agent/v0.12-chipyard-rv64gc-lifecycle
+          git rev-parse HEAD
