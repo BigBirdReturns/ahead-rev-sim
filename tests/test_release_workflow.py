@@ -25,6 +25,12 @@ def test_chipyard_lifecycle_workflow_is_directly_runnable_and_reusable() -> None
     assert "push:" in workflow
     assert "ahead-rev-chipyard\" lifecycle-proof" in workflow
     assert "Prove lifecycle trace refusal" in workflow
+    assert "LIBGLOSS_COMMIT: 39234a16247ab1fa234821b251f1f1870c3de343" in workflow
+    assert "git submodule update --init toolchains/libgloss" in workflow
+    assert "Build and verify the pinned HTIF runtime" in workflow
+    assert 'SYSROOT="$(riscv64-unknown-elf-gcc -print-sysroot)"' in workflow
+    assert "-print-file-name=htif_nano.specs" in workflow
+    assert 'make install 2>&1 | tee "$ROOT/libgloss-install.log"' in workflow
 
 
 def test_release_waits_for_hardware_model_requalification_before_publication() -> None:
