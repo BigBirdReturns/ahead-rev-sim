@@ -76,8 +76,11 @@ CHIPYARD_SOURCE_WITNESSES: dict[str, dict[str, Any]] = {
             "CHISEL_LOG_FILE",
         ],
     },
-    "build-setup.sh": {
-        "blob_sha": "ec3e38ff72c3a9750cfc1074d5ac8e9999b4f394",
+    # The repository-root build-setup.sh entry is a symlink. Witness the
+    # regular script that the symlink executes so the path, blob identity,
+    # required patterns, and bytes all describe the same upstream object.
+    "scripts/build-setup.sh": {
+        "blob_sha": "709fc4db6ea274094921a41de52a2ad6c7816fdb",
         "required_patterns": [
             "--use-lean-conda",
             "--skip-submodules",
