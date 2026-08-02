@@ -16,6 +16,7 @@ permissions:
 
 env:
   CHIPYARD_COMMIT: e27c6561c0066c1f60bf4eb4885a38391c850ac0
+  LIBGLOSS_COMMIT: 39234a16247ab1fa234821b251f1f1870c3de343
   CHIPYARD_CONFIG: PhysicalComputeRocketConfig
   CHIPYARD_CONFIG_PACKAGE: chipyard.physicalcompute
   CHIPYARD_SCALA_PATH: generators/chipyard/src/main/scala/physicalcompute/PhysicalCompute.scala
@@ -128,11 +129,16 @@ jobs:
           git config --local submodule.software/spec2026.update none
           ./scripts/init-submodules-no-riscv-tools.sh \
             2>&1 | tee ../artifacts/chipyard-lifecycle/submodules.log
+          git submodule update --init toolchains/libgloss \
+            2>&1 | tee -a ../artifacts/chipyard-lifecycle/submodules.log
+          test "$(git -C toolchains/libgloss rev-parse HEAD)" = "$LIBGLOSS_COMMIT"
           git submodule status --recursive \
             > ../artifacts/chipyard-lifecycle/submodule-status.txt
           grep -E '^ [0-9a-f]{40} generators/testchipip([[:space:]]|$)' \
             ../artifacts/chipyard-lifecycle/submodule-status.txt
           grep -E '^ [0-9a-f]{40} generators/rocket-chip([[:space:]]|$)' \
+            ../artifacts/chipyard-lifecycle/submodule-status.txt
+          grep -E "^ ${LIBGLOSS_COMMIT} toolchains/libgloss([[:space:]]|$)" \
             ../artifacts/chipyard-lifecycle/submodule-status.txt
           mkdir -p "$(dirname "$CHIPYARD_SCALA_PATH")"
           cp ../artifacts/chipyard-lifecycle/PhysicalCompute.scala \
@@ -142,6 +148,48 @@ jobs:
           git diff -- generators/chipyard/src/main/scala/DigitalTop.scala \
             > ../artifacts/chipyard-lifecycle/digital-top.diff
           test ! -s ../artifacts/chipyard-lifecycle/digital-top.diff
+
+      - name: Build and verify the pinned HTIF runtime
+        shell: bash -el {0}
+        run: |
+          set -Eeo pipefail
+          cd chipyard
+          source env.sh
+          ROOT="$GITHUB_WORKSPACE/artifacts/chipyard-lifecycle"
+          SYSROOT="$(riscv64-unknown-elf-gcc -print-sysroot)"
+          BUILD_DIR="$GITHUB_WORKSPACE/chipyard/.libgloss-build"
+          test "$(git -C toolchains/libgloss rev-parse HEAD)" = "$LIBGLOSS_COMMIT"
+          test -n "$SYSROOT"
+          test -d "$SYSROOT"
+          rm -rf "$BUILD_DIR"
+          mkdir -p "$BUILD_DIR"
+          (
+            cd "$BUILD_DIR"
+            "$GITHUB_WORKSPACE/chipyard/toolchains/libgloss/configure" \
+              --prefix="$SYSROOT" \
+              --host=riscv64-unknown-elf \
+              2>&1 | tee "$ROOT/libgloss-configure.log"
+            make -j2 2>&1 | tee "$ROOT/libgloss-build.log"
+            make install 2>&1 | tee "$ROOT/libgloss-install.log"
+          )
+          SPEC_FILE="$(riscv64-unknown-elf-gcc \
+            -print-file-name=htif_nano.specs)"
+          LINKER_SCRIPT="$(riscv64-unknown-elf-gcc -print-file-name=htif.ld)"
+          test "$SPEC_FILE" != "htif_nano.specs"
+          test "$LINKER_SCRIPT" != "htif.ld"
+          test -s "$SPEC_FILE"
+          test -s "$LINKER_SCRIPT"
+          riscv64-unknown-elf-gcc -print-search-dirs \
+            > "$ROOT/compiler-search-dirs.txt"
+          {
+            printf 'libgloss_commit=%s\n' "$LIBGLOSS_COMMIT"
+            printf 'conda_prefix=%s\n' "$CONDA_PREFIX"
+            printf 'compiler_sysroot=%s\n' \
+              "$(riscv64-unknown-elf-gcc -print-sysroot)"
+            printf 'htif_nano_specs=%s\n' "$SPEC_FILE"
+            printf 'htif_linker_script=%s\n' "$LINKER_SCRIPT"
+            sha256sum "$SPEC_FILE" "$LINKER_SCRIPT"
+          } | tee "$ROOT/htif-runtime.txt"
 
       - name: Build the generated RV64GC lifecycle binary
         shell: bash -el {0}
