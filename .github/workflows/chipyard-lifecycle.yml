@@ -19,6 +19,8 @@ env:
   LIBGLOSS_COMMIT: 39234a16247ab1fa234821b251f1f1870c3de343
   RISCV_ISA_SIM_COMMIT: 9c190a07c6838f6392bafa4ad83acea462c7f759
   CIRCT_RELEASE: firtool-1.75.0
+  CIRCT_COMMIT: 481cb60add7358934414a3c6b396f5d29ad934fe
+  CIRCT_ASSET_NAME: circt-full-static-linux-x64.tar.gz
   CIRCT_INSTALLER_COMMIT: 3f8dda6e1c1965537b5801a43c81c287bac4eae4
   CHIPYARD_CONFIG: PhysicalComputeRocketConfig
   CHIPYARD_CONFIG_PACKAGE: chipyard.physicalcompute
@@ -86,6 +88,32 @@ jobs:
           )
           assert lifecycle["target"]["isa"] == "rv64gc"
           assert lifecycle["target"]["loopback_fallback"] is True
+          assert lifecycle["simulator_runtime"] == {
+              "repository": "riscv-software-src/riscv-isa-sim",
+              "commit": "9c190a07c6838f6392bafa4ad83acea462c7f759",
+              "header": "fesvr/memif.h",
+              "fesvr_library": "libfesvr.a",
+              "riscv_library": "libriscv.so",
+          }
+          assert lifecycle["runtime"] == {
+              "repository": "ucb-bar/libgloss-htif",
+              "commit": "39234a16247ab1fa234821b251f1f1870c3de343",
+              "specs": "htif_nano.specs",
+              "linker_script": "htif.ld",
+              "library": "libgloss_htif.a",
+          }
+          assert lifecycle["lowering"] == {
+              "repository": "llvm/circt",
+              "release": "firtool-1.75.0",
+              "commit": "481cb60add7358934414a3c6b396f5d29ad934fe",
+              "asset": "circt-full-static-linux-x64.tar.gz",
+              "tool": "firtool",
+              "version_file": "circt.json",
+              "installer_repository": "circt/install-circt",
+              "installer_commit": (
+                  "3f8dda6e1c1965537b5801a43c81c287bac4eae4"
+              ),
+          }
           assert lifecycle["qualification"][
               "chipyard_rtl_simulation_claim_allowed"
           ] is False
@@ -130,9 +158,19 @@ jobs:
           source env.sh
           ROOT="$GITHUB_WORKSPACE/artifacts/chipyard-lifecycle"
           FIRTOOL="$(command -v firtool)"
+          SEALED_FIRTOOL="$ROOT/firtool"
+          TAG_REPO="$GITHUB_WORKSPACE/chipyard/.circt-tag"
           test "$(jq -r .version conda-reqs/circt.json)" = "$CIRCT_RELEASE"
           test "$(git -C tools/install-circt rev-parse HEAD)" = \
             "$CIRCT_INSTALLER_COMMIT"
+          rm -rf "$TAG_REPO"
+          git init -q "$TAG_REPO"
+          git -C "$TAG_REPO" fetch --depth=1 \
+            https://github.com/llvm/circt.git \
+            "refs/tags/$CIRCT_RELEASE:refs/tags/$CIRCT_RELEASE"
+          CIRCT_TAG_COMMIT="$(git -C "$TAG_REPO" \
+            rev-parse "$CIRCT_RELEASE^{}")"
+          test "$CIRCT_TAG_COMMIT" = "$CIRCT_COMMIT"
           test -n "$FIRTOOL"
           test -x "$FIRTOOL"
           case "$FIRTOOL" in
@@ -144,15 +182,23 @@ jobs:
           esac
           firtool --version 2>&1 | tee "$ROOT/firtool-version.txt"
           cp conda-reqs/circt.json "$ROOT/circt.json"
+          cp "$FIRTOOL" "$SEALED_FIRTOOL"
+          chmod 0755 "$SEALED_FIRTOOL"
+          cmp "$FIRTOOL" "$SEALED_FIRTOOL"
+          printf '%s\n' "$CIRCT_TAG_COMMIT" \
+            > "$ROOT/circt-tag-revision.txt"
           git -C tools/install-circt rev-parse HEAD \
             > "$ROOT/install-circt-revision.txt"
           {
             printf 'circt_repository=llvm/circt\n'
             printf 'circt_release=%s\n' "$CIRCT_RELEASE"
+            printf 'circt_commit=%s\n' "$CIRCT_COMMIT"
+            printf 'circt_asset=%s\n' "$CIRCT_ASSET_NAME"
             printf 'installer_repository=circt/install-circt\n'
             printf 'installer_commit=%s\n' "$CIRCT_INSTALLER_COMMIT"
-            printf 'firtool_path=%s\n' "$FIRTOOL"
-            sha256sum "$FIRTOOL" conda-reqs/circt.json
+            printf 'firtool_source_path=%s\n' "$FIRTOOL"
+            printf 'firtool_sealed_path=%s\n' "$SEALED_FIRTOOL"
+            sha256sum "$SEALED_FIRTOOL" conda-reqs/circt.json
           } | tee "$ROOT/firtool-authority.txt"
 
       - name: Initialize the pinned submodules and install the peripheral
@@ -219,9 +265,22 @@ jobs:
           FESVR_HEADER="$PREFIX/include/fesvr/memif.h"
           FESVR_LIBRARY="$PREFIX/lib/libfesvr.a"
           RISCV_LIBRARY="$PREFIX/lib/libriscv.so"
+          SEALED_FESVR_HEADER="$ROOT/fesvr-memif.h"
+          SEALED_FESVR_LIBRARY="$ROOT/libfesvr.a"
+          SEALED_RISCV_LIBRARY="$ROOT/libriscv.so"
           test -s "$FESVR_HEADER"
           test -s "$FESVR_LIBRARY"
           test -s "$RISCV_LIBRARY"
+          cp "$FESVR_HEADER" "$SEALED_FESVR_HEADER"
+          cp "$FESVR_LIBRARY" "$SEALED_FESVR_LIBRARY"
+          cp "$RISCV_LIBRARY" "$SEALED_RISCV_LIBRARY"
+          chmod 0644 \
+            "$SEALED_FESVR_HEADER" \
+            "$SEALED_FESVR_LIBRARY" \
+            "$SEALED_RISCV_LIBRARY"
+          cmp "$FESVR_HEADER" "$SEALED_FESVR_HEADER"
+          cmp "$FESVR_LIBRARY" "$SEALED_FESVR_LIBRARY"
+          cmp "$RISCV_LIBRARY" "$SEALED_RISCV_LIBRARY"
           find "$PREFIX/include/fesvr" -maxdepth 1 -type f -print \
             | sort > "$ROOT/fesvr-headers.txt"
           git -C "$SOURCE" rev-parse HEAD \
@@ -230,10 +289,13 @@ jobs:
             printf 'riscv_isa_sim_repository=riscv-software-src/riscv-isa-sim\n'
             printf 'riscv_isa_sim_commit=%s\n' "$RISCV_ISA_SIM_COMMIT"
             printf 'install_prefix=%s\n' "$PREFIX"
-            printf 'fesvr_header=%s\n' "$FESVR_HEADER"
-            printf 'fesvr_library=%s\n' "$FESVR_LIBRARY"
-            printf 'riscv_library=%s\n' "$RISCV_LIBRARY"
-            sha256sum "$FESVR_HEADER" "$FESVR_LIBRARY" "$RISCV_LIBRARY"
+            printf 'fesvr_header=%s\n' "$SEALED_FESVR_HEADER"
+            printf 'fesvr_library=%s\n' "$SEALED_FESVR_LIBRARY"
+            printf 'riscv_library=%s\n' "$SEALED_RISCV_LIBRARY"
+            sha256sum \
+              "$SEALED_FESVR_HEADER" \
+              "$SEALED_FESVR_LIBRARY" \
+              "$SEALED_RISCV_LIBRARY"
           } | tee "$ROOT/fesvr-host-runtime.txt"
 
       - name: Build and verify the pinned HTIF runtime
@@ -262,10 +324,22 @@ jobs:
           SPEC_FILE="$(riscv64-unknown-elf-gcc \
             -print-file-name=htif_nano.specs)"
           LINKER_SCRIPT="$(riscv64-unknown-elf-gcc -print-file-name=htif.ld)"
+          RUNTIME_LIBRARY="$(riscv64-unknown-elf-gcc \
+            -march=rv64gc -mabi=lp64d \
+            -print-file-name=libgloss_htif.a)"
           test "$SPEC_FILE" != "htif_nano.specs"
           test "$LINKER_SCRIPT" != "htif.ld"
+          test "$RUNTIME_LIBRARY" != "libgloss_htif.a"
           test -s "$SPEC_FILE"
           test -s "$LINKER_SCRIPT"
+          test -s "$RUNTIME_LIBRARY"
+          printf '%s\n' "$LIBGLOSS_COMMIT" > "$ROOT/libgloss-revision.txt"
+          cp "$SPEC_FILE" "$ROOT/htif_nano.specs"
+          cp "$LINKER_SCRIPT" "$ROOT/htif.ld"
+          cp "$RUNTIME_LIBRARY" "$ROOT/libgloss_htif.a"
+          cmp "$SPEC_FILE" "$ROOT/htif_nano.specs"
+          cmp "$LINKER_SCRIPT" "$ROOT/htif.ld"
+          cmp "$RUNTIME_LIBRARY" "$ROOT/libgloss_htif.a"
           riscv64-unknown-elf-gcc -print-search-dirs \
             > "$ROOT/compiler-search-dirs.txt"
           {
@@ -275,7 +349,8 @@ jobs:
               "$(riscv64-unknown-elf-gcc -print-sysroot)"
             printf 'htif_nano_specs=%s\n' "$SPEC_FILE"
             printf 'htif_linker_script=%s\n' "$LINKER_SCRIPT"
-            sha256sum "$SPEC_FILE" "$LINKER_SCRIPT"
+            printf 'htif_runtime_library=%s\n' "$RUNTIME_LIBRARY"
+            sha256sum "$SPEC_FILE" "$LINKER_SCRIPT" "$RUNTIME_LIBRARY"
           } | tee "$ROOT/htif-runtime.txt"
 
       - name: Build the generated RV64GC lifecycle binary
@@ -374,9 +449,12 @@ jobs:
             2>&1 | tee "$ROOT/chipyard-lifecycle.raw.log"
 
       - name: Prove lifecycle trace refusal and seal the lifecycle proof
-        shell: bash
+        shell: bash -el {0}
         run: |
           set -Eeuo pipefail
+          cd chipyard
+          source env.sh
+          cd "$GITHUB_WORKSPACE"
           ROOT="artifacts/chipyard-lifecycle"
           grep '^ahead-chipyard:' "$ROOT/chipyard-lifecycle.raw.log" \
             | sed 's/\r$//' > "$ROOT/chipyard-lifecycle.trace"
@@ -398,12 +476,15 @@ jobs:
             --expected "$ROOT/physical_compute_chipyard_lifecycle.expected" \
             --binary "$ROOT/physical_compute_chipyard_lifecycle.riscv" \
             --simulator "$SIMULATOR" \
+            --firtool "$ROOT/firtool" \
             --simulator-build-log "$ROOT/simulator-build.log" \
             --raw-log "$ROOT/chipyard-lifecycle.raw.log" \
             --trace "$ROOT/chipyard-lifecycle.trace" \
+            --runtime-dir "$ROOT" \
             --compiler-version-file "$ROOT/compiler-version.txt" \
             --readelf-file "$ROOT/readelf.txt" \
             --verilator-version-file "$ROOT/verilator-version.txt" \
+            --firtool-version-file "$ROOT/firtool-version.txt" \
             --build-command "$SIMULATOR_BUILD_COMMAND" \
             --run-command "$SIMULATOR_RUN_COMMAND" \
             --out "$ROOT/chipyard-rv64gc-lifecycle-proof.json" \
@@ -427,6 +508,31 @@ jobs:
           Draft202012Validator.check_schema(schema)
           Draft202012Validator(schema).validate(proof)
           qualification = proof["qualification"]
+          assert proof["simulator_runtime"]["commit"] == (
+              "9c190a07c6838f6392bafa4ad83acea462c7f759"
+          )
+          assert proof["observations"][
+              "riscv_isa_sim_revision_exact"
+          ] is True
+          assert proof["observations"]["fesvr_host_runtime_bound"] is True
+          assert proof["observations"][
+              "fesvr_header_contract_checked"
+          ] is True
+          assert proof["observations"][
+              "fesvr_library_archive_checked"
+          ] is True
+          assert proof["observations"]["riscv_library_elf_checked"] is True
+          assert proof["runtime"]["commit"] == (
+              "39234a16247ab1fa234821b251f1f1870c3de343"
+          )
+          assert proof["observations"]["htif_runtime_bound"] is True
+          assert proof["observations"]["libgloss_revision_exact"] is True
+          assert proof["lowering"]["release"] == "firtool-1.75.0"
+          assert proof["observations"]["circt_release_exact"] is True
+          assert proof["observations"][
+              "circt_installer_revision_exact"
+          ] is True
+          assert proof["observations"]["firtool_binary_bound"] is True
           assert qualification["accepted"] is True
           assert qualification["chipyard_rtl_simulation_claim_allowed"] is True
           assert qualification["external_cartridge_claim_allowed"] is False
@@ -447,12 +553,15 @@ jobs:
             --expected "$ROOT/physical_compute_chipyard_lifecycle.expected" \
             --binary "$ROOT/physical_compute_chipyard_lifecycle.riscv" \
             --simulator "$SIMULATOR" \
+            --firtool "$ROOT/firtool" \
             --simulator-build-log "$ROOT/simulator-build.log" \
             --raw-log "$ROOT/chipyard-lifecycle.raw.log" \
             --trace "$ROOT/tampered.trace" \
+            --runtime-dir "$ROOT" \
             --compiler-version-file "$ROOT/compiler-version.txt" \
             --readelf-file "$ROOT/readelf.txt" \
             --verilator-version-file "$ROOT/verilator-version.txt" \
+            --firtool-version-file "$ROOT/firtool-version.txt" \
             --build-command "$SIMULATOR_BUILD_COMMAND" \
             --run-command "$SIMULATOR_RUN_COMMAND" \
             --out "$ROOT/refused-lifecycle-proof.json"; then
@@ -475,6 +584,7 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
+          cd "$GITHUB_WORKSPACE"
           ROOT="artifacts/chipyard-lifecycle"
           mkdir -p "$ROOT/kit/schemas"
           cp docs/chipyard_rv64gc_lifecycle.md "$ROOT/kit/"
@@ -493,6 +603,8 @@ jobs:
         if: always()
         shell: bash
         run: |
+          set -Eeuo pipefail
+          cd "$GITHUB_WORKSPACE"
           ROOT="artifacts/chipyard-lifecycle"
           mkdir -p "$ROOT"
           if test -d chipyard/sims/verilator/generated-src; then
@@ -504,8 +616,14 @@ jobs:
           else
             : > "$ROOT/generated-products.txt"
           fi
-          find "$ROOT" -maxdepth 1 -type f -exec sha256sum {} \; \
-            | sort > "$ROOT/SHA256SUMS" || true
+          find "$ROOT" -maxdepth 1 -type f \
+            ! -name SHA256SUMS \
+            ! -name SHA256SUMS.sha256 \
+            -exec sha256sum {} \; \
+            | sort > "$ROOT/SHA256SUMS"
+          sha256sum "$ROOT/SHA256SUMS" > "$ROOT/SHA256SUMS.sha256"
+          sha256sum -c "$ROOT/SHA256SUMS"
+          sha256sum -c "$ROOT/SHA256SUMS.sha256"
 
       - name: Upload Chipyard lifecycle evidence and diagnostics
         if: always()
