@@ -78,9 +78,6 @@
         "source_witnesses": {
           "additionalProperties": false,
           "properties": {
-            "build-setup.sh": {
-              "$ref": "#/$defs/source_witness"
-            },
             "generators/chipyard/src/main/scala/DigitalTop.scala": {
               "$ref": "#/$defs/source_witness"
             },
@@ -88,6 +85,9 @@
               "$ref": "#/$defs/source_witness"
             },
             "generators/chipyard/src/main/scala/example/GCD.scala": {
+              "$ref": "#/$defs/source_witness"
+            },
+            "scripts/build-setup.sh": {
               "$ref": "#/$defs/source_witness"
             },
             "variables.mk": {
@@ -99,7 +99,7 @@
             "generators/chipyard/src/main/scala/config/RocketConfigs.scala",
             "generators/chipyard/src/main/scala/DigitalTop.scala",
             "variables.mk",
-            "build-setup.sh"
+            "scripts/build-setup.sh"
           ],
           "type": "object"
         },
