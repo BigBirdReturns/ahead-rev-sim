@@ -30,25 +30,47 @@ def test_chipyard_lifecycle_workflow_is_directly_runnable_and_reusable() -> None
     assert "Build and verify the pinned HTIF runtime" in workflow
     assert 'SYSROOT="$(riscv64-unknown-elf-gcc -print-sysroot)"' in workflow
     assert "-print-file-name=htif_nano.specs" in workflow
+    assert "-print-file-name=libgloss_htif.a" in workflow
+    assert 'cp "$RUNTIME_LIBRARY" "$ROOT/libgloss_htif.a"' in workflow
+    assert '--runtime-dir "$ROOT"' in workflow
     assert 'make install 2>&1 | tee "$ROOT/libgloss-install.log"' in workflow
-    assert "RISCV_ISA_SIM_COMMIT: 9c190a07c6838f6392bafa4ad83acea462c7f759" in workflow
     assert (
-        "git submodule update --init toolchains/riscv-tools/riscv-isa-sim"
-        in workflow
-    )
+        "RISCV_ISA_SIM_COMMIT: "
+        "9c190a07c6838f6392bafa4ad83acea462c7f759"
+    ) in workflow
+    assert (
+        "git submodule update --init "
+        "toolchains/riscv-tools/riscv-isa-sim"
+    ) in workflow
     assert "Build and verify the pinned FESVR host runtime" in workflow
     assert "--with-boost=no" in workflow
-    assert 'FESVR_HEADER="$PREFIX/include/fesvr/memif.h"' in workflow
-    assert 'FESVR_LIBRARY="$PREFIX/lib/libfesvr.a"' in workflow
-    assert 'RISCV_LIBRARY="$PREFIX/lib/libriscv.so"' in workflow
-    assert 'make libfesvr.a 2>&1 | tee "$ROOT/libfesvr-static.log"' in workflow
-    assert 'sha256sum "$FESVR_HEADER" "$FESVR_LIBRARY" "$RISCV_LIBRARY"' in workflow
+    assert 'SEALED_FESVR_HEADER="$ROOT/fesvr-memif.h"' in workflow
+    assert 'SEALED_FESVR_LIBRARY="$ROOT/libfesvr.a"' in workflow
+    assert 'SEALED_RISCV_LIBRARY="$ROOT/libriscv.so"' in workflow
+    assert 'cmp "$FESVR_HEADER" "$SEALED_FESVR_HEADER"' in workflow
+    assert 'cmp "$FESVR_LIBRARY" "$SEALED_FESVR_LIBRARY"' in workflow
+    assert 'cmp "$RISCV_LIBRARY" "$SEALED_RISCV_LIBRARY"' in workflow
+    assert "! -name SHA256SUMS" in workflow
+    assert 'sha256sum "$ROOT/SHA256SUMS" > "$ROOT/SHA256SUMS.sha256"' in workflow
+    assert 'sha256sum -c "$ROOT/SHA256SUMS"' in workflow
+    assert 'sha256sum -c "$ROOT/SHA256SUMS.sha256"' in workflow
     assert "CIRCT_RELEASE: firtool-1.75.0" in workflow
-    assert "CIRCT_INSTALLER_COMMIT: 3f8dda6e1c1965537b5801a43c81c287bac4eae4" in workflow
+    assert "CIRCT_COMMIT: 481cb60add7358934414a3c6b396f5d29ad934fe" in workflow
+    assert "CIRCT_ASSET_NAME: circt-full-static-linux-x64.tar.gz" in workflow
+    assert (
+        "CIRCT_INSTALLER_COMMIT: "
+        "3f8dda6e1c1965537b5801a43c81c287bac4eae4"
+    ) in workflow
     assert "--skip-circt" not in workflow
     assert "Verify the pinned CIRCT lowering authority" in workflow
     assert 'FIRTOOL="$(command -v firtool)"' in workflow
+    assert 'TAG_REPO="$GITHUB_WORKSPACE/chipyard/.circt-tag"' in workflow
+    assert 'test "$CIRCT_TAG_COMMIT" = "$CIRCT_COMMIT"' in workflow
+    assert 'SEALED_FIRTOOL="$ROOT/firtool"' in workflow
+    assert 'cmp "$FIRTOOL" "$SEALED_FIRTOOL"' in workflow
     assert 'firtool --version 2>&1 | tee "$ROOT/firtool-version.txt"' in workflow
+    assert '--firtool "$ROOT/firtool"' in workflow
+    assert '--firtool-version-file "$ROOT/firtool-version.txt"' in workflow
 
 
 def test_release_waits_for_hardware_model_requalification_before_publication() -> None:

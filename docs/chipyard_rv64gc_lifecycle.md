@@ -6,7 +6,7 @@ The actors remain deliberately separate. The repository owns the portable MMIO c
 
 ## Authority chain
 
-The workflow begins from `ucb-bar/chipyard` commit `e27c6561c0066c1f60bf4eb4885a38391c850ac0`. It regenerates the integration bundle, installs `PhysicalCompute.scala` at its declared source path, verifies that `DigitalTop.scala` remains unmodified, initializes the exact critical submodules, and reconstructs the already admitted Chisel-to-FIRRTL elaboration proof. The lifecycle proof will not admit a simulation unless that elaboration proof is sealed, accepted, bound to the current integration manifest, bound to `PhysicalComputeRocketConfig`, and still records the internal loopback fallback.
+The workflow begins from `ucb-bar/chipyard` commit `e27c6561c0066c1f60bf4eb4885a38391c850ac0`. It regenerates the integration bundle, installs `PhysicalCompute.scala` at its declared source path, verifies that `DigitalTop.scala` remains unmodified, initializes the exact critical submodules, and reconstructs the already admitted Chisel-to-FIRRTL elaboration proof. The simulator host runtime is pinned to Chipyard's `toolchains/riscv-tools/riscv-isa-sim` gitlink at `riscv-software-src/riscv-isa-sim` commit `9c190a07c6838f6392bafa4ad83acea462c7f759`. The lifecycle target runtime is separately pinned to the `toolchains/libgloss` gitlink at `ucb-bar/libgloss-htif` commit `39234a16247ab1fa234821b251f1f1870c3de343`. RTL lowering is pinned through Chipyard's own `conda-reqs/circt.json` authority to `llvm/circt` release `firtool-1.75.0`, installed by the exact `circt/install-circt` gitlink at commit `3f8dda6e1c1965537b5801a43c81c287bac4eae4`. The lifecycle proof will not admit a simulation unless the elaboration proof is sealed, accepted, bound to the current integration manifest, bound to `PhysicalComputeRocketConfig`, still records the internal loopback fallback, and carries the FESVR host runtime, HTIF target runtime, and CIRCT lowering authorities used to construct the executable objects.
 
 The generated lifecycle bundle contains three deterministic files:
 
@@ -20,7 +20,9 @@ The manifest binds the source and expected trace by SHA-256 to the pinned Chipya
 
 ## Compiled transaction
 
-The workflow uses the RISC-V toolchain supplied by the pinned Chipyard environment and follows the upstream HTIF bare-metal contract. The generated C client is compiled and linked with the essential target flags:
+The workflow first reconstructs the simulator's host-side RISC-V support from the exact pinned `riscv-isa-sim` gitlink. It configures, builds, and installs the upstream runtime into Chipyard's pinned RISC-V prefix with Boost explicitly disabled, then seals the installed `fesvr/memif.h`, `libfesvr.a`, and `libriscv.so` together with the revision witness, header inventory, configure, build, and install logs, and a report containing their content digests. These are the headers and libraries consumed by the generated Verilator link command.
+
+The workflow then uses the RISC-V compiler supplied by the pinned Chipyard environment and reconstructs the upstream HTIF bare-metal runtime from the exact pinned `libgloss-htif` gitlink. It configures and installs that runtime into the compiler sysroot, then resolves and copies the installed `htif_nano.specs`, `htif.ld`, and RV64GC-selected `libgloss_htif.a` into the evidence estate. The generated C client is compiled and linked with the essential target flags:
 
 ```text
 riscv64-unknown-elf-gcc
@@ -31,9 +33,9 @@ riscv64-unknown-elf-gcc
 -static
 ```
 
-The resulting file must be nonempty and identify as ELF64 for the RISC-V machine under `readelf`. The workflow retains the compiler identity, ELF header, disassembly, size report, source, and binary digest.
+The resulting file must be nonempty and identify as ELF64 for the RISC-V machine under `readelf`. The workflow retains the compiler identity, ELF header, disassembly, size report, source, and binary digest. It also retains the exact libgloss revision witness, compiler search directories, configure, build, and install logs, installed specs, installed linker script, selected static runtime archive, their source paths, and their digests.
 
-The same pinned configuration is then elaborated, lowered, compiled into the full Verilator simulator, and executed with Chipyard's `run-binary-fast` rule. The run is bounded by a timeout and retains the complete raw simulator log before extracting any semantic records. The accepted trace is therefore a projection of retained raw execution evidence rather than a replacement for it.
+The same pinned configuration is then elaborated and lowered by the pinned `firtool-1.75.0` executable before Verilator compiles the full simulator. The workflow requires `firtool` to resolve inside Chipyard's pinned RISC-V prefix and retains Chipyard's CIRCT release file, the installer revision, the version output, the executable digest, and an authority report containing the resolved path and source digests. The simulator then executes the target with Chipyard's `run-binary-fast` rule. The run is bounded by a timeout and retains the complete raw simulator log before extracting any semantic records. The accepted trace is therefore a projection of retained raw execution evidence rather than a replacement for it.
 
 ## Accepted lifecycle
 
@@ -57,7 +59,10 @@ Proof admission requires byte identity between the generated accepted trace and 
 
 ## Sealed receipt
 
-`ahead-rev-chipyard lifecycle-proof` binds the integration manifest, lifecycle manifest, accepted elaboration proof, generated C source, expected trace, ELF binary, Verilator simulator executable, simulator-build log, raw execution log, semantic trace, tool identities, and the exact build and run command descriptions. The deterministic proof seal can be recomputed from the JSON object after removing `proof_sha256`.
+`ahead-rev-chipyard lifecycle-proof` binds the integration manifest, lifecycle manifest, accepted elaboration proof, generated C source, expected trace, ELF binary, Verilator simulator executable, simulator-build log, raw execution log, semantic trace, tool identities, and the exact build and run command descriptions. The simulator side binds the pinned `riscv-isa-sim` revision, sealed FESVR header, FESVR static archive, RISC-V shared library, header inventory, host-runtime report, and configure, build, install, and static-library logs. The target side binds the pinned `libgloss-htif` revision, installed HTIF specs, linker script, selected static runtime archive, compiler search directories, runtime report, and configure, build, and install logs. The lowering side binds the exact CIRCT release file, release-tag commit, installer revision, `firtool` version record, authority report, and executable digest. Admission independently checks the host and target runtime revisions, FESVR header contract, archive and ELF formats, required HTIF specs directives, RISC-V linker-script structure, CIRCT release and tag, installer revision, ELF identity of the `firtool` executable, version consistency, and cross-record digests. The deterministic proof seal can be recomputed from the JSON object after removing `proof_sha256`.
+
+
+The final evidence collector writes `SHA256SUMS` over every root evidence file except the checksum manifests themselves, verifies every entry immediately, writes `SHA256SUMS.sha256` as the external seal for that manifest, and verifies the manifest seal. This avoids the invalid recursive pattern in which a checksum file records the hash of its own empty pre-redirection state. The earlier reconstructable kit manifest remains an independently verified inventory of the files present when the proof and kit were assembled.
 
 A passing proof changes the admitted software evidence state in three ways. Chipyard subsystem elaboration remains admitted. Chipyard RTL simulation becomes admitted for the pinned loopback configuration. RV64GC lifecycle execution becomes admitted for the exact MMIO fixture. It does not admit an external cartridge or physical target.
 

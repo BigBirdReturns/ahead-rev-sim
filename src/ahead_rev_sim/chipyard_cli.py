@@ -127,6 +127,7 @@ def main(argv: list[str] | None = None) -> int:
     lifecycle_proof_parser.add_argument("--expected", type=Path, required=True)
     lifecycle_proof_parser.add_argument("--binary", type=Path, required=True)
     lifecycle_proof_parser.add_argument("--simulator", type=Path, required=True)
+    lifecycle_proof_parser.add_argument("--firtool", type=Path, required=True)
     lifecycle_proof_parser.add_argument(
         "--simulator-build-log",
         type=Path,
@@ -134,6 +135,11 @@ def main(argv: list[str] | None = None) -> int:
     )
     lifecycle_proof_parser.add_argument("--raw-log", type=Path, required=True)
     lifecycle_proof_parser.add_argument("--trace", type=Path, required=True)
+    lifecycle_proof_parser.add_argument(
+        "--runtime-dir",
+        type=Path,
+        required=True,
+    )
     lifecycle_proof_parser.add_argument(
         "--compiler-version-file",
         type=Path,
@@ -146,6 +152,11 @@ def main(argv: list[str] | None = None) -> int:
     )
     lifecycle_proof_parser.add_argument(
         "--verilator-version-file",
+        type=Path,
+        required=True,
+    )
+    lifecycle_proof_parser.add_argument(
+        "--firtool-version-file",
         type=Path,
         required=True,
     )
@@ -199,12 +210,15 @@ def main(argv: list[str] | None = None) -> int:
         expected_trace_path=args.expected,
         binary_path=args.binary,
         simulator_path=args.simulator,
+        firtool_path=args.firtool,
         simulator_build_log_path=args.simulator_build_log,
         raw_log_path=args.raw_log,
         trace_path=args.trace,
+        runtime_dir=args.runtime_dir,
         compiler_version=args.compiler_version_file.read_text(encoding="utf-8"),
         readelf_output=args.readelf_file.read_text(encoding="utf-8"),
         verilator_version=args.verilator_version_file.read_text(encoding="utf-8"),
+        firtool_version=args.firtool_version_file.read_text(encoding="utf-8"),
         build_command=args.build_command,
         run_command=args.run_command,
     )

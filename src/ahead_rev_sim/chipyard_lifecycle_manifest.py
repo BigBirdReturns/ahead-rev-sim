@@ -22,6 +22,23 @@ from .chipyard_lifecycle_program import (
     CHIPYARD_LIFECYCLE_MANIFEST_NAME,
     CHIPYARD_LIFECYCLE_MANIFEST_SCHEMA_VERSION,
     CHIPYARD_LIFECYCLE_SOURCE_NAME,
+    CIRCT_ASSET_NAME,
+    CIRCT_COMMIT,
+    CIRCT_INSTALLER_COMMIT,
+    CIRCT_INSTALLER_REPOSITORY,
+    CIRCT_RELEASE,
+    CIRCT_REPOSITORY,
+    CIRCT_VERSION_FILE_NAME,
+    FESVR_HEADER_SOURCE,
+    FESVR_LIBRARY_NAME,
+    RISCV_ISA_SIM_COMMIT,
+    RISCV_ISA_SIM_REPOSITORY,
+    RISCV_LIBRARY_NAME,
+    LIBGLOSS_HTIF_COMMIT,
+    LIBGLOSS_HTIF_LIBRARY_NAME,
+    LIBGLOSS_HTIF_LINKER_SCRIPT_NAME,
+    LIBGLOSS_HTIF_REPOSITORY,
+    LIBGLOSS_HTIF_SPECS_NAME,
     LIFECYCLE_BLOCKERS,
     render_chipyard_lifecycle_source,
     render_chipyard_lifecycle_trace,
@@ -60,6 +77,30 @@ def build_chipyard_lifecycle_manifest(
             "execution_environment": "chipyard-verilator-testharness",
             "loopback_fallback": True,
         },
+        "simulator_runtime": {
+            "repository": RISCV_ISA_SIM_REPOSITORY,
+            "commit": RISCV_ISA_SIM_COMMIT,
+            "header": FESVR_HEADER_SOURCE,
+            "fesvr_library": FESVR_LIBRARY_NAME,
+            "riscv_library": RISCV_LIBRARY_NAME,
+        },
+        "runtime": {
+            "repository": LIBGLOSS_HTIF_REPOSITORY,
+            "commit": LIBGLOSS_HTIF_COMMIT,
+            "specs": LIBGLOSS_HTIF_SPECS_NAME,
+            "linker_script": LIBGLOSS_HTIF_LINKER_SCRIPT_NAME,
+            "library": LIBGLOSS_HTIF_LIBRARY_NAME,
+        },
+        "lowering": {
+            "repository": CIRCT_REPOSITORY,
+            "release": CIRCT_RELEASE,
+            "commit": CIRCT_COMMIT,
+            "asset": CIRCT_ASSET_NAME,
+            "tool": "firtool",
+            "version_file": CIRCT_VERSION_FILE_NAME,
+            "installer_repository": CIRCT_INSTALLER_REPOSITORY,
+            "installer_commit": CIRCT_INSTALLER_COMMIT,
+        },
         "generated_artifacts": {
             CHIPYARD_LIFECYCLE_SOURCE_NAME: _artifact_record(source),
             CHIPYARD_LIFECYCLE_EXPECTED_NAME: _artifact_record(expected),
@@ -78,7 +119,13 @@ def build_chipyard_lifecycle_manifest(
         "claim_boundary": (
             "The bundle supplies a deterministic RV64GC bare-metal lifecycle client "
             "and accepted trace for the pinned Chipyard physical-compute peripheral. "
-            "It does not establish binary construction, Verilator compilation, RTL "
+            "It names the exact libgloss-htif runtime authority required by the "
+            "HTIF-linked target, the exact riscv-isa-sim and FESVR host runtime "
+            "required to build the simulator, and the exact CIRCT release required "
+            "to lower the "
+            "pinned FIRRTL into simulator RTL. It does not establish binary "
+            "construction, Verilator "
+            "compilation, RTL "
             "execution, an external cartridge, FPGA or silicon behavior, physical "
             "work, measured energy, complete-system EVP, or independent acceptance."
         ),

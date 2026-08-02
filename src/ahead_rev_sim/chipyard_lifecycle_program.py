@@ -14,16 +14,54 @@ from .mmio_abi import (
 from .physical_constants import PHYSICAL_COMPUTE_MMIO_V1, PORTABLE_BINDING
 
 CHIPYARD_LIFECYCLE_MANIFEST_SCHEMA_VERSION = (
-    "ahead.chipyard-rv64gc-lifecycle-manifest/v0.1"
+    "ahead.chipyard-rv64gc-lifecycle-manifest/v0.2"
 )
 CHIPYARD_LIFECYCLE_PROOF_SCHEMA_VERSION = (
-    "ahead.chipyard-rv64gc-lifecycle-proof/v0.1"
+    "ahead.chipyard-rv64gc-lifecycle-proof/v0.2"
 )
 CHIPYARD_LIFECYCLE_TRACE_PREFIX = "ahead-chipyard:"
 CHIPYARD_LIFECYCLE_SOURCE_NAME = "physical_compute_chipyard_lifecycle.c"
 CHIPYARD_LIFECYCLE_EXPECTED_NAME = "physical_compute_chipyard_lifecycle.expected"
 CHIPYARD_LIFECYCLE_MANIFEST_NAME = "chipyard-rv64gc-lifecycle-manifest.json"
 CHIPYARD_LIFECYCLE_PROOF_NAME = "chipyard-rv64gc-lifecycle-proof.json"
+
+LIBGLOSS_HTIF_REPOSITORY = "ucb-bar/libgloss-htif"
+LIBGLOSS_HTIF_COMMIT = "39234a16247ab1fa234821b251f1f1870c3de343"
+LIBGLOSS_HTIF_SPECS_NAME = "htif_nano.specs"
+LIBGLOSS_HTIF_LINKER_SCRIPT_NAME = "htif.ld"
+LIBGLOSS_HTIF_LIBRARY_NAME = "libgloss_htif.a"
+LIBGLOSS_HTIF_REVISION_NAME = "libgloss-revision.txt"
+LIBGLOSS_HTIF_CONFIGURE_LOG_NAME = "libgloss-configure.log"
+LIBGLOSS_HTIF_BUILD_LOG_NAME = "libgloss-build.log"
+LIBGLOSS_HTIF_INSTALL_LOG_NAME = "libgloss-install.log"
+COMPILER_SEARCH_DIRS_NAME = "compiler-search-dirs.txt"
+HTIF_RUNTIME_REPORT_NAME = "htif-runtime.txt"
+
+CIRCT_REPOSITORY = "llvm/circt"
+CIRCT_RELEASE = "firtool-1.75.0"
+CIRCT_COMMIT = "481cb60add7358934414a3c6b396f5d29ad934fe"
+CIRCT_ASSET_NAME = "circt-full-static-linux-x64.tar.gz"
+CIRCT_VERSION_FILE_NAME = "circt.json"
+CIRCT_TAG_REVISION_NAME = "circt-tag-revision.txt"
+CIRCT_INSTALLER_REPOSITORY = "circt/install-circt"
+CIRCT_INSTALLER_COMMIT = "3f8dda6e1c1965537b5801a43c81c287bac4eae4"
+CIRCT_INSTALLER_REVISION_NAME = "install-circt-revision.txt"
+FIRTOOL_VERSION_NAME = "firtool-version.txt"
+FIRTOOL_AUTHORITY_REPORT_NAME = "firtool-authority.txt"
+
+RISCV_ISA_SIM_REPOSITORY = "riscv-software-src/riscv-isa-sim"
+RISCV_ISA_SIM_COMMIT = "9c190a07c6838f6392bafa4ad83acea462c7f759"
+RISCV_ISA_SIM_REVISION_NAME = "riscv-isa-sim-revision.txt"
+RISCV_ISA_SIM_CONFIGURE_LOG_NAME = "riscv-isa-sim-configure.log"
+RISCV_ISA_SIM_BUILD_LOG_NAME = "riscv-isa-sim-build.log"
+RISCV_ISA_SIM_INSTALL_LOG_NAME = "riscv-isa-sim-install.log"
+FESVR_STATIC_LOG_NAME = "libfesvr-static.log"
+FESVR_HEADER_SOURCE = "fesvr/memif.h"
+FESVR_HEADER_NAME = "fesvr-memif.h"
+FESVR_LIBRARY_NAME = "libfesvr.a"
+RISCV_LIBRARY_NAME = "libriscv.so"
+FESVR_HEADERS_MANIFEST_NAME = "fesvr-headers.txt"
+FESVR_HOST_RUNTIME_REPORT_NAME = "fesvr-host-runtime.txt"
 
 LIFECYCLE_STAGES = ("ambiguous", "reset", "load", "evolve", "read", "capture")
 SUCCESS_STAGES = ("reset", "load", "evolve", "read", "capture")

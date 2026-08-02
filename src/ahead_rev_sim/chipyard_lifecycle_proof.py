@@ -24,6 +24,40 @@ from .chipyard_lifecycle_program import (
     CHIPYARD_LIFECYCLE_PROOF_SCHEMA_VERSION,
     CHIPYARD_LIFECYCLE_SOURCE_NAME,
     CHIPYARD_LIFECYCLE_TRACE_PREFIX,
+    CIRCT_ASSET_NAME,
+    CIRCT_COMMIT,
+    CIRCT_INSTALLER_COMMIT,
+    CIRCT_INSTALLER_REPOSITORY,
+    CIRCT_INSTALLER_REVISION_NAME,
+    CIRCT_RELEASE,
+    CIRCT_REPOSITORY,
+    CIRCT_TAG_REVISION_NAME,
+    CIRCT_VERSION_FILE_NAME,
+    COMPILER_SEARCH_DIRS_NAME,
+    FIRTOOL_AUTHORITY_REPORT_NAME,
+    FIRTOOL_VERSION_NAME,
+    FESVR_HEADER_NAME,
+    FESVR_HEADERS_MANIFEST_NAME,
+    FESVR_HOST_RUNTIME_REPORT_NAME,
+    FESVR_LIBRARY_NAME,
+    FESVR_STATIC_LOG_NAME,
+    HTIF_RUNTIME_REPORT_NAME,
+    LIBGLOSS_HTIF_BUILD_LOG_NAME,
+    LIBGLOSS_HTIF_COMMIT,
+    LIBGLOSS_HTIF_CONFIGURE_LOG_NAME,
+    LIBGLOSS_HTIF_INSTALL_LOG_NAME,
+    LIBGLOSS_HTIF_LIBRARY_NAME,
+    LIBGLOSS_HTIF_LINKER_SCRIPT_NAME,
+    LIBGLOSS_HTIF_REPOSITORY,
+    LIBGLOSS_HTIF_REVISION_NAME,
+    LIBGLOSS_HTIF_SPECS_NAME,
+    RISCV_ISA_SIM_BUILD_LOG_NAME,
+    RISCV_ISA_SIM_COMMIT,
+    RISCV_ISA_SIM_CONFIGURE_LOG_NAME,
+    RISCV_ISA_SIM_INSTALL_LOG_NAME,
+    RISCV_ISA_SIM_REPOSITORY,
+    RISCV_ISA_SIM_REVISION_NAME,
+    RISCV_LIBRARY_NAME,
     LIFECYCLE_BLOCKERS,
     LIFECYCLE_STAGES,
     render_chipyard_lifecycle_source,
@@ -180,12 +214,15 @@ def build_chipyard_lifecycle_proof(
     expected_trace_path: str | Path,
     binary_path: str | Path,
     simulator_path: str | Path,
+    firtool_path: str | Path,
     simulator_build_log_path: str | Path,
     raw_log_path: str | Path,
     trace_path: str | Path,
+    runtime_dir: str | Path,
     compiler_version: str,
     readelf_output: str,
     verilator_version: str,
+    firtool_version: str,
     build_command: str,
     run_command: str,
 ) -> dict[str, Any]:
@@ -249,12 +286,242 @@ def build_chipyard_lifecycle_proof(
     )
     _read_nonempty(binary_path, "Chipyard RV64GC binary")
     _read_nonempty(simulator_path, "Chipyard Verilator simulator")
+    firtool_binary = _read_nonempty(firtool_path, "Chipyard firtool binary")
     _read_nonempty(
         simulator_build_log_path,
         "Chipyard simulator build log",
     )
     raw_log = _read_nonempty(raw_log_path, "Chipyard raw simulation log")
     trace = _read_nonempty(trace_path, "Chipyard semantic trace")
+
+    runtime_root = Path(runtime_dir)
+    revision_path = runtime_root / LIBGLOSS_HTIF_REVISION_NAME
+    specs_path = runtime_root / LIBGLOSS_HTIF_SPECS_NAME
+    linker_script_path = runtime_root / LIBGLOSS_HTIF_LINKER_SCRIPT_NAME
+    runtime_library_path = runtime_root / LIBGLOSS_HTIF_LIBRARY_NAME
+    configure_log_path = runtime_root / LIBGLOSS_HTIF_CONFIGURE_LOG_NAME
+    runtime_build_log_path = runtime_root / LIBGLOSS_HTIF_BUILD_LOG_NAME
+    install_log_path = runtime_root / LIBGLOSS_HTIF_INSTALL_LOG_NAME
+    compiler_search_dirs_path = runtime_root / COMPILER_SEARCH_DIRS_NAME
+    runtime_report_path = runtime_root / HTIF_RUNTIME_REPORT_NAME
+    circt_version_path = runtime_root / CIRCT_VERSION_FILE_NAME
+    circt_tag_revision_path = runtime_root / CIRCT_TAG_REVISION_NAME
+    circt_installer_revision_path = (
+        runtime_root / CIRCT_INSTALLER_REVISION_NAME
+    )
+    firtool_version_path = runtime_root / FIRTOOL_VERSION_NAME
+    firtool_authority_report_path = (
+        runtime_root / FIRTOOL_AUTHORITY_REPORT_NAME
+    )
+    riscv_isa_sim_revision_path = runtime_root / RISCV_ISA_SIM_REVISION_NAME
+    riscv_isa_sim_configure_log_path = (
+        runtime_root / RISCV_ISA_SIM_CONFIGURE_LOG_NAME
+    )
+    riscv_isa_sim_build_log_path = (
+        runtime_root / RISCV_ISA_SIM_BUILD_LOG_NAME
+    )
+    riscv_isa_sim_install_log_path = (
+        runtime_root / RISCV_ISA_SIM_INSTALL_LOG_NAME
+    )
+    fesvr_static_log_path = runtime_root / FESVR_STATIC_LOG_NAME
+    fesvr_header_path = runtime_root / FESVR_HEADER_NAME
+    fesvr_library_path = runtime_root / FESVR_LIBRARY_NAME
+    riscv_library_path = runtime_root / RISCV_LIBRARY_NAME
+    fesvr_headers_manifest_path = runtime_root / FESVR_HEADERS_MANIFEST_NAME
+    fesvr_host_runtime_report_path = (
+        runtime_root / FESVR_HOST_RUNTIME_REPORT_NAME
+    )
+
+    revision = _read_nonempty(
+        revision_path,
+        "Chipyard libgloss-htif revision witness",
+    ).decode("utf-8")
+    specs = _read_nonempty(
+        specs_path,
+        "Chipyard HTIF nano specs",
+    ).decode("utf-8")
+    linker_script = _read_nonempty(
+        linker_script_path,
+        "Chipyard HTIF linker script",
+    ).decode("utf-8")
+    runtime_library = _read_nonempty(
+        runtime_library_path,
+        "Chipyard HTIF runtime library",
+    )
+    _read_nonempty(configure_log_path, "Chipyard libgloss configure log")
+    _read_nonempty(runtime_build_log_path, "Chipyard libgloss build log")
+    _read_nonempty(install_log_path, "Chipyard libgloss install log")
+    compiler_search_dirs = _read_nonempty(
+        compiler_search_dirs_path,
+        "Chipyard compiler search directories",
+    ).decode("utf-8", errors="replace")
+    runtime_report = _read_nonempty(
+        runtime_report_path,
+        "Chipyard HTIF runtime report",
+    ).decode("utf-8", errors="replace")
+    circt_version_payload = _read_nonempty(
+        circt_version_path,
+        "Chipyard CIRCT release authority",
+    )
+    circt_tag_revision = _read_nonempty(
+        circt_tag_revision_path,
+        "Chipyard CIRCT tag revision witness",
+    ).decode("utf-8")
+    circt_installer_revision = _read_nonempty(
+        circt_installer_revision_path,
+        "Chipyard CIRCT installer revision witness",
+    ).decode("utf-8")
+    sealed_firtool_version = _read_nonempty(
+        firtool_version_path,
+        "Chipyard firtool version evidence",
+    ).decode("utf-8", errors="replace")
+    firtool_authority_report = _read_nonempty(
+        firtool_authority_report_path,
+        "Chipyard firtool authority report",
+    ).decode("utf-8", errors="replace")
+    riscv_isa_sim_revision = _read_nonempty(
+        riscv_isa_sim_revision_path,
+        "Chipyard riscv-isa-sim revision witness",
+    ).decode("utf-8")
+    _read_nonempty(
+        riscv_isa_sim_configure_log_path,
+        "Chipyard riscv-isa-sim configure log",
+    )
+    _read_nonempty(
+        riscv_isa_sim_build_log_path,
+        "Chipyard riscv-isa-sim build log",
+    )
+    _read_nonempty(
+        riscv_isa_sim_install_log_path,
+        "Chipyard riscv-isa-sim install log",
+    )
+    _read_nonempty(
+        fesvr_static_log_path,
+        "Chipyard FESVR static-library log",
+    )
+    fesvr_header = _read_nonempty(
+        fesvr_header_path,
+        "Chipyard FESVR memif header",
+    ).decode("utf-8")
+    fesvr_library = _read_nonempty(
+        fesvr_library_path,
+        "Chipyard FESVR static library",
+    )
+    riscv_library = _read_nonempty(
+        riscv_library_path,
+        "Chipyard riscv simulator library",
+    )
+    fesvr_headers_manifest = _read_nonempty(
+        fesvr_headers_manifest_path,
+        "Chipyard FESVR header manifest",
+    ).decode("utf-8", errors="replace")
+    fesvr_host_runtime_report = _read_nonempty(
+        fesvr_host_runtime_report_path,
+        "Chipyard FESVR host-runtime report",
+    ).decode("utf-8", errors="replace")
+
+    if revision.strip() != LIBGLOSS_HTIF_COMMIT:
+        raise ValueError("Chipyard libgloss-htif revision mismatch")
+    required_specs_fragments = (
+        "%include <nano.specs>",
+        "-lgloss_htif",
+        "htif.ld",
+        "-static",
+    )
+    if not all(fragment in specs for fragment in required_specs_fragments):
+        raise ValueError("Chipyard HTIF nano specs contract is incomplete")
+    required_linker_fragments = (
+        'OUTPUT_ARCH ("riscv")',
+        "ENTRY (_start)",
+        ". = 0x80000000;",
+        ".htif",
+    )
+    if not all(fragment in linker_script for fragment in required_linker_fragments):
+        raise ValueError("Chipyard HTIF linker script contract is incomplete")
+    if not runtime_library.startswith(b"!<arch>\n"):
+        raise ValueError("Chipyard HTIF runtime library is not a static archive")
+    if "libraries:" not in compiler_search_dirs:
+        raise ValueError("Chipyard compiler search-directory evidence is malformed")
+    required_report_fragments = (
+        f"libgloss_commit={LIBGLOSS_HTIF_COMMIT}",
+        "htif_nano_specs=",
+        "htif_linker_script=",
+        "htif_runtime_library=",
+        sha256_bytes(specs.encode("utf-8")),
+        sha256_bytes(linker_script.encode("utf-8")),
+        sha256_bytes(runtime_library),
+    )
+    if not all(fragment in runtime_report for fragment in required_report_fragments):
+        raise ValueError("Chipyard HTIF runtime report is incomplete")
+
+    if riscv_isa_sim_revision.strip() != RISCV_ISA_SIM_COMMIT:
+        raise ValueError("Chipyard riscv-isa-sim revision mismatch")
+    required_fesvr_header_fragments = (
+        "#ifndef __MEMIF_H",
+        "class chunked_memif_t",
+        "class memif_t",
+        "virtual void read",
+    )
+    if not all(fragment in fesvr_header for fragment in required_fesvr_header_fragments):
+        raise ValueError("Chipyard FESVR memif header contract is incomplete")
+    if not fesvr_library.startswith(b"!<arch>\n"):
+        raise ValueError("Chipyard FESVR library is not a static archive")
+    if not riscv_library.startswith(b"\x7fELF"):
+        raise ValueError("Chipyard riscv simulator library is not identified as ELF")
+    if "/include/fesvr/memif.h" not in fesvr_headers_manifest:
+        raise ValueError("Chipyard FESVR header manifest is incomplete")
+    required_fesvr_report_fragments = (
+        f"riscv_isa_sim_repository={RISCV_ISA_SIM_REPOSITORY}",
+        f"riscv_isa_sim_commit={RISCV_ISA_SIM_COMMIT}",
+        "fesvr_header=",
+        "fesvr_library=",
+        "riscv_library=",
+        sha256_bytes(fesvr_header.encode("utf-8")),
+        sha256_bytes(fesvr_library),
+        sha256_bytes(riscv_library),
+    )
+    if not all(
+        fragment in fesvr_host_runtime_report
+        for fragment in required_fesvr_report_fragments
+    ):
+        raise ValueError("Chipyard FESVR host-runtime report is incomplete")
+
+    try:
+        circt_version = json.loads(circt_version_payload.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ValueError("Chipyard CIRCT release authority is malformed") from exc
+    if circt_version != {"version": CIRCT_RELEASE}:
+        raise ValueError("Chipyard CIRCT release authority mismatch")
+    if circt_tag_revision.strip() != CIRCT_COMMIT:
+        raise ValueError("Chipyard CIRCT tag revision mismatch")
+    if circt_installer_revision.strip() != CIRCT_INSTALLER_COMMIT:
+        raise ValueError("Chipyard CIRCT installer revision mismatch")
+    if Path(firtool_path).name != "firtool":
+        raise ValueError("Chipyard firtool path does not identify firtool")
+    if not firtool_binary.startswith(b"\x7fELF"):
+        raise ValueError("Chipyard firtool binary is not identified as ELF")
+    if sealed_firtool_version.strip() != firtool_version.strip():
+        raise ValueError("Chipyard firtool version evidence mismatch")
+    release_version = CIRCT_RELEASE.removeprefix("firtool-")
+    if release_version not in sealed_firtool_version:
+        raise ValueError("Chipyard firtool version does not identify the release")
+    required_firtool_report_fragments = (
+        f"circt_repository={CIRCT_REPOSITORY}",
+        f"circt_release={CIRCT_RELEASE}",
+        f"circt_commit={CIRCT_COMMIT}",
+        f"circt_asset={CIRCT_ASSET_NAME}",
+        f"installer_repository={CIRCT_INSTALLER_REPOSITORY}",
+        f"installer_commit={CIRCT_INSTALLER_COMMIT}",
+        "firtool_source_path=",
+        "firtool_sealed_path=",
+        sha256_bytes(firtool_binary),
+        sha256_bytes(circt_version_payload),
+    )
+    if not all(
+        fragment in firtool_authority_report
+        for fragment in required_firtool_report_fragments
+    ):
+        raise ValueError("Chipyard firtool authority report is incomplete")
 
     expected_source = render_chipyard_lifecycle_source(
         base_address=base_address
@@ -294,8 +561,14 @@ def build_chipyard_lifecycle_proof(
         raise ValueError("Chipyard lifecycle binary is not identified as ELF64")
     if "machine:" not in readelf_lower or "risc-v" not in readelf_lower:
         raise ValueError("Chipyard lifecycle binary is not identified as RISC-V")
-    if not compiler_version.strip() or not verilator_version.strip():
-        raise ValueError("compiler and Verilator version evidence are required")
+    if (
+        not compiler_version.strip()
+        or not verilator_version.strip()
+        or not firtool_version.strip()
+    ):
+        raise ValueError(
+            "compiler, Verilator, and firtool version evidence are required"
+        )
     if not build_command.strip() or not run_command.strip():
         raise ValueError("Chipyard build and run commands are required")
     if CHIPYARD_CONFIG_CLASS not in Path(simulator_path).name:
@@ -316,6 +589,30 @@ def build_chipyard_lifecycle_proof(
             "lifecycle_manifest_sha256": lifecycle_seal,
             "elaboration_proof_sha256": elaboration_seal,
         },
+        "simulator_runtime": {
+            "repository": RISCV_ISA_SIM_REPOSITORY,
+            "commit": RISCV_ISA_SIM_COMMIT,
+            "header": "fesvr/memif.h",
+            "fesvr_library": FESVR_LIBRARY_NAME,
+            "riscv_library": RISCV_LIBRARY_NAME,
+        },
+        "runtime": {
+            "repository": LIBGLOSS_HTIF_REPOSITORY,
+            "commit": LIBGLOSS_HTIF_COMMIT,
+            "specs": LIBGLOSS_HTIF_SPECS_NAME,
+            "linker_script": LIBGLOSS_HTIF_LINKER_SCRIPT_NAME,
+            "library": LIBGLOSS_HTIF_LIBRARY_NAME,
+        },
+        "lowering": {
+            "repository": CIRCT_REPOSITORY,
+            "release": CIRCT_RELEASE,
+            "commit": CIRCT_COMMIT,
+            "asset": CIRCT_ASSET_NAME,
+            "tool": "firtool",
+            "version_file": CIRCT_VERSION_FILE_NAME,
+            "installer_repository": CIRCT_INSTALLER_REPOSITORY,
+            "installer_commit": CIRCT_INSTALLER_COMMIT,
+        },
         "target": {
             "isa": "rv64gc",
             "abi": "lp64d",
@@ -328,6 +625,7 @@ def build_chipyard_lifecycle_proof(
             "compiler": _first_line(compiler_version),
             "readelf": _first_line(readelf_output),
             "verilator": _first_line(verilator_version),
+            "firtool": _first_line(firtool_version),
         },
         "artifacts": {
             "integration_manifest": _file_record(
@@ -341,6 +639,106 @@ def build_chipyard_lifecycle_proof(
             "elaboration_proof": _file_record(
                 elaboration_file,
                 "Chipyard elaboration proof",
+            ),
+            "riscv_isa_sim_revision": _file_record(
+                riscv_isa_sim_revision_path,
+                "Chipyard riscv-isa-sim revision witness",
+            ),
+            "riscv_isa_sim_configure_log": _file_record(
+                riscv_isa_sim_configure_log_path,
+                "Chipyard riscv-isa-sim configure log",
+            ),
+            "riscv_isa_sim_build_log": _file_record(
+                riscv_isa_sim_build_log_path,
+                "Chipyard riscv-isa-sim build log",
+            ),
+            "riscv_isa_sim_install_log": _file_record(
+                riscv_isa_sim_install_log_path,
+                "Chipyard riscv-isa-sim install log",
+            ),
+            "fesvr_static_log": _file_record(
+                fesvr_static_log_path,
+                "Chipyard FESVR static-library log",
+            ),
+            "fesvr_header": _file_record(
+                fesvr_header_path,
+                "Chipyard FESVR memif header",
+            ),
+            "fesvr_library": _file_record(
+                fesvr_library_path,
+                "Chipyard FESVR static library",
+            ),
+            "riscv_library": _file_record(
+                riscv_library_path,
+                "Chipyard riscv simulator library",
+            ),
+            "fesvr_headers_manifest": _file_record(
+                fesvr_headers_manifest_path,
+                "Chipyard FESVR header manifest",
+            ),
+            "fesvr_host_runtime_report": _file_record(
+                fesvr_host_runtime_report_path,
+                "Chipyard FESVR host-runtime report",
+            ),
+            "libgloss_revision": _file_record(
+                revision_path,
+                "Chipyard libgloss-htif revision witness",
+            ),
+            "htif_specs": _file_record(
+                specs_path,
+                "Chipyard HTIF nano specs",
+            ),
+            "htif_linker_script": _file_record(
+                linker_script_path,
+                "Chipyard HTIF linker script",
+            ),
+            "htif_runtime_library": _file_record(
+                runtime_library_path,
+                "Chipyard HTIF runtime library",
+            ),
+            "libgloss_configure_log": _file_record(
+                configure_log_path,
+                "Chipyard libgloss configure log",
+            ),
+            "libgloss_build_log": _file_record(
+                runtime_build_log_path,
+                "Chipyard libgloss build log",
+            ),
+            "libgloss_install_log": _file_record(
+                install_log_path,
+                "Chipyard libgloss install log",
+            ),
+            "compiler_search_dirs": _file_record(
+                compiler_search_dirs_path,
+                "Chipyard compiler search directories",
+            ),
+            "htif_runtime_report": _file_record(
+                runtime_report_path,
+                "Chipyard HTIF runtime report",
+            ),
+            "circt_version_file": _file_record(
+                circt_version_path,
+                "Chipyard CIRCT release authority",
+            ),
+            "circt_tag_revision": _file_record(
+                circt_tag_revision_path,
+                "Chipyard CIRCT tag revision witness",
+            ),
+            "circt_installer_revision": _file_record(
+                circt_installer_revision_path,
+                "Chipyard CIRCT installer revision witness",
+            ),
+            "firtool_version": _file_record(
+                firtool_version_path,
+                "Chipyard firtool version evidence",
+            ),
+            "firtool_authority_report": _file_record(
+                firtool_authority_report_path,
+                "Chipyard firtool authority report",
+            ),
+            "firtool_binary": _file_record(
+                firtool_path,
+                "Chipyard firtool binary",
             ),
             "source": _file_record(source_path, "Chipyard lifecycle source"),
             "expected_trace": _file_record(
@@ -374,6 +772,20 @@ def build_chipyard_lifecycle_proof(
             "accepted_trace_exact": True,
             "raw_trace_embedded": True,
             "elaboration_proof_bound": True,
+            "riscv_isa_sim_revision_exact": True,
+            "fesvr_host_runtime_bound": True,
+            "fesvr_header_contract_checked": True,
+            "fesvr_library_archive_checked": True,
+            "riscv_library_elf_checked": True,
+            "libgloss_revision_exact": True,
+            "htif_runtime_bound": True,
+            "htif_specs_contract_checked": True,
+            "htif_linker_contract_checked": True,
+            "htif_library_archive_checked": True,
+            "circt_release_exact": True,
+            "circt_tag_revision_exact": True,
+            "circt_installer_revision_exact": True,
+            "firtool_binary_bound": True,
             "loopback_fallback_retained": True,
         },
         "qualification": {
@@ -392,8 +804,15 @@ def build_chipyard_lifecycle_proof(
             "generated lifecycle source executed under the Verilator simulator built "
             "from the exact pinned Chipyard configuration, reached the injected "
             "physical-compute MMIO peripheral, reproduced the accepted refusal, done, "
-            "and receipt trace, and remained bound to the accepted elaboration proof. "
-            "The admitted device retains the internal loopback fallback. The proof "
+            "and receipt trace, remained bound to the accepted elaboration proof, "
+            "bound the exact pinned riscv-isa-sim revision, FESVR header, FESVR "
+            "archive, and riscv host library used to build the simulator, and bound "
+            "the exact pinned libgloss-htif revision, specs, linker script, "
+            "and static runtime library used to construct the target. It also bound "
+            "the exact CIRCT release tag, release commit, asset name, installer "
+            "revision, and firtool binary used "
+            "to lower the pinned FIRRTL into simulator RTL. The admitted "
+            "device retains the internal loopback fallback. The proof "
             "does not establish an external cartridge, FPGA or silicon execution, "
             "physical-substrate work, measured energy, timing, thermal closure, "
             "occupied volume, complete-system EVP advantage, fabrication, or "

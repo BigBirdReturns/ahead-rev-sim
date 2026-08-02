@@ -91,6 +91,46 @@
       ],
       "type": "object"
     },
+    "lowering": {
+      "additionalProperties": false,
+      "properties": {
+        "asset": {
+          "const": "circt-full-static-linux-x64.tar.gz"
+        },
+        "commit": {
+          "const": "481cb60add7358934414a3c6b396f5d29ad934fe"
+        },
+        "installer_commit": {
+          "const": "3f8dda6e1c1965537b5801a43c81c287bac4eae4"
+        },
+        "installer_repository": {
+          "const": "circt/install-circt"
+        },
+        "release": {
+          "const": "firtool-1.75.0"
+        },
+        "repository": {
+          "const": "llvm/circt"
+        },
+        "tool": {
+          "const": "firtool"
+        },
+        "version_file": {
+          "const": "circt.json"
+        }
+      },
+      "required": [
+        "repository",
+        "release",
+        "commit",
+        "asset",
+        "tool",
+        "version_file",
+        "installer_repository",
+        "installer_commit"
+      ],
+      "type": "object"
+    },
     "manifest_sha256": {
       "$ref": "#/$defs/sha256"
     },
@@ -132,8 +172,64 @@
       ],
       "type": "object"
     },
+    "runtime": {
+      "additionalProperties": false,
+      "properties": {
+        "commit": {
+          "const": "39234a16247ab1fa234821b251f1f1870c3de343"
+        },
+        "library": {
+          "const": "libgloss_htif.a"
+        },
+        "linker_script": {
+          "const": "htif.ld"
+        },
+        "repository": {
+          "const": "ucb-bar/libgloss-htif"
+        },
+        "specs": {
+          "const": "htif_nano.specs"
+        }
+      },
+      "required": [
+        "repository",
+        "commit",
+        "specs",
+        "linker_script",
+        "library"
+      ],
+      "type": "object"
+    },
     "schema_version": {
-      "const": "ahead.chipyard-rv64gc-lifecycle-manifest/v0.1"
+      "const": "ahead.chipyard-rv64gc-lifecycle-manifest/v0.2"
+    },
+    "simulator_runtime": {
+      "additionalProperties": false,
+      "properties": {
+        "commit": {
+          "const": "9c190a07c6838f6392bafa4ad83acea462c7f759"
+        },
+        "fesvr_library": {
+          "const": "libfesvr.a"
+        },
+        "header": {
+          "const": "fesvr/memif.h"
+        },
+        "repository": {
+          "const": "riscv-software-src/riscv-isa-sim"
+        },
+        "riscv_library": {
+          "const": "libriscv.so"
+        }
+      },
+      "required": [
+        "repository",
+        "commit",
+        "header",
+        "fesvr_library",
+        "riscv_library"
+      ],
+      "type": "object"
     },
     "target": {
       "additionalProperties": false,
@@ -165,7 +261,10 @@
     "artifact_type",
     "portable_binding",
     "chipyard",
+    "lowering",
     "target",
+    "simulator_runtime",
+    "runtime",
     "generated_artifacts",
     "qualification",
     "claim_boundary",

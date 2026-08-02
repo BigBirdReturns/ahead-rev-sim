@@ -3,22 +3,57 @@
     "file_record": {
       "additionalProperties": false,
       "properties": {
-        "bytes": {"minimum": 1, "type": "integer"},
-        "name": {"minLength": 1, "type": "string"},
-        "sha256": {"$ref": "#/$defs/sha256"}
+        "bytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
       },
-      "required": ["name", "sha256", "bytes"],
+      "required": [
+        "name",
+        "sha256",
+        "bytes"
+      ],
       "type": "object"
     },
-    "sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
     "stage_record": {
       "additionalProperties": false,
       "properties": {
-        "receipt": {"enum": ["valid", "absent"]},
-        "result": {"enum": ["done", "refused", "fault", "timeout"]},
-        "status": {"maximum": 4294967295, "minimum": 0, "type": "integer"}
+        "receipt": {
+          "enum": [
+            "valid",
+            "absent"
+          ]
+        },
+        "result": {
+          "enum": [
+            "done",
+            "refused",
+            "fault",
+            "timeout"
+          ]
+        },
+        "status": {
+          "maximum": 4294967295,
+          "minimum": 0,
+          "type": "integer"
+        }
       },
-      "required": ["status", "result", "receipt"],
+      "required": [
+        "status",
+        "result",
+        "receipt"
+      ],
       "type": "object"
     }
   },
@@ -26,36 +61,174 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
-    "artifact_type": {"const": "chipyard_rv64gc_lifecycle_execution_proof"},
+    "artifact_type": {
+      "const": "chipyard_rv64gc_lifecycle_execution_proof"
+    },
     "artifacts": {
       "additionalProperties": false,
       "properties": {
         "binary": {
           "additionalProperties": false,
           "properties": {
-            "bytes": {"minimum": 1, "type": "integer"},
-            "elf_class": {"const": "ELF64"},
-            "machine": {"const": "RISC-V"},
-            "name": {"minLength": 1, "type": "string"},
-            "sha256": {"$ref": "#/$defs/sha256"}
+            "bytes": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "elf_class": {
+              "const": "ELF64"
+            },
+            "machine": {
+              "const": "RISC-V"
+            },
+            "name": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
           },
-          "required": ["name", "sha256", "bytes", "elf_class", "machine"],
+          "required": [
+            "name",
+            "sha256",
+            "bytes",
+            "elf_class",
+            "machine"
+          ],
           "type": "object"
         },
-        "elaboration_proof": {"$ref": "#/$defs/file_record"},
-        "expected_trace": {"$ref": "#/$defs/file_record"},
-        "integration_manifest": {"$ref": "#/$defs/file_record"},
-        "lifecycle_manifest": {"$ref": "#/$defs/file_record"},
-        "raw_log": {"$ref": "#/$defs/file_record"},
-        "simulator": {"$ref": "#/$defs/file_record"},
-        "simulator_build_log": {"$ref": "#/$defs/file_record"},
-        "source": {"$ref": "#/$defs/file_record"},
-        "trace": {"$ref": "#/$defs/file_record"}
+        "circt_installer_revision": {
+          "$ref": "#/$defs/file_record"
+        },
+        "circt_tag_revision": {
+          "$ref": "#/$defs/file_record"
+        },
+        "circt_version_file": {
+          "$ref": "#/$defs/file_record"
+        },
+        "compiler_search_dirs": {
+          "$ref": "#/$defs/file_record"
+        },
+        "elaboration_proof": {
+          "$ref": "#/$defs/file_record"
+        },
+        "expected_trace": {
+          "$ref": "#/$defs/file_record"
+        },
+        "fesvr_header": {
+          "$ref": "#/$defs/file_record"
+        },
+        "fesvr_headers_manifest": {
+          "$ref": "#/$defs/file_record"
+        },
+        "fesvr_host_runtime_report": {
+          "$ref": "#/$defs/file_record"
+        },
+        "fesvr_library": {
+          "$ref": "#/$defs/file_record"
+        },
+        "fesvr_static_log": {
+          "$ref": "#/$defs/file_record"
+        },
+        "firtool_authority_report": {
+          "$ref": "#/$defs/file_record"
+        },
+        "firtool_binary": {
+          "$ref": "#/$defs/file_record"
+        },
+        "firtool_version": {
+          "$ref": "#/$defs/file_record"
+        },
+        "htif_linker_script": {
+          "$ref": "#/$defs/file_record"
+        },
+        "htif_runtime_library": {
+          "$ref": "#/$defs/file_record"
+        },
+        "htif_runtime_report": {
+          "$ref": "#/$defs/file_record"
+        },
+        "htif_specs": {
+          "$ref": "#/$defs/file_record"
+        },
+        "integration_manifest": {
+          "$ref": "#/$defs/file_record"
+        },
+        "libgloss_build_log": {
+          "$ref": "#/$defs/file_record"
+        },
+        "libgloss_configure_log": {
+          "$ref": "#/$defs/file_record"
+        },
+        "libgloss_install_log": {
+          "$ref": "#/$defs/file_record"
+        },
+        "libgloss_revision": {
+          "$ref": "#/$defs/file_record"
+        },
+        "lifecycle_manifest": {
+          "$ref": "#/$defs/file_record"
+        },
+        "raw_log": {
+          "$ref": "#/$defs/file_record"
+        },
+        "riscv_isa_sim_build_log": {
+          "$ref": "#/$defs/file_record"
+        },
+        "riscv_isa_sim_configure_log": {
+          "$ref": "#/$defs/file_record"
+        },
+        "riscv_isa_sim_install_log": {
+          "$ref": "#/$defs/file_record"
+        },
+        "riscv_isa_sim_revision": {
+          "$ref": "#/$defs/file_record"
+        },
+        "riscv_library": {
+          "$ref": "#/$defs/file_record"
+        },
+        "simulator": {
+          "$ref": "#/$defs/file_record"
+        },
+        "simulator_build_log": {
+          "$ref": "#/$defs/file_record"
+        },
+        "source": {
+          "$ref": "#/$defs/file_record"
+        },
+        "trace": {
+          "$ref": "#/$defs/file_record"
+        }
       },
       "required": [
         "integration_manifest",
         "lifecycle_manifest",
         "elaboration_proof",
+        "riscv_isa_sim_revision",
+        "riscv_isa_sim_configure_log",
+        "riscv_isa_sim_build_log",
+        "riscv_isa_sim_install_log",
+        "fesvr_static_log",
+        "fesvr_header",
+        "fesvr_library",
+        "riscv_library",
+        "fesvr_headers_manifest",
+        "fesvr_host_runtime_report",
+        "libgloss_revision",
+        "htif_specs",
+        "htif_linker_script",
+        "htif_runtime_library",
+        "libgloss_configure_log",
+        "libgloss_build_log",
+        "libgloss_install_log",
+        "compiler_search_dirs",
+        "htif_runtime_report",
+        "circt_version_file",
+        "circt_tag_revision",
+        "circt_installer_revision",
+        "firtool_version",
+        "firtool_authority_report",
+        "firtool_binary",
         "source",
         "expected_trace",
         "binary",
@@ -69,15 +242,35 @@
     "chipyard": {
       "additionalProperties": false,
       "properties": {
-        "base_address": {"minimum": 0, "multipleOf": 4096, "type": "integer"},
-        "commit": {"const": "e27c6561c0066c1f60bf4eb4885a38391c850ac0"},
-        "config_class": {"const": "PhysicalComputeRocketConfig"},
-        "config_package": {"const": "chipyard.physicalcompute"},
-        "elaboration_proof_sha256": {"$ref": "#/$defs/sha256"},
-        "entry_api": {"const": "testchipip.soc.SubsystemInjectorKey"},
-        "integration_manifest_sha256": {"$ref": "#/$defs/sha256"},
-        "lifecycle_manifest_sha256": {"$ref": "#/$defs/sha256"},
-        "repository": {"const": "ucb-bar/chipyard"}
+        "base_address": {
+          "minimum": 0,
+          "multipleOf": 4096,
+          "type": "integer"
+        },
+        "commit": {
+          "const": "e27c6561c0066c1f60bf4eb4885a38391c850ac0"
+        },
+        "config_class": {
+          "const": "PhysicalComputeRocketConfig"
+        },
+        "config_package": {
+          "const": "chipyard.physicalcompute"
+        },
+        "elaboration_proof_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "entry_api": {
+          "const": "testchipip.soc.SubsystemInjectorKey"
+        },
+        "integration_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "lifecycle_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "repository": {
+          "const": "ucb-bar/chipyard"
+        }
       },
       "required": [
         "repository",
@@ -92,26 +285,96 @@
       ],
       "type": "object"
     },
-    "claim_boundary": {"minLength": 1, "type": "string"},
-    "control_question": {"minLength": 1, "type": "string"},
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "lowering": {
+      "additionalProperties": false,
+      "properties": {
+        "asset": {
+          "const": "circt-full-static-linux-x64.tar.gz"
+        },
+        "commit": {
+          "const": "481cb60add7358934414a3c6b396f5d29ad934fe"
+        },
+        "installer_commit": {
+          "const": "3f8dda6e1c1965537b5801a43c81c287bac4eae4"
+        },
+        "installer_repository": {
+          "const": "circt/install-circt"
+        },
+        "release": {
+          "const": "firtool-1.75.0"
+        },
+        "repository": {
+          "const": "llvm/circt"
+        },
+        "tool": {
+          "const": "firtool"
+        },
+        "version_file": {
+          "const": "circt.json"
+        }
+      },
+      "required": [
+        "repository",
+        "release",
+        "commit",
+        "asset",
+        "tool",
+        "version_file",
+        "installer_repository",
+        "installer_commit"
+      ],
+      "type": "object"
+    },
     "observations": {
       "additionalProperties": false,
       "properties": {
-        "accepted_trace_exact": {"const": true},
+        "accepted_trace_exact": {
+          "const": true
+        },
         "checks": {
           "additionalProperties": false,
           "properties": {
-            "ambiguous_command_refused": {"const": true},
-            "capability_mask": {"const": true},
-            "capture_completed": {"const": true},
-            "evolve_completed": {"const": true},
-            "identity": {"const": true},
-            "load_completed": {"const": true},
-            "portable_binding": {"const": true},
-            "read_completed": {"const": true},
-            "reset_completed": {"const": true},
-            "result_pass": {"const": true},
-            "target_isa": {"const": true}
+            "ambiguous_command_refused": {
+              "const": true
+            },
+            "capability_mask": {
+              "const": true
+            },
+            "capture_completed": {
+              "const": true
+            },
+            "evolve_completed": {
+              "const": true
+            },
+            "identity": {
+              "const": true
+            },
+            "load_completed": {
+              "const": true
+            },
+            "portable_binding": {
+              "const": true
+            },
+            "read_completed": {
+              "const": true
+            },
+            "reset_completed": {
+              "const": true
+            },
+            "result_pass": {
+              "const": true
+            },
+            "target_isa": {
+              "const": true
+            }
           },
           "required": [
             "portable_binding",
@@ -128,21 +391,90 @@
           ],
           "type": "object"
         },
-        "elaboration_proof_bound": {"const": true},
-        "line_count": {"const": 9},
-        "loopback_fallback_retained": {"const": true},
-        "raw_trace_embedded": {"const": true},
+        "circt_installer_revision_exact": {
+          "const": true
+        },
+        "circt_release_exact": {
+          "const": true
+        },
+        "circt_tag_revision_exact": {
+          "const": true
+        },
+        "elaboration_proof_bound": {
+          "const": true
+        },
+        "fesvr_header_contract_checked": {
+          "const": true
+        },
+        "fesvr_host_runtime_bound": {
+          "const": true
+        },
+        "fesvr_library_archive_checked": {
+          "const": true
+        },
+        "firtool_binary_bound": {
+          "const": true
+        },
+        "htif_library_archive_checked": {
+          "const": true
+        },
+        "htif_linker_contract_checked": {
+          "const": true
+        },
+        "htif_runtime_bound": {
+          "const": true
+        },
+        "htif_specs_contract_checked": {
+          "const": true
+        },
+        "libgloss_revision_exact": {
+          "const": true
+        },
+        "line_count": {
+          "const": 9
+        },
+        "loopback_fallback_retained": {
+          "const": true
+        },
+        "raw_trace_embedded": {
+          "const": true
+        },
+        "riscv_isa_sim_revision_exact": {
+          "const": true
+        },
+        "riscv_library_elf_checked": {
+          "const": true
+        },
         "stages": {
           "additionalProperties": false,
           "properties": {
-            "ambiguous": {"$ref": "#/$defs/stage_record"},
-            "capture": {"$ref": "#/$defs/stage_record"},
-            "evolve": {"$ref": "#/$defs/stage_record"},
-            "load": {"$ref": "#/$defs/stage_record"},
-            "read": {"$ref": "#/$defs/stage_record"},
-            "reset": {"$ref": "#/$defs/stage_record"}
+            "ambiguous": {
+              "$ref": "#/$defs/stage_record"
+            },
+            "capture": {
+              "$ref": "#/$defs/stage_record"
+            },
+            "evolve": {
+              "$ref": "#/$defs/stage_record"
+            },
+            "load": {
+              "$ref": "#/$defs/stage_record"
+            },
+            "read": {
+              "$ref": "#/$defs/stage_record"
+            },
+            "reset": {
+              "$ref": "#/$defs/stage_record"
+            }
           },
-          "required": ["ambiguous", "reset", "load", "evolve", "read", "capture"],
+          "required": [
+            "ambiguous",
+            "reset",
+            "load",
+            "evolve",
+            "read",
+            "capture"
+          ],
           "type": "object"
         }
       },
@@ -153,16 +485,36 @@
         "accepted_trace_exact",
         "raw_trace_embedded",
         "elaboration_proof_bound",
+        "riscv_isa_sim_revision_exact",
+        "fesvr_host_runtime_bound",
+        "fesvr_header_contract_checked",
+        "fesvr_library_archive_checked",
+        "riscv_library_elf_checked",
+        "libgloss_revision_exact",
+        "htif_runtime_bound",
+        "htif_specs_contract_checked",
+        "htif_linker_contract_checked",
+        "htif_library_archive_checked",
+        "circt_release_exact",
+        "circt_tag_revision_exact",
+        "circt_installer_revision_exact",
+        "firtool_binary_bound",
         "loopback_fallback_retained"
       ],
       "type": "object"
     },
-    "portable_binding": {"const": "physical-compute-mmio/v1"},
-    "proof_sha256": {"$ref": "#/$defs/sha256"},
+    "portable_binding": {
+      "const": "physical-compute-mmio/v1"
+    },
+    "proof_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
     "qualification": {
       "additionalProperties": false,
       "properties": {
-        "accepted": {"const": true},
+        "accepted": {
+          "const": true
+        },
         "blockers": {
           "const": [
             "CHIPYARD_EXTERNAL_CARTRIDGE_BINDING_UNRUN",
@@ -174,13 +526,27 @@
             "INDEPENDENT_PHYSICAL_ACCEPTANCE_MISSING"
           ]
         },
-        "chipyard_rtl_simulation_claim_allowed": {"const": true},
-        "chipyard_rv64gc_lifecycle_claim_allowed": {"const": true},
-        "chipyard_subsystem_claim_allowed": {"const": true},
-        "complete_system_advantage_claim_allowed": {"const": false},
-        "external_cartridge_claim_allowed": {"const": false},
-        "physical_claim_allowed": {"const": false},
-        "status": {"const": "chipyard_rv64gc_lifecycle_execution_proved"}
+        "chipyard_rtl_simulation_claim_allowed": {
+          "const": true
+        },
+        "chipyard_rv64gc_lifecycle_claim_allowed": {
+          "const": true
+        },
+        "chipyard_subsystem_claim_allowed": {
+          "const": true
+        },
+        "complete_system_advantage_claim_allowed": {
+          "const": false
+        },
+        "external_cartridge_claim_allowed": {
+          "const": false
+        },
+        "physical_claim_allowed": {
+          "const": false
+        },
+        "status": {
+          "const": "chipyard_rv64gc_lifecycle_execution_proved"
+        }
       },
       "required": [
         "status",
@@ -195,16 +561,88 @@
       ],
       "type": "object"
     },
-    "schema_version": {"const": "ahead.chipyard-rv64gc-lifecycle-proof/v0.1"},
+    "runtime": {
+      "additionalProperties": false,
+      "properties": {
+        "commit": {
+          "const": "39234a16247ab1fa234821b251f1f1870c3de343"
+        },
+        "library": {
+          "const": "libgloss_htif.a"
+        },
+        "linker_script": {
+          "const": "htif.ld"
+        },
+        "repository": {
+          "const": "ucb-bar/libgloss-htif"
+        },
+        "specs": {
+          "const": "htif_nano.specs"
+        }
+      },
+      "required": [
+        "repository",
+        "commit",
+        "specs",
+        "linker_script",
+        "library"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "ahead.chipyard-rv64gc-lifecycle-proof/v0.2"
+    },
+    "simulator_runtime": {
+      "additionalProperties": false,
+      "properties": {
+        "commit": {
+          "const": "9c190a07c6838f6392bafa4ad83acea462c7f759"
+        },
+        "fesvr_library": {
+          "const": "libfesvr.a"
+        },
+        "header": {
+          "const": "fesvr/memif.h"
+        },
+        "repository": {
+          "const": "riscv-software-src/riscv-isa-sim"
+        },
+        "riscv_library": {
+          "const": "libriscv.so"
+        }
+      },
+      "required": [
+        "repository",
+        "commit",
+        "header",
+        "fesvr_library",
+        "riscv_library"
+      ],
+      "type": "object"
+    },
     "target": {
       "additionalProperties": false,
       "properties": {
-        "abi": {"const": "lp64d"},
-        "build_command": {"minLength": 1, "type": "string"},
-        "execution_environment": {"const": "chipyard-verilator-testharness"},
-        "isa": {"const": "rv64gc"},
-        "loopback_fallback": {"const": true},
-        "run_command": {"minLength": 1, "type": "string"}
+        "abi": {
+          "const": "lp64d"
+        },
+        "build_command": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "execution_environment": {
+          "const": "chipyard-verilator-testharness"
+        },
+        "isa": {
+          "const": "rv64gc"
+        },
+        "loopback_fallback": {
+          "const": true
+        },
+        "run_command": {
+          "minLength": 1,
+          "type": "string"
+        }
       },
       "required": [
         "isa",
@@ -219,11 +657,29 @@
     "tools": {
       "additionalProperties": false,
       "properties": {
-        "compiler": {"minLength": 1, "type": "string"},
-        "readelf": {"minLength": 1, "type": "string"},
-        "verilator": {"minLength": 1, "type": "string"}
+        "compiler": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "firtool": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "readelf": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "verilator": {
+          "minLength": 1,
+          "type": "string"
+        }
       },
-      "required": ["compiler", "readelf", "verilator"],
+      "required": [
+        "compiler",
+        "readelf",
+        "verilator",
+        "firtool"
+      ],
       "type": "object"
     }
   },
@@ -232,6 +688,9 @@
     "artifact_type",
     "portable_binding",
     "chipyard",
+    "simulator_runtime",
+    "runtime",
+    "lowering",
     "target",
     "tools",
     "artifacts",
