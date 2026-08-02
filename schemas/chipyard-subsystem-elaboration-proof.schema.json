@@ -1,0 +1,424 @@
+{
+  "$defs": {
+    "file_record": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "git_blob_sha1": {
+          "$ref": "#/$defs/sha1"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "git_blob_sha1",
+        "sha256",
+        "bytes"
+      ],
+      "type": "object"
+    },
+    "sha1": {
+      "pattern": "^[0-9a-f]{40}$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "submodule_record": {
+      "additionalProperties": false,
+      "properties": {
+        "commit": {
+          "$ref": "#/$defs/sha1"
+        },
+        "prefix": {
+          "const": " "
+        },
+        "state": {
+          "const": "exact"
+        }
+      },
+      "required": [
+        "commit",
+        "state",
+        "prefix"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/chipyard-subsystem-elaboration-proof.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {
+      "const": "chipyard_physical_compute_subsystem_elaboration_proof"
+    },
+    "artifacts": {
+      "additionalProperties": false,
+      "properties": {
+        "annotations": {
+          "additionalProperties": false,
+          "properties": {
+            "bytes": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "name": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "record_count": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          },
+          "required": [
+            "name",
+            "sha256",
+            "bytes",
+            "record_count"
+          ],
+          "type": "object"
+        },
+        "chisel_log": {
+          "additionalProperties": false,
+          "properties": {
+            "bytes": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "name": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          },
+          "required": [
+            "name",
+            "sha256",
+            "bytes"
+          ],
+          "type": "object"
+        },
+        "elaboration_log": {
+          "additionalProperties": false,
+          "properties": {
+            "bytes": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "name": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          },
+          "required": [
+            "name",
+            "sha256",
+            "bytes"
+          ],
+          "type": "object"
+        },
+        "firrtl": {
+          "additionalProperties": false,
+          "properties": {
+            "bytes": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "module_count": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "name": {
+              "pattern": "PhysicalComputeRocketConfig.*\\.fir$",
+              "type": "string"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          },
+          "required": [
+            "name",
+            "sha256",
+            "bytes",
+            "module_count"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "firrtl",
+        "annotations",
+        "chisel_log",
+        "elaboration_log"
+      ],
+      "type": "object"
+    },
+    "chipyard": {
+      "additionalProperties": false,
+      "properties": {
+        "base_address": {
+          "minimum": 0,
+          "multipleOf": 4096,
+          "type": "integer"
+        },
+        "commit": {
+          "const": "e27c6561c0066c1f60bf4eb4885a38391c850ac0"
+        },
+        "critical_submodules": {
+          "additionalProperties": false,
+          "properties": {
+            "generators/rocket-chip": {
+              "$ref": "#/$defs/submodule_record"
+            },
+            "generators/testchipip": {
+              "$ref": "#/$defs/submodule_record"
+            }
+          },
+          "required": [
+            "generators/rocket-chip",
+            "generators/testchipip"
+          ],
+          "type": "object"
+        },
+        "manifest_file_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "repository": {
+          "const": "ucb-bar/chipyard"
+        },
+        "scala_source": {
+          "additionalProperties": false,
+          "properties": {
+            "bytes": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "path": {
+              "const": "generators/chipyard/src/main/scala/physicalcompute/PhysicalCompute.scala"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          },
+          "required": [
+            "path",
+            "sha256",
+            "bytes"
+          ],
+          "type": "object"
+        },
+        "source_witnesses": {
+          "additionalProperties": {
+            "$ref": "#/$defs/file_record"
+          },
+          "minProperties": 5,
+          "type": "object"
+        },
+        "submodule_count": {
+          "minimum": 2,
+          "type": "integer"
+        },
+        "submodule_status_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "submodule_witnesses": {
+          "additionalProperties": {
+            "$ref": "#/$defs/file_record"
+          },
+          "minProperties": 1,
+          "type": "object"
+        }
+      },
+      "required": [
+        "repository",
+        "commit",
+        "source_witnesses",
+        "submodule_status_sha256",
+        "submodule_count",
+        "critical_submodules",
+        "submodule_witnesses",
+        "scala_source",
+        "manifest_sha256",
+        "manifest_file_sha256",
+        "base_address"
+      ],
+      "type": "object"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "observations": {
+      "additionalProperties": false,
+      "properties": {
+        "critical_submodules_exact": {
+          "const": true
+        },
+        "digital_top_unpatched": {
+          "const": true
+        },
+        "elaboration_witness_present": {
+          "const": true
+        },
+        "loopback_fallback_retained": {
+          "const": true
+        },
+        "source_contract_reconstructed": {
+          "const": true
+        }
+      },
+      "required": [
+        "elaboration_witness_present",
+        "source_contract_reconstructed",
+        "critical_submodules_exact",
+        "digital_top_unpatched",
+        "loopback_fallback_retained"
+      ],
+      "type": "object"
+    },
+    "portable_binding": {
+      "const": "physical-compute-mmio/v1"
+    },
+    "proof_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "qualification": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {
+          "const": true
+        },
+        "blockers": {
+          "const": [
+            "CHIPYARD_RTL_SIMULATION_UNRUN",
+            "CHIPYARD_EXTERNAL_CARTRIDGE_BINDING_UNRUN",
+            "RISC_V_BINARY_BUILD_UNRUN",
+            "TARGET_TRACE_UNOBSERVED",
+            "FPGA_OR_SILICON_EXECUTION_UNRUN",
+            "PHYSICAL_SUBSTRATE_UNMEASURED",
+            "PHYSICAL_ENERGY_UNMEASURED",
+            "TIMING_THERMAL_VOLUME_UNMEASURED",
+            "COMPLETE_SYSTEM_EVP_UNMEASURED",
+            "INDEPENDENT_PHYSICAL_ACCEPTANCE_MISSING"
+          ]
+        },
+        "chipyard_rtl_simulation_claim_allowed": {
+          "const": false
+        },
+        "chipyard_subsystem_claim_allowed": {
+          "const": true
+        },
+        "complete_system_advantage_claim_allowed": {
+          "const": false
+        },
+        "physical_claim_allowed": {
+          "const": false
+        },
+        "status": {
+          "const": "chipyard_subsystem_elaboration_proved"
+        }
+      },
+      "required": [
+        "status",
+        "accepted",
+        "chipyard_subsystem_claim_allowed",
+        "chipyard_rtl_simulation_claim_allowed",
+        "physical_claim_allowed",
+        "complete_system_advantage_claim_allowed",
+        "blockers"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "ahead.chipyard-subsystem-elaboration-proof/v0.1"
+    },
+    "target": {
+      "additionalProperties": false,
+      "properties": {
+        "config_class": {
+          "const": "PhysicalComputeRocketConfig"
+        },
+        "config_package": {
+          "const": "chipyard.physicalcompute"
+        },
+        "entry_api": {
+          "const": "testchipip.soc.SubsystemInjectorKey"
+        },
+        "loopback_fallback": {
+          "const": true
+        },
+        "make_command": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "patches_digital_top": {
+          "const": false
+        }
+      },
+      "required": [
+        "config_package",
+        "config_class",
+        "make_command",
+        "entry_api",
+        "patches_digital_top",
+        "loopback_fallback"
+      ],
+      "type": "object"
+    },
+    "tools": {
+      "additionalProperties": false,
+      "properties": {
+        "java": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sbt": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "java",
+        "sbt"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "portable_binding",
+    "chipyard",
+    "target",
+    "tools",
+    "artifacts",
+    "observations",
+    "qualification",
+    "claim_boundary",
+    "control_question",
+    "proof_sha256"
+  ],
+  "title": "ahead-rev-sim pinned Chipyard subsystem elaboration proof",
+  "type": "object"
+}

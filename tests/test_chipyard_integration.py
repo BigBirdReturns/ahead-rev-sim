@@ -9,11 +9,18 @@ import pytest
 
 from ahead_rev_sim.chipyard_cli import main as chipyard_main
 from ahead_rev_sim.chipyard_integration import (
+    CHIPYARD_COMMIT,
+    CHIPYARD_CONFIG_CLASS,
+    CHIPYARD_CONFIG_PACKAGE,
     CHIPYARD_INTEGRATION_SCHEMA_VERSION,
     CHIPYARD_REFERENCE_BLOB_SHA,
     CHIPYARD_REFERENCE_PATH,
     CHIPYARD_REFERENCE_URL,
+    CHIPYARD_SCALA_INSTALL_PATH,
+    CHIPYARD_SOURCE_WITNESSES,
     DEFAULT_BASE_ADDRESS,
+    ELABORATION_WITNESS_NAME,
+    ELABORATION_WITNESS_VALUE,
     build_chipyard_manifest,
     render_baremetal_smoke,
     render_chipyard_scala,
@@ -41,14 +48,18 @@ def test_chipyard_manifest_is_deterministic_sealed_and_schema_valid() -> None:
     Draft202012Validator(schema).validate(first)
 
 
-def test_chipyard_source_contract_is_pinned_to_public_mmio_example_blob() -> None:
+def test_chipyard_source_contract_is_pinned_to_current_upstream_commit() -> None:
     manifest = build_chipyard_manifest()
     contract = manifest["chipyard_source_contract"]
     assert contract["repository"] == "ucb-bar/chipyard"
-    assert contract["path"] == CHIPYARD_REFERENCE_PATH
-    assert contract["blob_sha"] == CHIPYARD_REFERENCE_BLOB_SHA
-    assert contract["url"] == CHIPYARD_REFERENCE_URL
+    assert contract["commit"] == CHIPYARD_COMMIT
+    assert CHIPYARD_COMMIT == "e27c6561c0066c1f60bf4eb4885a38391c850ac0"
+    assert contract["source_witnesses"] == CHIPYARD_SOURCE_WITNESSES
+    assert contract["source_witnesses"][CHIPYARD_REFERENCE_PATH]["blob_sha"] == (
+        CHIPYARD_REFERENCE_BLOB_SHA
+    )
     assert CHIPYARD_REFERENCE_BLOB_SHA == "f1579822bc7bacab7dcdfac742034266ddea012b"
+    assert CHIPYARD_COMMIT in CHIPYARD_REFERENCE_URL
     assert {
         "ClockSinkDomain",
         "TLRegisterNode",
@@ -57,32 +68,57 @@ def test_chipyard_source_contract_is_pinned_to_public_mmio_example_blob() -> Non
         "TLFragmenter",
         "BaseSubsystem",
         "PBUS",
-    } == set(contract["api_patterns"])
+    } == set(
+        contract["source_witnesses"][CHIPYARD_REFERENCE_PATH]["required_patterns"]
+    )
 
 
-def test_generated_scala_uses_current_chipyard_tilelink_construction() -> None:
+def test_generated_scala_uses_upstream_subsystem_injector_without_top_patch() -> None:
     scala = render_chipyard_scala()
+    assert f"package {CHIPYARD_CONFIG_PACKAGE}" in scala
     assert "extends ClockSinkDomain(ClockSinkParameters())" in scala
     assert "TLRegisterNode(" in scala
     assert "node.regmap(" in scala
+    assert "case object PhysicalComputeInjector extends SubsystemInjector" in scala
+    assert "case SubsystemInjectorKey" in scala
+    assert "up(SubsystemInjectorKey) + PhysicalComputeInjector" in scala
     assert "TLInwardClockCrossingHelper(" in scala
     assert "TLFragmenter(pbus.beatBytes, pbus.blockBytes)" in scala
-    assert "trait CanHavePeripheryPhysicalCompute" in scala
-    assert "class WithPhysicalCompute" in scala
+    assert f"class {CHIPYARD_CONFIG_CLASS} extends Config" in scala
+    assert "trait CanHavePeripheryPhysicalCompute" not in scala
+    assert "Add `with" not in scala
     for offset in PHYSICAL_COMPUTE_MMIO_V1.values():
         assert f"0x{offset:02X} ->" in scala
 
 
-def test_generated_scala_preserves_refusal_fallback_and_receipt_semantics() -> None:
+def test_generated_scala_preserves_refusal_fallback_and_elaboration_witness() -> None:
     scala = render_chipyard_scala()
     assert "val oneHotSupported" in scala
     assert "PopCount(command) === 1.U" in scala
     assert "val pointersReady" in scala
     assert "statusReg := StatusReady | StatusRefused" in scala
     assert "loopbackFallback" in scala
-    assert "io.fallback_used" in scala
+    assert "The v0.11 Chipyard proof admits only" in scala
     assert "StatusReceiptValid" in scala
-    assert "commandValid && observedReady" in scala
+    assert "val loopbackDone = RegNext(loopbackAccepted, false.B)" in scala
+    assert ELABORATION_WITNESS_NAME in scala
+    assert f'"h{ELABORATION_WITNESS_VALUE:08X}".U(32.W)' in scala
+    assert "dontTouch(elaborationWitness)" in scala
+
+
+def test_manifest_declares_install_config_and_fallback_authority() -> None:
+    manifest = build_chipyard_manifest()
+    integration = manifest["integration"]
+    assert integration["scala_install_path"] == CHIPYARD_SCALA_INSTALL_PATH
+    assert integration["config_package"] == CHIPYARD_CONFIG_PACKAGE
+    assert integration["config_class"] == CHIPYARD_CONFIG_CLASS
+    assert integration["entry_api"] == "testchipip.soc.SubsystemInjectorKey"
+    assert integration["patches_digital_top"] is False
+    assert integration["loopback_fallback"] is True
+    assert manifest["qualification"]["status"] == "pinned_injector_bundle_unelaborated"
+    assert manifest["qualification"]["subsystem_elaboration_allowed"] is False
+    assert "CHIPYARD_SUBSYSTEM_ELABORATION_UNRUN" in manifest["qualification"]["blockers"]
+    assert "CHIPYARD_EXTERNAL_CARTRIDGE_BINDING_UNRUN" in manifest["qualification"]["blockers"]
 
 
 def test_baremetal_smoke_exercises_refusal_and_accepted_lifecycle() -> None:
@@ -117,7 +153,7 @@ def test_base_address_must_be_4k_aligned() -> None:
         build_chipyard_manifest(base_address=7)
 
 
-def test_chipyard_bundle_files_match_manifest_hashes(tmp_path: Path) -> None:
+def test_chipyard_bundle_files_match_manifest_hashes_and_use_lf(tmp_path: Path) -> None:
     outputs = write_chipyard_bundle(tmp_path)
     assert {path.name for path in outputs.values()} == {
         "PhysicalCompute.scala",
@@ -125,23 +161,25 @@ def test_chipyard_bundle_files_match_manifest_hashes(tmp_path: Path) -> None:
         "chipyard-physical-compute-integration.json",
     }
     manifest = json.loads(outputs["manifest"].read_text(encoding="utf-8"))
-    assert manifest["generated_artifacts"]["PhysicalCompute.scala"] == sha256(
-        outputs["scala"].read_bytes()
-    ).hexdigest()
-    assert manifest["generated_artifacts"]["physical_compute_smoke.c"] == sha256(
-        outputs["smoke"].read_bytes()
-    ).hexdigest()
-    assert manifest["qualification"]["physical_claim_allowed"] is False
-    assert "CHIPYARD_ELABORATION_UNRUN" in manifest["qualification"]["blockers"]
-    assert "TARGET_TRACE_UNOBSERVED" in manifest["qualification"]["blockers"]
+    for key, name in (
+        ("scala", "PhysicalCompute.scala"),
+        ("smoke", "physical_compute_smoke.c"),
+    ):
+        payload = outputs[key].read_bytes()
+        record = manifest["generated_artifacts"][name]
+        assert record["sha256"] == sha256(payload).hexdigest()
+        assert record["bytes"] == len(payload)
+        assert b"\r\n" not in payload
+    assert b"\r\n" not in outputs["manifest"].read_bytes()
 
 
-def test_chipyard_cli_writes_deterministic_bundle(tmp_path: Path) -> None:
+def test_chipyard_cli_preserves_legacy_bundle_form_and_subcommand(tmp_path: Path) -> None:
     first = tmp_path / "first"
     second = tmp_path / "second"
     assert chipyard_main(["--out-dir", str(first)]) == 0
     assert chipyard_main(
         [
+            "bundle",
             "--out-dir",
             str(second),
             "--base-address",

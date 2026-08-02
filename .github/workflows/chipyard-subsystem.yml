@@ -1,0 +1,430 @@
+name: Chipyard Subsystem Elaboration
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: chipyard-subsystem-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CHIPYARD_COMMIT: e27c6561c0066c1f60bf4eb4885a38391c850ac0
+  CHIPYARD_CONFIG: PhysicalComputeRocketConfig
+  CHIPYARD_CONFIG_PACKAGE: chipyard.physicalcompute
+  CHIPYARD_SCALA_PATH: generators/chipyard/src/main/scala/physicalcompute/PhysicalCompute.scala
+  MAKE_COMMAND: make -C chipyard/sims/verilator CONFIG=PhysicalComputeRocketConfig CONFIG_PACKAGE=chipyard.physicalcompute JAVA_HEAP_SIZE=6G firrtl
+
+jobs:
+  chipyard-subsystem:
+    name: Pinned injector and Chisel-to-FIRRTL proof
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out ahead-rev-sim
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install ahead-rev-sim and validation tools
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Generate the pinned injector bundle
+        run: |
+          mkdir -p artifacts/chipyard-subsystem
+          "$pythonLocation/bin/ahead-rev-chipyard" bundle \
+            --out-dir artifacts/chipyard-subsystem \
+            | tee artifacts/chipyard-subsystem/bundle.txt
+
+      - name: Validate the integration manifest schema
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+
+          manifest = json.loads(
+              Path("artifacts/chipyard-subsystem/chipyard-physical-compute-integration.json")
+              .read_text(encoding="utf-8")
+          )
+          schema = json.loads(
+              Path("schemas/chipyard-physical-compute-integration.schema.json")
+              .read_text(encoding="utf-8")
+          )
+          Draft202012Validator.check_schema(schema)
+          Draft202012Validator(schema).validate(manifest)
+          assert manifest["chipyard_source_contract"]["commit"] == (
+              "e27c6561c0066c1f60bf4eb4885a38391c850ac0"
+          )
+          assert manifest["integration"]["entry_api"] == (
+              "testchipip.soc.SubsystemInjectorKey"
+          )
+          assert manifest["integration"]["patches_digital_top"] is False
+          assert manifest["integration"]["loopback_fallback"] is True
+          PY
+
+      - name: Clone the exact Chipyard authority
+        run: |
+          git clone \
+            --filter=blob:none \
+            --no-checkout \
+            https://github.com/ucb-bar/chipyard.git \
+            chipyard
+          git -C chipyard fetch --depth=1 origin "$CHIPYARD_COMMIT"
+          git -C chipyard checkout --detach "$CHIPYARD_COMMIT"
+          test "$(git -C chipyard rev-parse HEAD)" = "$CHIPYARD_COMMIT"
+          git -C chipyard status --short --branch \
+            | tee artifacts/chipyard-subsystem/chipyard-checkout.txt
+
+      - name: Make Conda available for the upstream setup
+        uses: conda-incubator/setup-miniconda@fc2d68f6413eb2d87b895e92f8584b5b94a10167 # v3.3.0
+        with:
+          auto-activate: true
+          activate-environment: ""
+
+      - name: Install the lean pinned Chipyard environment
+        shell: bash -el {0}
+        run: |
+          cd chipyard
+          ./build-setup.sh \
+            --use-lean-conda \
+            --skip-submodules \
+            --skip-toolchain \
+            --skip-precompile \
+            --skip-circt \
+            --skip-clean \
+            2>&1 | tee ../artifacts/chipyard-subsystem/build-setup.log
+
+      - name: Initialize the minimally required pinned submodules
+        shell: bash -el {0}
+        run: |
+          cd chipyard
+          source env.sh
+          git config --local submodule.software/spec2026.update none
+          test "$(git config --local --get submodule.software/spec2026.update)" = "none"
+          ./scripts/init-submodules-no-riscv-tools.sh \
+            2>&1 | tee ../artifacts/chipyard-subsystem/submodules.log
+          git submodule status --recursive \
+            > ../artifacts/chipyard-subsystem/submodule-status.txt
+          grep -E '^ [0-9a-f]{40} generators/testchipip([[:space:]]|$)' \
+            ../artifacts/chipyard-subsystem/submodule-status.txt
+          grep -E '^ [0-9a-f]{40} generators/rocket-chip([[:space:]]|$)' \
+            ../artifacts/chipyard-subsystem/submodule-status.txt
+
+      - name: Install the generated source without patching DigitalTop
+        run: |
+          mkdir -p "chipyard/$(dirname "$CHIPYARD_SCALA_PATH")"
+          cp \
+            artifacts/chipyard-subsystem/PhysicalCompute.scala \
+            "chipyard/$CHIPYARD_SCALA_PATH"
+          cmp \
+            artifacts/chipyard-subsystem/PhysicalCompute.scala \
+            "chipyard/$CHIPYARD_SCALA_PATH"
+          git -C chipyard diff -- generators/chipyard/src/main/scala/DigitalTop.scala \
+            > artifacts/chipyard-subsystem/digital-top.diff
+          test ! -s artifacts/chipyard-subsystem/digital-top.diff
+
+      - name: Capture pinned upstream injector context
+        run: |
+          {
+            echo "chipyard=$CHIPYARD_COMMIT"
+            echo "rocket-chip=$(git -C chipyard/generators/rocket-chip rev-parse HEAD)"
+            echo "testchipip=$(git -C chipyard/generators/testchipip rev-parse HEAD)"
+            echo
+            grep -R -n -E \
+              'SubsystemInjector(Key|Params)|class SubsystemInjector|case object SubsystemInjector|def apply|coupleTo' \
+              chipyard/generators/testchipip/src/main/scala \
+              chipyard/generators/chipyard/src/main/scala/DigitalTop.scala \
+              chipyard/generators/chipyard/src/main/scala/example \
+              chipyard/generators/rocket-chip/src/main/scala/subsystem \
+              2>/dev/null \
+              | head -n 500 \
+              || true
+          } > artifacts/chipyard-subsystem/upstream-injector-context.txt
+          cp "chipyard/$CHIPYARD_SCALA_PATH" \
+            artifacts/chipyard-subsystem/installed-PhysicalCompute.scala
+
+      - name: Record Java and SBT authority
+        shell: bash -el {0}
+        run: |
+          cd chipyard
+          source env.sh
+          java -version \
+            2>&1 | tee ../artifacts/chipyard-subsystem/java-version.txt
+          sbt --script-version \
+            2>&1 | tee ../artifacts/chipyard-subsystem/sbt-version.txt
+
+      - name: Elaborate the pinned subsystem to FIRRTL
+        id: elaborate
+        shell: bash -el {0}
+        run: |
+          # Chipyard's generated env.sh intentionally probes optional shell variables.
+          # Enabling nounset before sourcing it aborts activation before make runs.
+          set -Eeo pipefail
+          cd chipyard
+          source env.sh
+
+          set +e
+          make -C sims/verilator \
+            CONFIG="$CHIPYARD_CONFIG" \
+            CONFIG_PACKAGE="$CHIPYARD_CONFIG_PACKAGE" \
+            JAVA_HEAP_SIZE=6G \
+            firrtl \
+            2>&1 | tee ../artifacts/chipyard-subsystem/elaboration.log
+          ELABORATION_STATUS=${PIPESTATUS[0]}
+          set -e
+
+          {
+            echo "exit_status=$ELABORATION_STATUS"
+            echo "chipyard_commit=$(git rev-parse HEAD)"
+            echo "config=$CHIPYARD_CONFIG"
+            echo "config_package=$CHIPYARD_CONFIG_PACKAGE"
+            echo "scala_path=$CHIPYARD_SCALA_PATH"
+            echo "make_command=$MAKE_COMMAND"
+            echo
+            echo "=== compiler diagnostics ==="
+            grep -n -E \
+              '\[error\]|error:|Exception|Compilation failed|not found:|type mismatch|overloaded method|is not a member of|could not find implicit|value .* is not a member' \
+              ../artifacts/chipyard-subsystem/elaboration.log \
+              || true
+            echo
+            echo "=== final 400 lines ==="
+            tail -n 400 ../artifacts/chipyard-subsystem/elaboration.log \
+              || true
+          } > ../artifacts/chipyard-subsystem/elaboration-diagnostics.txt
+
+          if (( ELABORATION_STATUS != 0 )); then
+            echo "::group::Pinned Chipyard compiler diagnostics"
+            cat ../artifacts/chipyard-subsystem/elaboration-diagnostics.txt
+            echo "::endgroup::"
+            {
+              echo "## Pinned Chipyard elaboration failed"
+              echo
+              echo '```text'
+              tail -n 200 ../artifacts/chipyard-subsystem/elaboration-diagnostics.txt
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit "$ELABORATION_STATUS"
+          fi
+
+      - name: Resolve and copy the elaboration products
+        run: |
+          FIRRTL_FILE="$(find chipyard/sims/verilator/generated-src \
+            -type f -name "*${CHIPYARD_CONFIG}*.fir" -print -quit)"
+          ANNO_FILE="$(find chipyard/sims/verilator/generated-src \
+            -type f -name "*${CHIPYARD_CONFIG}*.anno.json" -print -quit)"
+          CHISEL_LOG_FILE="$(find chipyard/sims/verilator/generated-src \
+            -type f -name "*${CHIPYARD_CONFIG}*.chisel.log" -print -quit)"
+          test -n "$FIRRTL_FILE" && test -s "$FIRRTL_FILE"
+          test -n "$ANNO_FILE" && test -s "$ANNO_FILE"
+          test -n "$CHISEL_LOG_FILE" && test -s "$CHISEL_LOG_FILE"
+          cp "$FIRRTL_FILE" artifacts/chipyard-subsystem/
+          cp "$ANNO_FILE" artifacts/chipyard-subsystem/
+          cp "$CHISEL_LOG_FILE" artifacts/chipyard-subsystem/
+          printf '%s\n' "$FIRRTL_FILE" \
+            > artifacts/chipyard-subsystem/firrtl-source-path.txt
+          printf '%s\n' "$ANNO_FILE" \
+            > artifacts/chipyard-subsystem/annotations-source-path.txt
+          printf '%s\n' "$CHISEL_LOG_FILE" \
+            > artifacts/chipyard-subsystem/chisel-log-source-path.txt
+
+      - name: Seal the pinned Chipyard elaboration proof
+        shell: bash
+        run: |
+          set -Eeo pipefail
+          FIRRTL_FILE="$(find artifacts/chipyard-subsystem \
+            -maxdepth 1 -type f -name "*${CHIPYARD_CONFIG}*.fir" -print -quit)"
+          ANNO_FILE="$(find artifacts/chipyard-subsystem \
+            -maxdepth 1 -type f -name "*${CHIPYARD_CONFIG}*.anno.json" -print -quit)"
+          CHISEL_LOG_FILE="$(find artifacts/chipyard-subsystem \
+            -maxdepth 1 -type f -name "*${CHIPYARD_CONFIG}*.chisel.log" -print -quit)"
+          "$pythonLocation/bin/ahead-rev-chipyard" proof \
+            --checkout-root chipyard \
+            --manifest artifacts/chipyard-subsystem/chipyard-physical-compute-integration.json \
+            --scala "chipyard/$CHIPYARD_SCALA_PATH" \
+            --firrtl "$FIRRTL_FILE" \
+            --annotations "$ANNO_FILE" \
+            --chisel-log "$CHISEL_LOG_FILE" \
+            --elaboration-log artifacts/chipyard-subsystem/elaboration.log \
+            --java-version-file artifacts/chipyard-subsystem/java-version.txt \
+            --sbt-version-file artifacts/chipyard-subsystem/sbt-version.txt \
+            --make-command "$MAKE_COMMAND" \
+            --out artifacts/chipyard-subsystem/chipyard-subsystem-elaboration-proof.json \
+            2>&1 | tee artifacts/chipyard-subsystem/proof.txt
+          test -s artifacts/chipyard-subsystem/chipyard-subsystem-elaboration-proof.json
+          test -s artifacts/chipyard-subsystem/proof.txt
+
+      - name: Validate the proof and retained blockers
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+
+          proof = json.loads(
+              Path("artifacts/chipyard-subsystem/chipyard-subsystem-elaboration-proof.json")
+              .read_text(encoding="utf-8")
+          )
+          schema = json.loads(
+              Path("schemas/chipyard-subsystem-elaboration-proof.schema.json")
+              .read_text(encoding="utf-8")
+          )
+          Draft202012Validator.check_schema(schema)
+          Draft202012Validator(schema).validate(proof)
+          qualification = proof["qualification"]
+          assert qualification["status"] == "chipyard_subsystem_elaboration_proved"
+          assert qualification["accepted"] is True
+          assert qualification["chipyard_subsystem_claim_allowed"] is True
+          assert qualification["chipyard_rtl_simulation_claim_allowed"] is False
+          assert qualification["physical_claim_allowed"] is False
+          assert "CHIPYARD_SUBSYSTEM_ELABORATION_UNRUN" not in qualification["blockers"]
+          assert "CHIPYARD_RTL_SIMULATION_UNRUN" in qualification["blockers"]
+          assert proof["observations"]["digital_top_unpatched"] is True
+          assert proof["observations"]["loopback_fallback_retained"] is True
+          assert len(proof["proof_sha256"]) == 64
+          PY
+
+      - name: Prove checkout, source, and FIRRTL refusal
+        run: |
+          FIRRTL_FILE="$(find artifacts/chipyard-subsystem \
+            -maxdepth 1 -type f -name "*${CHIPYARD_CONFIG}*.fir" -print -quit)"
+          ANNO_FILE="$(find artifacts/chipyard-subsystem \
+            -maxdepth 1 -type f -name "*${CHIPYARD_CONFIG}*.anno.json" -print -quit)"
+          CHISEL_LOG_FILE="$(find artifacts/chipyard-subsystem \
+            -maxdepth 1 -type f -name "*${CHIPYARD_CONFIG}*.chisel.log" -print -quit)"
+
+          if "$pythonLocation/bin/ahead-rev-chipyard" proof \
+            --checkout-root . \
+            --manifest artifacts/chipyard-subsystem/chipyard-physical-compute-integration.json \
+            --scala "chipyard/$CHIPYARD_SCALA_PATH" \
+            --firrtl "$FIRRTL_FILE" \
+            --annotations "$ANNO_FILE" \
+            --chisel-log "$CHISEL_LOG_FILE" \
+            --elaboration-log artifacts/chipyard-subsystem/elaboration.log \
+            --java-version-file artifacts/chipyard-subsystem/java-version.txt \
+            --sbt-version-file artifacts/chipyard-subsystem/sbt-version.txt \
+            --make-command "$MAKE_COMMAND" \
+            --out artifacts/chipyard-subsystem/refused-checkout.json; then
+            echo "wrong checkout unexpectedly admitted" >&2
+            exit 1
+          fi
+
+          cp "chipyard/$CHIPYARD_SCALA_PATH" \
+            artifacts/chipyard-subsystem/PhysicalCompute.scala.backup
+          printf '\n// tampered\n' >> "chipyard/$CHIPYARD_SCALA_PATH"
+          if "$pythonLocation/bin/ahead-rev-chipyard" proof \
+            --checkout-root chipyard \
+            --manifest artifacts/chipyard-subsystem/chipyard-physical-compute-integration.json \
+            --scala "chipyard/$CHIPYARD_SCALA_PATH" \
+            --firrtl "$FIRRTL_FILE" \
+            --annotations "$ANNO_FILE" \
+            --chisel-log "$CHISEL_LOG_FILE" \
+            --elaboration-log artifacts/chipyard-subsystem/elaboration.log \
+            --java-version-file artifacts/chipyard-subsystem/java-version.txt \
+            --sbt-version-file artifacts/chipyard-subsystem/sbt-version.txt \
+            --make-command "$MAKE_COMMAND" \
+            --out artifacts/chipyard-subsystem/refused-source.json; then
+            echo "tampered Scala unexpectedly admitted" >&2
+            exit 1
+          fi
+          cp artifacts/chipyard-subsystem/PhysicalCompute.scala.backup \
+            "chipyard/$CHIPYARD_SCALA_PATH"
+
+          mkdir -p artifacts/chipyard-subsystem/tampered
+          TAMPERED_FIRRTL="artifacts/chipyard-subsystem/tampered/$(basename "$FIRRTL_FILE")"
+          grep -v 'ahead_physical_compute_elaboration_witness' \
+            "$FIRRTL_FILE" > "$TAMPERED_FIRRTL"
+          if "$pythonLocation/bin/ahead-rev-chipyard" proof \
+            --checkout-root chipyard \
+            --manifest artifacts/chipyard-subsystem/chipyard-physical-compute-integration.json \
+            --scala "chipyard/$CHIPYARD_SCALA_PATH" \
+            --firrtl "$TAMPERED_FIRRTL" \
+            --annotations "$ANNO_FILE" \
+            --chisel-log "$CHISEL_LOG_FILE" \
+            --elaboration-log artifacts/chipyard-subsystem/elaboration.log \
+            --java-version-file artifacts/chipyard-subsystem/java-version.txt \
+            --sbt-version-file artifacts/chipyard-subsystem/sbt-version.txt \
+            --make-command "$MAKE_COMMAND" \
+            --out artifacts/chipyard-subsystem/refused-firrtl.json; then
+            echo "FIRRTL without the witness unexpectedly admitted" >&2
+            exit 1
+          fi
+
+      - name: Run focused Chipyard tests
+        run: |
+          python -m pytest -q \
+            tests/test_chipyard_integration.py \
+            tests/test_chipyard_elaboration.py \
+            tests/test_chipyard_setup_witness.py \
+            tests/test_chipyard_workflow_environment.py
+
+      - name: Assemble the reconstructable subsystem kit
+        run: |
+          mkdir -p artifacts/chipyard-subsystem/kit/schemas
+          cp docs/chipyard_subsystem_elaboration.md \
+            artifacts/chipyard-subsystem/kit/
+          cp \
+            schemas/chipyard-physical-compute-integration.schema.json \
+            schemas/chipyard-subsystem-elaboration-proof.schema.json \
+            artifacts/chipyard-subsystem/kit/schemas/
+          cp \
+            artifacts/chipyard-subsystem/PhysicalCompute.scala \
+            artifacts/chipyard-subsystem/physical_compute_smoke.c \
+            artifacts/chipyard-subsystem/chipyard-physical-compute-integration.json \
+            artifacts/chipyard-subsystem/chipyard-subsystem-elaboration-proof.json \
+            artifacts/chipyard-subsystem/submodule-status.txt \
+            artifacts/chipyard-subsystem/java-version.txt \
+            artifacts/chipyard-subsystem/sbt-version.txt \
+            artifacts/chipyard-subsystem/elaboration.log \
+            artifacts/chipyard-subsystem/kit/
+          find artifacts/chipyard-subsystem \
+            -maxdepth 1 \
+            -type f \
+            \( -name "*${CHIPYARD_CONFIG}*.fir" \
+               -o -name "*${CHIPYARD_CONFIG}*.anno.json" \
+               -o -name "*${CHIPYARD_CONFIG}*.chisel.log" \) \
+            -exec cp {} artifacts/chipyard-subsystem/kit/ \;
+
+      - name: Collect generated products after any outcome
+        if: always()
+        run: |
+          mkdir -p artifacts/chipyard-subsystem/generated-src-snapshot
+          if test -d chipyard/sims/verilator/generated-src; then
+            find chipyard/sims/verilator/generated-src \
+              -maxdepth 2 \
+              -type f \
+              \( -name "*${CHIPYARD_CONFIG}*" \
+                 -o -name "*.log" \
+                 -o -name "*.fir" \
+                 -o -name "*.anno.json" \) \
+              -print \
+              | sort \
+              > artifacts/chipyard-subsystem/generated-products.txt
+            while IFS= read -r file; do
+              test -f "$file" || continue
+              cp "$file" artifacts/chipyard-subsystem/generated-src-snapshot/
+            done < artifacts/chipyard-subsystem/generated-products.txt
+          else
+            : > artifacts/chipyard-subsystem/generated-products.txt
+          fi
+
+      - name: Upload Chipyard subsystem evidence and diagnostics
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: chipyard-subsystem-${{ github.sha }}
+          path: artifacts/chipyard-subsystem
+          if-no-files-found: warn
+          retention-days: 30

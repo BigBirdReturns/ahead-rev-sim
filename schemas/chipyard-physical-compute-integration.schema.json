@@ -1,132 +1,250 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "artifact_record": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "sha256",
+        "bytes"
+      ],
+      "type": "object"
+    },
+    "blob_sha": {
+      "pattern": "^[0-9a-f]{40}$",
+      "type": "string"
+    },
+    "patterns": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "source_witness": {
+      "additionalProperties": false,
+      "properties": {
+        "blob_sha": {
+          "$ref": "#/$defs/blob_sha"
+        },
+        "required_patterns": {
+          "$ref": "#/$defs/patterns"
+        }
+      },
+      "required": [
+        "blob_sha",
+        "required_patterns"
+      ],
+      "type": "object"
+    }
+  },
   "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/chipyard-physical-compute-integration.schema.json",
-  "title": "ahead-rev-sim Chipyard physical-compute integration manifest",
-  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
+  "properties": {
+    "abi_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "artifact_type": {
+      "const": "chipyard_physical_compute_injector_bundle"
+    },
+    "base_address": {
+      "minimum": 0,
+      "multipleOf": 4096,
+      "type": "integer"
+    },
+    "chipyard_source_contract": {
+      "additionalProperties": false,
+      "properties": {
+        "commit": {
+          "const": "e27c6561c0066c1f60bf4eb4885a38391c850ac0"
+        },
+        "repository": {
+          "const": "ucb-bar/chipyard"
+        },
+        "source_witnesses": {
+          "additionalProperties": false,
+          "properties": {
+            "generators/chipyard/src/main/scala/DigitalTop.scala": {
+              "$ref": "#/$defs/source_witness"
+            },
+            "generators/chipyard/src/main/scala/config/RocketConfigs.scala": {
+              "$ref": "#/$defs/source_witness"
+            },
+            "generators/chipyard/src/main/scala/example/GCD.scala": {
+              "$ref": "#/$defs/source_witness"
+            },
+            "scripts/build-setup.sh": {
+              "$ref": "#/$defs/source_witness"
+            },
+            "variables.mk": {
+              "$ref": "#/$defs/source_witness"
+            }
+          },
+          "required": [
+            "generators/chipyard/src/main/scala/example/GCD.scala",
+            "generators/chipyard/src/main/scala/config/RocketConfigs.scala",
+            "generators/chipyard/src/main/scala/DigitalTop.scala",
+            "variables.mk",
+            "scripts/build-setup.sh"
+          ],
+          "type": "object"
+        },
+        "submodule_witnesses": {
+          "additionalProperties": false,
+          "properties": {
+            "generators/testchipip/src/main/scala/soc/SubsystemInjector.scala": {
+              "$ref": "#/$defs/patterns"
+            }
+          },
+          "required": [
+            "generators/testchipip/src/main/scala/soc/SubsystemInjector.scala"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "repository",
+        "commit",
+        "source_witnesses",
+        "submodule_witnesses"
+      ],
+      "type": "object"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "control_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "generated_artifacts": {
+      "additionalProperties": false,
+      "properties": {
+        "PhysicalCompute.scala": {
+          "$ref": "#/$defs/artifact_record"
+        },
+        "physical_compute_smoke.c": {
+          "$ref": "#/$defs/artifact_record"
+        }
+      },
+      "required": [
+        "PhysicalCompute.scala",
+        "physical_compute_smoke.c"
+      ],
+      "type": "object"
+    },
+    "integration": {
+      "additionalProperties": false,
+      "properties": {
+        "config_class": {
+          "const": "PhysicalComputeRocketConfig"
+        },
+        "config_package": {
+          "const": "chipyard.physicalcompute"
+        },
+        "elaboration_witness_name": {
+          "const": "ahead_physical_compute_elaboration_witness"
+        },
+        "elaboration_witness_value": {
+          "const": 2703149822
+        },
+        "entry_api": {
+          "const": "testchipip.soc.SubsystemInjectorKey"
+        },
+        "loopback_fallback": {
+          "const": true
+        },
+        "patches_digital_top": {
+          "const": false
+        },
+        "scala_install_path": {
+          "const": "generators/chipyard/src/main/scala/physicalcompute/PhysicalCompute.scala"
+        }
+      },
+      "required": [
+        "scala_install_path",
+        "config_package",
+        "config_class",
+        "entry_api",
+        "patches_digital_top",
+        "loopback_fallback",
+        "elaboration_witness_name",
+        "elaboration_witness_value"
+      ],
+      "type": "object"
+    },
+    "manifest_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "portable_binding": {
+      "const": "physical-compute-mmio/v1"
+    },
+    "qualification": {
+      "additionalProperties": false,
+      "properties": {
+        "blockers": {
+          "const": [
+            "CHIPYARD_SUBSYSTEM_ELABORATION_UNRUN",
+            "CHIPYARD_RTL_SIMULATION_UNRUN",
+            "CHIPYARD_EXTERNAL_CARTRIDGE_BINDING_UNRUN",
+            "RISC_V_BINARY_BUILD_UNRUN",
+            "TARGET_TRACE_UNOBSERVED",
+            "FPGA_OR_SILICON_EXECUTION_UNRUN",
+            "PHYSICAL_SUBSTRATE_UNMEASURED",
+            "COMPLETE_SYSTEM_EVP_UNMEASURED"
+          ]
+        },
+        "physical_claim_allowed": {
+          "const": false
+        },
+        "status": {
+          "const": "pinned_injector_bundle_unelaborated"
+        },
+        "subsystem_elaboration_allowed": {
+          "const": false
+        }
+      },
+      "required": [
+        "status",
+        "subsystem_elaboration_allowed",
+        "physical_claim_allowed",
+        "blockers"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "ahead.chipyard-physical-compute-integration/v0.2"
+    }
+  },
   "required": [
     "schema_version",
     "artifact_type",
     "portable_binding",
     "base_address",
     "chipyard_source_contract",
+    "integration",
     "abi_sha256",
     "generated_artifacts",
     "qualification",
     "claim_boundary",
+    "control_question",
     "manifest_sha256"
   ],
-  "properties": {
-    "schema_version": {
-      "const": "ahead.chipyard-physical-compute-integration/v0.1"
-    },
-    "artifact_type": {
-      "const": "chipyard_physical_compute_integration"
-    },
-    "portable_binding": {
-      "const": "physical-compute-mmio/v1"
-    },
-    "base_address": {
-      "type": "integer",
-      "minimum": 0,
-      "multipleOf": 4096
-    },
-    "chipyard_source_contract": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "repository",
-        "ref",
-        "path",
-        "blob_sha",
-        "url",
-        "api_patterns"
-      ],
-      "properties": {
-        "repository": {
-          "const": "ucb-bar/chipyard"
-        },
-        "ref": {
-          "type": "string",
-          "minLength": 1
-        },
-        "path": {
-          "const": "generators/chipyard/src/main/scala/example/GCD.scala"
-        },
-        "blob_sha": {
-          "type": "string",
-          "pattern": "^[0-9a-f]{40}$"
-        },
-        "url": {
-          "type": "string",
-          "pattern": "^https://github.com/ucb-bar/chipyard/blob/"
-        },
-        "api_patterns": {
-          "type": "array",
-          "minItems": 5,
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "minLength": 1
-          }
-        }
-      }
-    },
-    "abi_sha256": {
-      "type": "string",
-      "pattern": "^[0-9a-f]{64}$"
-    },
-    "generated_artifacts": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "PhysicalCompute.scala",
-        "physical_compute_smoke.c"
-      ],
-      "properties": {
-        "PhysicalCompute.scala": {
-          "type": "string",
-          "pattern": "^[0-9a-f]{64}$"
-        },
-        "physical_compute_smoke.c": {
-          "type": "string",
-          "pattern": "^[0-9a-f]{64}$"
-        }
-      }
-    },
-    "qualification": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "status",
-        "physical_claim_allowed",
-        "blockers"
-      ],
-      "properties": {
-        "status": {
-          "const": "source_generated_unqualified"
-        },
-        "physical_claim_allowed": {
-          "const": false
-        },
-        "blockers": {
-          "type": "array",
-          "minItems": 1,
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "pattern": "^[A-Z0-9_]+$"
-          }
-        }
-      }
-    },
-    "claim_boundary": {
-      "type": "string",
-      "minLength": 1
-    },
-    "manifest_sha256": {
-      "type": "string",
-      "pattern": "^[0-9a-f]{64}$"
-    }
-  }
+  "title": "ahead-rev-sim pinned Chipyard physical-compute injector bundle",
+  "type": "object"
 }
