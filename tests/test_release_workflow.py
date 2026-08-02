@@ -31,6 +31,18 @@ def test_chipyard_lifecycle_workflow_is_directly_runnable_and_reusable() -> None
     assert 'SYSROOT="$(riscv64-unknown-elf-gcc -print-sysroot)"' in workflow
     assert "-print-file-name=htif_nano.specs" in workflow
     assert 'make install 2>&1 | tee "$ROOT/libgloss-install.log"' in workflow
+    assert "RISCV_ISA_SIM_COMMIT: 9c190a07c6838f6392bafa4ad83acea462c7f759" in workflow
+    assert (
+        "git submodule update --init toolchains/riscv-tools/riscv-isa-sim"
+        in workflow
+    )
+    assert "Build and verify the pinned FESVR host runtime" in workflow
+    assert "--with-boost=no" in workflow
+    assert 'FESVR_HEADER="$PREFIX/include/fesvr/memif.h"' in workflow
+    assert 'FESVR_LIBRARY="$PREFIX/lib/libfesvr.a"' in workflow
+    assert 'RISCV_LIBRARY="$PREFIX/lib/libriscv.so"' in workflow
+    assert 'make libfesvr.a 2>&1 | tee "$ROOT/libfesvr-static.log"' in workflow
+    assert 'sha256sum "$FESVR_HEADER" "$FESVR_LIBRARY" "$RISCV_LIBRARY"' in workflow
     assert "CIRCT_RELEASE: firtool-1.75.0" in workflow
     assert "CIRCT_INSTALLER_COMMIT: 3f8dda6e1c1965537b5801a43c81c287bac4eae4" in workflow
     assert "--skip-circt" not in workflow
