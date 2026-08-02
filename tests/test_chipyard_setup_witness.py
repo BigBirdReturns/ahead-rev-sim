@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 from ahead_rev_sim.chipyard_elaboration import git_blob_sha1
 from ahead_rev_sim.chipyard_subsystem import (
     CHIPYARD_SOURCE_WITNESSES,
@@ -7,6 +10,10 @@ from ahead_rev_sim.chipyard_subsystem import (
 )
 
 
+ROOT = Path(__file__).resolve().parents[1]
+INTEGRATION_SCHEMA = (
+    ROOT / "schemas" / "chipyard-physical-compute-integration.schema.json"
+)
 ROOT_SYMLINK_BLOB = "ec3e38ff72c3a9750cfc1074d5ac8e9999b4f394"
 SETUP_SCRIPT_BLOB = "709fc4db6ea274094921a41de52a2ad6c7816fdb"
 SETUP_SCRIPT_PATH = "scripts/build-setup.sh"
@@ -34,3 +41,14 @@ def test_manifest_carries_the_corrected_setup_witness() -> None:
     ]
     assert source_witnesses[SETUP_SCRIPT_PATH]["blob_sha"] == SETUP_SCRIPT_BLOB
     assert "build-setup.sh" not in source_witnesses
+
+
+def test_integration_schema_carries_the_same_setup_witness_path() -> None:
+    schema = json.loads(INTEGRATION_SCHEMA.read_text(encoding="utf-8"))
+    source_schema = schema["properties"]["chipyard_source_contract"]["properties"][
+        "source_witnesses"
+    ]
+    assert SETUP_SCRIPT_PATH in source_schema["properties"]
+    assert SETUP_SCRIPT_PATH in source_schema["required"]
+    assert "build-setup.sh" not in source_schema["properties"]
+    assert "build-setup.sh" not in source_schema["required"]
