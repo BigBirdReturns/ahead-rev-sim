@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from hashlib import sha256
-from typing import Any
 
 from .chipyard_subsystem import DEFAULT_BASE_ADDRESS
 from .mmio_abi import (
