@@ -142,43 +142,323 @@ jobs:
               ;;
           esac
           firtool --version 2>&1 | tee "$ROOT/firtool-version.txt"
-         ÜÛÛ™K\™\\ËØÚ\˜ÝšœÛÛˆ‰“ÓÕØÚ\˜ÝšœÛÛˆ‚ˆÚ]PÈÛÛËÚ[œÝ[XÚ\˜Ý™]‹\\œÙHPQˆˆ‰“ÓÕÚ[œÝ[XÚ\˜Ý\™]š\Ú[Û‹‚ˆÂˆš[ˆ	ØÚ\˜ÝÜ™\ÜÚ]ÜžO[›KØÚ\˜Ý‰Âˆš[ˆ	ØÚ\˜ÝÜ™[X\ÙOI\×‰È‰ÒTÕÔ‘SPTÑH‚ˆš[ˆ	Ú[œÝ[\—Ü™\ÜÚ]ÜžOXÚ\˜ÝÚ[œÝ[XÚ\˜Ý‰Âˆš[ˆ	Ú[œÝ[\—ØÛÛ[Z]I\×‰È‰ÒTÕÒS”ÕST—ÐÓÓSRU‚ˆš[ˆ	Ùš\ÛÛÜ]I\×‰È‰’T•ÓÓ‚ˆÚLMœÝ[H‰’T•ÓÓˆÛÛ™K\™\\ËØÚ\˜ÝšœÛÛ‚ˆHYH‰“ÓÕÙš\ÛÛX]]Üš]K‚‚ˆH˜[YNˆ[š]X[^™HH[›™YÝX›[Ù[\È[™[œÝ[H\š\\˜[ˆÚ[ˆ˜\ÚY[ÌBˆ[ŽˆˆÙ]QY[È\Y˜Z[ˆÙÚ\X\™ˆÛÝ\˜ÙH[‹œÚˆÚ]ÛÛ™šYÈK[ØØ[ÝX›[Ù[KœÛÙØ\™KÜÜXÌŒ‹\]H›Û™Bˆ‹ÜØÜš\ËÚ[š]\ÝX›[Ù[\Ë[›Ë\š\ØÝ‹]ÛÛËœÚˆ‰ŒHYH‹‹Ø\Y˜XÝËØÚ\X\™[Y™XÞXÛKÜÝX›[Ù[\Ë›ÙÂˆÚ]ÝX›[Ù[H\]HKZ[š]ÛÛÚZ[œËÛX™ÛÜÜÈˆ‰ŒHYHXH‹‹Ø\Y˜XÝËØÚ\X\™[Y™XÞXÛKÜÝX›[Ù[\Ë›ÙÂˆ\Ý‰
-Ú]PÈÛÛÚZ[œËÛX™ÛÜÜÈ™]‹\\œÙHPQ
-HˆH‰P‘ÓÔÔ×ÐÓÓSRU‚ˆÚ]ÝX›[Ù[HÝ]\ÈK\™XÝ\œÚ]™Hˆˆ‹‹Ø\Y˜XÝËØÚ\X\™[Y™XÞXÛKÜÝX›[Ù[K\Ý]\ËˆÜ™\QH	×ˆÌNXKY—^ÍHÙ[™\˜]ÜœËÝ\ÝÚ\\
-ÖÎœÜXÙN—W_	
-IÈˆ‹‹Ø\Y˜XÝËØÚ\X\™[Y™XÞXÛKÜÝX›[Ù[K\Ý]\ËˆÜ™\QH	×ˆÌNXKY—^ÍHÙ[™\˜]ÜœËÜ›ØÚÙ]XÚ\
-ÖÎœÜXÙN—W_	
-IÈˆ‹‹Ø\Y˜XÝËØÚ\X\™[Y™XÞXÛKÜÝX›[Ù[K\Ý]\ËˆÜ™\QH—ˆ	ÓP‘ÓÔÔ×ÐÓÓSRUHÛÛÚZ[œËÛX™ÛÜÜÊÖÎœÜXÙN—W_	
-Hˆˆ‹‹Ø\Y˜XÝËØÚ\X\™[Y™XÞXÛKÜÝX›[Ù[K\Ý]\ËˆZÙ\ˆ\‰
-\›˜[YH‰ÒTPT‘ÔÐÐSWÔUŠH‚ˆÜ‹‹Ø\Y˜XÝËØÚ\X\™[Y™XÞXÛKÔ\ÚXØ[ÛÛ\]KœØØ[Hˆ‰ÒTPT‘ÔÐÐSWÔU‚ˆÛ\‹‹Ø\Y˜XÝËØÚ\X\™[Y™XÞXÛKÔ\ÚXØ[ÛÛ\]KœØØ[Hˆ‰ÒTPT‘ÔÐÐSWÔU‚ˆÚ]Y™ˆKHÙ[™\˜]ÜœËØÚ\X\™ÜÜ˜ËÛXZ[‹ÜØØ[KÑYÚ][ÜœØØ[Hˆˆ‹‹Ø\Y˜XÝËØÚ\X\™[Y™XÞXÛKÙYÚ][]Ü™Y™‚ˆ\ÝH\È‹‹Ø\Y˜XÝËØÚ\X\™[Y™XÞXÛKÙYÚ][]Ü™Y™‚‚ˆH˜[YNˆZ[[™™\šYžHH[›™YQˆ[[YBˆÚ[ˆ˜\ÚY[ÌBˆ[ŽˆˆÙ]QY[È\Y˜Z[ˆÙÚ\X\™ˆÛÝ\˜ÙH[‹œÚˆ“ÓÕH‰ÒUP—ÕÓÔ’ÔÔPÑKØ\Y˜XÝËØÚ\X\™[Y™XÞXÛH‚ˆÖTÔ“ÓÕH‰
-š\ØÝ][šÛ›ÝÛ‹Y[‹YØØÈ\š[\Þ\Ü›ÛÝ
-H‚ˆ•RSÑTH‰ÒUP—ÕÓÔ’ÔÔPÑKØÚ\X\™Ë›X™ÛÜÜËXZ[‚ˆ\Ý‰
-Ú]PÈÛÛÚZ[œËÛX™ÛÜÜÈ™]‹\\œÙHPQ
-HˆH‰P‘ÓÔÔ×ÐÓÓSRU‚ˆ\Ý[ˆ‰ÖTÔ“ÓÕ‚ˆ\ÝY‰ÖTÔ“ÓÕ‚ˆ›H\™ˆ‰•RSÑTˆ‚ˆZÙ\ˆ\‰•RSÑTˆ‚ˆ
-ˆÙ‰•RSÑTˆ‚ˆ‰ÒUP—ÕÓÔ’ÔÔPÑKØÚ\X\™ÝÛÛÚZ[œËÛX™ÛÜÜËØÛÛ™šYÝ\™HˆˆK\™Yš^H‰ÖTÔ“ÓÕˆˆKZÜÝ\š\ØÝ‹M][šÛ›ÝÛ‹Y[ˆˆ‰ŒHYH‰“ÓÕÛX™ÛÜÜËXÛÛ™šYÝ\™K›ÙÈ‚ˆXZÙHZŒˆ‰ŒHYH‰“ÓÕÛX™ÛÜÜËXZ[›ÙÈ‚ˆXZÙH[œÝ[‰ŒHYH‰“ÓÕÛX™ÛÜÜËZ[œÝ[›ÙÈ‚ˆ
-BˆÔP×Ñ’SOH‰
-š\ØÝ][šÛ›ÝÛ‹Y[‹YØØÈˆ\š[Yš[K[˜[YOZY—Û˜[›ËœÜXÜÊH‚ˆS’ÑT—ÔÐÔ’TH‰
-š\ØÝ][šÛ›ÝÛ‹Y[‹YØØÈ\š[Yš[K[˜[YOZY‹›
-H‚ˆ\Ý‰ÔP×Ñ’SHˆOHšY—Û˜[›ËœÜXÜÈ‚ˆ\Ý‰S’ÑT—ÔÐÔ’TˆOHšY‹›‚ˆ\Ý\È‰ÔP×Ñ’SH‚ˆ\Ý\È‰S’ÑT—ÔÐÔ’T‚ˆš\ØÝ][šÛ›ÝÛ‹Y[‹YØØÈ\š[\ÙX\˜ÚY\œÈˆˆ‰“ÓÕØÛÛ\[\‹\ÙX\˜ÚY\œË‚ˆÂˆš[ˆ	ÛX™ÛÜÜ×ØÛÛ[Z]I\×‰È‰P‘ÓÔÔ×ÐÓÓSRU‚ˆš[ˆ	ØÛÛ™WÜ™Yš^I\×‰È‰ÓÓ‘WÔ‘Q’V‚ˆš[ˆ	ØÛÛ\[\—ÜÞ\Ü›ÛÝI\×‰Èˆ‰
-š\ØÝ][šÛ›ÝÛ‹Y[‹YØØÈ\š[\Þ\Ü›ÛÝ
-H‚ˆš[ˆ	ÚY—Û˜[›×ÜÜXÜÏI\×‰È‰ÔP×Ñ’SH‚ˆš[ˆ	ÚY—Û[šÙ\—ÜØÜš\I\×‰È‰S’ÑT—ÔÐÔ’T‚ˆÚLMœÝ[H‰ÔP×Ñ’SHˆ‰S’ÑT—ÔÐÔ’T‚ˆHYH‰“ÓÕÚY‹\[[YK‚‚ˆH˜[YNˆZ[HÙ[™\˜]Y•ÐÈY™XÞXÛHš[˜\žBˆÚ[ˆ˜\ÚY[ÌBˆ[ŽˆˆÙ]QY[È\Y˜Z[ˆÙÚ\X\™ˆÛÝ\˜ÙH[‹œÚˆ“ÓÕH‰ÒUP—ÕÓÔ’ÔÔPÑKØ\Y˜XÝËØÚ\X\™[Y™XÞXÛH‚ˆÓÕTÑOH‰“ÓÕÜ\ÚXØ[ØÛÛ\]WØÚ\X\™ÛY™XÞXÛK˜È‚ˆÐ’‘PÕH‰“ÓÕÜ\ÚXØ[ØÛÛ\]WØÚ\X\™ÛY™XÞXÛK›È‚ˆ’ST–OH‰“ÓÕÜ\ÚXØ[ØÛÛ\]WØÚ\X\™ÛY™XÞXÛKœš\ØÝˆ‚ˆš\ØÝ][šÛ›ÝÛ‹Y[‹YØØÈK]™\œÚ[Ûˆˆ‰ŒHYH‰“ÓÕØÛÛ\[\‹]™\œÚ[Û‹‚ˆš\ØÝ‹M][šÛ›ÝÛ‹Y[‹\™XY[ˆK]™\œÚ[Ûˆˆ‰“ÓÕÜ™XY[‹‚ˆš\ØÝ][šÛ›ÝÛ‹Y[‹YØØÈˆ\ÝYÛNNHSÌˆUØ[UÙ^˜HUÙ\œ›ÜˆˆY››ËXÛÛ[[ÛˆY››ËXZ[[‹\š[ˆˆ[X\˜Ú\ØÈ[XXšO[[XÛ[Ù[[YY[žHˆ\ÜXÜÏZY—Û˜[›ËœÜXÜÈˆXÈ‰ÓÕTÑHˆ[È‰Ð’‘PÕ‚ˆš\ØÝ][šÛ›ÝÛ‹Y[‹YØØÈˆ\Ý]XÈ[X\˜Ú\ØÈ[XXšO[[XÛ[Ù[[YY[žHˆ\ÜXÜÏZY—Û˜[›ËœÜXÜÈˆ‰Ð’‘PÕˆ[È‰’ST–H‚ˆš\ØÝ‹M][šÛ›ÝÛ‹Y[‹\™XY[ˆZ‰’ST–Hˆˆ‰“ÓÕÜ™XY[‹‚ˆš\ØÝ‹M][šÛ›ÝÛ‹Y[‹[Øš™[\Q‰’ST–Hˆˆˆ‰“ÓÕÜ\ÚXØ[ØÛÛ\]WØÚ\X\™ÛY™XÞXÛK™[\‚ˆš\ØÝ‹M][šÛ›ÝÛ‹Y[‹\Ú^™H‰’ST–HˆYH‰“ÓÕØš[˜\žK\Ú^™K‚ˆ\Ý\È‰’ST–H‚ˆÜ™\\H	ÐÛ\ÜÎ‹Š‘S	È‰“ÓÕÜ™XY[‹‚ˆÜ™\\H	ÓXXÚ[™N‹Š”’TÐËU‰È‰“ÓÕÜ™XY[‹‚‚ˆH˜[YNˆ[X›Ü˜]H[™ÙX[H[›™YÝXœÞ\Ý[H›ÛÙ‚ˆÚ[ˆ˜\ÚY[ÌBˆ[ŽˆˆÙ]QY[È\Y˜Z[ˆÙÚ\X\™ˆÛÝ\˜ÙH[‹œÚˆ“ÓÕH‰ÒUP—ÕÓÔ’ÔÔPÑKØ\Y˜XÝËØÚ\X\™[Y™XÞXÛH‚ˆ˜]˜H]™\œÚ[Ûˆ‰ŒHYH‰“ÓÕÚ˜]˜K]™\œÚ[Û‹‚ˆØK\ØÜš\]™\œÚ[Ûˆ‰ŒHYH‰“ÓÕÜØ]™\œÚ[Û‹‚ˆ™\š[]ÜˆK]™\œÚ[Ûˆ‰ŒHYH‰“ÓÕÝ™\š[]Ü‹]™\œÚ[Û‹‚ˆXZÙHPÈÚ[\ËÝ™\š[]ÜˆˆÓÓ‘’QÏH‰ÒTPT‘ÐÓÓ‘’QÈˆˆÓÓ‘’Q×ÔPÒÐQÑOH‰ÒTPT‘ÐÓÓ‘’Q×ÔPÒÐQÑHˆˆUWÒPTÔÒV‘OM‘Èš\œˆ‰ŒHYH‰“ÓÕÙ[X›Ü˜][Û‹›ÙÈ‚ˆ’T”•Ñ’SOH‰
-š[™Ú[\ËÝ™\š[]Ü‹ÙÙ[™\˜]Y\Ü˜Èˆ]\Hˆ[˜[YHŠ‰ÐÒTPT‘ÐÓÓ‘’QßJ‹™š\ˆˆ\š[\]Z]
-H‚ˆS““×Ñ’SOH‰
-š[™Ú[\ËÝ™\š[]Ü‹ÙÙ[™\˜]Y\Ü˜Èˆ]\Hˆ[˜[YHŠ©ÐÒTPT‘ÐÓÓ‘’QßJ‹˜[››ËšœÛÛˆˆ\š[\]Z]
-H‚ˆÒTÑSÓÑ×Ñ’SOH‰
-š[™Ú[\ËÝ™\š[]Ü‹ÙÙ[™\˜]Y\Ü˜Èˆ]\Hˆ[˜[YHŠ‰ÐÒTPT‘ÐÓÓ‘’QßJ‹˜Ú\Ù[›ÙÈˆ\š[\]Z]
-H‚ˆ\Ý[ˆ‰’T”•Ñ’SHˆ	‰ˆ\Ý\È‰’T”•Ñ’SH‚ˆ\Ý[ˆ‰S““×Ñ’SHˆ	‰ˆ\Ý\È‰S““×Ñ’SH‚ˆ\Ý[ˆ‰ÒTÑSÓÑ×Ñ’SHˆ	‰ˆ\Ý\È‰ÒTÑSÓÑ×Ñ’SH‚ˆÜ‰’T”•Ñ’SHˆ‰S““×Ñ’SHˆ‰ÒTÑSÓÑ×Ñ’SHˆ‰“ÓÕÈ‚ˆ‰Þ\]Û“ØØ][ÛŸKØš[‹ØZXY\™]‹XÚ\X\™ˆ›ÛÙˆˆKXÚXÚÛÝ]\›ÛÝ‰ÒUP—ÕÓÔ’ÔÔPÑKØÚ\X\™ˆˆK[X[šY™\Ý‰“ÓÕØÚ\X\™\\ÚXØ[XÛÛ\]KZ[YÜ˜][Û‹šœÛÛˆˆˆK\ØØ[H‰ÒUP—ÕÓÔ’ÔÔPÑKØÚ\X\™ÉÒTPT‘ÔÐÐSWÔUˆˆKYš\œ‰’T”•Ñ’SHˆˆKX[››Ý][ÛœÈ‰S““×Ñ’SHˆˆKXÚ\Ù[[ÙÈ‰ÒTÑSÓÑ×Ñ’SHˆˆKY[X›Ü˜][Û‹[ÙÈ‰“ÓÕÙ[X›Ü˜][Û‹›ÙÈˆˆKZ˜]˜K]™\œÚ[Û‹Yš[H‰“ÓÕÚ˜]˜K]™\œÚ[Û‹ˆˆK\Ø]™\œÚ[Û‹Yš[H‰“ÓÕÜØ]™\œÚ[Û‹ˆˆK[XZÙKXÛÛ[X[™‰SP“ÔUSÓ—ÓPRÑWÐÓÓSPS‘ˆˆK[Ý]‰“ÓÕØÚ\X\™\ÝXœÞ\Ý[KY[X›Ü˜][Û‹\›ÛÙ‹šœÛÛˆˆˆ‰ŒHYH‰“ÓÕÙ[X›Ü˜][Û‹\›ÛÙ‹‚ˆ\Ý\È‰“ÓÕØÚ\X\™\ÝXœÞ\Ý[KY[X›Ü˜][Û‹\›ÛÙ‹šœÛÛˆ‚‚ˆH˜[YNˆZ[™\š[]Üˆ[™^XÝ]HHY™XÞXÛBˆÚ[ˆ˜\ÚY[ÌBˆ[ŽˆˆÙ]QY[È\Y˜Z[ˆÙÚ\X\™ˆÛÝ\˜ÙH[‹œÚˆ“ÓÕH‰ÒUP—ÕÓÔ’ÔÔPÑKØ\Y˜XÝËØÚ\X\™[Y™XÞXÛH‚ˆ’ST–OH‰“ÓÕÜ\ÚXØ[ØÛÛ\]WØÚ\X\™ÛY™XÞXÛKœš\ØÝˆ‚ˆXZÙHPÈÚ[\ËÝ™\š[]ÜˆZŒˆˆÓÓ‘’QÏH‰ÒTPT‘ÐÓÓ‘’QÈˆˆÓÓ‘’Q×ÔPÒÐQÑOH‰ÒTPT‘ÐÓÓ‘’Q×ÔPÒÐQÑHˆˆUWÒPTÔÒV‘OM‘ÈY˜][ˆ‰ŒHYH‰“ÓÕÜÚ[][]Ü‹XZ[›ÙÈ‚ˆÒSUSUÔH‰
-š[™Ú[\ËÝ™\š[]Üˆ[X^\H]\Hˆˆ[˜[YHœÚ[][]Ü‹J‰ÐÒTPT‘ÐÓÓ‘’QßHˆ\\›HLLLH\š[\]Z]
-H‚ˆ\Ý[ˆ‰ÒSUSUÔˆˆ	‰ˆ\Ý\È‰ÒSUSUÔˆ‚ˆÜ‰ÒSUSUÔˆˆ‰“ÓÕÈ‚ˆš[ˆ	É\×‰È‰ÒSUSUÔˆˆˆ‰“ÓÕÜÚ[][]Ü‹\ÛÝ\˜ÙK\]‚ˆ[Y[Ý]ÌÈXZÙHPÈÚ[\ËÝ™\š[]ÜˆˆÓÓ‘’QÏH‰ÒTPT‘ÐÓÓ‘’QÈˆˆÓÓ‘’Q×ÔPÒÐQÑOH‰ÒTPT‘ÐÓÓ‘’Q×ÔPÒÐQÑHˆˆUWÒPTÔÒV‘OM‘È’ST–OH‰’ST–Hˆ[‹Xš[˜\žKY˜\Ýˆ‰ŒHYH‰“ÓÕØÚ\X\™[Y™XÞXÛKœ˜]Ë›ÙÈ‚‚ˆH˜[YNˆ›Ý™HY™XÞXÛH˜XÙH™Y\Ø[[™ÙX[HY™XÞXÛH›ÛÙ‚ˆÚ[ˆ˜\Úˆ[ŽˆˆÙ]QY][È\Y˜Z[ˆ“ÓÕH˜\Y˜XÝËØÚ\X\™[Y™XÞXÛH‚ˆÜ™\	×˜ZXYXÚ\X\™‰È‰“ÓÕØÚ\X\™[Y™XÞXÛKœ˜]Ë›ÙÈˆˆÙY	ÜË×‰ËÉÈˆ‰“ÓÕØÚ\X\™[Y™XÞXÛK˜XÙH‚ˆY™ˆ]H‰“ÓÕÜ\ÚXØ[ØÛÛ\]WØÚ\X\™ÛY™XÞXÛK™^XÝYˆˆ‰“ÓÕØÚ\X\™[Y™XÞXÛK˜XÙHˆˆYH‰“ÓÕØÚ\X\™[Y™XÞXÛK™Y™ˆ‚ˆ\ÝH\È‰“ÓÕØÚ\X\™[Y™XÞXÛK™Y™ˆ‚ˆÒSUSUÔH‰
-š[™‰“ÓÕˆ[X^\H]\Hˆˆ[˜[YHœÚ[][]Ü‹J‰ÐÒTPT‘ÐÓÓ‘’QßHˆ\š[\]Z]
-H‚ˆ\Ý[ˆ‰ÒSUSUÔˆˆ	‰ˆ\Ý\È‰ÒSUSUÔˆ‚ˆ‰Ü]Û“ØØ][ÛŸKØš[‹ØZXY\™]‹XÚ\X\™ˆY™XÞXÛK\›ÛÙˆˆKZ[YÜ˜][Û‹[X[šY™\Ýˆ‰“ÓÕØÚ\X\™\\ÚXØ[XÛÛ\]KZ[YÜ˜][Û‹šœÛÛˆˆˆK[Y™XÞXÛK[X[šY™\Ýˆ‰“ÓÕØÚ\X\™\ØË[Y™XÞXÛK[X[šY™\ÝšœÛÛˆˆˆKY[X›Ü˜][Û‹\›ÛÙˆˆ‰“ÓÕØÚ\X\™\ÝXœÞ\Ý[KY[X›Ü˜][Û‹\›ÛÙ‹šœÛÛˆˆˆK\ÛÝ\˜ÙH‰“ÓÕÜ\ÚXØ[ØÛÛ\]WØÚ\X\™ÛY™XÞXÛK˜ÈˆˆKY^XÝY‰“ÓÕÜ\ÚXØ[ØÛÛ\]WØÚ\X\™ÛY™XÞXÛK™^XÝYˆˆKXš[˜\žH‰“ÓÕÜ\ÚXØ[ØÛÛ\]WØÚ\X\™ÛY™XÞXÛKœš\ØÝˆˆˆK\Ú[][]Üˆ‰ÒSUSUÔˆˆˆK\Ú[][]Ü‹XZ[[ÙÈ‰“ÓÕÜÚ[][]Ü‹XZ[›ÙÈˆˆK\˜]Ë[ÙÈ‰“ÓÕØÚ\X\™[Y™XÞXÛKœ˜]Ë›ÙÈˆˆK]˜XÙH‰“ÓÕØÚ\X\™[Y™XÞXÛK˜XÙHˆˆKXÛÛ\[\‹]™\œÚ[Û‹Yš[H‰“ÓÕØÛÛ\[\‹]™\œÚ[Û‹ˆˆK\™XY[‹Yš[H‰“ÓÕÜ™XY[‹ˆˆK]™\š[]Ü‹]™\œÚ[Û‹Yš[H‰“ÓÕÝ™\š[]Ü‹]™\œÚ[Û‹ˆˆKXZ[XÛÛ[X[™‰ÒSUSUÔ—Ð•RSÐÓÓSPS‘ˆˆK\[‹XÛÛ[X[™‰ÒSUSUÔ—Ô•S—ÐÓÓSPS‘ˆˆK[Ý]‰“ÓÕØÚ\X\™\ØË[Y™XÞXÛK\›ÛÙ‹šœÛÛˆˆˆ‰ŒHYH‰“ÓÕÛY™XÞXÛK\›ÛÙ‹‚ˆ]ÛˆH	ÔIÂˆ[\ÜœÛÛ‚ˆœ›ÛH]Xˆ[\Ü]ˆœ›ÛHœÛÛœØÚ[XH[\Ü˜YŒŒL•˜[Y]Ü‚‚ˆ›ÛÙˆHœÛÛ‹›ØYÊˆ]
-ˆ˜\Y˜XÝËØÚ\X\™[Y™XÞXÛKÈ‚ˆ˜Ú\X\™\ØË[Y™XÞXÛK\›ÛÙ‹šœÛÛˆ‚ˆ
-Kœ™XYÝ^
-[˜ÛÙ[™ÏH]‹NŠBˆ
-BˆØÚ[XHHœÛÛ‹›ØYÊˆ]
-ˆœØÚ[X\ËØÚ\X\™\ØË[Y™XÞXÛK\›ÛÙ‹œØÚ[XKšœÛÛˆ‚ˆ
-Kœ™XYÝ^
-[˜ÛÙ[™ÏH]‹NŠBˆ
-Bˆ˜YŒŒL•˜[Y]Ü‹˜ÚXÚ×ÜØÚ[XJØÚ[XJBˆ˜YŒŒL•˜[Y]ÜŠØÚ[XJK˜[Y]J›ÛÙŠBˆ]X[YšXØ][ÛˆH›ÛÙ–Èœ]X[YšXØ][Ûˆ—Bˆ\ÜÙ\]X[YšXØ][Û–È˜XØÙ\Y—H\ÈYBˆ\ÜÙ\]X[YšXØ][Û–È˜Ú\X\™ÜÜÚ[][][Û—ØÛZ[WØ[ÝÙY—H\ÈYBˆ\ÜÙ\]X[YšXØ][Û–È™^\›˜[ØØ\šYÙWØÛZ[WØ[ÝÙY—H\È˜[ÙBˆ\ÜÙ\]X[YšXØ][Û–Èœ\ÚXØ[ØÛZ[WØ[ÝÙY—H\È˜[ÙBˆ\ÜÙ\ÒTPT‘Ô•ÔÒSUSUSÓ—ÕS”•Sˆˆ›Ý[ˆ]X[YšXØ][Û–È˜›ØÚÙ\œÈ—Bˆ\ÜÙ\‘”ÐWÓÔ—ÔÒSPÓÓ—ÑVPÕUSÓ—ÕS”•Sˆˆ[ˆ]X[YšXØ][Û–È˜›ØÚÙ\œÈ—BˆBˆÜ‰“ÓÕØÚ\X\™[Y™XÞXÛK˜XÙHˆ‰“ÓÕÝ[\\™Y˜XÙH‚ˆÙYZH	ÜËÜ™\Ý[\\ÜËÜ™\Ý[Y˜Z[ÉÈ‰“ÓÕÝ[\\™Y˜XÙH‚ˆYˆ‰]Û“ØØ][Û‹Øš[‹ØZXY\™]‹XÚ\X\™ˆY™XÞXÛK\›ÛÙˆˆKZ[YÜ˜][Û‹[X[šY™\Ýˆ‰“ÓÕØÚ\X\™\\ÚXØ[XÛÛ\]KZ[YÜ˜][Û‹šœÛÛˆˆˆK[Y™XÞXÛK[X[šY™\Ýˆ‰“ÓÕØÚ\X\™\ØË[Y™XÞXÛK[X[šY™\ÝšœÛÛˆˆˆKY[X›Ü˜][Û‹\›ÛÙˆˆ‰“ÓÕØÚ\X\™\ÝXœÞ\Ý[KY[X›Ü˜][Û‹\›ÛÙ‹šœÛÛˆˆˆK\ÛÝ\˜ÙH‰“ÓÕÜ\ÚXØ[ØÛÛ\]WØÚ\X\™ÛY™XÞXÛK˜ÈˆˆKY^XÝY‰“ÓÕÜ\ÚXØ[ØÛÛ\]WØÚ\X\™ÛY™XÞXÛK™^XÝYˆˆKXš[˜\žH‰“ÓÕÜ\ÚXØ[ØÛÛ\]WØÚ\X\™ÛY™XÞXÛKœš\ØÝˆˆˆK\Ú[][]Üˆ‰ÒSUSUÔˆˆˆK\Ú[][]Ü‹XZ[[ÙÈ‰“ÓÕÜÚ[][]Ü‹XZ[›ÙÈˆˆK\˜]Ë[ÙÈ‰“ÓÕØÚ\X\™[Y™XÞXÛKœ˜]Ë›ÙÈˆˆK]˜XÙH‰“ÓÕÝ[\\™Y˜XÙHˆˆKXÛÛ\[\‹]™\œÚ[Û‹Yš[H‰“ÓÕØÛÛ\[\‹]™\œÚ[Û‹ˆˆK\™XY[‹Yš[H‰“ÓÕÜ™XY[‹ˆˆK]™\š[]Ü‹]™\œÚ[Û‹Yš[H‰“ÓÕÝ™\š[]Ü‹]™\œÚ[Û‹ˆˆKXZ[XÛÛ[X[™‰ÒSUSUÔ—Ð•RSÐÓÓSPS‘ˆˆK\[‹XÛÛ[X[™‰ÒSUSUÔ—Ô•S—ÐÓÓSPS‘ˆˆK[Ý]‰“ÓÕÜ™Y\ÙY[Y™XÞXÛK\›ÛÙ‹šœÛÛˆŽÈ[‚ˆXÚÈ[\\™YY™XÞXÛH˜XÙH[™^XÝYHYZ]Yˆ‰Œ‚ˆ^]BˆšBˆ\ÝHYH‰“ÓÕÜ™Y\ÙY[Y™XÞXÛK\›ÛÙ‹šœÛÛˆ‚‚ˆH˜[YNˆ[ˆH›ØÝ\ÙY™\ÜÚ]ÜžHØ]\Âˆ[Žˆˆ]Ûˆ[H]\Ý\Hˆ\ÝËÝ\ÝØÚ\X\™Ú[YÜ˜][Û‹œHˆ\ÝËÝ\ÝØÚ\X\™Ù[X›Ü˜][Û‹œHˆ\ÝËÝ\ÝØÚ\X\™ÝÛÜšÙ›Ý×Ù[š\›Û›Y[œHˆ\ÝËÝ\ÝØÚ\X\™ÜÙ]\ÝÚ]™\ÜËœHˆ\ÝËÝ\ÝØÚ\X\™ÛY™XÞXÛKœHˆ\ÝËÝ\ÝÜ™[X\ÙWÝÛÜšÙ›ÝËœB‚ˆH˜[YNˆ\ÜÙ[X›HH™XÛÛœÝXÝX›HY™XÞXÛHÚ]ˆÚ[ˆ˜\Úˆ[ŽˆˆÙ]QY][È\Y˜Z[ˆ“ÓÕH˜\Y˜XÝËØÚ\X\™[Y™XÞXÛH‚ˆZÙ\ˆ\‰“ÓÕÚÚ]ÜØÚ[X\È‚ˆÜØÜËØÚ\X\™ÜØ×ÛY™XÞXÛK›Y‰“ÓÕÚÚ]È‚ˆÜØÚ[X\ËØÚ\X\™\\ÚXØ[XÛÛ\]KZ[YÜ˜][Û‹œØÚ[XKšœÛÛˆˆØÚ[X\ËØÚ\X\™\ÝXœÞ\Ý[KY[X›Ü˜][Û‹\›ÛÙ‹œØÚ[XKšœÛÛˆˆØÚ[X\ËØÚ\X\™\ØË[Y™XÞXÛK[X[šY™\ÝœØÚ[XKšœÛÛˆˆØÚ[X\ËØÚ\X\™\ØË[Y™XÞXÛK\›ÛÙ‹œØÚ[XKšœÛÛˆˆ‰“ÓÕÚÚ]ÜØÚ[X\ËÈ‚ˆš[™‰“ÓÕˆ[X^\H]\Hˆ\š[ÛÜˆˆ‰“ÓÕÚÚ]Ü›ÛÝX\Y˜XÝË‚ˆÚ[HQ”ÏH™XY\ˆš[NÈÈÚLMœÝ[H‰š[HŽÈÛ™Hˆ‰“ÓÕÚÚ]Ü›ÛÝX\Y˜XÝËˆˆˆ‰“ÓÕÚÚ]Ü›ÛÝX\Y˜XÝËœÚLMˆ‚‚ˆH˜[YNˆÛÛXÝÙ[™\˜]Y›ÙXÝÈY\ˆ[žHÝ]ÛÛYBˆYŽˆ[Ø^\Ê
-BˆÚ[ˆ˜\Úˆ[Žˆˆ“ÓÕH˜\Y˜XÝËØÚ\X\™[Y™XÞXÛH‚ˆZÙ\ˆ\‰“ÓÕ‚ˆYˆ\ÝYÚ\X\™ÜÚ[\ËÝ™\š[]Ü‹ÙÙ[™\˜]Y\Ü˜ÎÈ[‚ˆš[™Ú\X\™ÜÚ[\ËÝ™\š[]Ü‹ÙÙ[™\˜]Y\Ü˜È[X^\Èˆ]\Hˆ\š[ÛÜˆ‰“ÓÕÙÙ[™\˜]Y\›ÙXÝË‚ˆ\ˆPÈÚ\X\™ÜÚ[\ËÝ™\š[]ÜˆˆXÞ™ˆ‰ÒUP—ÕÓÔ’ÔÔPÑKØ\Y˜XÝËØÚ\X\™[Y™XÞXÛKÙÙ[™\˜]Y\Ü˜Ë\‹™ÞˆˆˆÙ[™\˜]Y\Ü˜Èˆ‰“ÓÕÙÙ[™\˜]Y\Ü˜Ë]\‹œÝ\œˆˆYBˆ[ÙBˆˆˆ‰“ÓÕÙÙ[™\˜]Y\›ÙXÝË‚ˆšBˆš[™‰“ÓÕˆ[X^\H]\HˆY^XÈÚLMœÝ[HßHÈˆÛÜˆ‰“ÓÕÔÒLM”ÕSTÈˆYB‚ˆH˜[YNˆ\ØYÚ\X\™Y™XÞXÛH]šY[˜ÙH[™XYÛ›ÜÝXÜÂˆYŽˆ[Ø^\Ê
-Bˆ\Ù\ÎˆXÝ[ÛœËÝ\ØYX\Y˜XÝÙ˜™XNLØÍÍØXYMM™MØÌXÍNÍYY˜Í˜LHÈÍËŒŒBˆÚ]‚ˆ˜[YNˆÚ\X\™[Y™XÞXÛKIÞÈÚ]X‹œÚH_Bˆ]ˆ\Y˜XÝËØÚ\X\™[Y™XÞXÛBˆY‹[›ËYš[\ËY›Ý[™ˆØ\›‚ˆ™][[Û‹Y^\ÎˆÌ
+          cp conda-reqs/circt.json "$ROOT/circt.json"
+          git -C tools/install-circt rev-parse HEAD \
+            > "$ROOT/install-circt-revision.txt"
+          {
+            printf 'circt_repository=llvm/circt\n'
+            printf 'circt_release=%s\n' "$CIRCT_RELEASE"
+            printf 'installer_repository=circt/install-circt\n'
+            printf 'installer_commit=%s\n' "$CIRCT_INSTALLER_COMMIT"
+            printf 'firtool_path=%s\n' "$FIRTOOL"
+            sha256sum "$FIRTOOL" conda-reqs/circt.json
+          } | tee "$ROOT/firtool-authority.txt"
+
+      - name: Initialize the pinned submodules and install the peripheral
+        shell: bash -el {0}
+        run: |
+          set -Eeo pipefail
+          cd chipyard
+          source env.sh
+          git config --local submodule.software/spec2026.update none
+          ./scripts/init-submodules-no-riscv-tools.sh \
+            2>&1 | tee ../artifacts/chipyard-lifecycle/submodules.log
+          git submodule update --init toolchains/libgloss \
+            2>&1 | tee -a ../artifacts/chipyard-lifecycle/submodules.log
+          test "$(git -C toolchains/libgloss rev-parse HEAD)" = "$LIBGLOSS_COMMIT"
+          git submodule status --recursive \
+            > ../artifacts/chipyard-lifecycle/submodule-status.txt
+          grep -E '^ [0-9a-f]{40} generators/testchipip([[:space:]]|$)' \
+            ../artifacts/chipyard-lifecycle/submodule-status.txt
+          grep -E '^ [0-9a-f]{40} generators/rocket-chip([[:space:]]|$)' \
+            ../artifacts/chipyard-lifecycle/submodule-status.txt
+          grep -E "^ ${LIBGLOSS_COMMIT} toolchains/libgloss([[:space:]]|$)" \
+            ../artifacts/chipyard-lifecycle/submodule-status.txt
+          mkdir -p "$(dirname "$CHIPYARD_SCALA_PATH")"
+          cp ../artifacts/chipyard-lifecycle/PhysicalCompute.scala \
+            "$CHIPYARD_SCALA_PATH"
+          cmp ../artifacts/chipyard-lifecycle/PhysicalCompute.scala \
+            "$CHIPYARD_SCALA_PATH"
+          git diff -- generators/chipyard/src/main/scala/DigitalTop.scala \
+            > ../artifacts/chipyard-lifecycle/digital-top.diff
+          test ! -s ../artifacts/chipyard-lifecycle/digital-top.diff
+
+      - name: Build and verify the pinned HTIF runtime
+        shell: bash -el {0}
+        run: |
+          set -Eeo pipefail
+          cd chipyard
+          source env.sh
+          ROOT="$GITHUB_WORKSPACE/artifacts/chipyard-lifecycle"
+          SYSROOT="$(riscv64-unknown-elf-gcc -print-sysroot)"
+          BUILD_DIR="$GITHUB_WORKSPACE/chipyard/.libgloss-build"
+          test "$(git -C toolchains/libgloss rev-parse HEAD)" = "$LIBGLOSS_COMMIT"
+          test -n "$SYSROOT"
+          test -d "$SYSROOT"
+          rm -rf "$BUILD_DIR"
+          mkdir -p "$BUILD_DIR"
+          (
+            cd "$BUILD_DIR"
+            "$GITHUB_WORKSPACE/chipyard/toolchains/libgloss/configure" \
+              --prefix="$SYSROOT" \
+              --host=riscv64-unknown-elf \
+              2>&1 | tee "$ROOT/libgloss-configure.log"
+            make -j2 2>&1 | tee "$ROOT/libgloss-build.log"
+            make install 2>&1 | tee "$ROOT/libgloss-install.log"
+          )
+          SPEC_FILE="$(riscv64-unknown-elf-gcc \
+            -print-file-name=htif_nano.specs)"
+          LINKER_SCRIPT="$(riscv64-unknown-elf-gcc -print-file-name=htif.ld)"
+          test "$SPEC_FILE" != "htif_nano.specs"
+          test "$LINKER_SCRIPT" != "htif.ld"
+          test -s "$SPEC_FILE"
+          test -s "$LINKER_SCRIPT"
+          riscv64-unknown-elf-gcc -print-search-dirs \
+            > "$ROOT/compiler-search-dirs.txt"
+          {
+            printf 'libgloss_commit=%s\n' "$LIBGLOSS_COMMIT"
+            printf 'conda_prefix=%s\n' "$CONDA_PREFIX"
+            printf 'compiler_sysroot=%s\n' \
+              "$(riscv64-unknown-elf-gcc -print-sysroot)"
+            printf 'htif_nano_specs=%s\n' "$SPEC_FILE"
+            printf 'htif_linker_script=%s\n' "$LINKER_SCRIPT"
+            sha256sum "$SPEC_FILE" "$LINKER_SCRIPT"
+          } | tee "$ROOT/htif-runtime.txt"
+
+      - name: Build the generated RV64GC lifecycle binary
+        shell: bash -el {0}
+        run: |
+          set -Eeo pipefail
+          cd chipyard
+          source env.sh
+          ROOT="$GITHUB_WORKSPACE/artifacts/chipyard-lifecycle"
+          SOURCE="$ROOT/physical_compute_chipyard_lifecycle.c"
+          OBJECT="$ROOT/physical_compute_chipyard_lifecycle.o"
+          BINARY="$ROOT/physical_compute_chipyard_lifecycle.riscv"
+          riscv64-unknown-elf-gcc --version \
+            2>&1 | tee "$ROOT/compiler-version.txt"
+          riscv64-unknown-elf-readelf --version > "$ROOT/readelf.txt"
+          riscv64-unknown-elf-gcc \
+            -std=gnu99 -O2 -Wall -Wextra -Werror \
+            -fno-common -fno-builtin-printf \
+            -march=rv64gc -mabi=lp64d -mcmodel=medany \
+            -specs=htif_nano.specs \
+            -c "$SOURCE" -o "$OBJECT"
+          riscv64-unknown-elf-gcc \
+            -static -march=rv64gc -mabi=lp64d -mcmodel=medany \
+            -specs=htif_nano.specs \
+            "$OBJECT" -o "$BINARY"
+          riscv64-unknown-elf-readelf -h "$BINARY" >> "$ROOT/readelf.txt"
+          riscv64-unknown-elf-objdump -D "$BINARY" \
+            > "$ROOT/physical_compute_chipyard_lifecycle.dump"
+          riscv64-unknown-elf-size "$BINARY" | tee "$ROOT/binary-size.txt"
+          test -s "$BINARY"
+          grep -q 'Class:.*ELF64' "$ROOT/readelf.txt"
+          grep -q 'Machine:.*RISC-V' "$ROOT/readelf.txt"
+
+      - name: Elaborate and seal the pinned subsystem proof
+        shell: bash -el {0}
+        run: |
+          set -Eeo pipefail
+          cd chipyard
+          source env.sh
+          ROOT="$GITHUB_WORKSPACE/artifacts/chipyard-lifecycle"
+          java -version 2>&1 | tee "$ROOT/java-version.txt"
+          sbt --script-version 2>&1 | tee "$ROOT/sbt-version.txt"
+          verilator --version 2>&1 | tee "$ROOT/verilator-version.txt"
+          make -C sims/verilator \
+            CONFIG="$CHIPYARD_CONFIG" \
+            CONFIG_PACKAGE="$CHIPYARD_CONFIG_PACKAGE" \
+            JAVA_HEAP_SIZE=6G firrtl \
+            2>&1 | tee "$ROOT/elaboration.log"
+          FIRRTL_FILE="$(find sims/verilator/generated-src \
+            -type f -name "*${CHIPYARD_CONFIG}*.fir" -print -quit)"
+          ANNO_FILE="$(find sims/verilator/generated-src \
+            -type f -name "*${CHIPYARD_CONFIG}*.anno.json" -print -quit)"
+          CHISEL_LOG_FILE="$(find sims/verilator/generated-src \
+            -type f -name "*${CHIPYARD_CONFIG}*.chisel.log" -print -quit)"
+          test -n "$FIRRTL_FILE" && test -s "$FIRRTL_FILE"
+          test -n "$ANNO_FILE" && test -s "$ANNO_FILE"
+          test -n "$CHISEL_LOG_FILE" && test -s "$CHISEL_LOG_FILE"
+          cp "$FIRRTL_FILE" "$ANNO_FILE" "$CHISEL_LOG_FILE" "$ROOT/"
+          "$pythonLocation/bin/ahead-rev-chipyard" proof \
+            --checkout-root "$GITHUB_WORKSPACE/chipyard" \
+            --manifest "$ROOT/chipyard-physical-compute-integration.json" \
+            --scala "$GITHUB_WORKSPACE/chipyard/$CHIPYARD_SCALA_PATH" \
+            --firrtl "$FIRRTL_FILE" \
+            --annotations "$ANNO_FILE" \
+            --chisel-log "$CHISEL_LOG_FILE" \
+            --elaboration-log "$ROOT/elaboration.log" \
+            --java-version-file "$ROOT/java-version.txt" \
+            --sbt-version-file "$ROOT/sbt-version.txt" \
+            --make-command "$ELABORATION_MAKE_COMMAND" \
+            --out "$ROOT/chipyard-subsystem-elaboration-proof.json" \
+            2>&1 | tee "$ROOT/elaboration-proof.txt"
+          test -s "$ROOT/chipyard-subsystem-elaboration-proof.json"
+
+      - name: Build Verilator and execute the lifecycle
+        shell: bash -el {0}
+        run: |
+          set -Eeo pipefail
+          cd chipyard
+          source env.sh
+          ROOT="$GITHUB_WORKSPACE/artifacts/chipyard-lifecycle"
+          BINARY="$ROOT/physical_compute_chipyard_lifecycle.riscv"
+          make -C sims/verilator -j2 \
+            CONFIG="$CHIPYARD_CONFIG" \
+            CONFIG_PACKAGE="$CHIPYARD_CONFIG_PACKAGE" \
+            JAVA_HEAP_SIZE=6G default \
+            2>&1 | tee "$ROOT/simulator-build.log"
+          SIMULATOR="$(find sims/verilator -maxdepth 1 -type f \
+            -name "simulator-*${CHIPYARD_CONFIG}" -perm -111 -print -quit)"
+          test -n "$SIMULATOR" && test -s "$SIMULATOR"
+          cp "$SIMULATOR" "$ROOT/"
+          printf '%s\n' "$SIMULATOR" > "$ROOT/simulator-source-path.txt"
+          timeout 300s make -C sims/verilator \
+            CONFIG="$CHIPYARD_CONFIG" \
+            CONFIG_PACKAGE="$CHIPYARD_CONFIG_PACKAGE" \
+            JAVA_HEAP_SIZE=6G BINARY="$BINARY" run-binary-fast \
+            2>&1 | tee "$ROOT/chipyard-lifecycle.raw.log"
+
+      - name: Prove lifecycle trace refusal and seal the lifecycle proof
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ROOT="artifacts/chipyard-lifecycle"
+          grep '^ahead-chipyard:' "$ROOT/chipyard-lifecycle.raw.log" \
+            | sed 's/\r$//' > "$ROOT/chipyard-lifecycle.trace"
+          diff -u "$ROOT/physical_compute_chipyard_lifecycle.expected" \
+            "$ROOT/chipyard-lifecycle.trace" \
+            | tee "$ROOT/chipyard-lifecycle.diff"
+          test ! -s "$ROOT/chipyard-lifecycle.diff"
+          SIMULATOR="$(find "$ROOT" -maxdepth 1 -type f \
+            -name "simulator-*${CHIPYARD_CONFIG}" -print -quit)"
+          test -n "$SIMULATOR" && test -s "$SIMULATOR"
+          "$pythonLocation/bin/ahead-rev-chipyard" lifecycle-proof \
+            --integration-manifest \
+              "$ROOT/chipyard-physical-compute-integration.json" \
+            --lifecycle-manifest \
+              "$ROOT/chipyard-rv64gc-lifecycle-manifest.json" \
+            --elaboration-proof \
+              "$ROOT/chipyard-subsystem-elaboration-proof.json" \
+            --source "$ROOT/physical_compute_chipyard_lifecycle.c" \
+            --expected "$ROOT/physical_compute_chipyard_lifecycle.expected" \
+            --binary "$ROOT/physical_compute_chipyard_lifecycle.riscv" \
+            --simulator "$SIMULATOR" \
+            --simulator-build-log "$ROOT/simulator-build.log" \
+            --raw-log "$ROOT/chipyard-lifecycle.raw.log" \
+            --trace "$ROOT/chipyard-lifecycle.trace" \
+            --compiler-version-file "$ROOT/compiler-version.txt" \
+            --readelf-file "$ROOT/readelf.txt" \
+            --verilator-version-file "$ROOT/verilator-version.txt" \
+            --build-command "$SIMULATOR_BUILD_COMMAND" \
+            --run-command "$SIMULATOR_RUN_COMMAND" \
+            --out "$ROOT/chipyard-rv64gc-lifecycle-proof.json" \
+            2>&1 | tee "$ROOT/lifecycle-proof.txt"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+
+          proof = json.loads(
+              Path(
+                  "artifacts/chipyard-lifecycle/"
+                  "chipyard-rv64gc-lifecycle-proof.json"
+              ).read_text(encoding="utf-8")
+          )
+          schema = json.loads(
+              Path(
+                  "schemas/chipyard-rv64gc-lifecycle-proof.schema.json"
+              ).read_text(encoding="utf-8")
+          )
+          Draft202012Validator.check_schema(schema)
+          Draft202012Validator(schema).validate(proof)
+          qualification = proof["qualification"]
+          assert qualification["accepted"] is True
+          assert qualification["chipyard_rtl_simulation_claim_allowed"] is True
+          assert qualification["external_cartridge_claim_allowed"] is False
+          assert qualification["physical_claim_allowed"] is False
+          assert "CHIPYARD_RTL_SIMULATION_UNRUN" not in qualification["blockers"]
+          assert "FPGA_OR_SILICON_EXECUTION_UNRUN" in qualification["blockers"]
+          PY
+          cp "$ROOT/chipyard-lifecycle.trace" "$ROOT/tampered.trace"
+          sed -i 's/result=pass/result=fail/' "$ROOT/tampered.trace"
+          if "$pythonLocation/bin/ahead-rev-chipyard" lifecycle-proof \
+            --integration-manifest \
+              "$ROOT/chipyard-physical-compute-integration.json" \
+            --lifecycle-manifest \
+              "$ROOT/chipyard-rv64gc-lifecycle-manifest.json" \
+            --elaboration-proof \
+              "$ROOT/chipyard-subsystem-elaboration-proof.json" \
+            --source "$ROOT/physical_compute_chipyard_lifecycle.c" \
+            --expected "$ROOT/physical_compute_chipyard_lifecycle.expected" \
+            --binary "$ROOT/physical_compute_chipyard_lifecycle.riscv" \
+            --simulator "$SIMULATOR" \
+            --simulator-build-log "$ROOT/simulator-build.log" \
+            --raw-log "$ROOT/chipyard-lifecycle.raw.log" \
+            --trace "$ROOT/tampered.trace" \
+            --compiler-version-file "$ROOT/compiler-version.txt" \
+            --readelf-file "$ROOT/readelf.txt" \
+            --verilator-version-file "$ROOT/verilator-version.txt" \
+            --build-command "$SIMULATOR_BUILD_COMMAND" \
+            --run-command "$SIMULATOR_RUN_COMMAND" \
+            --out "$ROOT/refused-lifecycle-proof.json"; then
+            echo "tampered lifecycle trace unexpectedly admitted" >&2
+            exit 1
+          fi
+          test ! -e "$ROOT/refused-lifecycle-proof.json"
+
+      - name: Run the focused repository gates
+        run: |
+          python -m pytest -q \
+            tests/test_chipyard_integration.py \
+            tests/test_chipyard_elaboration.py \
+            tests/test_chipyard_workflow_environment.py \
+            tests/test_chipyard_setup_witness.py \
+            tests/test_chipyard_lifecycle.py \
+            tests/test_release_workflow.py
+
+      - name: Assemble the reconstructable lifecycle kit
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ROOT="artifacts/chipyard-lifecycle"
+          mkdir -p "$ROOT/kit/schemas"
+          cp docs/chipyard_rv64gc_lifecycle.md "$ROOT/kit/"
+          cp schemas/chipyard-physical-compute-integration.schema.json \
+            schemas/chipyard-subsystem-elaboration-proof.schema.json \
+            schemas/chipyard-rv64gc-lifecycle-manifest.schema.json \
+            schemas/chipyard-rv64gc-lifecycle-proof.schema.json \
+            "$ROOT/kit/schemas/"
+          find "$ROOT" -maxdepth 1 -type f -print | sort \
+            > "$ROOT/kit/root-artifacts.txt"
+          while IFS= read -r file; do sha256sum "$file"; done \
+            < "$ROOT/kit/root-artifacts.txt" \
+            > "$ROOT/kit/root-artifacts.sha256"
+
+      - name: Collect generated products after any outcome
+        if: always()
+        shell: bash
+        run: |
+          ROOT="artifacts/chipyard-lifecycle"
+          mkdir -p "$ROOT"
+          if test -d chipyard/sims/verilator/generated-src; then
+            find chipyard/sims/verilator/generated-src -maxdepth 3 \
+              -type f -print | sort > "$ROOT/generated-products.txt"
+            tar -C chipyard/sims/verilator \
+              -czf "$GITHUB_WORKSPACE/artifacts/chipyard-lifecycle/generated-src.tar.gz" \
+              generated-src 2> "$ROOT/generated-src-tar.stderr" || true
+          else
+            : > "$ROOT/generated-products.txt"
+          fi
+          find "$ROOT" -maxdepth 1 -type f -exec sha256sum {} \; \
+            | sort > "$ROOT/SHA256SUMS" || true
+
+      - name: Upload Chipyard lifecycle evidence and diagnostics
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: chipyard-lifecycle-${{ github.sha }}
+          path: artifacts/chipyard-lifecycle
+          if-no-files-found: warn
+          retention-days: 30
