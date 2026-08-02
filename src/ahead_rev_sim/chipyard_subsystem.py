@@ -32,7 +32,9 @@ CHIPYARD_CONFIG_CLASS = "PhysicalComputeRocketConfig"
 CHIPYARD_SCALA_INSTALL_PATH = (
     "generators/chipyard/src/main/scala/physicalcompute/PhysicalCompute.scala"
 )
-DEFAULT_BASE_ADDRESS = 0x0200_0000
+# The pinned upstream GCD TileLink example uses 0x4000. The previous
+# 0x02000000 default collided with the Rocket CLINT window during elaboration.
+DEFAULT_BASE_ADDRESS = 0x0000_4000
 ELABORATION_WITNESS_NAME = "ahead_physical_compute_elaboration_witness"
 ELABORATION_WITNESS_VALUE = 0xA11E_CAFE
 
