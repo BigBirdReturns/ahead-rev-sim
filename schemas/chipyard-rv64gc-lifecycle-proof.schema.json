@@ -1,0 +1,246 @@
+{
+  "$defs": {
+    "file_record": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {"minimum": 1, "type": "integer"},
+        "name": {"minLength": 1, "type": "string"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "required": ["name", "sha256", "bytes"],
+      "type": "object"
+    },
+    "sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "stage_record": {
+      "additionalProperties": false,
+      "properties": {
+        "receipt": {"enum": ["valid", "absent"]},
+        "result": {"enum": ["done", "refused", "fault", "timeout"]},
+        "status": {"maximum": 4294967295, "minimum": 0, "type": "integer"}
+      },
+      "required": ["status", "result", "receipt"],
+      "type": "object"
+    }
+  },
+  "$id": "https://bigbirdreturns.github.io/ahead-rev-sim/schemas/chipyard-rv64gc-lifecycle-proof.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_type": {"const": "chipyard_rv64gc_lifecycle_execution_proof"},
+    "artifacts": {
+      "additionalProperties": false,
+      "properties": {
+        "binary": {
+          "additionalProperties": false,
+          "properties": {
+            "bytes": {"minimum": 1, "type": "integer"},
+            "elf_class": {"const": "ELF64"},
+            "machine": {"const": "RISC-V"},
+            "name": {"minLength": 1, "type": "string"},
+            "sha256": {"$ref": "#/$defs/sha256"}
+          },
+          "required": ["name", "sha256", "bytes", "elf_class", "machine"],
+          "type": "object"
+        },
+        "elaboration_proof": {"$ref": "#/$defs/file_record"},
+        "expected_trace": {"$ref": "#/$defs/file_record"},
+        "integration_manifest": {"$ref": "#/$defs/file_record"},
+        "lifecycle_manifest": {"$ref": "#/$defs/file_record"},
+        "raw_log": {"$ref": "#/$defs/file_record"},
+        "simulator": {"$ref": "#/$defs/file_record"},
+        "simulator_build_log": {"$ref": "#/$defs/file_record"},
+        "source": {"$ref": "#/$defs/file_record"},
+        "trace": {"$ref": "#/$defs/file_record"}
+      },
+      "required": [
+        "integration_manifest",
+        "lifecycle_manifest",
+        "elaboration_proof",
+        "source",
+        "expected_trace",
+        "binary",
+        "simulator",
+        "simulator_build_log",
+        "raw_log",
+        "trace"
+      ],
+      "type": "object"
+    },
+    "chipyard": {
+      "additionalProperties": false,
+      "properties": {
+        "base_address": {"minimum": 0, "multipleOf": 4096, "type": "integer"},
+        "commit": {"const": "e27c6561c0066c1f60bf4eb4885a38391c850ac0"},
+        "config_class": {"const": "PhysicalComputeRocketConfig"},
+        "config_package": {"const": "chipyard.physicalcompute"},
+        "elaboration_proof_sha256": {"$ref": "#/$defs/sha256"},
+        "entry_api": {"const": "testchipip.soc.SubsystemInjectorKey"},
+        "integration_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "lifecycle_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "repository": {"const": "ucb-bar/chipyard"}
+      },
+      "required": [
+        "repository",
+        "commit",
+        "config_package",
+        "config_class",
+        "base_address",
+        "entry_api",
+        "integration_manifest_sha256",
+        "lifecycle_manifest_sha256",
+        "elaboration_proof_sha256"
+      ],
+      "type": "object"
+    },
+    "claim_boundary": {"minLength": 1, "type": "string"},
+    "control_question": {"minLength": 1, "type": "string"},
+    "observations": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted_trace_exact": {"const": true},
+        "checks": {
+          "additionalProperties": false,
+          "properties": {
+            "ambiguous_command_refused": {"const": true},
+            "capability_mask": {"const": true},
+            "capture_completed": {"const": true},
+            "evolve_completed": {"const": true},
+            "identity": {"const": true},
+            "load_completed": {"const": true},
+            "portable_binding": {"const": true},
+            "read_completed": {"const": true},
+            "reset_completed": {"const": true},
+            "result_pass": {"const": true},
+            "target_isa": {"const": true}
+          },
+          "required": [
+            "portable_binding",
+            "target_isa",
+            "identity",
+            "capability_mask",
+            "ambiguous_command_refused",
+            "reset_completed",
+            "load_completed",
+            "evolve_completed",
+            "read_completed",
+            "capture_completed",
+            "result_pass"
+          ],
+          "type": "object"
+        },
+        "elaboration_proof_bound": {"const": true},
+        "line_count": {"const": 9},
+        "loopback_fallback_retained": {"const": true},
+        "raw_trace_embedded": {"const": true},
+        "stages": {
+          "additionalProperties": false,
+          "properties": {
+            "ambiguous": {"$ref": "#/$defs/stage_record"},
+            "capture": {"$ref": "#/$defs/stage_record"},
+            "evolve": {"$ref": "#/$defs/stage_record"},
+            "load": {"$ref": "#/$defs/stage_record"},
+            "read": {"$ref": "#/$defs/stage_record"},
+            "reset": {"$ref": "#/$defs/stage_record"}
+          },
+          "required": ["ambiguous", "reset", "load", "evolve", "read", "capture"],
+          "type": "object"
+        }
+      },
+      "required": [
+        "line_count",
+        "checks",
+        "stages",
+        "accepted_trace_exact",
+        "raw_trace_embedded",
+        "elaboration_proof_bound",
+        "loopback_fallback_retained"
+      ],
+      "type": "object"
+    },
+    "portable_binding": {"const": "physical-compute-mmio/v1"},
+    "proof_sha256": {"$ref": "#/$defs/sha256"},
+    "qualification": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {"const": true},
+        "blockers": {
+          "const": [
+            "CHIPYARD_EXTERNAL_CARTRIDGE_BINDING_UNRUN",
+            "FPGA_OR_SILICON_EXECUTION_UNRUN",
+            "PHYSICAL_SUBSTRATE_UNMEASURED",
+            "PHYSICAL_ENERGY_UNMEASURED",
+            "TIMING_THERMAL_VOLUME_UNMEASURED",
+            "COMPLETE_SYSTEM_EVP_UNMEASURED",
+            "INDEPENDENT_PHYSICAL_ACCEPTANCE_MISSING"
+          ]
+        },
+        "chipyard_rtl_simulation_claim_allowed": {"const": true},
+        "chipyard_rv64gc_lifecycle_claim_allowed": {"const": true},
+        "chipyard_subsystem_claim_allowed": {"const": true},
+        "complete_system_advantage_claim_allowed": {"const": false},
+        "external_cartridge_claim_allowed": {"const": false},
+        "physical_claim_allowed": {"const": false},
+        "status": {"const": "chipyard_rv64gc_lifecycle_execution_proved"}
+      },
+      "required": [
+        "status",
+        "accepted",
+        "chipyard_subsystem_claim_allowed",
+        "chipyard_rtl_simulation_claim_allowed",
+        "chipyard_rv64gc_lifecycle_claim_allowed",
+        "external_cartridge_claim_allowed",
+        "physical_claim_allowed",
+        "complete_system_advantage_claim_allowed",
+        "blockers"
+      ],
+      "type": "object"
+    },
+    "schema_version": {"const": "ahead.chipyard-rv64gc-lifecycle-proof/v0.1"},
+    "target": {
+      "additionalProperties": false,
+      "properties": {
+        "abi": {"const": "lp64d"},
+        "build_command": {"minLength": 1, "type": "string"},
+        "execution_environment": {"const": "chipyard-verilator-testharness"},
+        "isa": {"const": "rv64gc"},
+        "loopback_fallback": {"const": true},
+        "run_command": {"minLength": 1, "type": "string"}
+      },
+      "required": [
+        "isa",
+        "abi",
+        "execution_environment",
+        "loopback_fallback",
+        "build_command",
+        "run_command"
+      ],
+      "type": "object"
+    },
+    "tools": {
+      "additionalProperties": false,
+      "properties": {
+        "compiler": {"minLength": 1, "type": "string"},
+        "readelf": {"minLength": 1, "type": "string"},
+        "verilator": {"minLength": 1, "type": "string"}
+      },
+      "required": ["compiler", "readelf", "verilator"],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "portable_binding",
+    "chipyard",
+    "target",
+    "tools",
+    "artifacts",
+    "observations",
+    "qualification",
+    "claim_boundary",
+    "control_question",
+    "proof_sha256"
+  ],
+  "title": "ahead-rev-sim Chipyard RV64GC lifecycle execution proof",
+  "type": "object"
+}
