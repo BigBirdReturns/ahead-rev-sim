@@ -1,6 +1,9 @@
 name: PR 11 evidence staging
 
 on:
+  pull_request:
+    types:
+      - synchronize
   push:
     branches:
       - agent/v0.12-chipyard-rv64gc-lifecycle
@@ -28,7 +31,7 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          test "$(git rev-parse HEAD^)" = "4a1be4da442c9e8798f13d0805ea78977d10651d"
+          test "$(git rev-parse HEAD^)" = "02897b28f7c7ba31910584f724bd11666c7ae483"
           git merge-base --is-ancestor \
             19d45ab84b2d6955b894b601efb7a56ed553c996 HEAD
           printf '%s  %s\n' \
