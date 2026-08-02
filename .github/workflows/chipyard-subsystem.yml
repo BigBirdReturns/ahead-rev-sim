@@ -144,6 +144,26 @@ jobs:
             > artifacts/chipyard-subsystem/digital-top.diff
           test ! -s artifacts/chipyard-subsystem/digital-top.diff
 
+      - name: Capture pinned upstream injector context
+        run: |
+          {
+            echo "chipyard=$CHIPYARD_COMMIT"
+            echo "rocket-chip=$(git -C chipyard/generators/rocket-chip rev-parse HEAD)"
+            echo "testchipip=$(git -C chipyard/generators/testchipip rev-parse HEAD)"
+            echo
+            grep -R -n -E \
+              'SubsystemInjector(Key|Params)|class SubsystemInjector|case object SubsystemInjector|def apply|coupleTo' \
+              chipyard/generators/testchipip/src/main/scala \
+              chipyard/generators/chipyard/src/main/scala/DigitalTop.scala \
+              chipyard/generators/chipyard/src/main/scala/example \
+              chipyard/generators/rocket-chip/src/main/scala/subsystem \
+              2>/dev/null \
+              | head -n 500 \
+              || true
+          } > artifacts/chipyard-subsystem/upstream-injector-context.txt
+          cp "chipyard/$CHIPYARD_SCALA_PATH" \
+            artifacts/chipyard-subsystem/installed-PhysicalCompute.scala
+
       - name: Record Java and SBT authority
         shell: bash -el {0}
         run: |
@@ -155,17 +175,55 @@ jobs:
             2>&1 | tee ../artifacts/chipyard-subsystem/sbt-version.txt
 
       - name: Elaborate the pinned subsystem to FIRRTL
+        id: elaborate
         shell: bash -el {0}
         run: |
-          set -o pipefail
+          set -Eeuo pipefail
           cd chipyard
           source env.sh
+
+          set +e
           make -C sims/verilator \
             CONFIG="$CHIPYARD_CONFIG" \
             CONFIG_PACKAGE="$CHIPYARD_CONFIG_PACKAGE" \
             JAVA_HEAP_SIZE=6G \
             firrtl \
             2>&1 | tee ../artifacts/chipyard-subsystem/elaboration.log
+          ELABORATION_STATUS=${PIPESTATUS[0]}
+          set -e
+
+          {
+            echo "exit_status=$ELABORATION_STATUS"
+            echo "chipyard_commit=$(git rev-parse HEAD)"
+            echo "config=$CHIPYARD_CONFIG"
+            echo "config_package=$CHIPYARD_CONFIG_PACKAGE"
+            echo "scala_path=$CHIPYARD_SCALA_PATH"
+            echo "make_command=$MAKE_COMMAND"
+            echo
+            echo "=== compiler diagnostics ==="
+            grep -n -E \
+              '\[error\]|error:|Exception|Compilation failed|not found:|type mismatch|overloaded method|is not a member of|could not find implicit|value .* is not a member' \
+              ../artifacts/chipyard-subsystem/elaboration.log \
+              || true
+            echo
+            echo "=== final 400 lines ==="
+            tail -n 400 ../artifacts/chipyard-subsystem/elaboration.log \
+              || true
+          } > ../artifacts/chipyard-subsystem/elaboration-diagnostics.txt
+
+          if (( ELABORATION_STATUS != 0 )); then
+            echo "::group::Pinned Chipyard compiler diagnostics"
+            cat ../artifacts/chipyard-subsystem/elaboration-diagnostics.txt
+            echo "::endgroup::"
+            {
+              echo "## Pinned Chipyard elaboration failed"
+              echo
+              echo '```text'
+              tail -n 200 ../artifacts/chipyard-subsystem/elaboration-diagnostics.txt
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit "$ELABORATION_STATUS"
+          fi
 
       - name: Resolve and copy the elaboration products
         run: |
@@ -345,10 +403,34 @@ jobs:
                -o -name "*${CHIPYARD_CONFIG}*.chisel.log" \) \
             -exec cp {} artifacts/chipyard-subsystem/kit/ \;
 
-      - name: Upload Chipyard subsystem evidence
+      - name: Collect generated products after any outcome
+        if: always()
+        run: |
+          mkdir -p artifacts/chipyard-subsystem/generated-src-snapshot
+          if test -d chipyard/sims/verilator/generated-src; then
+            find chipyard/sims/verilator/generated-src \
+              -maxdepth 2 \
+              -type f \
+              \( -name "*${CHIPYARD_CONFIG}*" \
+                 -o -name "*.log" \
+                 -o -name "*.fir" \
+                 -o -name "*.anno.json" \) \
+              -print \
+              | sort \
+              > artifacts/chipyard-subsystem/generated-products.txt
+            while IFS= read -r file; do
+              test -f "$file" || continue
+              cp "$file" artifacts/chipyard-subsystem/generated-src-snapshot/
+            done < artifacts/chipyard-subsystem/generated-products.txt
+          else
+            : > artifacts/chipyard-subsystem/generated-products.txt
+          fi
+
+      - name: Upload Chipyard subsystem evidence and diagnostics
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: chipyard-subsystem-${{ github.sha }}
           path: artifacts/chipyard-subsystem
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 30
