@@ -31,6 +31,12 @@ def test_chipyard_lifecycle_workflow_is_directly_runnable_and_reusable() -> None
     assert 'SYSROOT="$(riscv64-unknown-elf-gcc -print-sysroot)"' in workflow
     assert "-print-file-name=htif_nano.specs" in workflow
     assert 'make install 2>&1 | tee "$ROOT/libgloss-install.log"' in workflow
+    assert "CIRCT_RELEASE: firtool-1.75.0" in workflow
+    assert "CIRCT_INSTALLER_COMMIT: 3f8dda6e1c1965537b5801a43c81c287bac4eae4" in workflow
+    assert "--skip-circt" not in workflow
+    assert "Verify the pinned CIRCT lowering authority" in workflow
+    assert 'FIRTOOL="$(command -v firtool)"' in workflow
+    assert 'firtool --version 2>&1 | tee "$ROOT/firtool-version.txt"' in workflow
 
 
 def test_release_waits_for_hardware_model_requalification_before_publication() -> None:
