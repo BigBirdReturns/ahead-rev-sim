@@ -27,23 +27,30 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Stage the validated evidence tree
+      - name: Diagnose the staged evidence transport
         shell: bash
         run: |
           set -Eeuo pipefail
-          test "$(git rev-parse HEAD^)" = "9cb851b0b35c687b1e3fff06acb57ccb7c56e622"
+          test "$(git rev-parse HEAD^)" = "06d3cb3bc3a4aa016b26edc833bf806b35ce6116"
           git merge-base --is-ancestor \
             19d45ab84b2d6955b894b601efb7a56ed553c996 HEAD
-          mkdir -p /tmp/pr11-stage
           python - <<'PY'
           import base64
           import hashlib
+          import zlib
           from pathlib import Path
 
           parts = (
               Path(".staging/pr11-stage-payload.part0"),
               Path(".staging/pr11-stage-payload.part1"),
           )
+          for path in parts:
+              raw = path.read_bytes()
+              print(
+                  f"part={path.name} bytes={len(raw)} "
+                  f"sha256={hashlib.sha256(raw).hexdigest()}"
+              )
+
           encoded = "".join(
               "".join(path.read_text(encoding="ascii").split())
               for path in parts
@@ -62,56 +69,78 @@ jobs:
               raise SystemExit(f"invalid base64 transport characters: {invalid[:8]}")
           if "=" in encoded.rstrip("="):
               raise SystemExit("base64 padding appears before the stream terminus")
-          encoded = encoded.rstrip("=")
-          encoded += "=" * (-len(encoded) % 4)
-          payload = base64.b64decode(encoded, validate=True)
-          destination = Path("/tmp/pr11-stage/payload.tar.gz")
-          destination.write_bytes(payload)
-          digest = hashlib.sha256(payload).hexdigest()
-          Path("/tmp/pr11-stage/payload.sha256").write_text(
-              digest + "\n",
-              encoding="ascii",
-          )
+          normalized = encoded.rstrip("=")
+          normalized += "=" * (-len(normalized) % 4)
+          payload = base64.b64decode(normalized, validate=True)
           print(
-              f"reconstructed {len(payload)} bytes from "
-              f"{len(encoded)} normalized base64 characters"
+              f"payload_bytes={len(payload)} "
+              f"payload_sha256={hashlib.sha256(payload).hexdigest()}"
           )
-          print(f"payload_sha256={digest}")
+
+          decompressor = zlib.decompressobj(16 + zlib.MAX_WBITS)
+          expanded = decompressor.decompress(payload)
+          expanded += decompressor.flush()
+          print(
+              f"gzip_eof={decompressor.eof} "
+              f"expanded_bytes={len(expanded)} "
+              f"expanded_sha256={hashlib.sha256(expanded).hexdigest()}"
+          )
+
+          offset = 0
+          member_index = 0
+          zero_blocks = 0
+          while offset + 512 <= len(expanded):
+              header = expanded[offset : offset + 512]
+              if header == bytes(512):
+                  zero_blocks += 1
+                  print(f"zero_block offset={offset} count={zero_blocks}")
+                  offset += 512
+                  if zero_blocks == 2:
+                      break
+                  continue
+              zero_blocks = 0
+              stored_field = header[148:156].rstrip(b"\0 ").lstrip()
+              stored_checksum = int(stored_field or b"0", 8)
+              calculated_checksum = (
+                  sum(header[:148]) + (32 * 8) + sum(header[156:])
+              )
+              name = header[:100].split(b"\0", 1)[0].decode(
+                  "utf-8", errors="replace"
+              )
+              prefix = header[345:500].split(b"\0", 1)[0].decode(
+                  "utf-8", errors="replace"
+              )
+              if prefix:
+                  name = f"{prefix}/{name}"
+              size_field = header[124:136].rstrip(b"\0 ").lstrip()
+              size = int(size_field or b"0", 8)
+              typeflag = header[156:157].decode("ascii", errors="replace") or "0"
+              data_start = offset + 512
+              data_end = data_start + size
+              available = max(0, min(size, len(expanded) - data_start))
+              complete = data_end <= len(expanded)
+              print(
+                  f"member[{member_index}] offset={offset} name={name!r} "
+                  f"type={typeflag!r} size={size} available={available} "
+                  f"complete={complete} header_checksum_ok="
+                  f"{stored_checksum == calculated_checksum}"
+              )
+              if complete:
+                  content = expanded[data_start:data_end]
+                  print(
+                      f"member[{member_index}] sha256="
+                      f"{hashlib.sha256(content).hexdigest()}"
+                  )
+                  safe_name = Path(name).name
+                  Path(f"/tmp/{safe_name}").write_bytes(content)
+              else:
+                  break
+              offset = data_start + ((size + 511) // 512) * 512
+              member_index += 1
+
+          print(
+              f"parser_offset={offset} expanded_remaining="
+              f"{max(0, len(expanded) - offset)}"
+          )
+          raise SystemExit("diagnostic transport remains fail closed")
           PY
-          tar -C /tmp/pr11-stage -xzf /tmp/pr11-stage/payload.tar.gz
-          printf '%s  %s\n' \
-            '9c57a8d1510d1e53fc691f189642b86bf5b90d5d79aafeb73ab3f14b59cde416' \
-            '/tmp/pr11-stage/nonworkflow.patch' | sha256sum -c -
-          printf '%s  %s\n' \
-            'd60dce4ca33962b4d8106747f1e41ecfaa5c4a44b71b60077841e7b3e170314c' \
-            '/tmp/pr11-stage/chipyard-lifecycle.yml' | sha256sum -c -
-          test "$(cat /tmp/pr11-stage/payload.sha256)" = \
-            '3bb0e7365a2846b86fe282a76566e2b48fb11598ab443ada8f407a55ca2f7bbd'
-          git apply --check /tmp/pr11-stage/nonworkflow.patch
-          git apply /tmp/pr11-stage/nonworkflow.patch
-          cp /tmp/pr11-stage/chipyard-lifecycle.yml \
-            .staging/pr11-chipyard-lifecycle.yml
-          printf '%s  %s\n' \
-            'd60dce4ca33962b4d8106747f1e41ecfaa5c4a44b71b60077841e7b3e170314c' \
-            '.staging/pr11-chipyard-lifecycle.yml' | sha256sum -c -
-          git rm \
-            .staging/pr11-stage-payload.part0 \
-            .staging/pr11-stage-payload.part1
-          git diff --check
-          git config user.name 'BigBirdReturns Evidence Stager'
-          git config user.email '219768509+BigBirdReturns@users.noreply.github.com'
-          git add \
-            .staging/pr11-chipyard-lifecycle.yml \
-            docs/chipyard_rv64gc_lifecycle.md \
-            schemas/chipyard-rv64gc-lifecycle-manifest.schema.json \
-            schemas/chipyard-rv64gc-lifecycle-proof.schema.json \
-            src/ahead_rev_sim/chipyard_cli.py \
-            src/ahead_rev_sim/chipyard_lifecycle.py \
-            src/ahead_rev_sim/chipyard_lifecycle_manifest.py \
-            src/ahead_rev_sim/chipyard_lifecycle_program.py \
-            src/ahead_rev_sim/chipyard_lifecycle_proof.py \
-            tests/test_chipyard_lifecycle.py \
-            tests/test_release_workflow.py
-          git commit -m 'Stage sealed Chipyard lifecycle evidence blobs'
-          git push origin HEAD:agent/v0.12-chipyard-rv64gc-lifecycle
-          git rev-parse HEAD
