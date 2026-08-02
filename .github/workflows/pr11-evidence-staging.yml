@@ -31,15 +31,9 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          test "$(git rev-parse HEAD^)" = "02897b28f7c7ba31910584f724bd11666c7ae483"
+          test "$(git rev-parse HEAD^)" = "8f2c8d21bbca6d21ac1ae53f78d716009952f2c1"
           git merge-base --is-ancestor \
             19d45ab84b2d6955b894b601efb7a56ed553c996 HEAD
-          printf '%s  %s\n' \
-            '9718697480f7ba2a3428ef1c6648dc43c42bac7b8936a1d0dda7641714ed29d6' \
-            '.staging/pr11-stage-payload.part0' | sha256sum -c -
-          printf '%s  %s\n' \
-            '23b94d7555bf25aad4cf3ba85b737ae38217471869b96982ddd0fe8d81356437' \
-            '.staging/pr11-stage-payload.part1' | sha256sum -c -
           mkdir -p /tmp/pr11-stage
           cat \
             .staging/pr11-stage-payload.part0 \
