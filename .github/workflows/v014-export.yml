@@ -1,0 +1,57 @@
+name: v0.14 artifact cold replay export
+
+on:
+  pull_request:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: v014-artifact-cold-replay-export-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  export:
+    name: Validate and export v0.14 Git blobs
+    if: github.event.pull_request.number == 14 && github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+
+    steps:
+      - name: Check out exact v0.14 branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: agent/v0.14-artifact-cold-replay
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Validate and export the sealed v0.14 tree
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python .staging/v014-controller.py
+
+      - name: Publish only the content-addressed blob ledger
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          cp -a artifacts/v014-publication /tmp/v014-publication
+          git reset --hard HEAD
+          git clean -fdx
+          mkdir -p artifacts
+          cp -a /tmp/v014-publication artifacts/v014-publication
+          (
+            cd artifacts/v014-publication
+            sha256sum --check --strict SHA256SUMS
+          )
+          git config user.name "BigBirdReturns Evidence Exporter"
+          git config user.email "219768509+BigBirdReturns@users.noreply.github.com"
+          git add -f artifacts/v014-publication
+          git commit -m "Publish v0.14 artifact-cold-replay blob ledger"
+          git push origin HEAD:agent/v0.14-artifact-cold-replay
