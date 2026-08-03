@@ -7,15 +7,15 @@ on:
       - agent/v0.12-chipyard-rv64gc-lifecycle
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: pr11-bounded-finalization-controller
+  group: pr11-finalization-export
   cancel-in-progress: true
 
 jobs:
   pylon-wave:
-    name: Close PR 11 proof and artifact custody
+    name: Export validated PR 11 finalization tree
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -25,7 +25,7 @@ jobs:
         with:
           ref: agent/v0.12-chipyard-rv64gc-lifecycle
           fetch-depth: 0
-          persist-credentials: true
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
@@ -36,5 +36,14 @@ jobs:
       - name: Install validation tools
         run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
 
-      - name: Execute the bounded finalization transaction
+      - name: Export the validated finalization tree
         run: python .staging/pr11-finalize.py
+
+      - name: Upload the validated finalization tree
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: pr11-finalization-${{ github.sha }}
+          path: artifacts/pr11-finalization
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
