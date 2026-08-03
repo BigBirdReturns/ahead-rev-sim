@@ -18,10 +18,22 @@ MANIFEST_PATH = STAGING / "v014-manifest.json"
 PAYLOAD_PARTS = (
     STAGING / "v014-payload.part00",
     STAGING / "v014-payload.part01",
+    STAGING / "v014-payload.part02",
+    STAGING / "v014-payload.part03",
+    STAGING / "v014-payload.part04",
+    STAGING / "v014-payload.part05",
+    STAGING / "v014-payload.part06",
+    STAGING / "v014-payload.part07",
 )
 PART_SHA256 = {
-    "v014-payload.part00": "d87a2cce5b4b36226ccfc9792d353d2e7504bce2b29d40558c5aa74e9a072a7d",
-    "v014-payload.part01": "419f0469d94b00c27e4bbd78fa365a4a9eaef680ba15533e4fd6fed91364b4ce",
+    "v014-payload.part00": "71ddf64535410bd766d0681abcceabd900737ac596fccbed3d942926f3fd62cd",
+    "v014-payload.part01": "a3d23a7998f491e6b64d4f2e02cce48770fc6f4031f048308e79d7fa1aaf3e99",
+    "v014-payload.part02": "ade7d0985043bc40614d7d43dc218848f3b5fc21da9db88841a2baaca6dbc5a6",
+    "v014-payload.part03": "531439d29fc7f1db35a1ebc7e5ad02bf2083dda717825f85ddef9e9dc01ec680",
+    "v014-payload.part04": "2c41b64ccc1032bbcae33d2d0543fb993cecf0f63b58905a5b50e6dfcc8055e8",
+    "v014-payload.part05": "f92c0f279e9a6af5ce287419b6c81b752a83ecd3e6f08645b69e9d43708fc017",
+    "v014-payload.part06": "c92122048a80e4ab89a0253a3717ed399a4ef7c36594a2c7ef7375e3d855c10f",
+    "v014-payload.part07": "9e4534535fd33afe912fea3671ec51bc17b86983125e679a71ddcc831233e657",
 }
 MANIFEST_SHA256 = "821944698623cb6c328bf5f5d12ccabf3236536c0e461ff7d8ddae2bb87b1de9"
 OUT = ROOT / "artifacts" / "v014-publication"
@@ -144,6 +156,12 @@ def validate_repository(paths: tuple[str, ...]) -> dict[str, object]:
         ".staging/v014-manifest.json",
         ".staging/v014-payload.part00",
         ".staging/v014-payload.part01",
+        ".staging/v014-payload.part02",
+        ".staging/v014-payload.part03",
+        ".staging/v014-payload.part04",
+        ".staging/v014-payload.part05",
+        ".staging/v014-payload.part06",
+        ".staging/v014-payload.part07",
         ".github/workflows/v014-export.yml",
     }
     unexpected = sorted(observed - allowed)
