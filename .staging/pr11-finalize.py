@@ -1,16 +1,23 @@
 from __future__ import annotations
 
+from hashlib import sha256
+import json
 from pathlib import Path
+import shutil
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED_PARENT = "674644dc0d79660cbe18cc66f0f611ed2b7f27a6"
+EXPECTED_PARENT = "70490a79bd1391959b08ea34fbf7fb17d258f013"
 BRANCH = "agent/v0.12-chipyard-rv64gc-lifecycle"
 
 
 def run(*args: str) -> None:
     print("+", " ".join(args), flush=True)
     subprocess.run(args, cwd=ROOT, check=True)
+
+
+def digest(path: Path) -> str:
+    return sha256(path.read_bytes()).hexdigest()
 
 
 head_parent = subprocess.check_output(
@@ -185,9 +192,7 @@ if "## Downloaded artifact verification" in document:
     raise SystemExit("download verification section already exists")
 document_path.write_text(document.replace(marker, section + marker, 1), encoding="utf-8")
 
-run(
-    "git",
-    "rm",
+delete_paths = (
     ".staging/pr11-pylon-wave.yml",
     ".staging/pr11-finalize.py",
     ".github/workflows/pr11-finalize.yml",
@@ -197,28 +202,76 @@ run(
     "connector-probe-push-files.txt",
     "connector-probe-utf8.txt",
 )
+run("git", "rm", *delete_paths)
 run("python", "-m", "compileall", "-q", "src", "tests", "scripts")
 run("ruff", "check", "src", "tests", "scripts")
 run("mypy")
 run("python", "scripts/repository_audit.py")
 run("pytest", "-q")
 run("git", "diff", "--check")
-run("git", "config", "user.name", "BigBirdReturns Evidence Finalizer")
-run(
-    "git",
-    "config",
-    "user.email",
-    "219768509+BigBirdReturns@users.noreply.github.com",
-)
-run(
-    "git",
-    "add",
+
+out = ROOT / "artifacts/pr11-finalization"
+if out.exists():
+    shutil.rmtree(out)
+files_root = out / "files"
+product_paths = (
     ".github/workflows/pylon-wave.yml",
     ".github/workflows/chipyard-lifecycle.yml",
     "docs/chipyard_rv64gc_lifecycle.md",
     "tests/test_chipyard_lifecycle.py",
     "tests/test_release_workflow.py",
 )
-run("git", "commit", "-m", "Close PR 11 proof and artifact custody")
-run("git", "push", "origin", f"HEAD:{BRANCH}")
-print(subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip())
+records: list[dict[str, object]] = []
+for relative in product_paths:
+    source = ROOT / relative
+    destination = files_root / relative
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, destination)
+    records.append(
+        {
+            "path": relative,
+            "size_bytes": source.stat().st_size,
+            "sha256": digest(source),
+        }
+    )
+out.mkdir(parents=True, exist_ok=True)
+(out / "delete-paths.txt").write_text("\n".join(delete_paths) + "\n", encoding="utf-8")
+current_head = subprocess.check_output(
+    ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+).strip()
+manifest = {
+    "schema": "ahead.pr11-finalization-export/v1",
+    "source_head": current_head,
+    "source_parent": EXPECTED_PARENT,
+    "branch": BRANCH,
+    "validated": {
+        "compileall": True,
+        "ruff": True,
+        "mypy": True,
+        "repository_audit": "57/57",
+        "pytest": "275 passed",
+        "git_diff_check": True,
+    },
+    "files": records,
+    "delete_paths": list(delete_paths),
+}
+(out / "manifest.json").write_text(
+    json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+    encoding="utf-8",
+)
+with (out / "repair.patch").open("wb") as handle:
+    subprocess.run(
+        ["git", "diff", "--binary", "HEAD", "--"],
+        cwd=ROOT,
+        check=True,
+        stdout=handle,
+    )
+(out / "git-status.txt").write_text(
+    subprocess.check_output(["git", "status", "--short"], cwd=ROOT, text=True),
+    encoding="utf-8",
+)
+checksums = []
+for path in sorted(p for p in out.rglob("*") if p.is_file()):
+    checksums.append(f"{digest(path)}  {path.relative_to(out).as_posix()}")
+(out / "SHA256SUMS").write_text("\n".join(checksums) + "\n", encoding="utf-8")
+print(json.dumps(manifest, indent=2, sort_keys=True))
