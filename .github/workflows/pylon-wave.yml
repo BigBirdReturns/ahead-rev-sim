@@ -1,137 +1,234 @@
-name: Pylon Fan-out Wave
+name: PR 11 bounded finalization controller
 
 on:
   pull_request:
+    types:
+      - synchronize
   push:
     branches:
-      - main
-
-concurrency:
-  group: pylon-wave-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+      - agent/v0.12-chipyard-rv64gc-lifecycle
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: pr11-bounded-finalization-controller
+  cancel-in-progress: true
 
 jobs:
-  pylon-wave:
-    name: Scale, venue, and causal-custody intake
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-
+  finalize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
-      - name: Check out repository
+      - name: Check out the exact PR branch
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          persist-credentials: false
+          ref: agent/v0.12-chipyard-rv64gc-lifecycle
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Set up Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
-          python-version: "3.11"
+          python-version: "3.12"
           cache: pip
 
-      - name: Install ahead-rev-sim
+      - name: Install validation tools
         run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
 
-      - name: Generate complete and priority-one wave reports
+      - name: Repair, validate, restore, and publish
+        shell: bash
         run: |
-          mkdir -p artifacts/pylon-wave
-          ahead-rev-wave \
-            --out artifacts/pylon-wave/full.json \
-            --format text \
-            > artifacts/pylon-wave/full.txt
-          ahead-rev-wave \
-            --priority-max 1 \
-            --out artifacts/pylon-wave/priority-one.json \
-            --format text \
-            > artifacts/pylon-wave/priority-one.txt
+          set -Eeuo pipefail
+          test "$(git rev-parse HEAD^)" = "f77e7d9f4ab08dbe48f67b7bc07818d6268e522a"
+          test "$(git branch --show-current)" = "agent/v0.12-chipyard-rv64gc-lifecycle"
+          test -s .staging/pr11-pylon-wave.yml
+          cp .staging/pr11-pylon-wave.yml .github/workflows/pylon-wave.yml
 
-      - name: Validate wave and report schemas
-        run: |
           python - <<'PY'
-          import json
-          from pathlib import Path
-          from jsonschema import Draft202012Validator
-
-          wave = json.loads(
-              Path("src/ahead_rev_sim/data/pylon_fanout_wave_2026_08.json")
-              .read_text(encoding="utf-8")
-          )
-          full = json.loads(
-              Path("artifacts/pylon-wave/full.json").read_text(encoding="utf-8")
-          )
-          wave_schema = json.loads(
-              Path("schemas/pylon-fanout-wave.schema.json")
-              .read_text(encoding="utf-8")
-          )
-          report_schema = json.loads(
-              Path("schemas/pylon-fanout-report.schema.json")
-              .read_text(encoding="utf-8")
-          )
-          Draft202012Validator.check_schema(wave_schema)
-          Draft202012Validator.check_schema(report_schema)
-          Draft202012Validator(wave_schema).validate(wave)
-          Draft202012Validator(report_schema).validate(full)
-          PY
-
-      - name: Enforce counts, separation, and closed-intake refusal
-        run: |
-          python - <<'PY'
-          import json
           from pathlib import Path
 
-          full = json.loads(
-              Path("artifacts/pylon-wave/full.json").read_text(encoding="utf-8")
+          workflow_path = Path(".github/workflows/chipyard-lifecycle.yml")
+          release_test_path = Path("tests/test_release_workflow.py")
+          lifecycle_test_path = Path("tests/test_chipyard_lifecycle.py")
+          document_path = Path("docs/chipyard_rv64gc_lifecycle.md")
+
+          workflow = workflow_path.read_text(encoding="utf-8")
+          old_activation = '''          set -Eeuo pipefail
+          cd chipyard
+          source env.sh
+          cd "$GITHUB_WORKSPACE"
+          ROOT="artifacts/chipyard-lifecycle"
+'''
+          new_activation = '''          set -Eeo pipefail
+          cd chipyard
+          source env.sh
+          set -u
+          cd "$GITHUB_WORKSPACE"
+          ROOT="artifacts/chipyard-lifecycle"
+'''
+          if workflow.count(old_activation) != 1:
+              raise SystemExit("proof activation boundary changed unexpectedly")
+          workflow = workflow.replace(old_activation, new_activation)
+
+          old_kit = '''          find "$ROOT" -maxdepth 1 -type f -print | sort \\
+            > "$ROOT/kit/root-artifacts.txt"
+          while IFS= read -r file; do sha256sum "$file"; done \\
+            < "$ROOT/kit/root-artifacts.txt" \\
+            > "$ROOT/kit/root-artifacts.sha256"
+'''
+          new_kit = '''          (
+            cd "$ROOT"
+            find . -maxdepth 1 -type f -printf '%f\\n' | sort \\
+              > kit/root-artifacts.txt
+            while IFS= read -r file; do sha256sum "$file"; done \\
+              < kit/root-artifacts.txt \\
+              > kit/root-artifacts.sha256
+            sha256sum --check --strict kit/root-artifacts.sha256
           )
-          immediate = json.loads(
-              Path("artifacts/pylon-wave/priority-one.json")
-              .read_text(encoding="utf-8")
+'''
+          if workflow.count(old_kit) != 1:
+              raise SystemExit("kit checksum boundary changed unexpectedly")
+          workflow = workflow.replace(old_kit, new_kit)
+
+          old_outer = '''          find "$ROOT" -maxdepth 1 -type f \\
+            ! -name SHA256SUMS \\
+            ! -name SHA256SUMS.sha256 \\
+            -exec sha256sum {} \\; \\
+            | sort > "$ROOT/SHA256SUMS"
+          sha256sum "$ROOT/SHA256SUMS" > "$ROOT/SHA256SUMS.sha256"
+          sha256sum -c "$ROOT/SHA256SUMS"
+          sha256sum -c "$ROOT/SHA256SUMS.sha256"
+'''
+          new_outer = '''          (
+            cd "$ROOT"
+            rm -f SHA256SUMS SHA256SUMS.sha256
+            find . -type f \\
+              ! -path './SHA256SUMS' \\
+              ! -path './SHA256SUMS.sha256' \\
+              -print0 \\
+              | sort -z \\
+              | xargs -0 --no-run-if-empty sha256sum > SHA256SUMS
+            test -s SHA256SUMS
+            if grep -Fq '  ./SHA256SUMS' SHA256SUMS; then
+              echo "checksum ledger unexpectedly includes itself" >&2
+              exit 1
+            fi
+            sha256sum --check --strict SHA256SUMS
+            sha256sum SHA256SUMS > SHA256SUMS.sha256
+            sha256sum --check --strict SHA256SUMS.sha256
           )
-          assert full["summary"]["record_count"] == 25
-          assert full["summary"]["front_counts"] == {
-              "causal_custody": 7,
-              "remote_venue": 8,
-              "scale_seam": 10,
-          }
-          assert full["summary"]["priority_counts"] == {
-              "1": 13,
-              "2": 10,
-              "3": 2,
-          }
-          assert full["summary"]["promotion_ready_count"] == 0
-          assert full["summary"]["existing_registry_collision_count"] == 0
-          assert full["summary"]["all_records_commodity_only"] is True
-          assert immediate["summary"]["record_count"] == 13
-          assert len(full["report_sha256"]) == 64
+'''
+          if workflow.count(old_outer) != 1:
+              raise SystemExit("outer checksum boundary changed unexpectedly")
+          workflow = workflow.replace(old_outer, new_outer)
+          workflow_path.write_text(workflow, encoding="utf-8")
+
+          old_assertions = '''    assert "! -name SHA256SUMS" in workflow
+    assert 'sha256sum "$ROOT/SHA256SUMS" > "$ROOT/SHA256SUMS.sha256"' in workflow
+    assert 'sha256sum -c "$ROOT/SHA256SUMS"' in workflow
+    assert 'sha256sum -c "$ROOT/SHA256SUMS.sha256"' in workflow
+'''
+          new_assertions = '''    proof_start = workflow.index(
+        "      - name: Prove lifecycle trace refusal and seal the lifecycle proof"
+    )
+    proof_end = workflow.index("      - name: Run the focused repository gates")
+    proof_step = workflow[proof_start:proof_end]
+    assert "set -Eeo pipefail" in proof_step
+    assert "set -Eeuo pipefail" not in proof_step
+    assert proof_step.index("source env.sh") < proof_step.index("set -u")
+    assert proof_step.index("set -u") < proof_step.index('cd "$GITHUB_WORKSPACE"')
+    assert "find . -maxdepth 1 -type f -printf" in workflow
+    assert "> kit/root-artifacts.txt" in workflow
+    assert "sha256sum --check --strict kit/root-artifacts.sha256" in workflow
+    assert "find . -type f" in workflow
+    assert "! -path './SHA256SUMS'" in workflow
+    assert "! -path './SHA256SUMS.sha256'" in workflow
+    assert "xargs -0 --no-run-if-empty sha256sum > SHA256SUMS" in workflow
+    assert "checksum ledger unexpectedly includes itself" in workflow
+    assert "sha256sum --check --strict SHA256SUMS" in workflow
+    assert "sha256sum SHA256SUMS > SHA256SUMS.sha256" in workflow
+    assert "sha256sum --check --strict SHA256SUMS.sha256" in workflow
+    assert '| sort > "$ROOT/SHA256SUMS"' not in workflow
+'''
+          for path in (release_test_path, lifecycle_test_path):
+              text = path.read_text(encoding="utf-8")
+              if text.count(old_assertions) != 1:
+                  raise SystemExit(f"checksum assertions changed unexpectedly: {path}")
+              path.write_text(
+                  text.replace(old_assertions, new_assertions),
+                  encoding="utf-8",
+              )
+
+          document = document_path.read_text(encoding="utf-8")
+          old_paragraph = (
+              "The final evidence collector writes `SHA256SUMS` over every root "
+              "evidence file except the checksum manifests themselves, verifies "
+              "every entry immediately, writes `SHA256SUMS.sha256` as the external "
+              "seal for that manifest, and verifies the manifest seal. This avoids "
+              "the invalid recursive pattern in which a checksum file records the "
+              "hash of its own empty pre-redirection state. The earlier reconstructable "
+              "kit manifest remains an independently verified inventory of the files "
+              "present when the proof and kit were assembled."
+          )
+          new_paragraph = (
+              "The final evidence collector writes an extraction-relative `SHA256SUMS` "
+              "over the complete uploaded evidence tree, including the reconstruction "
+              "kit and generated-source archive, while excluding only the two checksum "
+              "manifests. It verifies every entry before upload, writes "
+              "`SHA256SUMS.sha256` as the external seal for that manifest, and verifies "
+              "the manifest seal. The reconstruction-kit ledger is also extraction-relative "
+              "and is verified at assembly time. This avoids self-inclusion and removes "
+              "GitHub Actions workspace paths from the portable receipt."
+          )
+          if document.count(old_paragraph) != 1:
+              raise SystemExit("evidence collector documentation changed unexpectedly")
+          document = document.replace(old_paragraph, new_paragraph)
+          marker = "\n## Evidence boundary\n"
+          section = '''
+## Downloaded artifact verification
+
+After downloading and extracting the GitHub Actions artifact, enter the extracted artifact root and run:
+
+```bash
+sha256sum --check --strict kit/root-artifacts.sha256
+sha256sum --check --strict SHA256SUMS
+sha256sum --check --strict SHA256SUMS.sha256
+```
+
+The kit ledger covers the core lifecycle evidence present when the reconstruction kit is assembled. The outer ledger recursively covers every uploaded file except the two checksum manifests and uses paths relative to the extracted artifact root. The final command verifies the external seal over the outer ledger.
+'''
+          if marker not in document:
+              raise SystemExit("evidence boundary heading missing")
+          if "## Downloaded artifact verification" in document:
+              raise SystemExit("download verification section already exists")
+          document = document.replace(marker, section + marker, 1)
+          document_path.write_text(document, encoding="utf-8")
           PY
-          if ahead-rev-wave --require-closed-intake --out artifacts/pylon-wave/refused.json; then
-            echo "closed intake unexpectedly passed" >&2
-            exit 1
-          fi
 
-      - name: Run focused wave tests
-        run: python -m pytest -q tests/test_pylon_wave.py
-
-      - name: Assemble wave kit
-        run: |
-          mkdir -p artifacts/pylon-wave/kit/data
-          mkdir -p artifacts/pylon-wave/kit/schemas
-          cp docs/pylon_fanout_wave.md artifacts/pylon-wave/kit/
-          cp \
-            src/ahead_rev_sim/data/pylon_fanout_wave_2026_08.json \
-            artifacts/pylon-wave/full.json \
-            artifacts/pylon-wave/priority-one.json \
-            artifacts/pylon-wave/kit/data/
-          cp \
-            schemas/pylon-fanout-wave.schema.json \
-            schemas/pylon-fanout-report.schema.json \
-            artifacts/pylon-wave/kit/schemas/
-
-      - name: Upload pylon-wave evidence
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: pylon-wave-${{ github.sha }}
-          path: artifacts/pylon-wave
-          if-no-files-found: error
-          retention-days: 30
+          git rm \
+            .staging/pr11-pylon-wave.yml \
+            .github/workflows/pr11-finalize.yml \
+            connector-probe-2.txt \
+            connector-probe-4.txt \
+            connector-probe-push-files-2.txt \
+            connector-probe-push-files.txt \
+            connector-probe-utf8.txt
+          python -m compileall -q src tests scripts
+          ruff check src tests scripts
+          mypy
+          python scripts/repository_audit.py
+          pytest -q
+          git diff --check
+          git config user.name 'BigBirdReturns Evidence Finalizer'
+          git config user.email '219768509+BigBirdReturns@users.noreply.github.com'
+          git add \
+            .github/workflows/pylon-wave.yml \
+            .github/workflows/chipyard-lifecycle.yml \
+            docs/chipyard_rv64gc_lifecycle.md \
+            tests/test_chipyard_lifecycle.py \
+            tests/test_release_workflow.py
+          git commit -m 'Close PR 11 proof and artifact custody'
+          git push origin HEAD:agent/v0.12-chipyard-rv64gc-lifecycle
+          git rev-parse HEAD

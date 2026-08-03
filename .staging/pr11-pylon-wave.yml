@@ -1,0 +1,137 @@
+name: Pylon Fan-out Wave
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: pylon-wave-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  pylon-wave:
+    name: Scale, venue, and causal-custody intake
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install ahead-rev-sim
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Generate complete and priority-one wave reports
+        run: |
+          mkdir -p artifacts/pylon-wave
+          ahead-rev-wave \
+            --out artifacts/pylon-wave/full.json \
+            --format text \
+            > artifacts/pylon-wave/full.txt
+          ahead-rev-wave \
+            --priority-max 1 \
+            --out artifacts/pylon-wave/priority-one.json \
+            --format text \
+            > artifacts/pylon-wave/priority-one.txt
+
+      - name: Validate wave and report schemas
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+
+          wave = json.loads(
+              Path("src/ahead_rev_sim/data/pylon_fanout_wave_2026_08.json")
+              .read_text(encoding="utf-8")
+          )
+          full = json.loads(
+              Path("artifacts/pylon-wave/full.json").read_text(encoding="utf-8")
+          )
+          wave_schema = json.loads(
+              Path("schemas/pylon-fanout-wave.schema.json")
+              .read_text(encoding="utf-8")
+          )
+          report_schema = json.loads(
+              Path("schemas/pylon-fanout-report.schema.json")
+              .read_text(encoding="utf-8")
+          )
+          Draft202012Validator.check_schema(wave_schema)
+          Draft202012Validator.check_schema(report_schema)
+          Draft202012Validator(wave_schema).validate(wave)
+          Draft202012Validator(report_schema).validate(full)
+          PY
+
+      - name: Enforce counts, separation, and closed-intake refusal
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          full = json.loads(
+              Path("artifacts/pylon-wave/full.json").read_text(encoding="utf-8")
+          )
+          immediate = json.loads(
+              Path("artifacts/pylon-wave/priority-one.json")
+              .read_text(encoding="utf-8")
+          )
+          assert full["summary"]["record_count"] == 25
+          assert full["summary"]["front_counts"] == {
+              "causal_custody": 7,
+              "remote_venue": 8,
+              "scale_seam": 10,
+          }
+          assert full["summary"]["priority_counts"] == {
+              "1": 13,
+              "2": 10,
+              "3": 2,
+          }
+          assert full["summary"]["promotion_ready_count"] == 0
+          assert full["summary"]["existing_registry_collision_count"] == 0
+          assert full["summary"]["all_records_commodity_only"] is True
+          assert immediate["summary"]["record_count"] == 13
+          assert len(full["report_sha256"]) == 64
+          PY
+          if ahead-rev-wave --require-closed-intake --out artifacts/pylon-wave/refused.json; then
+            echo "closed intake unexpectedly passed" >&2
+            exit 1
+          fi
+
+      - name: Run focused wave tests
+        run: python -m pytest -q tests/test_pylon_wave.py
+
+      - name: Assemble wave kit
+        run: |
+          mkdir -p artifacts/pylon-wave/kit/data
+          mkdir -p artifacts/pylon-wave/kit/schemas
+          cp docs/pylon_fanout_wave.md artifacts/pylon-wave/kit/
+          cp \
+            src/ahead_rev_sim/data/pylon_fanout_wave_2026_08.json \
+            artifacts/pylon-wave/full.json \
+            artifacts/pylon-wave/priority-one.json \
+            artifacts/pylon-wave/kit/data/
+          cp \
+            schemas/pylon-fanout-wave.schema.json \
+            schemas/pylon-fanout-report.schema.json \
+            artifacts/pylon-wave/kit/schemas/
+
+      - name: Upload pylon-wave evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: pylon-wave-${{ github.sha }}
+          path: artifacts/pylon-wave
+          if-no-files-found: error
+          retention-days: 30
