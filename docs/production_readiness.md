@@ -1,6 +1,6 @@
 # Production readiness
 
-Version 0.10.0 separates repository and package production quality from scientific and physical claim closure. The software now includes executed standalone RTL attachment evidence while Chipyard subsystem integration, physical execution, fabrication, and complete-system advantage remain unqualified.
+Version 0.10.0 separates repository and package production quality from scientific and physical claim closure. The post-release main line now includes executed standalone RTL evidence and an exact pinned Chipyard RV64GC lifecycle through generated Verilator RTL. External-cartridge binding, physical execution, fabrication, and complete-system advantage remain unqualified.
 
 ## Production-grade software floor
 
@@ -34,7 +34,8 @@ The current evidence tiers are:
 | RISC-V target model | Implemented | RV64GC software-device lifecycle execution |
 | MMIO control plane | Implemented | Generated portable register, command, refusal, and receipt semantics |
 | Standalone RTL attachment | Executed | Icarus-compiled MMIO, resolver, and cartridge lifecycle with sealed source custody |
-| Chipyard subsystem | Open | Source-bound integration candidate only |
+| Chipyard subsystem | Executed | Pinned elaboration and RV64GC lifecycle through generated Verilator RTL with internal loopback |
+| Execution-target boundary | Implemented | Content-addressed capsule orchestration, ordered stage custody, accepted reference execution, and unbound-target refusal |
 | Provider hitches | Implemented | Interface compatibility and explicit execution admission or refusal |
 | Physical substrate | Reference only | Contract behavior and replay conditions |
 | Scale seams | Reference only | Deterministic modeled seam attribution |
@@ -59,7 +60,7 @@ The qualified standalone RTL transaction includes:
 - exact source, manifest, executable, trace, tool, and proof hashes;
 - refusal of stale MMIO, altered source, forged manifest, and divergent trace evidence.
 
-This transaction proves an open-source simulator lifecycle for a standalone reference attachment. It does not prove a Chipyard subsystem, timing closure, FPGA behavior, silicon behavior, physical substrate work, energy recovery, occupied volume, thermal closure, or complete-system advantage.
+This transaction proves an open-source simulator lifecycle for a standalone reference attachment. The separately sealed Chipyard transaction proves pinned subsystem elaboration and one RV64GC lifecycle through generated Verilator RTL with the internal loopback fallback. Neither transaction proves external-cartridge binding, timing closure, FPGA behavior, silicon behavior, physical substrate work, energy recovery, occupied volume, thermal closure, or complete-system advantage.
 
 ## Open production risks
 
@@ -67,7 +68,7 @@ This transaction proves an open-source simulator lifecycle for a standalone refe
 
 - No measured nonfallback physical cartridge has entered the substrate receipt.
 - No complete-system measurement includes host, memory, conversion, sensing, readout, package, cooling, and accepted work in one interval.
-- The Chipyard candidate has not yet been elaborated as a complete subsystem and executed against the sealed attachment contract.
+- No external cartridge or physical-target adapter has replaced the declared internal Chipyard loopback fallback.
 - FPGA, fabrication, packaging, reliability, and measured-silicon evidence remain absent.
 
 ### Integration risks
@@ -89,7 +90,7 @@ This transaction proves an open-source simulator lifecycle for a standalone refe
 Protect `main` with the following rules:
 
 - require a pull request before merging;
-- require CI, CodeQL, RTL Attachment Execution, Provider Hitch Surface, RISC-V Target Model, Congruent Shape Pylons, Pylon Fan-out Wave, Scale and Venue Reference Contracts, and Causal Custody Braid;
+- require CI, CodeQL, RTL Attachment Execution, Execution Target Boundary, Chipyard RV64GC Lifecycle, Provider Hitch Surface, RISC-V Target Model, Congruent Shape Pylons, Pylon Fan-out Wave, Scale and Venue Reference Contracts, and Causal Custody Braid;
 - require the branch to be current before merge;
 - dismiss stale approvals when the head changes;
 - block force pushes and deletions;
@@ -107,10 +108,12 @@ A version tag is admitted only when:
 5. The wheel installs into a clean environment.
 6. `ahead-rev-doctor --strict` passes from the clean wheel.
 7. The RTL attachment compiles, executes, matches the accepted trace, and passes source-custody refusal tests.
-8. SHA-256 checksums are generated.
-9. The changelog, citation file, and evidence boundary match the release.
-10. No physical or provider claim exceeds its receipt.
+8. The execution-target workflow preserves accepted reference execution, unbound-target refusal, cleanup custody, and tamper refusal.
+9. The pinned Chipyard workflow reconstructs elaboration, RV64GC execution, semantic trace, tool custody, and portable evidence checksums.
+10. SHA-256 checksums are generated.
+11. The changelog, citation file, and evidence boundary match the release.
+12. No physical or provider claim exceeds its receipt.
 
 ## Control question
 
-Can an external user install the package, reconstruct the declared software and RTL authority surfaces, rerun the qualified fixtures, identify every remaining blocker, and distinguish executed standalone RTL from unproven Chipyard, physical, fabrication, and complete-system claims?
+Can an external user install the package, reconstruct the declared software, execution-target, standalone RTL, and pinned Chipyard authority surfaces, rerun the qualified fixtures, identify every remaining blocker, and distinguish executed simulation from unproven external-target, physical, fabrication, and complete-system claims?

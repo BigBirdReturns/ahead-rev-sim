@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/ci.yml/badge.svg)](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/ci.yml)
 [![RTL Attachment Execution](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/rtl-attachment.yml/badge.svg)](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/rtl-attachment.yml)
+[![Chipyard RV64GC Lifecycle](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/chipyard-lifecycle.yml/badge.svg)](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/chipyard-lifecycle.yml)
+[![Execution Target Boundary](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/execution-target.yml/badge.svg)](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/execution-target.yml)
 [![Provider Hitch Surface](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/provider-hitch.yml/badge.svg)](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/provider-hitch.yml)
 [![RISC-V Target Model](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/riscv-target.yml/badge.svg)](https://github.com/BigBirdReturns/ahead-rev-sim/actions/workflows/riscv-target.yml)
 
@@ -47,7 +49,8 @@ The current software estate provides:
 - a held-out assay that separates useful physical transformation from sensing;
 - provider-neutral host and cartridge hitches, including reserved AheadComputing and Vaire offer manifests that do not imply participation or endorsement;
 - an independently implemented RV64GC lifecycle proof under GNU RISC-V tooling and QEMU;
-- a source-bound Chipyard TileLink integration candidate;
+- exact pinned Chipyard subsystem elaboration and an RV64GC lifecycle executed through the generated Verilator `TestHarness` with the internal loopback fallback declared;
+- a provider-neutral execution-target boundary with ordered stage custody, accepted reference execution, and fail-closed unbound-FPGA refusal;
 - Energy, Volume, throughput, and latency receipts with matched-baseline Pareto admission;
 - explicit scale-seam tax across adjacent system domains;
 - portable remote-venue submission, return, local acceptance, and substitution receipts;
@@ -56,13 +59,13 @@ The current software estate provides:
 
 ## Evidence boundary
 
-The current qualified tier is deterministic software evidence, RV64GC target-model execution, and provider-neutral Icarus RTL attachment execution. The standalone RTL proof establishes compiled command, state, refusal, fault, resolver, and receipt behavior. It does not establish a Chipyard subsystem, FPGA, silicon, or physical-compute result.
+The current qualified tier is deterministic software evidence, RV64GC target-model execution, provider-neutral Icarus RTL attachment execution, and an exact pinned Chipyard RV64GC lifecycle executed through generated Verilator RTL. The Chipyard receipt binds the internal loopback fallback, toolchain, runtime, lowering, binary, simulator, trace, refusal, cleanup, and artifact custody. It does not establish an external cartridge, FPGA, silicon, physical substrate, measured energy, or complete-system advantage.
 
 The following remain open gates:
 
 - target-observed FAMBS v0.4 output;
 - composite workload lowering;
-- Chipyard subsystem elaboration and RTL execution;
+- external-cartridge binding behind the provider-neutral execution-target boundary;
 - FPGA or measured-silicon execution;
 - an acknowledged external provider submission;
 - a measured nonfallback physical cartridge;
@@ -298,7 +301,8 @@ The admitted registry and second-wave staging surface are intentionally separate
 | `ahead-rev-substrate` | Reference physical-compute cartridges |
 | `ahead-rev-mmio` | Portable RISC-V MMIO control-plane generation |
 | `ahead-rev-rtl` | Provider-neutral RTL bundle generation and executed-proof sealing |
-| `ahead-rev-chipyard` | Source-bound Chipyard integration generation |
+| `ahead-rev-chipyard` | Pinned Chipyard integration, elaboration, and RV64GC lifecycle proof |
+| `ahead-rev-target` | Provider-neutral capsule invocation, target attempt, refusal, cleanup, and receipt verification |
 | `ahead-rev-hitch`, `ahead-rev-consist-proof` | Provider-neutral composition and target binding |
 | `ahead-rev-evp` | Complete-system Energy, Volume, and Performance vector |
 | `ahead-rev-scale-seam` | Adjacent scale-domain cost attribution |

@@ -1,0 +1,195 @@
+name: Execution Target Boundary
+
+on:
+  workflow_call:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: execution-target-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  execution-target:
+    name: Capsule target acceptance and refusal
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install package and validation tools
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Seal the provider-neutral invocation
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ROOT="artifacts/execution-target"
+          mkdir -p "$ROOT"
+          cat > "$ROOT/source.json" <<'JSON'
+          {
+            "invocation_id": "reference-capsule-attempt-v1",
+            "capsule": {
+              "capsule_id": "physical-compute-lifecycle-v1",
+              "workload_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+              "descriptor_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+              "input_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+              "accepted_output_sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+            },
+            "interface": {
+              "abi": "physical-compute-mmio/v1",
+              "commands": ["reset", "load", "evolve", "read", "capture"],
+              "required_capabilities": [
+                "physical-compute-mmio/v1",
+                "exact",
+                "software_fallback"
+              ]
+            },
+            "policy": {
+              "software_fallback_id": "ahead.reference-software-target/v1",
+              "timeout_seconds": 30,
+              "cleanup_required_after_prepare": true
+            }
+          }
+          JSON
+          ahead-rev-target seal \
+            "$ROOT/source.json" \
+            --out "$ROOT/invocation.json" \
+            | tee "$ROOT/seal.txt"
+
+      - name: Execute accepted reference and refused physical attempts
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ROOT="artifacts/execution-target"
+          ahead-rev-target attempt \
+            "$ROOT/invocation.json" \
+            --target reference-software \
+            --observed-output-sha256 \
+              4444444444444444444444444444444444444444444444444444444444444444 \
+            --out "$ROOT/reference-attempt.json" \
+            | tee "$ROOT/reference-attempt.txt"
+          ahead-rev-target verify \
+            "$ROOT/reference-attempt.json" \
+            --require-accepted \
+            | tee "$ROOT/reference-verify.txt"
+          set +e
+          ahead-rev-target attempt \
+            "$ROOT/invocation.json" \
+            --target unbound-fpga \
+            --out "$ROOT/unbound-fpga-attempt.json" \
+            > "$ROOT/unbound-fpga-attempt.txt" 2>&1
+          refusal_rc=$?
+          set -e
+          cat "$ROOT/unbound-fpga-attempt.txt"
+          test "$refusal_rc" -eq 2
+          ahead-rev-target verify \
+            "$ROOT/unbound-fpga-attempt.json" \
+            | tee "$ROOT/unbound-fpga-verify.txt"
+
+      - name: Validate schemas and fail-closed claims
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+          from referencing import Registry, Resource
+
+          root = Path("artifacts/execution-target")
+          invocation = json.loads((root / "invocation.json").read_text())
+          accepted = json.loads((root / "reference-attempt.json").read_text())
+          refused = json.loads((root / "unbound-fpga-attempt.json").read_text())
+          invocation_schema = json.loads(
+              Path("schemas/execution-target-invocation.schema.json").read_text()
+          )
+          attempt_schema = json.loads(
+              Path("schemas/execution-target-attempt.schema.json").read_text()
+          )
+          Draft202012Validator.check_schema(invocation_schema)
+          Draft202012Validator.check_schema(attempt_schema)
+          Draft202012Validator(invocation_schema).validate(invocation)
+          registry = Registry().with_resource(
+              invocation_schema["$id"],
+              Resource.from_contents(invocation_schema),
+          )
+          validator = Draft202012Validator(attempt_schema, registry=registry)
+          validator.validate(accepted)
+          validator.validate(refused)
+          assert accepted["qualification"]["accepted"] is True
+          assert accepted["qualification"]["physical_execution_claim_allowed"] is False
+          assert refused["qualification"]["accepted"] is False
+          assert [item["stage"] for item in refused["stage_history"]] == ["discover"]
+          assert refused["observations"]["cleanup_attempted"] is False
+          PY
+
+      - name: Prove tampered attempt refusal
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ROOT="artifacts/execution-target"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("artifacts/execution-target")
+          receipt = json.loads((root / "reference-attempt.json").read_text())
+          receipt["qualification"]["physical_execution_claim_allowed"] = True
+          (root / "tampered-attempt.json").write_text(
+              json.dumps(receipt, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          if ahead-rev-target verify "$ROOT/tampered-attempt.json"; then
+            echo "tampered attempt unexpectedly verified" >&2
+            exit 1
+          fi
+
+      - name: Run focused repository gates
+        run: |
+          python -m pytest -q \
+            tests/test_execution_target.py \
+            tests/test_cli_surface.py \
+            tests/test_release_workflow.py \
+            tests/test_production_integrity.py
+
+      - name: Seal artifact custody
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ROOT="artifacts/execution-target"
+          cp \
+            docs/execution_target_boundary.md \
+            schemas/execution-target-invocation.schema.json \
+            schemas/execution-target-attempt.schema.json \
+            "$ROOT/"
+          (
+            cd "$ROOT"
+            rm -f SHA256SUMS
+            find . -type f ! -path './SHA256SUMS' -print0 \
+              | sort -z \
+              | xargs -0 --no-run-if-empty sha256sum > SHA256SUMS
+            test -s SHA256SUMS
+            sha256sum --check --strict SHA256SUMS
+          )
+
+      - name: Upload execution-target evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: execution-target-${{ github.sha }}
+          path: artifacts/execution-target
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,304 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/BigBirdReturns/ahead-rev-sim/schemas/execution-target-attempt.schema.json",
+  "title": "Execution Target Attempt Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "invocation",
+    "target",
+    "stage_history",
+    "terminal_state",
+    "observations",
+    "qualification",
+    "claim_boundary",
+    "control_question",
+    "attempt_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ahead.execution-target-attempt/v0.1"
+    },
+    "artifact_type": {
+      "const": "execution_target_attempt_receipt"
+    },
+    "invocation": {
+      "$ref": "execution-target-invocation.schema.json"
+    },
+    "target": {
+      "$ref": "#/$defs/target"
+    },
+    "stage_history": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+        "$ref": "#/$defs/stage"
+      }
+    },
+    "terminal_state": {
+      "enum": [
+        "accepted",
+        "refused",
+        "faulted"
+      ]
+    },
+    "observations": {
+      "$ref": "#/$defs/attemptObservations"
+    },
+    "qualification": {
+      "$ref": "#/$defs/qualification"
+    },
+    "claim_boundary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "control_question": {
+      "type": "string",
+      "minLength": 1
+    },
+    "attempt_sha256": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "nullableSha256": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/sha256"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "uniqueStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_id",
+        "target_class",
+        "implementation",
+        "evidence_tier",
+        "capabilities",
+        "fallback_used",
+        "cleanup_required"
+      ],
+      "properties": {
+        "target_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_class": {
+          "enum": [
+            "reference_software",
+            "rtl_simulator",
+            "fpga",
+            "silicon",
+            "physical_substrate",
+            "remote_venue"
+          ]
+        },
+        "implementation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_tier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capabilities": {
+          "$ref": "#/$defs/uniqueStrings"
+        },
+        "fallback_used": {
+          "type": "boolean"
+        },
+        "cleanup_required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "jsonScalar": {
+      "type": [
+        "string",
+        "integer",
+        "number",
+        "boolean",
+        "null"
+      ]
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "role",
+        "sha256",
+        "size_bytes"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage",
+        "state",
+        "detail",
+        "blocker",
+        "observations",
+        "artifacts"
+      ],
+      "properties": {
+        "stage": {
+          "enum": [
+            "discover",
+            "prepare",
+            "execute",
+            "observe",
+            "collect",
+            "cleanup"
+          ]
+        },
+        "state": {
+          "enum": [
+            "completed",
+            "refused",
+            "faulted"
+          ]
+        },
+        "detail": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocker": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observations": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/jsonScalar"
+          }
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        }
+      }
+    },
+    "attemptObservations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_output_sha256",
+        "observed_output_sha256",
+        "output_matches",
+        "target_receipt_sha256",
+        "fallback_used",
+        "cleanup_attempted",
+        "cleanup_completed"
+      ],
+      "properties": {
+        "expected_output_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "observed_output_sha256": {
+          "$ref": "#/$defs/nullableSha256"
+        },
+        "output_matches": {
+          "type": "boolean"
+        },
+        "target_receipt_sha256": {
+          "$ref": "#/$defs/nullableSha256"
+        },
+        "fallback_used": {
+          "type": "boolean"
+        },
+        "cleanup_attempted": {
+          "type": "boolean"
+        },
+        "cleanup_completed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "accepted",
+        "execution_claim_allowed",
+        "physical_execution_claim_allowed",
+        "complete_system_advantage_claim_allowed",
+        "blockers"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "reference_target_execution_proved",
+            "target_execution_proved",
+            "refused",
+            "faulted"
+          ]
+        },
+        "accepted": {
+          "type": "boolean"
+        },
+        "execution_claim_allowed": {
+          "type": "boolean"
+        },
+        "physical_execution_claim_allowed": {
+          "const": false
+        },
+        "complete_system_advantage_claim_allowed": {
+          "const": false
+        },
+        "blockers": {
+          "$ref": "#/$defs/uniqueStrings"
+        }
+      }
+    }
+  }
+}
