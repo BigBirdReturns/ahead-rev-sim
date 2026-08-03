@@ -72,6 +72,8 @@ def test_chipyard_lifecycle_workflow_is_directly_runnable_and_reusable() -> None
     assert "set -Eeuo pipefail" not in proof_step
     assert proof_step.index("source env.sh") < proof_step.index("set -u")
     assert proof_step.index("set -u") < proof_step.index('cd "$GITHUB_WORKSPACE"')
+    assert '"$pythonLocation/bin/python" - <<\'PY\'' in proof_step
+    assert "\n          python - <<'PY'\n" not in proof_step
     assert "find . -maxdepth 1 -type f -printf" in workflow
     assert "> kit/root-artifacts.txt" in workflow
     assert "sha256sum --check --strict kit/root-artifacts.sha256" in workflow

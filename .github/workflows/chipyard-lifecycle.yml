@@ -490,7 +490,7 @@ jobs:
             --run-command "$SIMULATOR_RUN_COMMAND" \
             --out "$ROOT/chipyard-rv64gc-lifecycle-proof.json" \
             2>&1 | tee "$ROOT/lifecycle-proof.txt"
-          python - <<'PY'
+          "$pythonLocation/bin/python" - <<'PY'
           import json
           from pathlib import Path
           from jsonschema import Draft202012Validator
