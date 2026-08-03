@@ -62,11 +62,23 @@ Proof admission requires byte identity between the generated accepted trace and 
 `ahead-rev-chipyard lifecycle-proof` binds the integration manifest, lifecycle manifest, accepted elaboration proof, generated C source, expected trace, ELF binary, Verilator simulator executable, simulator-build log, raw execution log, semantic trace, tool identities, and the exact build and run command descriptions. The simulator side binds the pinned `riscv-isa-sim` revision, sealed FESVR header, FESVR static archive, RISC-V shared library, header inventory, host-runtime report, and configure, build, install, and static-library logs. The target side binds the pinned `libgloss-htif` revision, installed HTIF specs, linker script, selected static runtime archive, compiler search directories, runtime report, and configure, build, and install logs. The lowering side binds the exact CIRCT release file, release-tag commit, installer revision, `firtool` version record, authority report, and executable digest. Admission independently checks the host and target runtime revisions, FESVR header contract, archive and ELF formats, required HTIF specs directives, RISC-V linker-script structure, CIRCT release and tag, installer revision, ELF identity of the `firtool` executable, version consistency, and cross-record digests. The deterministic proof seal can be recomputed from the JSON object after removing `proof_sha256`.
 
 
-The final evidence collector writes `SHA256SUMS` over every root evidence file except the checksum manifests themselves, verifies every entry immediately, writes `SHA256SUMS.sha256` as the external seal for that manifest, and verifies the manifest seal. This avoids the invalid recursive pattern in which a checksum file records the hash of its own empty pre-redirection state. The earlier reconstructable kit manifest remains an independently verified inventory of the files present when the proof and kit were assembled.
+The final evidence collector writes an extraction-relative `SHA256SUMS` over the complete uploaded evidence tree, including the reconstruction kit and generated-source archive, while excluding only the two checksum manifests. It verifies every entry before upload, writes `SHA256SUMS.sha256` as the external seal for that manifest, and verifies the manifest seal. The reconstruction-kit ledger is also extraction-relative and is verified at assembly time. This avoids self-inclusion and removes GitHub Actions workspace paths from the portable receipt.
 
 A passing proof changes the admitted software evidence state in three ways. Chipyard subsystem elaboration remains admitted. Chipyard RTL simulation becomes admitted for the pinned loopback configuration. RV64GC lifecycle execution becomes admitted for the exact MMIO fixture. It does not admit an external cartridge or physical target.
 
 The release workflow calls this workflow as a reusable gate alongside the standalone provider-neutral RTL attachment. A tagged release can therefore be published only after the immutable tagged source reconstructs both the standalone attachment transaction and the pinned Chipyard RV64GC lifecycle transaction.
+
+## Downloaded artifact verification
+
+After downloading and extracting the GitHub Actions artifact, enter the extracted artifact root and run:
+
+```bash
+sha256sum --check --strict kit/root-artifacts.sha256
+sha256sum --check --strict SHA256SUMS
+sha256sum --check --strict SHA256SUMS.sha256
+```
+
+The kit ledger covers the core lifecycle evidence present when the reconstruction kit is assembled. The outer ledger recursively covers every uploaded file except the two checksum manifests and uses paths relative to the extracted artifact root. The final command verifies the external seal over the outer ledger.
 
 ## Evidence boundary
 

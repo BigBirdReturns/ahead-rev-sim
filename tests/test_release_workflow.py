@@ -50,10 +50,27 @@ def test_chipyard_lifecycle_workflow_is_directly_runnable_and_reusable() -> None
     assert 'cmp "$FESVR_HEADER" "$SEALED_FESVR_HEADER"' in workflow
     assert 'cmp "$FESVR_LIBRARY" "$SEALED_FESVR_LIBRARY"' in workflow
     assert 'cmp "$RISCV_LIBRARY" "$SEALED_RISCV_LIBRARY"' in workflow
-    assert "! -name SHA256SUMS" in workflow
-    assert 'sha256sum "$ROOT/SHA256SUMS" > "$ROOT/SHA256SUMS.sha256"' in workflow
-    assert 'sha256sum -c "$ROOT/SHA256SUMS"' in workflow
-    assert 'sha256sum -c "$ROOT/SHA256SUMS.sha256"' in workflow
+    proof_start = workflow.index(
+        "      - name: Prove lifecycle trace refusal and seal the lifecycle proof"
+    )
+    proof_end = workflow.index("      - name: Run the focused repository gates")
+    proof_step = workflow[proof_start:proof_end]
+    assert "set -Eeo pipefail" in proof_step
+    assert "set -Eeuo pipefail" not in proof_step
+    assert proof_step.index("source env.sh") < proof_step.index("set -u")
+    assert proof_step.index("set -u") < proof_step.index('cd "$GITHUB_WORKSPACE"')
+    assert "find . -maxdepth 1 -type f -printf" in workflow
+    assert "> kit/root-artifacts.txt" in workflow
+    assert "sha256sum --check --strict kit/root-artifacts.sha256" in workflow
+    assert "find . -type f" in workflow
+    assert "! -path './SHA256SUMS'" in workflow
+    assert "! -path './SHA256SUMS.sha256'" in workflow
+    assert "xargs -0 --no-run-if-empty sha256sum > SHA256SUMS" in workflow
+    assert "checksum ledger unexpectedly includes itself" in workflow
+    assert "sha256sum --check --strict SHA256SUMS" in workflow
+    assert "sha256sum SHA256SUMS > SHA256SUMS.sha256" in workflow
+    assert "sha256sum --check --strict SHA256SUMS.sha256" in workflow
+    assert '| sort > "$ROOT/SHA256SUMS"' not in workflow
     assert "CIRCT_RELEASE: firtool-1.75.0" in workflow
     assert "CIRCT_COMMIT: 481cb60add7358934414a3c6b396f5d29ad934fe" in workflow
     assert "CIRCT_ASSET_NAME: circt-full-static-linux-x64.tar.gz" in workflow

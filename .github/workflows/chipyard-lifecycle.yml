@@ -451,9 +451,10 @@ jobs:
       - name: Prove lifecycle trace refusal and seal the lifecycle proof
         shell: bash -el {0}
         run: |
-          set -Eeuo pipefail
+          set -Eeo pipefail
           cd chipyard
           source env.sh
+          set -u
           cd "$GITHUB_WORKSPACE"
           ROOT="artifacts/chipyard-lifecycle"
           grep '^ahead-chipyard:' "$ROOT/chipyard-lifecycle.raw.log" \
@@ -593,11 +594,15 @@ jobs:
             schemas/chipyard-rv64gc-lifecycle-manifest.schema.json \
             schemas/chipyard-rv64gc-lifecycle-proof.schema.json \
             "$ROOT/kit/schemas/"
-          find "$ROOT" -maxdepth 1 -type f -print | sort \
-            > "$ROOT/kit/root-artifacts.txt"
-          while IFS= read -r file; do sha256sum "$file"; done \
-            < "$ROOT/kit/root-artifacts.txt" \
-            > "$ROOT/kit/root-artifacts.sha256"
+          (
+            cd "$ROOT"
+            find . -maxdepth 1 -type f -printf '%f\n' | sort \
+              > kit/root-artifacts.txt
+            while IFS= read -r file; do sha256sum "$file"; done \
+              < kit/root-artifacts.txt \
+              > kit/root-artifacts.sha256
+            sha256sum --check --strict kit/root-artifacts.sha256
+          )
 
       - name: Collect generated products after any outcome
         if: always()
@@ -616,14 +621,24 @@ jobs:
           else
             : > "$ROOT/generated-products.txt"
           fi
-          find "$ROOT" -maxdepth 1 -type f \
-            ! -name SHA256SUMS \
-            ! -name SHA256SUMS.sha256 \
-            -exec sha256sum {} \; \
-            | sort > "$ROOT/SHA256SUMS"
-          sha256sum "$ROOT/SHA256SUMS" > "$ROOT/SHA256SUMS.sha256"
-          sha256sum -c "$ROOT/SHA256SUMS"
-          sha256sum -c "$ROOT/SHA256SUMS.sha256"
+          (
+            cd "$ROOT"
+            rm -f SHA256SUMS SHA256SUMS.sha256
+            find . -type f \
+              ! -path './SHA256SUMS' \
+              ! -path './SHA256SUMS.sha256' \
+              -print0 \
+              | sort -z \
+              | xargs -0 --no-run-if-empty sha256sum > SHA256SUMS
+            test -s SHA256SUMS
+            if grep -Fq '  ./SHA256SUMS' SHA256SUMS; then
+              echo "checksum ledger unexpectedly includes itself" >&2
+              exit 1
+            fi
+            sha256sum --check --strict SHA256SUMS
+            sha256sum SHA256SUMS > SHA256SUMS.sha256
+            sha256sum --check --strict SHA256SUMS.sha256
+          )
 
       - name: Upload Chipyard lifecycle evidence and diagnostics
         if: always()

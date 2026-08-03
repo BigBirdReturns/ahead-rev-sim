@@ -677,10 +677,27 @@ def test_lifecycle_workflow_builds_and_executes_the_exact_target() -> None:
     assert "chipyard-rv64gc-lifecycle-proof.schema.json" in workflow
     assert "2>&1 | tee" in workflow
     assert "if: always()" in workflow
-    assert "! -name SHA256SUMS" in workflow
-    assert 'sha256sum "$ROOT/SHA256SUMS" > "$ROOT/SHA256SUMS.sha256"' in workflow
-    assert 'sha256sum -c "$ROOT/SHA256SUMS"' in workflow
-    assert 'sha256sum -c "$ROOT/SHA256SUMS.sha256"' in workflow
+    proof_start = workflow.index(
+        "      - name: Prove lifecycle trace refusal and seal the lifecycle proof"
+    )
+    proof_end = workflow.index("      - name: Run the focused repository gates")
+    proof_step = workflow[proof_start:proof_end]
+    assert "set -Eeo pipefail" in proof_step
+    assert "set -Eeuo pipefail" not in proof_step
+    assert proof_step.index("source env.sh") < proof_step.index("set -u")
+    assert proof_step.index("set -u") < proof_step.index('cd "$GITHUB_WORKSPACE"')
+    assert "find . -maxdepth 1 -type f -printf" in workflow
+    assert "> kit/root-artifacts.txt" in workflow
+    assert "sha256sum --check --strict kit/root-artifacts.sha256" in workflow
+    assert "find . -type f" in workflow
+    assert "! -path './SHA256SUMS'" in workflow
+    assert "! -path './SHA256SUMS.sha256'" in workflow
+    assert "xargs -0 --no-run-if-empty sha256sum > SHA256SUMS" in workflow
+    assert "checksum ledger unexpectedly includes itself" in workflow
+    assert "sha256sum --check --strict SHA256SUMS" in workflow
+    assert "sha256sum SHA256SUMS > SHA256SUMS.sha256" in workflow
+    assert "sha256sum --check --strict SHA256SUMS.sha256" in workflow
+    assert '| sort > "$ROOT/SHA256SUMS"' not in workflow
     assert (
         "$GITHUB_WORKSPACE/artifacts/chipyard-lifecycle/generated-src.tar.gz"
         in workflow
