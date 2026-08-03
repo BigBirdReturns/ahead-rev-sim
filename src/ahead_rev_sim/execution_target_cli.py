@@ -6,6 +6,7 @@ from pathlib import Path
 
 from ._version import __version__
 from .execution_target import (
+    ExecutionTargetAdapter,
     ReferenceSoftwareTargetAdapter,
     UnboundPhysicalTargetAdapter,
     build_execution_target_invocation,
@@ -69,6 +70,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "attempt":
         invocation = _load(args.invocation)
+        adapter: ExecutionTargetAdapter
         if args.target == "reference-software":
             if args.observed_output_sha256 is None:
                 parser.error(
