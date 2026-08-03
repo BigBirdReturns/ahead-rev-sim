@@ -1,9 +1,9 @@
 name: PR 11 exact-head finalization
 
 on:
-  push:
-    branches:
-      - agent/v0.12-chipyard-rv64gc-lifecycle
+  pull_request:
+    types:
+      - synchronize
 
 permissions:
   contents: write
@@ -38,7 +38,7 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          test "$(git rev-parse HEAD^)" = "f3c0b65e0fd057b95801b5b0c7e47519b4e114a3"
+          test "$(git rev-parse HEAD^)" = "0989e333e38e4ece0119104b71e5bc691117d3bf"
           test "$(git branch --show-current)" = "agent/v0.12-chipyard-rv64gc-lifecycle"
           python - <<'PY'
           from pathlib import Path
