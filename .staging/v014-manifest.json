@@ -1,0 +1,175 @@
+{
+  "archive_sha256": "131a8bb4191ebf8f789cd562a8f22b64c0b1e19dde148f83e15f47d77887e256",
+  "base_sha": "c826caec6fe378a0f632d9306df570915ab87c32",
+  "files": [
+    {
+      "mode": "100644",
+      "path": ".github/workflows/artifact-cold-replay.yml",
+      "sha256": "cd7a6cb6e5827906fb019d76d544ec761dc8257d19734523f3989f609b1b27a1",
+      "size_bytes": 12380,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": ".github/workflows/ci.yml",
+      "sha256": "1441076565ec1b1fae7af06e71fbb1f2b90503b38277dc5a67598d0104f74568",
+      "size_bytes": 5464,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": ".github/workflows/release.yml",
+      "sha256": "7b48d0b770e11351d8133d4bd2d18555c27839ce6895ab207558c754f65f7491",
+      "size_bytes": 3827,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "CHANGELOG.md",
+      "sha256": "e346a3fbd8ed6a9c7744e011fd34dbcb491d2a0f4ca4e17ae4a3676857a7a785",
+      "size_bytes": 9128,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "MANIFEST.in",
+      "sha256": "e2fe6d8f75f93c1cba097dad641535bcc69c21e7704f1e7f0a5badfadb73d499",
+      "size_bytes": 720,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "README.md",
+      "sha256": "e2390dc7cb4be5bdd39412ad03d6d50d8b6d0ce9d2d07d9598d49fab7e900bf3",
+      "size_bytes": 17175,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "docs/artifact_only_acceptance.md",
+      "sha256": "389d75f4c13b7c5efffcb662dadc818295dfd227e4c7c7c6c2bf57938672af63",
+      "size_bytes": 6858,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "docs/cli.md",
+      "sha256": "b6b9be18efee1924d8583230efbf1dea405be7c419ef356791bade9a0717113e",
+      "size_bytes": 1161,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "docs/index.md",
+      "sha256": "49935e2dd88f196a0bcec6c7cb5ce9e3f1c7b31765250d69bae5e003f96f7d0b",
+      "size_bytes": 1176,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "docs/production_readiness.md",
+      "sha256": "29364738cef0b677a1f842aeb8cebbd0e75d790e6df6040bfabd99b04d698f17",
+      "size_bytes": 7725,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "docs/release_process.md",
+      "sha256": "aa0e04fe128d9400fdaa14b06de4716fa55e015c90c02f883b54b7cf9fd48929",
+      "size_bytes": 4091,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "pyproject.toml",
+      "sha256": "71a307f748ae0176f0e6be88a00306e535ebe22f9e79291bf4c3f476fc5bd19f",
+      "size_bytes": 6335,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "schemas/artifact-replay-kit.schema.json",
+      "sha256": "1dc31f15c87f3ec3e70df327d30f2de5e2c89f4e2401b6ce352f84bb225118e6",
+      "size_bytes": 5256,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "schemas/artifact-software-acceptance.schema.json",
+      "sha256": "2fd173c7122c000ac1f7458b1b1f7947967227df1bc110a383a686e8ea1958b3",
+      "size_bytes": 8625,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "scripts/artifact_cold_acceptor.py",
+      "sha256": "d597b97fdfaeadfae845a13c1d8f9b3b609051313c6c237de46d2ea999e48d60",
+      "size_bytes": 23533,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "src/ahead_rev_sim/__init__.py",
+      "sha256": "a1618f8949840689b3dede3e300a386475999056f26078800310f1cf1847fa66",
+      "size_bytes": 11433,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "src/ahead_rev_sim/artifact_acceptance.py",
+      "sha256": "7d241cfa0e75eefe89efccc632bf7f00c9fff144521964886fb28a59b3bd17fe",
+      "size_bytes": 25929,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "src/ahead_rev_sim/artifact_acceptance_cli.py",
+      "sha256": "f2eb4ab4bf0587834c72b9bdb76822f091d9a0d7537c59d74eb61fff3624fb69",
+      "size_bytes": 3041,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "src/ahead_rev_sim/doctor.py",
+      "sha256": "f0271e7440c33837287b288d56b894237daa62b8802b321eb6c14307558f7a56",
+      "size_bytes": 7905,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "src/ahead_rev_sim/release_preflight.py",
+      "sha256": "f7d1c38f1c0002aa7a127cb89820a488fef25794b8c53dfde31e3b604086deff",
+      "size_bytes": 6229,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "tests/test_artifact_acceptance.py",
+      "sha256": "b89c52d45f466a224301fcf08ef142186ed8396ea9aad5f1992675177a7bae46",
+      "size_bytes": 14235,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "tests/test_cli_surface.py",
+      "sha256": "dde4c894cbc6ceee940a5a9e426d61b201806b991ef8c2e3befd91df7620c288",
+      "size_bytes": 2934,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "tests/test_production_integrity.py",
+      "sha256": "c78c3d6087e3aa31194cd1f7f911c53301721fc8a3179887cacaf7439be1f935",
+      "size_bytes": 2286,
+      "type": "blob"
+    },
+    {
+      "mode": "100644",
+      "path": "tests/test_release_workflow.py",
+      "sha256": "a934756cb461c08b6c72900bc910ccaafa92624e22dcd4d5d75102b0ba0ea1ba",
+      "size_bytes": 8286,
+      "type": "blob"
+    }
+  ],
+  "schema": "ahead.v014-publication-manifest/v1"
+}
