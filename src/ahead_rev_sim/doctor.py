@@ -38,6 +38,7 @@ EXPECTED_CONSOLE_SCRIPTS = (
     "ahead-rev-hitch",
     "ahead-rev-consist-proof",
     "ahead-rev-evp",
+    "ahead-rev-target",
     "ahead-rev-doctor",
 )
 
@@ -68,6 +69,8 @@ REQUIRED_IMPORTS = (
     "ahead_rev_sim.rtl_attachment_execution",
     "ahead_rev_sim.rtl_attachment_io",
     "ahead_rev_sim.rtl_attachment_cli",
+    "ahead_rev_sim.execution_target",
+    "ahead_rev_sim.execution_target_cli",
 )
 
 SOURCE_GOVERNANCE_FILES = (

@@ -19,6 +19,12 @@ jobs:
       contents: read
     uses: ./.github/workflows/rtl-attachment.yml
 
+  execution-target:
+    name: Requalify provider-neutral execution target
+    permissions:
+      contents: read
+    uses: ./.github/workflows/execution-target.yml
+
   chipyard-lifecycle:
     name: Requalify Chipyard RV64GC lifecycle
     permissions:
@@ -29,6 +35,7 @@ jobs:
     name: Build, verify, and publish release artifacts
     needs:
       - rtl-attachment
+      - execution-target
       - chipyard-lifecycle
     runs-on: ubuntu-latest
     timeout-minutes: 35
@@ -78,6 +85,7 @@ jobs:
           /tmp/ahead-rev-release/bin/ahead-rev-rtl --help >/dev/null
           /tmp/ahead-rev-release/bin/ahead-rev-chipyard lifecycle-bundle --help >/dev/null
           /tmp/ahead-rev-release/bin/ahead-rev-chipyard lifecycle-proof --help >/dev/null
+          /tmp/ahead-rev-release/bin/ahead-rev-target --help >/dev/null
 
       - name: Upload release evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

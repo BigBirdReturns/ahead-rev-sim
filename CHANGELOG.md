@@ -4,6 +4,22 @@ All notable changes to `ahead-rev-sim` are recorded here. The format follows Kee
 
 ## [Unreleased]
 
+### Added
+
+- Exact pinned Chipyard subsystem elaboration and RV64GC lifecycle execution through the generated Verilator `TestHarness`, with FESVR, HTIF, CIRCT, binary, simulator, trace, refusal, and portable artifact custody.
+- `ahead.execution-target-invocation/v0.1` and `ahead.execution-target-attempt/v0.1` for content-addressed capsule invocation and ordered target-attempt receipts.
+- `ahead-rev-target` for sealing invocations, executing deterministic reference or unbound-FPGA attempts, and verifying accepted, refused, or faulted receipts.
+- A reusable execution-target workflow that proves the accepted reference path, discovery refusal, tamper refusal, schema conformance, and extraction-relative artifact checksums.
+
+### Changed
+
+- Tagged release admission now reconstructs the provider-neutral execution-target boundary in addition to the standalone RTL attachment and Chipyard lifecycle.
+- Production documentation now distinguishes executed pinned Chipyard RTL from still-unproven external-cartridge, FPGA, silicon, physical-substrate, and complete-system claims.
+
+### Evidence boundary
+
+The new execution-target receipt qualifies capsule identity, target identity, ordered stage history, accepted-output comparison, fallback, cleanup, and refusal behavior at the software or simulation tier. It cannot self-authorize physical execution, measured energy, timing, thermal, volume, fabrication, complete-system advantage, or independent physical acceptance.
+
 ## [0.10.0] - 2026-08-01
 
 ### Added

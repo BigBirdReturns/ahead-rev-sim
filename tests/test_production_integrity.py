@@ -17,7 +17,7 @@ def test_repository_audit_passes_and_is_deterministic() -> None:
     assert first["status"] == "pass", first["blockers"]
     assert first["version"] == __version__ == "0.10.0"
     assert first["blockers"] == []
-    assert first["summary"]["console_script_count"] == 25
+    assert first["summary"]["console_script_count"] == 26
     assert first["summary"]["json_file_count"] >= 42
     assert first["summary"]["workflow_count"] >= 8
 

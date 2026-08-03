@@ -124,7 +124,7 @@ jobs:
             ahead-rev-pylons ahead-rev-wave ahead-rev-scale-seam ahead-rev-venue \
             ahead-rev-causal ahead-rev-mmio ahead-rev-rtl ahead-rev-chipyard \
             ahead-rev-riscv-target-proof ahead-rev-hitch ahead-rev-consist-proof \
-            ahead-rev-evp ahead-rev-doctor; do
+            ahead-rev-evp ahead-rev-target ahead-rev-doctor; do
             /tmp/ahead-rev-clean/bin/$command --help >/dev/null
           done
 
